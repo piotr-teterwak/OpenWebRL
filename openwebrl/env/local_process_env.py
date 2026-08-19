@@ -517,6 +517,34 @@ async def _wait_until_healthy(
     )
 
 
+def _ensure_child_watcher() -> None:
+    """Make asyncio subprocess spawning work under sglang's global uvloop policy.
+
+    sglang sets a global uvloop event-loop policy at import time. uvloop's policy
+    raises NotImplementedError for get_child_watcher(), but the rollout runs on a
+    stdlib selector loop (forced by slime) which calls get_child_watcher() when
+    spawning subprocesses -> every env_server spawn dies. Install a
+    ThreadedChildWatcher (works from non-main threads) so create_subprocess_exec works.
+    """
+    try:
+        policy = asyncio.get_event_loop_policy()
+        try:
+            watcher = policy.get_child_watcher()
+        except NotImplementedError:
+            watcher = None
+        if watcher is None:
+            policy = asyncio.DefaultEventLoopPolicy()
+            asyncio.set_event_loop_policy(policy)
+            watcher = asyncio.ThreadedChildWatcher()
+            policy.set_child_watcher(watcher)
+        try:
+            watcher.attach_loop(asyncio.get_running_loop())
+        except Exception:
+            pass
+    except Exception:
+        pass
+
+
 async def create_local_process_env(local_cfg: Dict[str, Any]) -> LocalProcessWebEnv:
     """Create a local env_server subprocess and return a LocalProcessWebEnv."""
     host = _cfg_str(local_cfg, "host", "SLIME_BROWSER_LOCAL_PROCESS_HOST", _DEFAULT_HOST)
@@ -587,6 +615,7 @@ async def create_local_process_env(local_cfg: Dict[str, Any]) -> LocalProcessWeb
         log_path = os.path.join(log_dir, f"env_server_{port_lease.port}_{int(time.time() * 1000)}.log")
         log_file = open(log_path, "ab", buffering=0)
 
+        _ensure_child_watcher()
         proc = await asyncio.create_subprocess_exec(
             python_bin,
             "-m",

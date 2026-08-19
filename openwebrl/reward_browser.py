@@ -857,6 +857,11 @@ def _normalize_served_base_url(base_url: str) -> str:
     if not re.match(r"^https?://", base_url):
         base_url = f"http://{base_url}"
     base_url = base_url.rstrip("/")
+    # Escape hatch for OpenAI-compatible endpoints whose base is not /v1-suffixed
+    # (e.g. Gemini: https://generativelanguage.googleapis.com/v1beta/openai). Set
+    # JUDGE_API_BASE_NO_V1=1 to use JUDGE_API_BASE verbatim.
+    if os.environ.get("JUDGE_API_BASE_NO_V1") not in (None, "", "0"):
+        return base_url
     if not base_url.endswith("/v1"):
         base_url = f"{base_url}/v1"
     return base_url
@@ -903,6 +908,14 @@ def _get_openai_client(method="token") -> Any:
         base_url = _normalize_served_base_url(base_url)
         api_key = os.environ.get("JUDGE_API_KEY") or os.environ.get("OPENAI_API_KEY") or "EMPTY"
         return AsyncOpenAI(api_key=api_key, base_url=base_url)
+
+    if method == "openai":
+        api_key = os.environ.get("OPENAI_API_KEY")
+        base_url = os.environ.get("OPENAI_BASE_URL") or os.environ.get("OPENAI_API_BASE")
+        kwargs: dict[str, Any] = {"api_key": api_key}
+        if base_url:
+            kwargs["base_url"] = base_url
+        return AsyncOpenAI(**kwargs)
 
     raise ValueError(f"Unsupported judge_api_mode: {method}")
 
@@ -1177,6 +1190,166 @@ async def compute_judge_reward_actionhistory(
 
 
 # ==============================================================================
+# WebGym rubric judge — apples-to-apples with molmoweb-rl's Gemini rubric judge:
+# grades the agent's answer + final screenshots against the task's
+# evaluator_reference facts. STRICT: YES->1.0 (PARTIAL/NO->0.0). Used only when
+# --judge-prompt-variant webgym_rubric, so the training judge path is unaffected.
+# ==============================================================================
+
+JUDGE_SYSTEM_PROMPT_RUBRIC = (
+    "You are a strict evaluator of a web-browsing agent. You are given a task, the "
+    "agent's action history, its final answer, and the final screenshots. Decide "
+    "whether the agent SUCCESSFULLY accomplished the task by checking the answer and "
+    "screenshots against the required rubric facts. Only credit facts actually "
+    "supported by the screenshots/answer; do not assume or hallucinate. Reply with "
+    "the verdict as the FIRST word — YES, PARTIAL, or NO — then a one-sentence reason.\n"
+    "  YES = the answer addresses ALL required facts with reasonable accuracy\n"
+    "  PARTIAL = addresses some facts but is incomplete or partially correct\n"
+    "  NO = fails to address the facts / wrong / unsupported"
+)
+
+JUDGE_USER_PROMPT_RUBRIC = (
+    "### Task:\n{task}\n\n"
+    "### Required facts the answer must satisfy (rubric):\n{facts}\n\n"
+    "### Agent Action History:\n{action_history}\n\n"
+    "### Agent Final Answer:\n{answer}\n\n"
+    "### Final screenshots ({num} attached). Give your verdict:\n"
+)
+
+
+def _extract_rubric_facts(sample: Sample) -> list[str]:
+    import ast
+
+    er = (sample.metadata or {}).get("evaluator_reference")
+    if isinstance(er, str):
+        try:
+            er = ast.literal_eval(er)
+        except Exception:
+            try:
+                er = json.loads(er)
+            except Exception:
+                return []
+    facts: list[str] = []
+    for g in er or []:
+        if isinstance(g, dict):
+            if g.get("facts"):
+                facts += [str(x).strip() for x in g["facts"] if str(x).strip()]
+            elif g.get("fact"):
+                facts.append(str(g["fact"]).strip())
+            elif g.get("description"):
+                facts.append(str(g["description"]).strip())
+        elif isinstance(g, str) and g.strip():
+            facts.append(g.strip())
+    return facts[:12]
+
+
+async def compute_judge_reward_rubric(
+    args: Any,
+    sample: Sample,
+    trajectory_action_history_response: str | None = None,
+    trajectory_action_history_text: str | None = None,
+) -> tuple[float, str, bool]:
+    """Rubric judge matching molmoweb-rl's WebGym Gemini judge (STRICT YES->1.0)."""
+    facts = _extract_rubric_facts(sample)
+    if not facts:
+        # No rubric available -> fall back to the standard action-history judge.
+        return await compute_judge_reward_actionhistory(
+            args, sample, trajectory_action_history_response, trajectory_action_history_text
+        )
+
+    task = sample.metadata["intent"]
+    answer = _extract_final_answer(args, sample.response or "")
+    if not answer:
+        return 0.0, "No answer extracted.", False
+
+    screenshots = _get_judge_screenshots(args, sample)
+    num_imgs = len(screenshots)
+
+    response_mode = _get_browser_response_mode(args)
+    if response_mode.name == "browser_env":
+        action_history = trajectory_action_history_text
+        if not action_history:
+            src = (
+                trajectory_action_history_response
+                if trajectory_action_history_response is not None
+                else f"{sample.prompt or ''}{sample.response or ''}"
+            )
+            action_history = _extract_action_history_browser_env(args, src)
+    else:
+        src = (
+            trajectory_action_history_response
+            if trajectory_action_history_response is not None
+            else (sample.response or "")
+        )
+        action_history = _extract_action_history_slime(src, max_actions=None)
+
+    facts_block = "\n".join(f"- {f}" for f in facts)
+    user_text = JUDGE_USER_PROMPT_RUBRIC.format(
+        task=task,
+        facts=facts_block,
+        action_history=action_history,
+        answer=answer,
+        num=str(num_imgs) if num_imgs > 0 else "0",
+    )
+    user_content = _build_user_content_with_step_indices(sample, user_text, screenshots)
+    messages = [
+        {"role": "system", "content": JUDGE_SYSTEM_PROMPT_RUBRIC},
+        {"role": "user", "content": user_content},
+    ]
+
+    api_model = getattr(args, "judge_api_model")
+    judge_timeout_secs = getattr(args, "judge_timeout_secs", 30.0)
+    client = _get_openai_client(method=getattr(args, "judge_api_mode", "token"))
+    graded = os.environ.get("JUDGE_RUBRIC_GRADED") not in (None, "", "0")
+
+    max_retries = 3
+    saw_timeout = False
+    for attempt in range(max_retries):
+        try:
+            coro = client.chat.completions.create(model=api_model, messages=messages, seed=42)
+            if judge_timeout_secs and judge_timeout_secs > 0:
+                response = await asyncio.wait_for(coro, timeout=judge_timeout_secs)
+            else:
+                response = await coro
+            judge_text = response.choices[0].message.content or ""
+            if _should_sample_judge_output(args):
+                logger.info("Rubric judge response: %s", judge_text)
+            verdict = judge_text.strip().upper()
+            if verdict.startswith("YES"):
+                judge_score = 1.0
+            elif verdict.startswith("PARTIAL"):
+                judge_score = 0.5 if graded else 0.0
+            else:
+                judge_score = 0.0
+            _save_judge_trace(
+                args,
+                sample,
+                messages=messages,
+                judge_text=judge_text,
+                judge_score=judge_score,
+                judge_timeout=False,
+                prompt_variant="webgym_rubric",
+                answer=answer,
+                screenshots=screenshots,
+                action_history=action_history,
+            )
+            return judge_score, judge_text, False
+        except asyncio.TimeoutError:
+            saw_timeout = True
+            if attempt < max_retries - 1:
+                await asyncio.sleep(3 ** (attempt + 1))
+            else:
+                return 0.0, "Rubric judge timeout exhausted.", True
+        except Exception as e:
+            logger.warning("Rubric judge API call failed (attempt %d/%d): %s", attempt + 1, max_retries, e)
+            if attempt < max_retries - 1:
+                await asyncio.sleep(3 ** (attempt + 1))
+            else:
+                return 0.0, "Rubric judge retries exhausted.", saw_timeout
+    return 0.0, "Unexpected error.", saw_timeout
+
+
+# ==============================================================================
 # 3. Main Reward Function
 # ==============================================================================
 
@@ -1295,7 +1468,14 @@ async def _score_single_sample(args: Any, sample: Sample) -> float:
             judge_text = f"Judge not run for status={sample.status}"
         else:
             judge_variant = getattr(args, "judge_prompt_variant", "default")
-            if judge_variant == "action_history":
+            if judge_variant == "webgym_rubric":
+                judge_score, judge_text, judge_timeout = await compute_judge_reward_rubric(
+                    args,
+                    sample,
+                    trajectory_action_history_response=sample.metadata.get("trajectory_action_history_response"),
+                    trajectory_action_history_text=sample.metadata.get("trajectory_action_history_text"),
+                )
+            elif judge_variant == "action_history":
                 judge_score, judge_text, judge_timeout = await compute_judge_reward_actionhistory(
                     args,
                     sample,

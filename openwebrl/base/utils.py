@@ -8,6 +8,7 @@ This module provides shared utilities for:
 """
 
 import json
+import os
 import re
 from typing import Any
 
@@ -28,6 +29,19 @@ TOOL_INSTRUCTION = (
     "Example: `{\"name\": \"click\", \"arguments\": {\"point_2d\": [379, 69]}}`\n"
 )
 
+
+
+def _apply_bridge_action_parity(calls):
+    """OWRL_BRIDGE_ACTION_PARITY=1: mirror the webgym RL bridge's execution
+    semantics — only the FIRST tool call of a turn executes, and tools with no
+    webgym executor (drag / tab management) become a 1s wait (≈ the bridge's
+    noop, which consumes the turn without acting)."""
+    if os.environ.get("OWRL_BRIDGE_ACTION_PARITY", "0") != "1" or not calls:
+        return calls
+    first = calls[0]
+    if first.name in ("drag", "new_tab", "switch_tab", "close_tab"):
+        first = ToolCall(name="wait", parameters={"seconds": 1})
+    return [first]
 
 class ToolParser:
     """
@@ -90,6 +104,13 @@ class ToolParser:
         Returns:
             ParsedToolResult with parsed calls and normal text
         """
+        # OWRL_TOOL_PARSER_LENIENT=1 forces the regex path (strict-JSON first,
+        # webgym-loose fallback inside _parse_regex). Without this, auto mode
+        # with tools_info routes to sglang's qwen25 parser and the lenient
+        # fallback never runs (the Jul-29 first lenient diagnostic was a no-op
+        # because of exactly that).
+        if os.environ.get("OWRL_TOOL_PARSER_LENIENT", "0") == "1":
+            return self._parse_regex(response)
         if self.parser_type == "regex" or (self.parser_type == "auto" and not self.tools_info):
             return self._parse_regex(response)
         
@@ -130,6 +151,7 @@ class ToolParser:
         matches = re.findall(tool_call_pattern, response, re.DOTALL)
         
         calls = []
+        _lenient = os.environ.get("OWRL_TOOL_PARSER_LENIENT", "0") == "1"
         if matches:
             try:
                 for match in matches:
@@ -139,22 +161,82 @@ class ToolParser:
                             name=tool_data["name"],
                             parameters=tool_data.get("arguments", tool_data.get("parameters", {})),
                         ))
-                
-                # Extract text before tool call
-                text_before = re.split(tool_call_pattern, response)[0].strip()
+
+                if calls or not _lenient:
+                    # Extract text before tool call
+                    text_before = re.split(tool_call_pattern, response)[0].strip()
+                    return ParsedToolResult(
+                        success=True,
+                        normal_text=text_before,
+                        calls=_apply_bridge_action_parity(calls),
+                    )
+            except json.JSONDecodeError as e:
+                if not _lenient:
+                    return ParsedToolResult(
+                        success=False,
+                        normal_text=response,
+                        calls=[],
+                        error=f"JSON decode error: {e}",
+                    )
+                calls = []
+        
+        # OWRL_TOOL_PARSER_LENIENT=1 (diagnostic only, default OFF): recover the
+        # loose shapes the webgym RL bridge tolerates — bare tool names
+        # (<tool_call>go_back</tool_call>), "action"-keyed objects, arrays, and
+        # name-on-own-line with optional JSON args. Used to quantify how much of
+        # the format_error tax is pure syntax vs real capability. Argument-less
+        # scroll defaults to direction=down (webgym-parser parity).
+        if os.environ.get("OWRL_TOOL_PARSER_LENIENT", "0") == "1":
+            lenient_pattern = r"<tool_call>\s*(.*?)\s*</tool_call>"
+            for body in re.findall(lenient_pattern, response, re.DOTALL):
+                body = body.strip()
+                if not body:
+                    continue
+                obj = None
+                try:
+                    obj = json.loads(body)
+                except (json.JSONDecodeError, ValueError):
+                    pass
+                if isinstance(obj, list):
+                    obj = obj[0] if obj else None
+                if isinstance(obj, dict):
+                    if isinstance(obj.get("action"), dict):
+                        obj = obj["action"]
+                    name = (obj.get("name")
+                            or (obj.get("action") if isinstance(obj.get("action"), str) else None)
+                            or obj.get("tool"))
+                    if name:
+                        args = obj.get("arguments", obj.get("parameters", None))
+                        if not isinstance(args, dict):
+                            args = {k: v for k, v in obj.items()
+                                    if k not in ("name", "action", "tool", "type")}
+                        calls.append(ToolCall(name=str(name), parameters=args))
+                        break
+                    continue
+                brace = body.find("{")
+                head = body[:brace] if brace != -1 else body
+                name = head.strip().splitlines()[-1].strip() if head.strip() else ""
+                if not name or not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", name):
+                    continue
+                args = {}
+                if brace != -1:
+                    try:
+                        a = json.loads(body[brace:])
+                        if isinstance(a, dict):
+                            args = a
+                    except (json.JSONDecodeError, ValueError):
+                        args = {}
+                if name == "scroll" and "direction" not in args:
+                    args["direction"] = "down"
+                calls.append(ToolCall(name=name, parameters=args))
+                break
+            if calls:
                 return ParsedToolResult(
                     success=True,
-                    normal_text=text_before,
-                    calls=calls,
+                    normal_text=re.split(lenient_pattern, response)[0].strip(),
+                    calls=_apply_bridge_action_parity(calls),
                 )
-            except json.JSONDecodeError as e:
-                return ParsedToolResult(
-                    success=False,
-                    normal_text=response,
-                    calls=[],
-                    error=f"JSON decode error: {e}",
-                )
-        
+
         # No tool call found, treat entire response as normal text
         return ParsedToolResult(
             success=True,

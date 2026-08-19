@@ -232,9 +232,58 @@ try:
 
         cls.forward = _patched_forward
 
+    def patch_tensor_parallel_checkpoint():
+        """Let activation recompute accept list-valued forward args.
+
+        `tensor_parallel.checkpoint` hands every arg to `ctx.save_for_backward`,
+        which only accepts tensors -- but the Qwen3-VL block passes
+        `deepstack_visual_embeds`, a list[Tensor], so full recompute dies with
+        "save_for_backward can only save variables, but argument 6 is of type
+        list". Nobody had hit it because the recompute path was unreachable: the
+        bridge model provider never forwarded recompute_granularity, so despite
+        --recompute-granularity full the config saw None and no layer was ever
+        checkpointed (that fix is in model_provider.py).
+
+        Flatten sequence args into individual tensors so save_for_backward gets
+        what it wants, and reassemble them inside the recomputed forward. Each
+        tensor is saved and re-detached individually, so gradients reach every
+        element exactly as they would if the API supported sequences natively.
+        """
+        _original_checkpoint = tensor_parallel.checkpoint
+
+        @wraps(_original_checkpoint)
+        def _checkpoint_with_sequence_args(function, distribute_saved_activations, *args):
+            if not any(isinstance(a, (list, tuple)) for a in args):
+                return _original_checkpoint(function, distribute_saved_activations, *args)
+
+            layout = []  # (is_sequence, length, container_type)
+            flat = []
+            for arg in args:
+                if isinstance(arg, (list, tuple)):
+                    layout.append((True, len(arg), type(arg)))
+                    flat.extend(arg)
+                else:
+                    layout.append((False, 1, None))
+                    flat.append(arg)
+
+            def _rebuilding_forward(*flat_args):
+                remaining = iter(flat_args)
+                rebuilt = []
+                for is_sequence, length, container in layout:
+                    if is_sequence:
+                        rebuilt.append(container(next(remaining) for _ in range(length)))
+                    else:
+                        rebuilt.append(next(remaining))
+                return function(*rebuilt)
+
+            return _original_checkpoint(_rebuilding_forward, distribute_saved_activations, *flat)
+
+        tensor_parallel.checkpoint = _checkpoint_with_sequence_args
+
     patch_rotary_embedding(Qwen3VLTextRotaryEmbedding)
     patch_rotary_embedding(Qwen3VLMoETextRotaryEmbedding)
     patch_qwen3_vl_model_forward(Qwen3VLModel)
+    patch_tensor_parallel_checkpoint()
 except ImportError:
     pass
 

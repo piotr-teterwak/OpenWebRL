@@ -18,6 +18,139 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
+def _browserbase_api(path: str, payload: Optional[dict] = None) -> dict:
+    """Minimal Browserbase REST call (used only under OWRL_BROWSERBASE=1)."""
+    import json as _json
+    import urllib.request as _rq
+
+    req = _rq.Request(
+        f"https://api.browserbase.com/v1{path}",
+        data=_json.dumps(payload).encode() if payload is not None else None,
+        headers={"X-BB-API-Key": os.environ["BROWSERBASE_API_KEY"],
+                 "Content-Type": "application/json"},
+        method="POST" if payload is not None else "GET",
+    )
+    with _rq.urlopen(req, timeout=60) as r:
+        return _json.loads(r.read())
+
+
+# ---- Browserbase budget guard ------------------------------------------------
+# Hard spend cap enforced locally (Browserbase has no API-settable limit).
+# Every session create/release is appended to a shared ledger; when estimated
+# spend reaches OWRL_BB_BUDGET_USD, further session creation raises.
+_BB_LEDGER = os.environ.get(
+    "OWRL_BB_LEDGER", "/weka/oe-training-default/zixianm/OpenWebRL/.browserbase_ledger.jsonl")
+_BB_BUDGET_USD = float(os.environ.get("OWRL_BB_BUDGET_USD", "700"))
+_BB_DAILY_USD = float(os.environ.get("OWRL_BB_DAILY_USD", "200"))  # per-UTC-day pacing cap
+_BB_RATE_PER_HOUR = float(os.environ.get("OWRL_BB_RATE_HOUR", "0.15"))   # browser time $/hr
+_BB_RATE_PER_GB = float(os.environ.get("OWRL_BB_RATE_GB", "10.0"))       # residential proxy $/GB
+_BB_INFLIGHT_EST_USD = 0.80  # assumed cost of a session that never logged a release
+
+
+def _bb_ledger_append(rec: dict) -> None:
+    import json as _json
+    with open(_BB_LEDGER, "a") as f:
+        f.write(_json.dumps(rec) + "\n")
+
+
+def _bb_spent_usd() -> float:
+    import json as _json
+    if not os.path.exists(_BB_LEDGER):
+        return 0.0
+    spent, created, released = 0.0, set(), set()
+    with open(_BB_LEDGER) as f:
+        for line in f:
+            try:
+                r = _json.loads(line)
+            except Exception:
+                continue
+            if r.get("event") == "create":
+                created.add(r.get("id"))
+            elif r.get("event") == "release":
+                released.add(r.get("id"))
+                spent += (r.get("minutes", 0) / 60.0) * _BB_RATE_PER_HOUR
+                spent += (r.get("proxy_mb", 0) / 1000.0) * _BB_RATE_PER_GB
+            elif r.get("event") == "adjustment":
+                spent += r.get("usd", 0)
+    spent += len(created - released) * _BB_INFLIGHT_EST_USD
+    return spent
+
+
+def _bb_spent_usd_today() -> float:
+    """Spend attributed to the current UTC day. Reconciled/backfill release
+    records are excluded — their ts is write-time, not usage-time."""
+    import json as _json
+    from datetime import datetime as _dt, timezone as _tz
+    if not os.path.exists(_BB_LEDGER):
+        return 0.0
+    midnight = _dt.now(_tz.utc).replace(hour=0, minute=0, second=0, microsecond=0).timestamp()
+    spent, created, released = 0.0, set(), set()
+    with open(_BB_LEDGER) as f:
+        for line in f:
+            try:
+                r = _json.loads(line)
+            except Exception:
+                continue
+            if r.get("ts", 0) < midnight:
+                continue
+            if r.get("event") == "create":
+                created.add(r.get("id"))
+            elif r.get("event") == "release":
+                released.add(r.get("id"))
+                if r.get("reconciled") or r.get("backfill"):
+                    continue
+                spent += (r.get("minutes", 0) / 60.0) * _BB_RATE_PER_HOUR
+                spent += (r.get("proxy_mb", 0) / 1000.0) * _BB_RATE_PER_GB
+    spent += len(created - released) * _BB_INFLIGHT_EST_USD
+    return spent
+
+
+def _browserbase_create_session() -> dict:
+    """Create a Browserbase session with residential proxies. If
+    OWRL_BB_PROXY_DOMAINS is set (comma-separated regex patterns), only those
+    domains are routed through the residential pool. Raises RuntimeError when
+    the OWRL_BB_BUDGET_USD cap is reached."""
+    spent = _bb_spent_usd()
+    if spent >= _BB_BUDGET_USD:
+        raise RuntimeError(
+            f"Browserbase budget exhausted: est ${spent:.2f} >= cap ${_BB_BUDGET_USD:.2f} "
+            f"(ledger {_BB_LEDGER}); refusing to create session")
+    today = _bb_spent_usd_today()
+    if today >= _BB_DAILY_USD:
+        raise RuntimeError(
+            f"Browserbase DAILY pacing cap reached: est ${today:.2f} today >= "
+            f"${_BB_DAILY_USD:.2f}/day (resets at UTC midnight); refusing to create session")
+    domains = [d.strip() for d in os.environ.get("OWRL_BB_PROXY_DOMAINS", "").split(",") if d.strip()]
+    proxies: Any = [{"type": "browserbase", "domainPattern": d} for d in domains] if domains else True
+    session = _browserbase_api("/sessions", {
+        "projectId": os.environ["BROWSERBASE_PROJECT_ID"],
+        "proxies": proxies,
+    })
+    _bb_ledger_append({"event": "create", "id": session["id"], "ts": time.time()})
+    return session
+
+
+def _browserbase_release_session(session_id: str) -> None:
+    _browserbase_api(f"/sessions/{session_id}", {
+        "projectId": os.environ["BROWSERBASE_PROJECT_ID"],
+        "status": "REQUEST_RELEASE",
+    })
+    minutes, proxy_mb = 0.0, 0.0
+    try:
+        info = _browserbase_api(f"/sessions/{session_id}")
+        proxy_mb = (info.get("proxyBytes") or 0) / 1e6
+        from datetime import datetime as _dt
+        s, e = info.get("startedAt"), info.get("endedAt")
+        if s and e:
+            fmt = lambda x: _dt.fromisoformat(x.replace("Z", "+00:00"))
+            minutes = max((fmt(e) - fmt(s)).total_seconds() / 60.0, 0.0)
+    except Exception as ex:
+        logger.warning(f"browserbase usage fetch failed for {session_id}: {ex}")
+        minutes = 5.0  # conservative fallback
+    _bb_ledger_append({"event": "release", "id": session_id, "ts": time.time(),
+                       "minutes": round(minutes, 2), "proxy_mb": round(proxy_mb, 2)})
+
 class WebEnv(BaseEnv):
     """
     Web environment for browser interaction using Playwright.
@@ -116,7 +249,9 @@ class WebEnv(BaseEnv):
             f"--explicitly-allowed-ports={','.join(str(p) for p in explicitly_allowed_ports)}",
         ]
 
-        # Proxy configuration
+        # Proxy configuration (OWRL_WEB_PROXY: env-gated residential-proxy fallback,
+        # format http://user:pass@host:port)
+        web_proxy = web_proxy or os.environ.get("OWRL_WEB_PROXY") or None
         if isinstance(web_proxy, str):
             proxy_username = web_proxy.split("//")[1].split(":")[0]
             proxy_password = web_proxy.split("//")[1].split(":")[1].split("@")[0]
@@ -138,9 +273,18 @@ class WebEnv(BaseEnv):
         """
         self.playwright = await async_playwright().start()
         self.browser_type = self.playwright.chromium
-        self.browser = await self.browser_type.launch(
-            headless=True, args=self.browser_args, proxy=self.proxy_settings
-        )
+        self._bb_session_id = None
+        if os.environ.get("OWRL_BROWSERBASE") == "1":
+            session = await asyncio.to_thread(_browserbase_create_session)
+            self._bb_session_id = session["id"]
+            self.browser = await self.browser_type.connect_over_cdp(
+                session["connectUrl"], timeout=60000
+            )
+            logger.info(f"Connected to browserbase session {self._bb_session_id}")
+        else:
+            self.browser = await self.browser_type.launch(
+                headless=True, args=self.browser_args, proxy=self.proxy_settings
+            )
 
         await self._initialize_context(
             enable_recording=self.should_record, 
@@ -363,6 +507,12 @@ class WebEnv(BaseEnv):
 
         if self.browser:
             await self.browser.close()
+
+        if getattr(self, "_bb_session_id", None):
+            try:
+                await asyncio.to_thread(_browserbase_release_session, self._bb_session_id)
+            except Exception as e:
+                logger.warning(f"Failed to release browserbase session {self._bb_session_id}: {e}")
 
         if self.playwright:
             await self.playwright.stop()

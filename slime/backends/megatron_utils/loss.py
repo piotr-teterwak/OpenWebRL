@@ -53,7 +53,8 @@ def get_responses(
 
     Args:
         logits: Model outputs with shape `[1, T, V]` (policy) or `[1, T, 1]`
-            (value). Must be float32.
+            (value). May be float32 or the model precision (bf16/fp16); chunks
+            are upcast to float32 before they are yielded.
         args: Configuration containing `rollout_temperature` for scaling.
         unconcat_tokens: List of token tensors (prompt+response) per sample.
         total_lengths: Total sequence lengths (prompt+response) per sample.
@@ -66,7 +67,7 @@ def get_responses(
     """
     qkv_format = args.qkv_format
 
-    assert logits.dtype == torch.float32, f"{logits.dtype}"
+    assert logits.dtype in (torch.float32, torch.bfloat16, torch.float16), f"{logits.dtype}"
     assert len(logits.shape) == 3, f"{logits.shape}"
 
     if qkv_format == "thd":
@@ -75,9 +76,6 @@ def get_responses(
     else:
         assert max_seq_lens is not None
         logits = logits.view(-1, logits.size(-1))
-
-    if args.rollout_temperature != 1.0:
-        logits = logits.div(args.rollout_temperature)
 
     cp_size = mpu.get_context_parallel_world_size()
     end = 0
@@ -141,6 +139,17 @@ def get_responses(
             tokens_chunk = torch.cat([tokens_0, tokens_1], dim=0)
 
         seq_start += total_length
+
+        # Upcast and apply temperature on the response chunk only, instead of on
+        # the full [T, V] logits. Together with fp32_output=False in model.py this
+        # avoids materializing full-sequence fp32 logits copies (the upcast from
+        # Float16Module and the temperature-scaled copy) per micro-batch, which
+        # dominate GPU memory for long contexts. Numerics are identical: casting
+        # and dividing commute with slicing elementwise.
+        if logits_chunk.dtype != torch.float32:
+            logits_chunk = logits_chunk.float()
+        if args.rollout_temperature != 1.0:
+            logits_chunk = logits_chunk.div(args.rollout_temperature)
 
         yield logits_chunk, tokens_chunk
 

@@ -490,18 +490,35 @@ class MegatronTrainRayActor(TrainRayActor):
 
     def _materialize_rollout_data(self, rollout_data: RolloutBatch) -> RolloutBatch:
         # TODO: this is ugly, move to somewhere else?
-        # move tokens to GPU in advance
+        # Keep the bulk per-sample data (tokens and multimodal tensors such as
+        # pixel_values) on CPU here; each micro-batch is moved to GPU in
+        # data.py::get_batch right before its forward pass. This keeps the peak
+        # GPU footprint from rollout data at ~one micro-batch instead of the
+        # whole rollout (which OOMs on 80GB GPUs for image-heavy rollouts).
+        def _pin(t: torch.Tensor) -> torch.Tensor:
+            # pin_memory can fail if page-locked memory is exhausted; fall back
+            # to pageable memory (only affects H2D copy speed, not correctness).
+            try:
+                return t.pin_memory()
+            except RuntimeError:
+                return t
+
         rollout_data["tokens"] = [
-            torch.tensor(t, dtype=torch.long, device=torch.cuda.current_device()) for t in rollout_data["tokens"]
+            _pin(torch.tensor(t, dtype=torch.long, device="cpu")) for t in rollout_data["tokens"]
         ]
+        # loss_masks stay on GPU: they are small (int32 over response tokens) and
+        # are consumed batch-wide by compute_advantages_and_returns (whitening,
+        # reinforce++) and log_rollout_data together with GPU log_probs.
         rollout_data["loss_masks"] = [
             torch.tensor(t, dtype=torch.int, device=torch.cuda.current_device()) for t in rollout_data["loss_masks"]
         ]
         if "multimodal_train_inputs" in rollout_data:
-            # Move multimodal training tensors to GPU in advance
+            # Keep multimodal training tensors (the bulk of rollout memory) on
+            # CPU. Not pinned: page-locking tens of GiB is expensive/fragile.
+            # get_batch moves the current micro-batch's tensors to GPU.
             rollout_data["multimodal_train_inputs"] = [
                 (
-                    {key: tensor.to(device=torch.cuda.current_device()) for key, tensor in mm_dict.items()}
+                    {key: tensor.to(device="cpu") for key, tensor in mm_dict.items()}
                     if mm_dict is not None
                     else None
                 )
@@ -546,6 +563,26 @@ class MegatronTrainRayActor(TrainRayActor):
             rollout_data["rollout_routed_experts"] = [
                 torch.from_numpy(r) for r in rollout_data["rollout_routed_experts"]
             ]
+
+        if dist.is_initialized() and dist.get_rank() == 0:
+
+            def _nbytes(tensors) -> int:
+                return sum(t.numel() * t.element_size() for t in tensors)
+
+            cpu_bytes = _nbytes(rollout_data["tokens"])
+            for mm_dict in rollout_data.get("multimodal_train_inputs", []):
+                if mm_dict is not None:
+                    cpu_bytes += _nbytes(mm_dict.values())
+            gpu_bytes = _nbytes(rollout_data["loss_masks"])
+            for key in ["rollout_log_probs", "teacher_log_probs"]:
+                if key in rollout_data:
+                    gpu_bytes += _nbytes(rollout_data[key])
+            logger.info(
+                "materialize_rollout_data: kept %.2f GiB on CPU (tokens + multimodal_train_inputs), "
+                "%.2f MiB on GPU (loss_masks + rollout/teacher log_probs)",
+                cpu_bytes / 2**30,
+                gpu_bytes / 2**20,
+            )
         return rollout_data
 
     def _get_rollout_data(self, rollout_data_ref: Box) -> RolloutBatch:

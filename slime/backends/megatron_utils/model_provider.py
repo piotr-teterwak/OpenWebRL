@@ -141,6 +141,13 @@ def get_model_provider_func(
         provider.sequence_parallel = args.sequence_parallel
         provider.context_parallel_size = args.context_parallel_size
         provider.variable_seq_lengths = args.variable_seq_lengths
+        # Activation recompute never reached the bridge provider, so
+        # recompute_granularity stayed None and every layer's activations were
+        # stored: ~47GiB per ~6.7k-token microbatch at TP1 (OOM on 80GB; peak
+        # 70.66GiB at TP2). Forward the recompute args like the parallelism args.
+        provider.recompute_granularity = args.recompute_granularity
+        provider.recompute_method = args.recompute_method
+        provider.recompute_num_layers = args.recompute_num_layers
         if getattr(args, "decoder_first_pipeline_num_layers", None) is not None:
             provider.num_layers_in_first_pipeline_stage = args.decoder_first_pipeline_num_layers
         if getattr(args, "decoder_last_pipeline_num_layers", None) is not None:

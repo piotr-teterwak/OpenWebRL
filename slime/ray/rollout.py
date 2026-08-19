@@ -1,5 +1,7 @@
+import copy
 import dataclasses
 import itertools
+import json
 import logging
 import multiprocessing
 import os
@@ -537,7 +539,7 @@ class RolloutManager:
             # if debug rollout only, we don't convert samples to train data and directly return
             return
         data = self._convert_samples_to_train_data(data)
-        return self._split_train_data_by_dp(data, self.train_parallel_config["dp_size"])
+        return self._split_train_data_by_dp(data, self._get_train_parallel_config()["dp_size"])
 
     def eval(self, rollout_id):
         if self.args.debug_train_only:
@@ -708,7 +710,7 @@ class RolloutManager:
         Strategy: global_batch_size = num_samples rounded down to a multiple of dp_size
         This ensures num_steps_per_rollout = num_samples // global_batch_size = 1
         """
-        dp_size = self.train_parallel_config["dp_size"]
+        dp_size = self._get_train_parallel_config()["dp_size"]
         original_gbs = self.args.global_batch_size
 
         # Round down to a multiple of dp_size to ensure only one training step
@@ -789,6 +791,7 @@ class RolloutManager:
                     for trajectory_id in trajectory_ids:
                         trajectory_samples = trajectory_groups[trajectory_id]
                         sample_rewards = [sample.get_reward_value(self.args) for sample in trajectory_samples]
+                        sample_rewards = [0.0 if r is None else r for r in sample_rewards]  # aborted/unscored trajectory -> 0.0
                         base_reward = sample_rewards[0]
                         if any(reward != base_reward for reward in sample_rewards[1:]):
                             logger.warning(
@@ -836,6 +839,7 @@ class RolloutManager:
 
             for group_index, group_samples in grouped_samples.items():
                 group_rewards = [sample.get_reward_value(self.args) for sample in group_samples]
+                group_rewards = [0.0 if r is None else r for r in group_rewards]  # aborted/unscored sample -> 0.0
                 rewards_tensor = torch.tensor(group_rewards, dtype=torch.float)
                 rewards_tensor = rewards_tensor - rewards_tensor.mean()
                 if self.args.advantage_estimator in ["grpo", "gspo"] and self.args.grpo_std_normalization:
@@ -862,6 +866,37 @@ class RolloutManager:
         """
         if self.custom_convert_samples_to_train_data_func is not None:
             return self.custom_convert_samples_to_train_data_func(self.args, samples)
+
+        # Drop degenerate samples (aborted before/immediately after generation): empty
+        # tokens, zero-length response, or no prompt tokens. They crash Megatron's
+        # get_batch (negative pad) and carry no learnable signal anyway.
+        n_before = len(samples)
+        samples = [
+            s for s in samples
+            if s.tokens and s.response_length and s.response_length > 0
+            and len(s.tokens) - s.response_length >= 1
+        ]
+        if len(samples) != n_before:
+            # Pad the count back to n_before so downstream batch invariants still hold:
+            # the rollout was already trimmed to a multiple of global_batch_size, and
+            # get_data_iterator floors num_steps = num_local_samples // num_local_gbs,
+            # so a shortfall leaves "rewards" longer than "log_probs"/kl and crashes
+            # get_grpo_returns. Padding samples are clones of the shortest valid sample
+            # with loss_mask all-zero, reward 0, and a fresh group_index, so they
+            # contribute nothing to the loss or to group reward normalization.
+            n_pad = n_before - len(samples)
+            src = min(samples, key=lambda s: len(s.tokens))
+            pad_group_index = max((s.group_index for s in samples if s.group_index is not None), default=0) + 1
+            for _ in range(n_pad):
+                pad = copy.deepcopy(src)
+                pad.group_index = pad_group_index
+                pad.reward = {k: 0.0 for k in pad.reward} if isinstance(pad.reward, dict) else 0.0
+                if pad.metadata and "raw_reward" in pad.metadata:
+                    pad.metadata["raw_reward"] = 0.0
+                pad.loss_mask = [0] * pad.response_length
+                pad.remove_sample = True
+                samples.append(pad)
+            print(f"[convert_samples] dropped {n_pad}/{n_before} degenerate samples, padded back with {n_pad} masked clones")
 
         raw_rewards, rewards = self._post_process_rewards(samples)
 
@@ -928,6 +963,12 @@ class RolloutManager:
 
         # Add rollout log probabilities for off-policy correction
         if samples[0].rollout_log_probs is not None:
+            # aborted/unscored samples carry rollout_log_probs=None -> len(None) crashes in
+            # slice_log_prob_with_cp; give them zero placeholders and mask them out of the loss.
+            for sample in samples:
+                if sample.rollout_log_probs is None:
+                    sample.rollout_log_probs = [0.0] * sample.response_length
+                    sample.loss_mask = [0] * sample.response_length
             train_data["rollout_log_probs"] = [sample.rollout_log_probs for sample in samples]
 
         if samples[0].rollout_routed_experts is not None:
@@ -944,8 +985,37 @@ class RolloutManager:
 
         return train_data
 
+    def _train_parallel_config_path(self):
+        # Keep it next to the checkpoints so it is per-run and survives node changes.
+        root = getattr(self.args, "save", None) or "/tmp"
+        return os.path.join(root, "train_parallel_config.json")
+
     def set_train_parallel_config(self, config: dict):
         self.train_parallel_config = config
+        # RolloutManager is created with max_restarts=-1, and the train actor only
+        # pushes this config once (at set_rollout_manager time). After Ray restarts
+        # the actor mid-run, the fresh instance has no train_parallel_config and the
+        # NEXT generate() dies at the very end with AttributeError -- throwing away a
+        # full ~1h rollout and burning a beaker retry. Persist it so a restarted
+        # instance can recover it itself.
+        try:
+            path = self._train_parallel_config_path()
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w") as f:
+                json.dump(config, f)
+        except OSError as e:
+            logger.warning(f"could not persist train_parallel_config: {e}")
+
+    def _get_train_parallel_config(self):
+        """Return the train parallel config, reloading it after an actor restart."""
+        config = getattr(self, "train_parallel_config", None)
+        if config is None:
+            path = self._train_parallel_config_path()
+            with open(path) as f:
+                config = json.load(f)
+            self.train_parallel_config = config
+            logger.warning(f"reloaded train_parallel_config from {path} after actor restart: {config}")
+        return config
 
     def _split_train_data_by_dp(self, data, dp_size):
         """Split the train data by data parallel size."""

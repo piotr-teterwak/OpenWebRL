@@ -30,6 +30,9 @@ from .data import DataIterator, get_batch
 from .loss import loss_function
 from .model_provider import get_model_provider_func, wrap_model_provider_with_freeze
 
+# state for the SLIME_MEM_SNAPSHOT diagnostic in train_one_step: off -> recording -> dumped
+_mem_snapshot_state = "off"
+
 logger = logging.getLogger(__name__)
 
 
@@ -231,6 +234,10 @@ def forward_only(
             labels=None,
             packed_seq_params=packed_seq_params,
             loss_mask=batch["full_loss_masks"],
+            # Keep the last-stage logits in model precision (bf16/fp16) instead of
+            # letting Float16Module upcast the full [T, vocab] tensor to fp32; the
+            # loss helpers upcast per response chunk (see loss.get_responses).
+            **({"fp32_output": False} if (args.fp16 or args.bf16) else {}),
             **(batch["multimodal_train_inputs"] if batch["multimodal_train_inputs"] is not None else {}),
         )
 
@@ -354,6 +361,45 @@ def train_one_step(
             (loss, num_elems, {"keys": list[str], "values": torch.Tensor}).
         """
 
+        # Lightweight allocator trace to diagnose within-step GPU memory growth
+        # across micro-batches (host-side stats only, no synchronization).
+        if torch.cuda.is_available() and mpu.get_tensor_model_parallel_rank() == 0:
+            offset = data_iterator.offset
+            if offset % 8 == 0:
+                logger.info(
+                    "train_one_step mb_offset=%s cuda_alloc=%.2f GiB cuda_max_alloc=%.2f GiB cuda_reserved=%.2f GiB",
+                    offset,
+                    torch.cuda.memory_allocated() / 2**30,
+                    torch.cuda.max_memory_allocated() / 2**30,
+                    torch.cuda.memory_reserved() / 2**30,
+                )
+            # SLIME_MEM_SNAPSHOT=1: record allocator history and dump one snapshot
+            # the first time allocated memory crosses the threshold, so the ~50GiB
+            # transient (OOMs TP1, silently peaked 70.66GiB at TP2) gets a stack.
+            if os.environ.get("SLIME_MEM_SNAPSHOT", "0") == "1":
+                global _mem_snapshot_state
+                try:
+                    if _mem_snapshot_state == "off":
+                        torch.cuda.memory._record_memory_history(max_entries=200000)
+                        _mem_snapshot_state = "recording"
+                        logger.info("mem_snapshot: recording allocator history")
+                    elif (
+                        _mem_snapshot_state == "recording"
+                        and torch.cuda.memory_allocated() > 45 * 2**30
+                    ):
+                        snap_dir = os.path.join(
+                            os.path.dirname(args.save or "."), "debug_traces"
+                        )
+                        os.makedirs(snap_dir, exist_ok=True)
+                        path = os.path.join(snap_dir, f"mem_snapshot_mb{offset}.pickle")
+                        torch.cuda.memory._dump_snapshot(path)
+                        torch.cuda.memory._record_memory_history(enabled=None)
+                        _mem_snapshot_state = "dumped"
+                        logger.info("mem_snapshot: DUMPED %s", path)
+                except Exception as e:  # never let diagnostics kill training
+                    _mem_snapshot_state = "dumped"
+                    logger.warning("mem_snapshot failed: %s", e)
+
         # Get the batch.
         batch = get_batch(
             data_iterator,
@@ -403,6 +449,13 @@ def train_one_step(
                 "loss_mask": batch["full_loss_masks"],
             }
 
+            if args.fp16 or args.bf16:
+                # Keep the last-stage logits in model precision (bf16/fp16) instead
+                # of letting Float16Module upcast the full [T, vocab] tensor to
+                # fp32; the loss helpers upcast per response chunk (see
+                # loss.get_responses).
+                forward_kwargs["fp32_output"] = False
+
             if args.enable_mtp_training:
                 forward_kwargs["mtp_kwargs"] = {"mtp_labels": batch["tokens"]}
 
@@ -418,16 +471,34 @@ def train_one_step(
 
     # Forward pass.
     forward_backward_func = get_forward_backward_func()
-    losses_reduced = forward_backward_func(
-        forward_step_func=forward_step,
-        data_iterator=data_iterator,
-        model=model,
-        num_microbatches=num_microbatches,
-        seq_length=args.seq_length,
-        micro_batch_size=args.micro_batch_size,
-        decoder_seq_length=args.decoder_seq_length,
-        forward_only=False,
-    )
+    try:
+        losses_reduced = forward_backward_func(
+            forward_step_func=forward_step,
+            data_iterator=data_iterator,
+            model=model,
+            num_microbatches=num_microbatches,
+            seq_length=args.seq_length,
+            micro_batch_size=args.micro_batch_size,
+            decoder_seq_length=args.decoder_seq_length,
+            forward_only=False,
+        )
+    except torch.OutOfMemoryError:
+        # SLIME_MEM_SNAPSHOT diagnostic: the ~50GiB transient lives inside a
+        # single microbatch, so the per-mb threshold check never fires — dump
+        # the recorded allocator history at the OOM itself.
+        global _mem_snapshot_state
+        if _mem_snapshot_state == "recording":
+            try:
+                snap_dir = os.path.join(os.path.dirname(args.save or "."), "debug_traces")
+                os.makedirs(snap_dir, exist_ok=True)
+                path = os.path.join(snap_dir, "mem_snapshot_oom.pickle")
+                torch.cuda.memory._dump_snapshot(path)
+                torch.cuda.memory._record_memory_history(enabled=None)
+                _mem_snapshot_state = "dumped"
+                logger.info("mem_snapshot: DUMPED %s (at OOM)", path)
+            except Exception as e:
+                logger.warning("mem_snapshot at OOM failed: %s", e)
+        raise
 
     valid_step = True
     if not getattr(args, "check_for_nan_in_loss_and_grad", True):

@@ -349,6 +349,23 @@ def _compress_assistant_history_text(text: str, mode: str, args: Any) -> str:
     if mode == "hide_thinking":
         return _build_thinking_block_re(args).sub("", text).strip()
 
+    if mode == "webgym_compress":
+        # Exact port of the webgym RL bridge's _owrl_compress_past_assistant
+        # (molmoweb-rl prompts/webgym.py): well-formed turn -> keep post-</think>
+        # text; UNCLOSED <think> (truncated generation) -> keep only the
+        # <tool_call> blocks so the spiral cannot leak into context; then a
+        # hard 2000-char cap per past turn.
+        m = _get_browser_response_mode(args)
+        close_tag = m.thinking_close_tag
+        open_tag = m.thinking_open_tag
+        if close_tag in text:
+            kept = text.split(close_tag)[-1].lstrip("\n")
+        elif open_tag in text:
+            kept = "\n".join(x.group(0).strip() for x in _TOOL_CALL_BLOCK_RE.finditer(text))
+        else:
+            kept = text
+        return kept[:2000].strip()
+
     if mode == "action_only":
         kept_blocks = []
         if _get_browser_response_mode(args).requires_action_block:
@@ -358,7 +375,7 @@ def _compress_assistant_history_text(text: str, mode: str, args: Any) -> str:
 
     raise ValueError(
         f"Unsupported turn_history_reasoning_mode={mode!r}. "
-        "Expected one of: 'full', 'hide_thinking', 'action_only'."
+        "Expected one of: 'full', 'hide_thinking', 'action_only', 'webgym_compress'."
     )
 
 
@@ -1660,6 +1677,17 @@ async def _generate_turn_sample_impl(
 
         observation, info = await env.reset()
         tools_info, policy = adapter.parse_env_info(info)
+        # OWRL_WEBGYM_BRIDGE_PROMPT=1 (diagnostic): reproduce the webgym RL
+        # bridge's pre-Jul-29 system prompt — tools rendered inline as
+        # '# Available tools' + indent-1 JSON, WITHOUT the chat-template
+        # '# Tools ... {"name": ...}' block (template_tools=None suppresses it).
+        # This is the RL checkpoint's training distribution.
+        template_tools = tools_info
+        if os.environ.get("OWRL_WEBGYM_BRIDGE_PROMPT", "0") == "1":
+            import json as _json
+            _tl_path = os.path.join(os.path.dirname(__file__), "env", "prompts", "tool_list.json")
+            policy = f"{policy.strip()}\n\n# Available tools\n{_json.dumps(_json.load(open(_tl_path)), indent=1)}"
+            template_tools = None
         adapter._tools_info = tools_info
         adapter._tool_parser = ToolParser(tools_info)
         response_mode = _get_browser_response_mode(args)
@@ -1720,7 +1748,7 @@ async def _generate_turn_sample_impl(
             # 4. Apply chat template → text input for LLM
             input_text = adapter.token_handler.apply_chat_template(
                 text_msg,
-                tools_info,
+                template_tools,
                 add_generation_prompt=True,
                 enable_thinking=response_mode.chat_template_enable_thinking,
             )

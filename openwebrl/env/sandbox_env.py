@@ -30,7 +30,13 @@ _SANDBOX_CLIENT_DIR = os.path.abspath(
 if _SANDBOX_CLIENT_DIR not in sys.path:
     sys.path.insert(0, _SANDBOX_CLIENT_DIR)
 
-from client.sandbox_client import AsyncSandboxClient, AsyncSandboxInstance
+try:
+    from client.sandbox_client import AsyncSandboxClient, AsyncSandboxInstance
+except ModuleNotFoundError:
+    # The sandbox client package is absent in local_process deployments. Defer the
+    # failure to actual sandbox use so merely importing this module (e.g. when a
+    # stray task resolves to sandbox mode) never crashes the whole training job.
+    AsyncSandboxClient = AsyncSandboxInstance = None
 
 # ---------------------------------------------------------------------------
 # Constants

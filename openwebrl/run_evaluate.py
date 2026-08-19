@@ -412,7 +412,7 @@ def main():
         "--turn-history-reasoning-mode",
         type=str,
         default="full",
-        choices=["full", "hide_thinking", "action_only"],
+        choices=["full", "hide_thinking", "action_only", "webgym_compress"],
         help="Turn-level history compression mode for historical assistant reasoning.",
     )
     parser.add_argument(
@@ -434,15 +434,15 @@ def main():
         "--judge-api-mode",
         type=str,
         default="token",
-        choices=["token", "api_key", "served"],
-        help="Judge client mode. 'served' uses JUDGE_API_BASE or JUDGE_API_HOST/JUDGE_API_PORT.",
+        choices=["token", "api_key", "served", "openai"],
+        help="Judge client mode. 'served' uses JUDGE_API_BASE or JUDGE_API_HOST/JUDGE_API_PORT. 'openai' uses OPENAI_API_KEY (+optional OPENAI_BASE_URL).",
     )
     parser.add_argument(
         "--judge-prompt-variant",
         type=str,
         default="default",
-        choices=["default", "action_history"],
-        help="Judge prompt variant. 'action_history' adds parsed action history and inferred image step indices.",
+        choices=["default", "action_history", "webgym_rubric"],
+        help="Judge prompt variant. 'action_history' adds parsed action history and inferred image step indices. 'webgym_rubric' grades vs the task's evaluator_reference facts (molmoweb-matching).",
     )
     parser.add_argument("--judge-timeout-secs", type=float, default=30.0,
                         help="Timeout in seconds for a single judge API call. <=0 disables the timeout.")

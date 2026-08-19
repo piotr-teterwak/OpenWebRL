@@ -60,6 +60,24 @@ def get_batch(
     if "dynamic_global_batch_size" in data_iterator.rollout_data:
         batch["dynamic_global_batch_size"] = data_iterator.rollout_data["dynamic_global_batch_size"]
 
+    # The bulk per-sample data (tokens and multimodal tensors) is kept on CPU at
+    # materialization time (see MegatronTrainRayActor._materialize_rollout_data).
+    # Move only this micro-batch to GPU right before its forward pass; the GPU
+    # copies are freed when this micro-batch's `batch` dict is dropped.
+    device = torch.cuda.current_device()
+    batch["tokens"] = [
+        t.to(device=device, non_blocking=True) if t.device.type == "cpu" else t for t in batch["tokens"]
+    ]
+    if batch.get("multimodal_train_inputs") is not None:
+        batch["multimodal_train_inputs"] = [
+            (
+                {key: mm_tensor.to(device=device, non_blocking=True) for key, mm_tensor in mm_dict.items()}
+                if mm_dict is not None
+                else None
+            )
+            for mm_dict in batch["multimodal_train_inputs"]
+        ]
+
     tokens = batch["tokens"]
     # use 0 as the pad token id should be fine?
     pad_token_id = 0
@@ -594,7 +612,9 @@ def log_rollout_data(
                         val = torch.cat(val).clone().detach()
                         val = val.mean() * cp_size
                 else:
-                    val = sum(val) / len(val)
+                    # None entries come from aborted/padded samples; drop them from the metric.
+                    _vals = [v for v in val if v is not None]
+                    val = sum(_vals) / len(_vals) if _vals else 0.0
             elif isinstance(val, torch.Tensor):
                 val = val.float().mean()
             else:

@@ -222,3 +222,12 @@ _examples_synced/
 todolist.md
 .env
 .DS_Store
+.browserbase.env
+.browserbase_ledger.jsonl
+
+# share bundle artifacts (reproducible from git history)
+_share/*.patch
+_share/*.tgz
+
+# site-specific beaker identifiers
+beaker/site.env
