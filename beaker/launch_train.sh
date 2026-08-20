@@ -37,11 +37,17 @@ fi
 
 NAME_ARGS=()
 if [ -z "${IMPLICIT_NAME:-}" ]; then NAME_ARGS=(--name "$NAME" --task-name "$NAME"); fi
+# The code that actually runs comes from weka, not from a git clone, so the ref
+# gantry records is metadata. Our own commits live only in a private fork, so pin
+# the ref to the last commit shared with origin -- otherwise gantry refuses to
+# launch with "does not appear to exist on the remote".
+REF="${REF:-$(git -C "$(dirname "${BASH_SOURCE[0]}")/.." merge-base HEAD origin/main 2>/dev/null || true)}"
+
 gantry run \
   --budget "$BUDGET" --workspace "$WORKSPACE" \
   "${NAME_ARGS[@]}" --description "$DESCRIPTION" \
   --cluster "$CLUSTER" --cluster "$CLUSTER2" --cluster "$CLUSTER3" ${CLUSTER4:+--cluster "$CLUSTER4"} \
-  --gpus "$GPUS" --priority "$PRIORITY" --retries "${RETRIES:-3}" --allow-dirty \
+  --gpus "$GPUS" --priority "$PRIORITY" --retries "${RETRIES:-3}" --allow-dirty ${REF:+--ref "$REF"} \
   "${SCHED_ARGS[@]}" \
   --beaker-image "$IMAGE" \
   --weka oe-training-default:/weka/oe-training-default \

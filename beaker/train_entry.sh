@@ -99,4 +99,34 @@ SCRIPT="${SCRIPT:-scripts/run_browser_smoke_2gpu.sh}"
 export NUM_GPUS="${NUM_GPUS:-${GPUS_PER_NODE:-4}}"
 cd "$REPO"
 echo "[train_entry] EXP=$EXP_NAME script=$SCRIPT model_root=$SLIME_MODEL_ROOT save=$SLIME_SAVE_ROOT gpus=$(nvidia-smi -L | wc -l)"
+# ---- host-memory probe -------------------------------------------------------
+# Several jobs died mid-rollout with no traceback and nothing flushed to run.log:
+# the signature of a SIGKILL, with a kernel OOM inside the container cgroup as the
+# leading hypothesis (our own fix keeps the whole rollout on CPU). Sample the
+# cgroup counters so the next such death leaves evidence. Two small reads / 20s.
+if [ "${SLIME_MEM_PROBE:-1}" = "1" ] && [ -r /sys/fs/cgroup/memory.current ]; then
+  (
+    echo "# ts_utc cgroup_bytes limit=$(cat /sys/fs/cgroup/memory.max 2>/dev/null || echo max)"
+    while true; do
+      printf "%s %s %s\n" "$(date -u +%FT%TZ)" \
+        "$(cat /sys/fs/cgroup/memory.current 2>/dev/null || echo 0)" \
+        "$(tr '\n' ' ' < /sys/fs/cgroup/memory.events 2>/dev/null)"
+      sleep 20
+    done
+  ) >> "$SLIME_SAVE_ROOT/mem_probe.log" 2>/dev/null &
+  echo "[train_entry] host-memory probe -> $SLIME_SAVE_ROOT/mem_probe.log"
+fi
+
+# ---- checkpoint rotation ------------------------------------------------------
+# 58GiB per iteration x 90 iterations = 5TB, and weka filled up mid-run (which is
+# what silently truncated files and killed a job). Keep the newest 3 plus every
+# 10th; the in-flight checkpoint is always among the newest, so it is never at risk.
+if [ "${SLIME_PRUNE_CKPTS:-1}" = "1" ]; then
+  ( while true; do
+      bash "$REPO/beaker/prune_ckpts.sh" "$SLIME_SAVE_DIR" || true
+      sleep 600
+    done ) &
+  echo "[train_entry] checkpoint rotation on (keep newest ${KEEP_LAST:-3} + every ${KEEP_EVERY:-10}th)"
+fi
+
 exec bash "$SCRIPT" 2>&1 | tee -a "$SLIME_SAVE_ROOT/run.log"   # -a: keep prior attempts (a clobbered log cost us a crash diagnosis)

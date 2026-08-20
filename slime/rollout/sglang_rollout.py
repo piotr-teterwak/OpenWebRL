@@ -3,6 +3,8 @@ import copy
 import inspect
 import logging
 import os
+import re
+import json
 import time
 import uuid
 from argparse import Namespace
@@ -56,6 +58,99 @@ def get_model_url(args: Namespace, model_name: str, endpoint: str = "/generate")
         ip, port = routers[model_name]
         return f"http://{ip}:{port}{endpoint}"
     return f"http://{args.sglang_router_ip}:{args.sglang_router_port}{endpoint}"
+
+
+# Per-episode sample log: one compact jsonl row per episode so blocking noise and
+# filter behaviour can be audited offline without --dump-details (whose .pt dumps
+# include image tensors and are too large for weka). Toggle: SLIME_SAMPLE_LOG=0.
+_SAMPLE_LOG_BLOCK_PAT = re.compile(
+    r"captcha|verify (that )?you( a|')re (a )?human|human verification|are you a robot"
+    r"|robot check|unusual traffic|access denied|blocked|anti-?bot|cloudflare"
+    r"|press (&|and) hold|just a moment|attention required|perimeterx|datadome"
+    r"|pardon our interruption|security check|bot detection|not a robot"
+    r"|rate limit|too many requests|403 forbidden|net::err", re.IGNORECASE)
+
+
+def _log_group_samples(args, rollout_id, group, kept, drop_reason=None):
+    if os.environ.get("SLIME_SAMPLE_LOG", "1") != "1":
+        return
+    try:
+        for episode in group:
+            turns = episode if isinstance(episode, list) else [episode]
+            last = turns[-1]
+            meta = last.metadata or {}
+            text = " ".join((t.response or "") for t in turns)
+            markers = sorted({m.group(0).lower() for m in _SAMPLE_LOG_BLOCK_PAT.finditer(text)})[:5]
+            rewards = [t.reward for t in turns if t.reward is not None]
+            row = {
+                "rollout_id": rollout_id,
+                "task_id": str(meta.get("task_id", meta.get("_browser_task_id", ""))),
+                "group_uid": str(getattr(last, "session_id", "") or "")[:8],
+                "reward": rewards[-1] if rewards else None,
+                "n_turns": len(turns),
+                "total_steps": meta.get("total_steps"),
+                "terminate_reason": meta.get("terminate_reason", ""),
+                "kept": bool(kept),
+                "drop_reason": drop_reason,
+                "block_markers": markers,
+            }
+            append_progress_log(args, json.dumps(row, ensure_ascii=False), filename="sample_log.jsonl")
+            _maybe_dump_trajectory(args, rollout_id, turns, row)
+    except Exception as exc:  # never let logging kill a rollout
+        logger.debug(f"[SampleLog] skipped: {exc}")
+
+
+_TRAJ_DUMP_COUNTS: dict = {}
+
+
+def _maybe_dump_trajectory(args, rollout_id, turns, row):
+    """Occasionally save a human-viewable trajectory.html (screenshots + model turns).
+
+    Budget per rollout: SLIME_TRAJ_DUMP_PER_ROLLOUT episodes sampled as they come
+    (default 6), plus up to SLIME_TRAJ_DUMP_BLOCKED extra ones that hit anti-bot
+    markers (default 4) since those are the interesting ones to eyeball.
+    """
+    save_dir = getattr(args, "save", None)
+    if not save_dir:
+        return
+    budget = int(os.environ.get("SLIME_TRAJ_DUMP_PER_ROLLOUT", "6"))
+    blocked_budget = int(os.environ.get("SLIME_TRAJ_DUMP_BLOCKED", "4"))
+    if budget <= 0 and blocked_budget <= 0:
+        return
+    counts = _TRAJ_DUMP_COUNTS.setdefault(rollout_id, {"plain": 0, "blocked": 0})
+    is_blocked = bool(row.get("block_markers"))
+    if is_blocked and counts["blocked"] < blocked_budget:
+        counts["blocked"] += 1
+    elif counts["plain"] < budget:
+        counts["plain"] += 1
+    else:
+        return
+    _TRAJ_DUMP_COUNTS.pop(rollout_id - 2, None)  # keep the counter dict tiny
+
+    task_slug = re.sub(r"[^A-Za-z0-9]+", "_", str(row.get("task_id", "task")))[:60]
+    reward_tag = "r%s" % row.get("reward")
+    blocked_tag = "_BLOCKED" if is_blocked else ""
+    out_dir = os.path.join(save_dir, "traj_samples", "rollout_%04d" % rollout_id)
+    os.makedirs(out_dir, exist_ok=True)
+    path = os.path.join(out_dir, f"{task_slug}_{reward_tag}{blocked_tag}.html")
+
+    parts = [
+        "<meta charset='utf-8'><style>body{font-family:sans-serif;max-width:900px;margin:auto}"
+        "img{max-width:100%;border:1px solid #ccc;margin:4px 0}pre{white-space:pre-wrap;"
+        "background:#f6f6f6;padding:8px;border-radius:6px}h3{margin-top:24px}</style>",
+        f"<h2>{task_slug}</h2><p>rollout {rollout_id} | reward={row.get('reward')} | "
+        f"steps={row.get('total_steps')} | terminate={row.get('terminate_reason')} | "
+        f"kept={row.get('kept')} | markers={row.get('block_markers')}</p>",
+    ]
+    for i, t in enumerate(turns):
+        imgs = (getattr(t, "multimodal_inputs", None) or {}).get("images") or []
+        parts.append(f"<h3>turn {i}</h3>")
+        if imgs:
+            parts.append(f"<img src='{imgs[-1]}'>")
+        resp = (t.response or "")[:4000]
+        parts.append(f"<pre>{resp.replace('&','&amp;').replace('<','&lt;')}</pre>")
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("\n".join(parts))
 
 
 class GenerateState(metaclass=SingletonMeta):
@@ -556,6 +651,7 @@ async def generate_rollout_async(
             dynamic_filter_output = call_dynamic_filter(dynamic_filter, args, group)
             if not dynamic_filter_output.keep:
                 metric_gatherer.on_dynamic_filter_drop(reason=dynamic_filter_output.reason)
+                _log_group_samples(args, rollout_id, group, kept=False, drop_reason=dynamic_filter_output.reason)
                 state.remaining_batch_size -= 1
                 continue
 
@@ -569,6 +665,7 @@ async def generate_rollout_async(
             # NOTE: here we have not stored all the unused samples back to the data buffer.
             if len(data) < target_data_size:
                 data.append(filtered_group)
+                _log_group_samples(args, rollout_id, filtered_group, kept=True)
                 pbar.update(1)
 
         now = time.monotonic()
