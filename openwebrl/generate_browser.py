@@ -164,8 +164,15 @@ def _extract_failed_navigation_url(error_text: str) -> str | None:
 
 
 def _should_blacklist_init_failure(error_text: str) -> bool:
-    return (
+    # Two formats exist: sandbox mode says "env_server /reset error", local_process
+    # mode says "local_process env_server error [500] /reset" -- match both, else
+    # the auto-blacklist never fires in local_process mode.
+    is_reset_error = (
         "env_server /reset error" in error_text
+        or ("env_server error [" in error_text and "] /reset" in error_text)
+    )
+    return (
+        is_reset_error
         and "Failed to navigate to" in error_text
         and any(
             marker in error_text
