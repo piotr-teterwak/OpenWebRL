@@ -66,6 +66,10 @@ SGLANG_DTYPE="${SGLANG_DTYPE:-bfloat16}"
 SGLANG_MEM_FRACTION_STATIC="${SGLANG_MEM_FRACTION_STATIC:-0.9}"
 SGLANG_CONTEXT_LENGTH="${SGLANG_CONTEXT_LENGTH:-32768}"
 SGLANG_TP="${SGLANG_TP:-2}"
+TOP_P="${TOP_P:-1.0}"
+# Extra flags appended to the sglang launch command. Set to
+# "--sampling-backend pytorch" whenever TOP_P<1 or TEMPERATURE>0.
+SGLANG_EXTRA_ARGS="${SGLANG_EXTRA_ARGS:-}"
 SGLANG_DP="${SGLANG_DP:-4}"
 SGLANG_STARTUP_TIMEOUT_SECS="${SGLANG_STARTUP_TIMEOUT_SECS:-600}"
 SGLANG_VENV_ACTIVATE="${SGLANG_VENV_ACTIVATE:-}"
@@ -177,7 +181,7 @@ start_sglang_server() {
     else
         launch_cmd="exec ${python_bin} -m sglang.launch_server"
     fi
-    launch_cmd="${launch_cmd} --model-path \"${current_model_name}\" --host \"${SGLANG_SERVER_HOST}\" --port \"${SGLANG_PORT}\" --trust-remote-code --dtype \"${SGLANG_DTYPE}\" --mem-fraction-static \"${SGLANG_MEM_FRACTION_STATIC}\" --context-length \"${SGLANG_CONTEXT_LENGTH}\" --tp \"${SGLANG_TP}\" --dp \"${SGLANG_DP}\""
+    launch_cmd="${launch_cmd} --model-path \"${current_model_name}\" --host \"${SGLANG_SERVER_HOST}\" --port \"${SGLANG_PORT}\" --trust-remote-code --dtype \"${SGLANG_DTYPE}\" --mem-fraction-static \"${SGLANG_MEM_FRACTION_STATIC}\" --context-length \"${SGLANG_CONTEXT_LENGTH}\" --tp \"${SGLANG_TP}\" --dp \"${SGLANG_DP}\" ${SGLANG_EXTRA_ARGS}"
 
     echo "Starting sglang server for model_name=${current_model_name}"
     setsid bash -lc "${launch_cmd}" > "${SGLANG_SERVER_LOG}" 2>&1 &
@@ -224,6 +228,7 @@ python openwebrl/run_evaluate.py \
     --browser-include-tool-response "${BROWSER_INCLUDE_TOOL_RESPONSE}" \
     --max-steps "${BROWSER_MAX_STEPS}" \
     --temperature "${TEMPERATURE}" \
+    --top-p "${TOP_P}" \
     --task-indices "${TASK_INDICES}" \
     --inference-step-timeout-secs "${INFERENCE_STEP_TIMEOUT_SECS}" \
     --task-timeout-secs "${TASK_TIMEOUT_SECS}" \

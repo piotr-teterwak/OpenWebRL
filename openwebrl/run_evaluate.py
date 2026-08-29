@@ -402,6 +402,11 @@ def main():
     parser.add_argument("--hf-checkpoint", type=str, default=os.environ.get("MODEL_PATH") or os.environ.get("HF_CHECKPOINT", ""))
     parser.add_argument("--max-steps", type=int, default=16)
     parser.add_argument("--temperature", type=float, default=0.0)
+    # Nucleus sampling. NB: with TOP_P<1 sglang must be launched with
+    # --sampling-backend pytorch; FlashInfer's top_k_top_p_sampling_from_probs
+    # JIT-builds via /usr/local/cuda/bin/nvcc, which does not exist on klone
+    # nodes, and every task ABORTs while SLURM still reports COMPLETED 0:0.
+    parser.add_argument("--top-p", type=float, default=1.0)
     parser.add_argument("--output", type=str, default=os.environ.get("OUTPUT_ROOT", "eval_outputs/browser_eval"),
                         help="Output JSONL path (default: auto-generated with timestamp)")
     parser.add_argument("--context-num-screenshots", type=int, default=3,
@@ -485,6 +490,7 @@ def main():
 
     sampling_params = {
         "temperature": args.temperature,
+        "top_p": args.top_p,
         "max_new_tokens": 2048,
     }
 
