@@ -25,7 +25,11 @@ path_to_save_generated_samples: ""
 debug_trace_prob: 0.005
 
 # Timeout controls for browser rollout during training.
-inference_step_timeout_secs: 30.0
+# klone: 30.0 aborted every episode with 'SGLang /generate timed out after
+# 30.0s'. Multimodal prefill (1280x1000 screenshot + long browser context) on
+# A100 80GB exceeds it, especially on the first call. run_evaluate.py defaults
+# this same knob to 60.0, so 30.0 is tight even by the repo's own reckoning.
+inference_step_timeout_secs: 180.0
 rollout_task_timeout_secs: 600.0
 
 # Limit the number of browser tasks that may enter generation concurrently in
