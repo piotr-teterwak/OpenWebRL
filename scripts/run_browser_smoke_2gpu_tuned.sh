@@ -558,6 +558,7 @@ RUNTIME_ENV_JSON="{
   \"env_vars\": {
     \"PYTHONPATH\": \"${REPO_ROOT}:${SLIME_MEGATRON_PATH:-/weka/oe-training-default/zixianm/openwebrl_build/Megatron-LM/}\",
     \"LD_LIBRARY_PATH\": \"${SLIME_ENV_LIB_PATHS:-/weka/oe-training-default/zixianm/.conda/envs/webrl/lib:/weka/oe-training-default/zixianm/.conda/envs/webrl/lib/python3.12/site-packages/nvidia/cudnn/lib:/weka/oe-training-default/zixianm/.conda/envs/webrl/lib/python3.12/site-packages/nvidia/nccl/lib:/weka/oe-training-default/zixianm/.conda/envs/webrl/lib/python3.12/site-packages/nvidia/cuda_runtime/lib:/weka/oe-training-default/zixianm/.conda/envs/webrl/lib/python3.12/site-packages/nvidia/cublas/lib}:${LD_LIBRARY_PATH:-}\",
+    \"SLIME_PHASE_PROFILE_DIR\": \"${SLIME_PHASE_PROFILE_DIR:-}\",
     \"CUDA_DEVICE_MAX_CONNECTIONS\": \"1\",
     \"NCCL_NVLS_ENABLE\": \"${HAS_NVLINK}\",
     \"no_proxy\": \"127.0.0.1,${MASTER_ADDR}\",
@@ -610,6 +611,20 @@ if [ "${PROFILE:-0}" = "1" ]; then
     mkdir -p "${PROFILE_DIR:-${SAVE_DIR}/profile}"
     echo "PROFILE ON -> ${PROFILE_DIR:-${SAVE_DIR}/profile}"
 fi
+
+# Wait for the dashboard to actually serve before submitting. `ray start` returns
+# "Ray runtime started" before the job-submission HTTP server accepts requests,
+# and submitting into that window fails with:
+#   RuntimeError: Request failed with status code 504
+# Observed on a busy node with only 4.3s between the two (job 39390672).
+_RAY_ADDR="http://127.0.0.1:${RAY_DASHBOARD_PORT:-8265}"
+for _i in $(seq 1 60); do
+    if curl -sf -o /dev/null --max-time 3 "${_RAY_ADDR}/api/version" 2>/dev/null; then
+        echo "ray dashboard ready after ${_i}s"; break
+    fi
+    [ "$_i" = "60" ] && echo "WARN: ray dashboard not ready after 60s; submitting anyway" >&2
+    sleep 1
+done
 
 ray job submit --address="http://127.0.0.1:${RAY_DASHBOARD_PORT:-8265}" \
     --runtime-env-json="${RUNTIME_ENV_JSON}" \

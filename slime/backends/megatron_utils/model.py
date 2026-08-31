@@ -5,7 +5,7 @@ import math
 import os
 from argparse import Namespace
 from collections.abc import Callable, Sequence
-from functools import partial
+from functools import partial, wraps
 from pathlib import Path
 
 import torch
@@ -34,6 +34,68 @@ from .model_provider import get_model_provider_func, wrap_model_provider_with_fr
 _mem_snapshot_state = "off"
 
 logger = logging.getLogger(__name__)
+
+
+# ---------------------------------------------------------------------------
+# Opt-in one-shot phase profiling (SLIME_PHASE_PROFILE_DIR)
+# ---------------------------------------------------------------------------
+# slime ships TrainProfiler.iterate_train_actor / .iterate_train_log_probs, but
+# nothing in actor.py ever calls them, so --profile-target train_actor /
+# train_log_probs are silently no-ops. This decorator profiles the FIRST call of
+# each phase instead, which is enough to attribute where the time goes:
+# forward_only is the forward-only log-prob pass, train_one_step is
+# forward+backward. Comparing their op tables answers why the two cost nearly
+# the same wall-clock when backward should be ~2x the FLOPs.
+#
+# Deliberately cheap and defensive: no with_stack / record_shapes /
+# profile_memory (those dominate overhead and trace size), first invocation
+# only, rank 0 only for output, and every failure path falls back to running
+# the function unprofiled. With the env var unset this is a no-op wrapper.
+_PHASE_PROFILE_SEEN: set = set()
+
+
+def _phase_profiled(name: str):
+    def decorator(fn):
+        @wraps(fn)
+        def wrapper(*fn_args, **fn_kwargs):
+            out_dir = os.environ.get("SLIME_PHASE_PROFILE_DIR")
+            if not out_dir or name in _PHASE_PROFILE_SEEN:
+                return fn(*fn_args, **fn_kwargs)
+            _PHASE_PROFILE_SEEN.add(name)
+            try:
+                from torch.profiler import ProfilerActivity
+                from torch.profiler import profile as _torch_profile
+
+                prof = _torch_profile(
+                    activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA],
+                    record_shapes=False,
+                    with_stack=False,
+                    profile_memory=False,
+                )
+                prof.start()
+            except Exception as exc:  # pragma: no cover - diagnostics only
+                logger.warning("[phase-profile] %s: could not start (%s); running unprofiled", name, exc)
+                return fn(*fn_args, **fn_kwargs)
+            try:
+                return fn(*fn_args, **fn_kwargs)
+            finally:
+                try:
+                    prof.stop()
+                    rank = torch.distributed.get_rank() if torch.distributed.is_initialized() else 0
+                    if rank == 0:
+                        os.makedirs(out_dir, exist_ok=True)
+                        print(
+                            "\n===== [phase-profile] %s (rank %d) top ops by CUDA time =====\n%s\n"
+                            % (name, rank, prof.key_averages().table(sort_by="cuda_time_total", row_limit=30)),
+                            flush=True,
+                        )
+                        prof.export_chrome_trace(os.path.join(out_dir, "%s_rank%d.json" % (name, rank)))
+                except Exception as exc:  # pragma: no cover - diagnostics only
+                    logger.warning("[phase-profile] %s: export failed (%s)", name, exc)
+
+        return wrapper
+
+    return decorator
 
 
 def get_optimizer_param_scheduler(args: Namespace, optimizer: MegatronOptimizer) -> OptimizerParamScheduler:
@@ -153,6 +215,7 @@ def disable_forward_pre_hook(model_chunks: Sequence[DDP], param_sync: bool = Tru
 
 
 @torch.no_grad()
+@_phase_profiled("train_log_probs")
 def forward_only(
     f: Callable[..., dict[str, list[torch.Tensor]]],
     args: Namespace,
@@ -303,6 +366,7 @@ def forward_only(
     return rollout_data
 
 
+@_phase_profiled("train_actor")
 def train_one_step(
     args: Namespace,
     rollout_id: int,

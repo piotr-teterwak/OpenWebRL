@@ -583,6 +583,20 @@ RUNTIME_ENV_JSON="{
 
 export no_proxy="127.0.0.1"
 
+# Wait for the dashboard to actually serve before submitting. `ray start` returns
+# "Ray runtime started" before the job-submission HTTP server accepts requests,
+# and submitting into that window fails with:
+#   RuntimeError: Request failed with status code 504
+# Observed on a busy node with only 4.3s between the two (job 39390672).
+_RAY_ADDR="http://127.0.0.1:${RAY_DASHBOARD_PORT:-8265}"
+for _i in $(seq 1 60); do
+    if curl -sf -o /dev/null --max-time 3 "${_RAY_ADDR}/api/version" 2>/dev/null; then
+        echo "ray dashboard ready after ${_i}s"; break
+    fi
+    [ "$_i" = "60" ] && echo "WARN: ray dashboard not ready after 60s; submitting anyway" >&2
+    sleep 1
+done
+
 ray job submit --address="http://127.0.0.1:${RAY_DASHBOARD_PORT:-8265}" \
     --runtime-env-json="${RUNTIME_ENV_JSON}" \
     -- python3 train.py \
