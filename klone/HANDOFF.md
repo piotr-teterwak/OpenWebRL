@@ -145,9 +145,16 @@ Each of these burned at least one run.
    `int(x) for x in ...split(",")`. `TASK_INDICES="0-119"` raises `ValueError`
    ~15 min in, after the judge has finished loading. Pass `0,1,2,...` or nothing.
 
-3. **Do not run 8-hour evals on `ckpt-all`.** scalar needs ~9h at ~99 s/task and
-   was preempted at 26/300 while running perfectly. arm got lucky with a clean
-   3h window; that is luck, not a plan.
+3. **Do not run long evals on `ckpt-all`, and set a generous `--time`.** scalar
+   was preempted at 26/300 on ckpt while running perfectly. Worse, the 12h limit
+   that suits arm/zs does not suit scalar at all: **its judge is an HF eager
+   `PeftModel`, not an sglang server, measured at ~185 s/task against arm's 36
+   and zs's 44** — roughly 15h for 300 tasks. `gpu-l40s` has
+   `MaxTime=UNLIMITED`, and a running job's limit **cannot** be raised without
+   operator rights (`scontrol update TimeLimit` -> "Access/permission denied"),
+   so pick the limit correctly at submit time. `sel_l40s.sbatch` now asks for 40h.
+   If a scalar run does get truncated, `score_intersection.sh` scores every
+   selector on the common completed subset, which is the designed fallback.
 
 4. **`pip install peft` downgrades cuDNN.** It silently pulled
    `nvidia-cudnn-cu12` 9.16.0.29 -> 9.10.2.21 and broke three jobs. Install with

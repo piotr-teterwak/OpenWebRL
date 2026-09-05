@@ -16,7 +16,13 @@
 #SBATCH --cpus-per-task=20
 #SBATCH --gpus=2
 #SBATCH --mem=180G
-#SBATCH --time=12:00:00
+# gpu-l40s has MaxTime=UNLIMITED. 12h was fine for arm (36 s/task) and zs
+# (44 s/task) but NOT for scalar: its judge is an HF eager PeftModel rather
+# than an sglang server, measured at ~185 s/task, i.e. ~15h for 300 tasks.
+# A running job's limit cannot be raised without operator rights, so set it
+# generously up front -- an over-long limit costs nothing here, a short one
+# costs the whole run.
+#SBATCH --time=40:00:00
 #SBATCH --output=/gscratch/cse/piotrt/logs/eval-%j.out
 #
 # Online-Mind2Web eval of OpenWebRL-4B-SFT.
