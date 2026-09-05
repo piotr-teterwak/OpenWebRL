@@ -15,6 +15,18 @@ from fastapi import FastAPI
 from PIL import Image
 from safetensors.torch import load_file
 from transformers import AutoModelForImageTextToText, AutoProcessor
+# sglang pins torchao==0.9.0; peft's LoRA dispatcher raises on anything below
+# 0.16.0 even though a plain LoRA never uses the torchao path. Upgrading torchao
+# would disturb sglang, whose exact version is load-bearing here, so neutralise
+# the check instead. Must patch the name bound inside the dispatcher module.
+import peft.import_utils as _pft_iu
+_pft_iu.is_torchao_available = lambda: False
+try:
+    import peft.tuners.lora.torchao as _pft_tao
+    _pft_tao.is_torchao_available = lambda: False
+except Exception:
+    pass
+
 from peft import PeftModel
 
 BASE = os.environ.get("SCALAR_BASE", "OpenWebRL/OpenWebRL-4B-SFT")

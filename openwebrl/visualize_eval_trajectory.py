@@ -129,8 +129,25 @@ def _annotate_image(img_bytes: bytes, assistant_text: str | None) -> tuple[bytes
     """
     Annotate screenshot with action markers extracted from assistant tool calls.
 
+    Delegates to visualize_turn_samples.annotate, which draws the full action
+    vocabulary (targets, drag arrows, scroll direction, typed-text chips) rather
+    than an X per point. Falls back to the plain X markers if that import fails.
+
     point_2d values are normalized to [0, 1000] and mapped to image pixels.
     """
+    try:
+        from .visualize_turn_samples import annotate as _rich_annotate
+    except ImportError:
+        try:
+            from visualize_turn_samples import annotate as _rich_annotate  # script use
+        except ImportError:
+            _rich_annotate = None
+    if _rich_annotate is not None:
+        try:
+            return _rich_annotate(img_bytes, _parse_tool_calls(assistant_text or ""))
+        except Exception:
+            pass  # fall through to the legacy markers
+
     try:
         from io import BytesIO
 
@@ -493,7 +510,8 @@ def inspect_trajectory_alignment(eval_dir: str, task_id: str) -> list[dict[str, 
     return inspection
 
 
-def show_trajectory(eval_dir: str, task_id: str, max_steps: int | None = None) -> None:
+def show_trajectory(eval_dir: str, task_id: str, max_steps: int | None = None,
+                    img_width: int = 1100) -> None:
     """
     Display a saved trajectory/turn sample step-by-step in Jupyter.
     """
@@ -562,7 +580,7 @@ def show_trajectory(eval_dir: str, task_id: str, max_steps: int | None = None) -
                     img_bytes = _decode_data_url(img_url)
                     annotated, labels = _annotate_image(img_bytes, step.get("assistant"))
                     display(Markdown(f"Screenshot {img_idx}"))
-                    display(Image(data=annotated))
+                    display(Image(data=annotated, width=img_width))
                     if labels:
                         display(Markdown("Action markers:"))
                         for label in labels:
@@ -613,6 +631,7 @@ def main() -> None:
     parser.add_argument("--task-id", help="Task id like webvoyager/83")
     parser.add_argument("--list", action="store_true", help="List discovered trajectory files")
     parser.add_argument("--max-steps", type=int, default=None, help="Optional max number of steps to render")
+    parser.add_argument("--img-width", type=int, default=1100, help="Displayed screenshot width in px")
     args = parser.parse_args()
 
     if args.list:
@@ -624,7 +643,7 @@ def main() -> None:
         raise SystemExit("--task-id is required unless --list is used")
 
     show_result_summary(args.eval_dir, args.task_id)
-    show_trajectory(args.eval_dir, args.task_id, max_steps=args.max_steps)
+    show_trajectory(args.eval_dir, args.task_id, max_steps=args.max_steps, img_width=args.img_width)
 
 
 if __name__ == "__main__":

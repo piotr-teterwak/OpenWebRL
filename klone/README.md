@@ -1,5 +1,9 @@
 # OpenWebRL (Xunmei-liu fork) on UW Hyak klone
 
+> **Running this now?** See [`HANDOFF.md`](HANDOFF.md) for current results,
+> working commands, and the gotchas that have each cost a run.
+
+
 ## Layout
 | Path | What |
 |---|---|

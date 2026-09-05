@@ -1,5 +1,9 @@
 # Best-of-5 action selection for the OM2W eval (branch `piotr-selection-eval`)
 
+> Measured klone results, judge-behaviour stats, and operational gotchas:
+> [`HANDOFF.md`](HANDOFF.md).
+
+
 Context for whoever (human or Claude) runs this on klone. Ported from Piotr's
 SCC selection stack on 2026-09-01. Questions → piotr.teterwak@gmail.com.
 
