@@ -16,7 +16,7 @@ Everything below was measured on klone, not inherited from SCC.
 |---|---|---|---|---|---|
 | `arm` | 39447295 | **41.6%** | 36.1% | 37 | 300/300 |
 | `zs` | 39429421 | **37.9%** | 32.0% | 29 | 300/300 |
-| `scalar` | 39619163 | *running* | | | |
+| `scalar` | 39619163 | *running (started 2026-09-05, g3114, ~9h expected)* | | | |
 | n=1 nucleus | 39383327 | 32.1% | 23.9% | 87 | 300/300 |
 | n=1 greedy | 39323119 | 34.1% | 28.5% | 74 | 300/300 |
 
@@ -190,7 +190,16 @@ Each of these burned at least one run.
 
 - **scalar has never completed.** 4 attempts: 1 preemption, 1 genuinely bad node
   (g3127), 2 bugs of ours (#1, #2 above). The scalar path itself works — attempt
-  39447296 was at 26/300 with `abnormal=0` when killed. 39619163 is the fixed run.
+  39447296 was at 26/300 with `abnormal=0` when killed. **39619163 is the fixed
+  run and is live** (g3114, non-preemptible, all 300 tasks, both servers up,
+  sidecars showing `candidates=5` — i.e. genuine best-of-5, not a silent n=1
+  fallback). Fill in its row above when it lands.
+
+  **Verify any selector run this way before trusting it.** "Job is RUNNING" is
+  not enough: check `arbiter_logs/` is growing and that a sidecar shows 5
+  candidates. `frontier_arbiter.py` falls back to candidate 1 on parse failure
+  and `OWRL_ARBITER` not reaching the eval process degrades to n=1 — both look
+  like a healthy run from the outside.
 - `NUM_ROLLOUT=2` throughput run for a steady-state (non-warm-up) number.
 - Push `BROWSER_SLOTS` above 96 — 78% trainer idle says there is room.
 - Test `SLIME_DISABLE_PATCH_EMBED_MATMUL=1` on cuDNN >= 9.15 to see whether the
