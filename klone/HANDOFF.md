@@ -16,11 +16,26 @@ Everything below was measured on klone, not inherited from SCC.
 |---|---|---|---|---|---|
 | `arm` | 39447295 | **41.6%** | 36.1% | 37 | 300/300 |
 | `zs` | 39429421 | **37.9%** | 32.0% | 29 | 300/300 |
-| `scalar` | 39619163 | *running (started 2026-09-05, g3114, ~9h expected)* | | | |
+| `scalar` | 39622758 | *(partial — see below)* | | 19 | 90/300 |
 | n=1 nucleus | 39383327 | 32.1% | 23.9% | 87 | 300/300 |
 | n=1 greedy | 39323119 | 34.1% | 28.5% | 74 | 300/300 |
 
 SCC reference ordering: n=1 33.8 < zs 41.5 < scalar 46.3 < ARM 51.1.
+
+**Paired 70-task comparison** (scalar's run died at 90/300 on a full filesystem;
+all three selectors rescored on the identical tasks it did complete, via
+`score_intersection.sh`):
+
+| selector | v2 | training |
+|---|---|---|
+| `scalar` | **54.9%** | 41.2% |
+| `arm` | 50.0% | 42.9% |
+| `zs` | 44.2% | 33.3% |
+
+Both trained selectors beat `zs` by 6-11 pts on both metrics — that part is
+solid. **The arm-vs-scalar ordering is not**: v2 puts scalar ahead, training
+puts arm ahead, and at n=70 the standard error on a ~50% rate is ~6 pts, so a
+2-pt gap is noise. A full 300-task scalar run (~36 h) is what would settle it.
 
 **The ordering reproduces (n=1 < zs < arm); absolute values sit 7-10 pts lower.**
 Do not compare the absolutes to SCC: different outcome judge (GPT-4.1 vs
@@ -176,15 +191,36 @@ Each of these burned at least one run.
    `model_type` back to `qwen3_vl`, `extra_special_tokens` dropped) and is used
    via `ARM_HF`. **Re-exporting the models under 4.57 would retire this.**
 
-8. **Chromium launch is a node lottery** (3s..213s cold, measured). Preflight is
+8. **Check filesystem space before submitting anything long.** A 12h53m scalar
+   run died at 90/300 with `OSError: [Errno 122] Disk quota exceeded` writing a
+   results file. Errno 122 reads like a personal quota but here `/gscratch/scrubbed`
+   itself was full — a shared-volume condition that clears when other users free
+   space, so it can vanish before you diagnose it. Check `df -h /gscratch/scrubbed`
+   and try an actual write (`dd ... count=50`) rather than trusting `hyakstorage`,
+   which does not report scrubbed at all.
+
+9. **Throughput probes each write a ~58 GB iteration-0 checkpoint** under
+   `$SLIME_OUTPUT_ROOT/<run>/iter_0000000/`. They are untrained weights,
+   identical to the base model, and nothing reads them — but 7 of them was
+   406 GB of the 507 GB footprint. Delete them after extracting timings, or
+   disable checkpoint saving in probe configs.
+
+10. **`compute_eval_success_rate_woaborted_v2.py` crashes on a zero-length
+    sample file** (`JSONDecodeError` via `_final_active_tab_line`) instead of
+    counting it unverifiable as its docstring promises. A truncated run leaves
+    exactly these. Exclude the affected task ids from the common set, or fix
+    the scorer. Note these files are pretty-printed JSON, not JSONL — validate
+    with `json.load` on the whole file, not line by line.
+
+11. **Chromium launch is a node lottery** (3s..213s cold, measured). Preflight is
    8-way to match `N_PARALLEL=8` — a 1-way check passes on nodes where the real
    workload fails. `PREFLIGHT_COLD_MAX_S` is 90 (45 rejected a node at 46s).
 
-9. **Browser subprocesses must not inherit `LD_LIBRARY_PATH`.** With
+12. **Browser subprocesses must not inherit `LD_LIBRARY_PATH`.** With
    `$CONDA_PREFIX/lib` on it chromium resolves 35 libs off GPFS (~40s cold, 0/8
    under 8-way). `browser_python.sh` clears it; route browser launches through it.
 
-10. **The Conv3d patch is load-bearing for RL.** `Qwen3VLVisionPatchEmbed`
+13. **The Conv3d patch is load-bearing for RL.** `Qwen3VLVisionPatchEmbed`
     hits `slow_conv_dilated3d_cuda`, a fallback that loops over the batch;
     rewriting it as a matmul gave **33.7x on log_probs**. Lives in
     `slime/backends/megatron_utils/__init__.py` on the RL branch, disable with
