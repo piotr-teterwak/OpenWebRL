@@ -7,6 +7,16 @@ Model (ARM) into OpenWebRL's GRPO training as a per-step credit signal. Detailed
 history and every diagnostic are in the linked reports (§6). The reproduction baseline and the
 inference-time selector results that these experiments build on are summarized first.
 
+![Evaluation summary](assets/credit_eval_summary.png)
+
+**Figure.** (A) Every checkpoint evaluation we have, against our own outcome-only reproduction:
+neither credit form tracks the baseline once past iteration 20. Curves from different sweeps are
+not directly comparable — the ★/▼ points at iterations 38 and 40 are, because they share one
+evaluation window. (B) That window: six arms, 300 tasks each, paired McNemar. exp B is −1.7 pp and
+−5.3 pp against the matched plain-RL checkpoints. (C) Why: exp B ends its episodes 3 turns earlier
+and declares `done` prematurely about as often as the untrained SFT model, while plain RL learned
+not to.
+
 ## 0. Setup
 
 **OpenWebRL GRPO.** A 4B VLM web agent (OpenWebRL-4B-SFT) is trained with turn-level GRPO on live
@@ -87,7 +97,7 @@ p = 0.87. An apparent −10.4 pp headline gap was entirely abort counts (130 vs 
 `TRUNCATED` / generation-length aborts in the credit arm, not by task performance.
 
 **Conclusion: null.** No gain, no harm on tasks both arms completed, at a dose large enough to
-flip 14% of gradients.
+flip 14% of gradients. (Orange curve in panel A of the figure.)
 
 **Why.** Two properties of the form, both visible before the run started:
 
@@ -179,7 +189,8 @@ completed all 300 tasks; abort counted as failure; paired McNemar).**
 | plain RL iter 40 vs SFT | +9.0 pp | 0.002 |
 
 **Conclusion: no gain; point estimates lean harmful.** Both arms learn (both beat SFT); the credit
-arm learns less, the same direction at both matched iterations, never significant.
+arm learns less, the same direction at both matched iterations, never significant. (Panels B and C
+of the figure.)
 
 **Mechanism: it learned to stop early.** exp B episodes run 7.9–8.6 steps against plain RL's
 11.0–11.1 and end within five steps 60% more often. Plain RL learned not to declare victory early
