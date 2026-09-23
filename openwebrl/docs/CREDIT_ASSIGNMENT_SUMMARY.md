@@ -9,10 +9,10 @@ inference-time selector results that these experiments build on are summarized f
 
 ![Evaluation summary](assets/credit_eval_summary.png)
 
-**Figure.** (A) Every checkpoint evaluation we have, against our own outcome-only reproduction:
-neither credit form tracks the baseline once past iteration 20. Curves from different sweeps are
-not directly comparable — the ★/▼ points at iterations 38 and 40 are, because they share one
-evaluation window. (B) That window: six arms, 300 tasks each, paired McNemar. exp B is −1.7 pp and
+**Figure.** (A) Every checkpoint evaluation we have, against the two outcome-only reproductions
+(ours, v2; Zixian's, valid-only): neither credit form tracks the baselines once past iteration 20.
+Curves from different sweeps are not directly comparable — the ★/▼ points at iterations 38 and 40
+are, because they share one evaluation window. (B) That window: six arms, 300 tasks each, paired McNemar. exp B is −1.7 pp and
 −5.3 pp against the matched plain-RL checkpoints. (C) Why: exp B ends its episodes 3 turns earlier
 and declares `done` prematurely about as often as the untrained SFT model, while plain RL learned
 not to.
