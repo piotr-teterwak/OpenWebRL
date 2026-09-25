@@ -260,6 +260,8 @@ at a state, not a shift in the action-kind mix (`done` share rose 9.7% → 14.8%
 
 ## 6. Links
 
+- Full project brief for an outside reader, with the motivation, the design reasoning, what we
+  believe and our open questions: [`CREDIT_ASSIGNMENT_BRIEF_FOR_REVIEW.md`](CREDIT_ASSIGNMENT_BRIEF_FOR_REVIEW.md)
 - Presentation (17 Sep): https://docs.google.com/presentation/d/1V7IygZ5JKBt9qNUPxxNRKAdn-y-GB2nL6aGjKJo0zEo/edit
 - exp B status, analysis and checkpoint evaluation (partner cluster, 21–23 Sep): https://docs.google.com/document/d/1Vujexlc4HGpg-AjLkp8kvWVwMlfyX0c0v3ayja44jts/edit
 - exp A analysis (`EXPA_ANALYSIS.md`) and exp B handoff (`HANDOFF_within_state_credit_for_h100_cluster.md`): in the bundles on Hyak, `/gscratch/cse/xunmei/owrl/present/`, `/gscratch/cse/xunmei/owrl/port/`
