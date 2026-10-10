@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "status": "v4_closed_partial_v5_prepared_unapproved_live_validation_inconclusive",
-  "tests_passed": 85,
+  "status": "v4_closed_partial_v6_preparation_verified_ready_for_exact_approval_not_submitted",
+  "tests_passed": 102,
   "synthetic_browser_conditions_passed": 6,
   "synthetic_provider_calls": 0,
   "synthetic_model_server_calls": 0,
@@ -71,7 +71,7 @@
   },
   "v4_requested_seconds": 6120,
   "tests_distinct": true,
-  "snapshot_utc": "2026-10-10T21:24:44.824534+00:00",
+  "snapshot_utc": "2026-10-10T21:51:36.765357+00:00",
   "benchmark_comparison_complete": false,
   "v4_initial_stage": {
     "planned_cells": 72,
@@ -159,7 +159,7 @@
     }
   },
   "no_live_evaluation_allocation": true,
-  "tests_scope": "85 distinct focused tests passed after v5 geometry and cooperative-shutdown changes; real-browser geometry fixture passed. The optional real-site check was inconclusive because browser observation extraction was unstable; no corrected live benchmark has run. Historical test totals overlap the current suite and are not additive.",
+  "tests_scope": "102 distinct focused tests passed on final v6 source. The 15-file source freeze, batch syntax, pre-start authorization rejection and all six scripted browser conditions were verified. Browser fixtures ran serially in fresh interpreters with zero provider/model-server/GPU calls. Historical test totals overlap and are not additive. No corrected live benchmark has run.",
   "v4_closed_cohort": {
     "planned": 72,
     "records": 16,
@@ -241,7 +241,7 @@
     "all_workers_stopped": true,
     "final_aggregate_reconstructed_from_durable_cells": 16,
     "earlier_aggregate_archived": true,
-    "mitigation": "Implemented and tested cooperative stop-admission file: no new cells admitted, active workers drain to durable results, controller returns without SIGSTOP, and launcher exits normally."
+    "mitigation": "Cooperative stop-admission, external episode watchdog and result-before-cleanup ordering implemented and validated by the final 102-test suite and six frozen-source scripted browser fixtures. No corrected live benchmark has run."
   },
   "geometry_defect": {
     "proven": true,
@@ -273,14 +273,15 @@
         1280,
         720
       ],
-      "real_site_validation": "inconclusive_browser_observation_extraction_instability",
+      "real_site_validation": "inconclusive_hang_at_unidentified_lifecycle_phase",
       "is_benchmark_success": false
     },
     "corrected_live_benchmark_run": false,
     "real_site_check": {
       "status": "inconclusive",
-      "reason": "Browser observation extraction was unstable",
-      "establishes_live_repair": false
+      "reason": "Diagnostic hung at an unidentified lifecycle phase",
+      "establishes_live_repair": false,
+      "hang_phase_identified": false
     }
   },
   "shared_api_closed": {
@@ -348,10 +349,66 @@
     ],
     "v3_hash_scope": "Six per-cell hashes captured now; each object matches the previously hashed closed-v3 aggregate."
   },
-  "next_v5_proposal": {
-    "status": "prepared_not_approved_not_submitted",
+  "historical_v4_tests_passed": 79,
+  "historical_v4_tests_by_stage": {
+    "earlier": 69,
+    "continuation_driver": 10
+  },
+  "historical_v5_tests_passed": 85,
+  "historical_v5_validation": {
+    "focused_tests_passed": 85,
+    "elapsed_seconds": 39.502,
+    "command": "python -m unittest discover -s tests -p 'test_webprm*.py' -q",
+    "frozen_v5_source_files": 14,
+    "batch_syntax_passed": true,
+    "live_model_evaluation_run": false,
+    "new_allocation_submitted": false,
+    "status": "verified_geometry_phase_never_launched_superseded"
+  },
+  "current_validation": {
+    "protocol_version": "v6",
+    "status": "preparation_verified_ready_for_exact_approval_not_submitted",
+    "focused_tests_passed": 102,
+    "frozen_source_files": 15,
+    "live_model_evaluation_run": false,
+    "new_allocation_submitted": false,
+    "test_runner_seconds": 123.49,
+    "wall_seconds": 124.32114386558533,
+    "batch_syntax_passed": true,
+    "pending_authorization_rejected_before_startup": true,
+    "paid_api_calls": 0,
+    "gpu_seconds": 0,
+    "browser_fixture_status": "passed",
+    "browser_fixture_conditions": 6,
+    "browser_fixture_isolated_interpreters": true,
+    "browser_fixture_serial": true,
+    "browser_fixture_conditions_passed": 6,
+    "browser_fixture_processes_successfully_exited": 6,
+    "model_server_calls": 0,
+    "gpu_validation_required_inside_newly_approved_allocation": true,
+    "corrected_live_benchmark_completed": false,
+    "historical_files_preserved": 108,
+    "closed_v4_results_preserved": 16,
+    "shared_api_ledger_unchanged": true
+  },
+  "lifecycle_risk": {
+    "diagnostic_hang_observed": true,
+    "hang_phase_identified": false,
+    "source_confirmed_unbounded_collector_wait": true,
+    "source_confirmed_result_write_after_browser_cleanup": true,
+    "validation_status": "final_102_tests_and_six_frozen_browser_fixtures_passed",
+    "requires_new_protocol_version": true,
+    "implemented_repair": "External per-episode process watchdog, bounded cleanup, and durable result persistence before cleanup",
+    "browser_phase_timeout_seconds": 180,
+    "cleanup_and_interpreter_shutdown_timeout_seconds": 20,
+    "termination_grace_seconds": 2,
+    "poll_seconds": 0.25,
+    "recorded_in_scientific_identity": true
+  },
+  "historical_v5_proposal": {
+    "status": "superseded_never_approved_never_submitted",
     "proposed_hours": 3,
-    "geometry_validation": "real_browser_fixture_passed_real_site_check_inconclusive",
+    "geometry_validation": "real_browser_fixture_passed_live_diagnostic_hung_phase_unknown",
     "fresh_cohort": true,
     "tasks": 12,
     "conditions": 6,
@@ -375,18 +432,37 @@
     "frozen_source_files": 14,
     "batch_syntax_passed": true
   },
-  "historical_v4_tests_passed": 79,
-  "historical_v4_tests_by_stage": {
-    "earlier": 69,
-    "continuation_driver": 10
-  },
-  "current_validation": {
-    "focused_tests_passed": 85,
-    "elapsed_seconds": 39.502,
-    "command": "python -m unittest discover -s tests -p 'test_webprm*.py' -q",
-    "frozen_v5_source_files": 14,
+  "next_v6_proposal": {
+    "status": "preparation_verified_ready_for_exact_approval_not_submitted",
+    "proposed_hours": 3,
+    "geometry_validation": "real_browser_fixture_passed_live_diagnostic_hung_phase_unknown",
+    "fresh_cohort": true,
+    "tasks": 12,
+    "conditions": 6,
+    "actor_sampling_unchanged": true,
+    "max_turns": 30,
+    "new_api_budget_approved": 0,
+    "gpu_type": "H200",
+    "gpus": 1,
+    "cpus": 8,
+    "memory_gib": 120,
+    "additional_allocation_seconds_total": 10800,
+    "includes_all_retries": true,
+    "previous_unused_seconds_added": 0,
+    "api_shared_cap_usd": 30,
+    "additional_api_budget_usd": 0,
+    "new_protocol_cells": 72,
+    "full300": false,
+    "initial_quality_gate_tasks": 3,
+    "initial_quality_gate_change_reason": "Expanded from two to three fixed tasks after the prior second task failed initial navigation with HTTP 403 in every condition; no task or outcome exclusion.",
+    "focused_tests_passed": 102,
+    "frozen_source_files": 15,
     "batch_syntax_passed": true,
-    "live_model_evaluation_run": false,
-    "new_allocation_submitted": false
-  }
+    "protocol_version": "v6",
+    "lifecycle_validation": "final_102_tests_and_six_frozen_browser_fixtures_passed",
+    "scripted_browser_conditions_passed": 6,
+    "gpu_validation_pending": true
+  },
+  "actual_model_preflight_scope": "Historical v4 model-server preflight passed; v6 has not been launched and requires GPU validation inside a newly approved allocation.",
+  "synthetic_validation_scope": "All six conditions passed using frozen v6 code, serially in fresh interpreters, with scripted responses and zero provider/model-server/GPU calls; not benchmark success."
 }
