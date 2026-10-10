@@ -1,0 +1,233 @@
+{
+  "schema_version": 1,
+  "status": "complete_first_attempt_cohort_scientifically_inconclusive",
+  "date": "2026-10-10",
+  "primary": {
+    "planned_tasks": 12,
+    "conditions": 6,
+    "attempted": 72,
+    "valid": 31,
+    "invalid": 41,
+    "successes": 0,
+    "methods": {
+      "shepherd_unguided": {
+        "tasks": 12,
+        "successes": 0,
+        "valid": 5,
+        "invalid": 7,
+        "overall_percent": 0.0,
+        "valid_only_percent": 0.0
+      },
+      "shepherd_random5": {
+        "tasks": 12,
+        "successes": 0,
+        "valid": 1,
+        "invalid": 11,
+        "overall_percent": 0.0,
+        "valid_only_percent": 0.0
+      },
+      "shepherd8b": {
+        "tasks": 12,
+        "successes": 0,
+        "valid": 0,
+        "invalid": 12,
+        "overall_percent": 0.0,
+        "valid_only_percent": null
+      },
+      "arbiter_unguided": {
+        "tasks": 12,
+        "successes": 0,
+        "valid": 9,
+        "invalid": 3,
+        "overall_percent": 0.0,
+        "valid_only_percent": 0.0
+      },
+      "arbiter_random5": {
+        "tasks": 12,
+        "successes": 0,
+        "valid": 8,
+        "invalid": 4,
+        "overall_percent": 0.0,
+        "valid_only_percent": 0.0
+      },
+      "arbiter7b": {
+        "tasks": 12,
+        "successes": 0,
+        "valid": 8,
+        "invalid": 4,
+        "overall_percent": 0.0,
+        "valid_only_percent": 0.0
+      }
+    },
+    "comparisons": [
+      {
+        "guided": "shepherd8b",
+        "control": "shepherd_unguided",
+        "tasks": 12,
+        "delta_pp": 0.0,
+        "wins": 0,
+        "losses": 0,
+        "relative_gain_percent": null,
+        "common_valid_tasks": 0,
+        "common_valid_delta_pp": null
+      },
+      {
+        "guided": "shepherd8b",
+        "control": "shepherd_random5",
+        "tasks": 12,
+        "delta_pp": 0.0,
+        "wins": 0,
+        "losses": 0,
+        "relative_gain_percent": null,
+        "common_valid_tasks": 0,
+        "common_valid_delta_pp": null
+      },
+      {
+        "guided": "arbiter7b",
+        "control": "arbiter_unguided",
+        "tasks": 12,
+        "delta_pp": 0.0,
+        "wins": 0,
+        "losses": 0,
+        "relative_gain_percent": null,
+        "common_valid_tasks": 8,
+        "common_valid_delta_pp": 0.0
+      },
+      {
+        "guided": "arbiter7b",
+        "control": "arbiter_random5",
+        "tasks": 12,
+        "delta_pp": 0.0,
+        "wins": 0,
+        "losses": 0,
+        "relative_gain_percent": null,
+        "common_valid_tasks": 7,
+        "common_valid_delta_pp": 0.0
+      }
+    ]
+  },
+  "definitions": {
+    "attempted": "Worker passed preflight and entered browser construction; startup and navigation failures count.",
+    "valid": "Completed episode with saved rollout/screenshots and complete parseable terminal-judge response; action errors may occur.",
+    "overall_success": "Recorded successes divided by12 fixed tasks per condition, including invalid attempts.",
+    "valid_only_success": "Successes divided by valid episodes; undefined for zero valid episodes."
+  },
+  "scientific_limitations": [
+    "No valid Shepherd-guided episode; critic effectiveness cannot be assessed.",
+    "All-zero task bootstrap is degenerate and does not establish equivalence.",
+    "Relative gains are undefined at zero control success.",
+    "Different live trajectories, infrastructure failures and later continuation limit comparability.",
+    "Supplemental infrastructure recovery is excluded from the primary cohort."
+  ],
+  "invalid_categories": {
+    "shared_website_load_timeouts": 12,
+    "shepherd_parser_failures": 24,
+    "arbiter_random_browser_close": 1,
+    "arbiter_pilot_deadline": 2,
+    "arbiter_guided_local_critic_timeout": 1,
+    "arbiter_random_chromium_startup": 1
+  },
+  "shepherd_malformed_output": {
+    "shepherd_unguided": {
+      "choices": 136,
+      "one_action": 131,
+      "responses": 136,
+      "responses_all_one_action": 131,
+      "responses_containing_malformed": 5,
+      "valid_choices_discarded_by_bad_peer": 0,
+      "zero_actions": 2,
+      "multiple_actions": 3
+    },
+    "shepherd_random5": {
+      "choices": 780,
+      "one_action": 749,
+      "zero_actions": 26,
+      "responses": 39,
+      "responses_all_one_action": 30,
+      "responses_containing_malformed": 9,
+      "valid_choices_discarded_by_bad_peer": 149,
+      "multiple_actions": 5
+    },
+    "shepherd8b": {
+      "choices": 220,
+      "one_action": 187,
+      "multiple_actions": 8,
+      "zero_actions": 25,
+      "responses": 11,
+      "responses_all_one_action": 1,
+      "responses_containing_malformed": 10,
+      "valid_choices_discarded_by_bad_peer": 167
+    }
+  },
+  "action_execution": {
+    "all_recorded_turns": 978,
+    "turns_with_action_error": 203,
+    "valid_episodes_with_action_error": 15,
+    "arbiter_recorded_turns": 816,
+    "arbiter_error_turns": 153,
+    "arbiter_missing_bound_target_absent_from_current_tree": 121,
+    "arbiter_missing_bound_target_present_in_current_tree": 0
+  },
+  "supplemental": [
+    {
+      "attempt": 1,
+      "arm": "arbiter_random5",
+      "valid": false,
+      "success": 0,
+      "turns": 0,
+      "failure": "Credential-file loading omitted in standalone launcher; failed before network transmission"
+    },
+    {
+      "attempt": 2,
+      "arm": "arbiter_random5",
+      "valid": false,
+      "success": 0,
+      "turns": 4,
+      "failure": "Browser closed; interrupted parent receipt, independently verified stopped"
+    }
+  ],
+  "resources": {
+    "approved_h200": 1,
+    "approved_cpus": 8,
+    "approved_memory_gib": 120,
+    "approved_allocation_seconds_total": 7200,
+    "verified_slurm_elapsed_seconds": 6949,
+    "failed_allocation_seconds_included": true,
+    "cpu_diagnostics_and_attempts_conservatively_accounted_seconds": 245.92981864046305,
+    "conservative_combined_seconds": 7194.929818640463,
+    "cpu_accounting_note": "Final interrupted parent has no measured elapsed/exit receipt; reserve its entire configured217-second allowance. GPU time is independently scheduler-verified."
+  },
+  "api": {
+    "cap_usd": 30,
+    "calls": 1039,
+    "settled_usd": 0.9894549500000002,
+    "reserved_usd": 0.006093299999999999,
+    "conservative_charged_usd": 0.9955482500000001,
+    "settled_calls": 1038,
+    "reserved_request_intents": 1,
+    "reservation_note": "The retained conservative reservation is for a local credential-loading failure before transmission, with no provider response. It is not a success or settled charge."
+  },
+  "primary_api_snapshot": {
+    "calls": 1034,
+    "settled_usd": 0.98745575,
+    "reserved_usd": 0
+  },
+  "audit": {
+    "primary_records_preserved": 72,
+    "primary_aggregate_artifacts_unchanged": true,
+    "scientific_identity": "d3aa2240f37640080329ebc6de13296f662a07ef6d496852872396e4ffddd1a7",
+    "focused_tests_passed": 40,
+    "paid_requests_reconciled": true
+  },
+  "protocol": {
+    "actor": "gpt-4o-mini-2024-07-18",
+    "actor_temperature": 1,
+    "judge": "o4-mini-2025-04-16",
+    "judge_response_tokens": 4096,
+    "max_turns": 30,
+    "critic_temperature": 0,
+    "browsergym": "0.14.3",
+    "playwright": "1.44.0",
+    "chromium_revision": "1208"
+  }
+}
