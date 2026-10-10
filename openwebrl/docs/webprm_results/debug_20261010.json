@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "status": "offline_and_synthetic_repaired_actual_model_validation_pending",
-  "tests_passed": 60,
+  "status": "v4_closed_partial_v5_prepared_unapproved_live_validation_inconclusive",
+  "tests_passed": 85,
   "synthetic_browser_conditions_passed": 6,
   "synthetic_provider_calls": 0,
   "synthetic_model_server_calls": 0,
@@ -29,7 +29,7 @@
   "unchanged_original_results": true,
   "unavailable_sites_still_timing_out": 2,
   "proposal": {
-    "status": "pending_user_approval",
+    "status": "approved_repair_closed_partial",
     "h200": 1,
     "cpus": 8,
     "memory_gib": 120,
@@ -41,5 +41,352 @@
     "conditions": 6,
     "workers": 4,
     "initial_quality_gate_tasks": 2
+  },
+  "actual_model_preflight_passed": true,
+  "live_v3_context_failure": {
+    "input_tokens": 12574,
+    "server_context_tokens": 10000,
+    "executed_turns": 10,
+    "native_checkpoint_context_tokens": 40960,
+    "retry_input_truncation": false,
+    "retry_rope_scaling": false
+  },
+  "retry_compute_budget_addition_seconds": 0,
+  "context_regression": {
+    "passed": true,
+    "prompt_tokens": 12574,
+    "output_tokens": 341,
+    "full_prompt_preserved": true,
+    "native_label_parser_passed": true
+  },
+  "v3_repair_attempt": {
+    "attempted": 6,
+    "valid": 5,
+    "successes": 0,
+    "allocation_seconds": 1073,
+    "planned_cells": 72,
+    "invalid": 1,
+    "status": "closed_partial",
+    "missing": 66
+  },
+  "v4_requested_seconds": 6120,
+  "tests_distinct": true,
+  "snapshot_utc": "2026-10-10T21:24:44.824534+00:00",
+  "benchmark_comparison_complete": false,
+  "v4_initial_stage": {
+    "planned_cells": 72,
+    "attempted": 12,
+    "valid": 5,
+    "invalid": 7,
+    "successes": 0,
+    "allocation_seconds": 1371,
+    "quality_gate_passed": false,
+    "quality_gate_failure": "quality_gate_no_valid_episode:arbiter_unguided",
+    "valid_by_condition": {
+      "shepherd_unguided": 1,
+      "shepherd_random5": 1,
+      "shepherd8b": 1,
+      "arbiter_unguided": 0,
+      "arbiter_random5": 1,
+      "arbiter7b": 1
+    },
+    "invalid_causes": {
+      "initial_website_http_403": 6,
+      "actor_policy_response_length_2048": 1
+    }
+  },
+  "live_guided_validation": {
+    "shepherd": {
+      "turns": 30,
+      "valid": true,
+      "success": 0,
+      "fixed_actor_draws": 600,
+      "accepted_draws": 597,
+      "rejected_draws": 3,
+      "native_scoring_requests": 126,
+      "maximum_critic_prompt_tokens": 22805
+    },
+    "arbiter": {
+      "turns": 30,
+      "valid": true,
+      "success": 0
+    },
+    "scope": "Initial v4 live collection/scoring executed on supplied observations; subsequent geometry defect remains. No critic-effectiveness or deterministic-serving claim."
+  },
+  "operational_gate_waiver": {
+    "original_gate_passed": false,
+    "status": "historical_explicit_manual_operational_override",
+    "reason": "Only Arbiter unguided had no valid initial episode: one capped policy output and one initial website HTTP403; both guided conditions had a valid episode.",
+    "all_initial_results_preserved": 12,
+    "initial_invalid_attempts_retained": 7,
+    "initial_results_rerun": 0,
+    "replacement_tasks": 0,
+    "frozen_scientific_recipe_unchanged": true,
+    "admission_rule_overridden": true,
+    "workers": 4,
+    "fixed_seeded_arm_shuffle_preserved": true,
+    "driver_checks": [
+      "complete initial twelve-cell cohort",
+      "exact actor truncation and website failure evidence",
+      "frozen code, source, sampling and identity",
+      "prior result byte hashes",
+      "same shared API budget",
+      "bounded operational deadline"
+    ],
+    "recorded_provenance": [
+      "driver hash",
+      "failure proof",
+      "new deadline",
+      "operational receipt",
+      "manifest/config override"
+    ],
+    "scientific_caveat": "The diagnostic gate failed and was overridden after inspecting initial outcomes; it did not pass.",
+    "remaining_fixed_cells_at_waiver": 60,
+    "subsequent_cells_completed": 4,
+    "final_missing_cells": 56
+  },
+  "continuation_compute": {
+    "actual_consumed_seconds": 7020,
+    "approved_total_seconds": 7200,
+    "remaining_approved_seconds": 180,
+    "additional_compute_budget_seconds": 0,
+    "additional_api_budget_usd": 0,
+    "last_allocation_state": "FAILED",
+    "actual_seconds_by_stage": {
+      "v3_context_failure": 1073,
+      "v4_initial_gate": 1371,
+      "v4_continuation": 4576
+    }
+  },
+  "no_live_evaluation_allocation": true,
+  "tests_scope": "85 distinct focused tests passed after v5 geometry and cooperative-shutdown changes; real-browser geometry fixture passed. The optional real-site check was inconclusive because browser observation extraction was unstable; no corrected live benchmark has run. Historical test totals overlap the current suite and are not additive.",
+  "v4_closed_cohort": {
+    "planned": 72,
+    "records": 16,
+    "attempted": 16,
+    "valid": 9,
+    "successes": 0,
+    "by_arm": {
+      "shepherd_unguided": {
+        "planned": 12,
+        "records": 3,
+        "attempted": 3,
+        "valid": 2,
+        "invalid": 1,
+        "missing": 9,
+        "successes": 0
+      },
+      "shepherd_random5": {
+        "planned": 12,
+        "records": 3,
+        "attempted": 3,
+        "valid": 2,
+        "invalid": 1,
+        "missing": 9,
+        "successes": 0
+      },
+      "shepherd8b": {
+        "planned": 12,
+        "records": 2,
+        "attempted": 2,
+        "valid": 1,
+        "invalid": 1,
+        "missing": 10,
+        "successes": 0
+      },
+      "arbiter_unguided": {
+        "planned": 12,
+        "records": 2,
+        "attempted": 2,
+        "valid": 0,
+        "invalid": 2,
+        "missing": 10,
+        "successes": 0
+      },
+      "arbiter_random5": {
+        "planned": 12,
+        "records": 3,
+        "attempted": 3,
+        "valid": 2,
+        "invalid": 1,
+        "missing": 9,
+        "successes": 0
+      },
+      "arbiter7b": {
+        "planned": 12,
+        "records": 3,
+        "attempted": 3,
+        "valid": 2,
+        "invalid": 1,
+        "missing": 9,
+        "successes": 0
+      }
+    },
+    "failures": {
+      "ValueError: Incomplete Arbiter policy response": 1,
+      "RuntimeError: Initial website HTTP status 403": 6
+    },
+    "status": "closed_partial",
+    "invalid": 7,
+    "missing": 56,
+    "complete_comparison_available": false
+  },
+  "supervision_failure": {
+    "controller_admission_paused": true,
+    "active_workers_drained": true,
+    "paused_controller_not_closed_promptly": true,
+    "allocation_idle_after_last_result": true,
+    "seconds_after_last_durable_result": 3746.3171105384827,
+    "all_time_charged": true,
+    "all_workers_stopped": true,
+    "final_aggregate_reconstructed_from_durable_cells": 16,
+    "earlier_aggregate_archived": true,
+    "mitigation": "Implemented and tested cooperative stop-admission file: no new cells admitted, active workers drain to durable results, controller returns without SIGSTOP, and launcher exits normally."
+  },
+  "geometry_defect": {
+    "proven": true,
+    "affected_family": "Arbiter",
+    "native_screen_filter_dimensions": [
+      800,
+      600
+    ],
+    "actual_viewport_dimensions": [
+      1280,
+      720
+    ],
+    "trigger": "BrowserGym screenshot extraction before native screen-based filtering",
+    "effect": "Visible controls in the right and bottom of the viewport were omitted",
+    "attribution": "The exact released metrics override independently reproduces the screen reset in the pinned Chromium build; compatibility repair of an inherited assumption.",
+    "correction": "Retain each page CDP session, clear stale device metrics overrides, and explicitly restore screen/viewport dimensions before each native observation.",
+    "validation_status": "real_browser_fixture_passed_real_site_check_inconclusive",
+    "requires_new_protocol_version": true,
+    "native_observation_processor_changed": false,
+    "real_browser_fixture": {
+      "passed": true,
+      "provider_calls": 0,
+      "repeated_screenshot_observation_click_cycles": 3,
+      "native_decline_clicks": 3,
+      "original_tab_bottom_click_passed": true,
+      "new_tab_right_and_bottom_clicks_passed": true,
+      "exact_released_override_reproduced_reset": true,
+      "restored_screen_dimensions": [
+        1280,
+        720
+      ],
+      "real_site_validation": "inconclusive_browser_observation_extraction_instability",
+      "is_benchmark_success": false
+    },
+    "corrected_live_benchmark_run": false,
+    "real_site_check": {
+      "status": "inconclusive",
+      "reason": "Browser observation extraction was unstable",
+      "establishes_live_repair": false
+    }
+  },
+  "shared_api_closed": {
+    "cap_usd": 30,
+    "request_reservations": 1905,
+    "settled_calls": 1904,
+    "reserved_calls": 1,
+    "settled_usd": 1.916589,
+    "reserved_usd": 0.0060933,
+    "conservative_charged_usd": 1.9226823,
+    "by_scope": {
+      "original_v2": {
+        "calls": 1034,
+        "settled_calls": 1034,
+        "reserved_calls": 0,
+        "settled_usd": 0.9874557500000001,
+        "reserved_usd": 0.0
+      },
+      "v3": {
+        "calls": 343,
+        "settled_calls": 343,
+        "reserved_calls": 0,
+        "settled_usd": 0.32263845000000013,
+        "reserved_usd": 0.0
+      },
+      "v4": {
+        "calls": 523,
+        "settled_calls": 523,
+        "reserved_calls": 0,
+        "settled_usd": 0.6044955999999998,
+        "reserved_usd": 0.0
+      },
+      "supplemental_1": {
+        "calls": 1,
+        "settled_calls": 0,
+        "reserved_calls": 1,
+        "settled_usd": 0.0,
+        "reserved_usd": 0.006093299999999999
+      },
+      "supplemental_2": {
+        "calls": 4,
+        "settled_calls": 4,
+        "reserved_calls": 0,
+        "settled_usd": 0.0019992,
+        "reserved_usd": 0.0
+      }
+    },
+    "outcomes_pooled": false,
+    "orphan_reservations": 0
+  },
+  "closure_preservation": {
+    "verified_files": 108,
+    "result_counts": {
+      "original_v2_results": 72,
+      "supplemental_results": 2,
+      "v3_results": 6,
+      "initial_v4_results": 12
+    },
+    "frozen_v4_files_verified": 14,
+    "historical_api_prefixes_preserved": true,
+    "historical_prefix_call_counts": [
+      1034,
+      1382,
+      1663
+    ],
+    "v3_hash_scope": "Six per-cell hashes captured now; each object matches the previously hashed closed-v3 aggregate."
+  },
+  "next_v5_proposal": {
+    "status": "prepared_not_approved_not_submitted",
+    "proposed_hours": 3,
+    "geometry_validation": "real_browser_fixture_passed_real_site_check_inconclusive",
+    "fresh_cohort": true,
+    "tasks": 12,
+    "conditions": 6,
+    "actor_sampling_unchanged": true,
+    "max_turns": 30,
+    "new_api_budget_approved": 0,
+    "gpu_type": "H200",
+    "gpus": 1,
+    "cpus": 8,
+    "memory_gib": 120,
+    "additional_allocation_seconds_total": 10800,
+    "includes_all_retries": true,
+    "previous_unused_seconds_added": 0,
+    "api_shared_cap_usd": 30,
+    "additional_api_budget_usd": 0,
+    "new_protocol_cells": 72,
+    "full300": false,
+    "initial_quality_gate_tasks": 3,
+    "initial_quality_gate_change_reason": "Expanded from two to three fixed tasks after the prior second task failed initial navigation with HTTP 403 in every condition; no task or outcome exclusion.",
+    "focused_tests_passed": 85,
+    "frozen_source_files": 14,
+    "batch_syntax_passed": true
+  },
+  "historical_v4_tests_passed": 79,
+  "historical_v4_tests_by_stage": {
+    "earlier": 69,
+    "continuation_driver": 10
+  },
+  "current_validation": {
+    "focused_tests_passed": 85,
+    "elapsed_seconds": 39.502,
+    "command": "python -m unittest discover -s tests -p 'test_webprm*.py' -q",
+    "frozen_v5_source_files": 14,
+    "batch_syntax_passed": true,
+    "live_model_evaluation_run": false,
+    "new_allocation_submitted": false
   }
 }
