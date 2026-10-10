@@ -1,5 +1,34 @@
 # WebPRM baselines
 
+<a id="repair-status-20261010"></a>
+## Repair status — October 10, 2026
+
+**The identified harness defects are repaired and all six conditions pass a real-browser, scripted-response integration test. Actual-model validation is pending a new allocation; these fixtures are not benchmark successes.** All 60 focused tests pass. The original pilot remains unchanged. [Aggregate repair evidence](webprm_results/debug_20261010.json).
+
+| Problem | Evidence | Repair and validation |
+| --- | --- | --- |
+| One malformed Shepherd sample terminated the whole batch/episode | All 50 saved multi-sample batches had usable candidates; the old rule discarded 316 valid samples | Parse every fixed draw with the native parser, retain valid candidates, and record every rejection; an empty pool consumes a turn and returns error feedback without executing an action or resampling |
+| Arbiter omitted the released state-difference and terminal-detection stages | Its sampler does not advertise terminal actions; all 25 valid Arbiter episodes reached the turn limit | Restore native auxiliary prompts/parsers in all three conditions, with the same pinned actor, T1/top-p0.9/2,048-token caps; preserve terminal refinement state |
+| Arbiter failed actions were absent from subsequent prompt history | 112 of 153 execution errors repeated a previously failed action | Include exact execution errors in history and alongside the generated state difference |
+| Synthetic browser activation raced navigation | At least 16 click-related context-destroyed errors came from the adapter callback | Restrict activation bridging to tab changes; 24 real-browser navigation, typing, save and tab actions passed |
+| Startup and request preflight were brittle | Long shared temporary paths failed; a standalone worker reserved budget before discovering missing credentials | Force short local temporary/cache paths and validate/load credentials before browser startup or reservation |
+| Initial navigation waited for every page subresource | A controlled interactive page timed out under the old 10-second load check | Wait for DOM readiness with a 30-second cap bounded by the episode deadline; retain HTTP/navigation failures explicitly |
+
+This is a **new, versioned evaluation protocol**, not a correction to old outcome labels. Individual Shepherd parsing agrees with the native single-action contract on all 1,136 saved samples; the fix changes candidate handling and recovery, not extraction heuristics. Original source code, rollouts, verdicts and shared API reservations remain preserved.
+
+<details>
+<summary>What the validation establishes—and what remains unverified</summary>
+
+The six-arm fixture uses actual Chromium observations, native action execution, candidate ranking/tournaments and saved terminal artifacts. Scripted completions exercise malformed-action recovery, error feedback, state differences and terminal detection. Its judge accepts success only after the real page reaches the required DOM state. It makes zero provider or model-server calls, so it establishes pipeline mechanics only. Actual critic serving and live hosted-policy behavior require the prepared allocation.
+
+The original judge was also audited: all 31 valid episodes supplied the correct task, pinned prompt, matching trajectory and byte-identical terminal screenshot; all complete model responses explicitly returned failure. The judge wiring did not cause universal zero success. Missing actor completion logic can harm behavior, but does not itself force this judge to return failure.
+
+The two originally unavailable sites still time out under a 30-second DOM-readiness check. Their failures cannot be claimed repaired or relabeled as actor failures, and their tasks have not been silently replaced. The frozen browser version and live-site availability remain limitations.
+
+The prepared rerun preserves the same 12 fixed tasks and six conditions, with four concurrent workers. It stops after the first two complete task cohorts if any condition has no valid episode, so a mechanically broken pipeline does not consume the entire allocation. The request is **one H200, eight CPUs, 120 GiB and two additional allocation hours total, including retries**. The original shared **USD30** API cap stays unchanged, with USD0.99554825 already conservatively charged. No new API budget or full-300 run is requested. The allocation is prepared but not yet approved or submitted.
+
+</details>
+
 <a id="pilot-status-20261010"></a>
 ## Pilot results — October 10, 2026
 

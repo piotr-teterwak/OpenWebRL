@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "status": "offline_and_synthetic_repaired_actual_model_validation_pending",
+  "tests_passed": 60,
+  "synthetic_browser_conditions_passed": 6,
+  "synthetic_provider_calls": 0,
+  "synthetic_model_server_calls": 0,
+  "synthetic_is_benchmark_result": false,
+  "shepherd": {
+    "samples_replayed": 1136,
+    "native_parser_discrepancies": 0,
+    "multisample_batches": 50,
+    "multisample_batches_with_valid_candidates": 50,
+    "valid_samples_discarded_by_old_rule": 316
+  },
+  "arbiter": {
+    "recorded_turns": 816,
+    "action_errors": 153,
+    "repeated_failed_actions": 112,
+    "missing_target_errors": 121,
+    "missing_targets_present_in_current_tree": 0,
+    "confirmed_callback_navigation_errors": 16,
+    "real_browser_fixture_actions_passed": 24
+  },
+  "judge": {
+    "valid_episodes_audited": 31,
+    "prompt_task_trajectory_image_mismatches": 0
+  },
+  "unchanged_original_results": true,
+  "unavailable_sites_still_timing_out": 2,
+  "proposal": {
+    "status": "pending_user_approval",
+    "h200": 1,
+    "cpus": 8,
+    "memory_gib": 120,
+    "additional_seconds_total": 7200,
+    "api_shared_cap_usd": 30,
+    "prior_api_conservative_charge_usd": 0.99554825,
+    "new_api_budget_usd": 0,
+    "tasks": 12,
+    "conditions": 6,
+    "workers": 4,
+    "initial_quality_gate_tasks": 2
+  }
+}
