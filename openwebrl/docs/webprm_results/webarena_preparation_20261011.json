@@ -7,7 +7,7 @@
     "Online-Mind2Web"
   ],
   "benchmark_task_evaluations": 10,
-  "new_compute_allocations": 11,
+  "new_compute_allocations": 12,
   "paid_api_calls": 976,
   "cohort": {
     "released_tasks": 165,
@@ -60,8 +60,8 @@
     "identity_note": "Registry config and all uncompressed layer identities match original Drive archive metadata; original Drive tar itself remains incomplete after quota rejection."
   },
   "remaining_gates": [
-    "Validate an explicit native-judge semantic correction with negative as well as positive controls before trusting fuzzy-grading rates.",
-    "Freeze a matching controller/proposal for the diagnostic-tested opt-in no-search clarification, then validate in a separately versioned browser cohort before claiming behavioral gains.",
+    "Run frozen CPU browser and positive/negative/abstention checks of the explicitly versioned fuzzy-string N/A guard; general judge accuracy remains a limitation.",
+    "Validate the frozen clarified NoSearch envelope in an actual browser episode after exact new resource approval; saved-input diagnostics establish no behavioral gain.",
     "Complete original CMS, Shopping, GitLab and Map hosting/authentication/reset and evaluator-helper validation.",
     "Freeze full matched cohort and exact compute/API budgets before benchmark-scale evaluation."
   ],
@@ -614,9 +614,9 @@
   "post_pilot_followups": {
     "cms_acquisition": {
       "status": "failed_before_download",
-      "scheduler_elapsed_seconds": 4,
-      "attempts_used": 1,
-      "attempts_cap": 1,
+      "scheduler_elapsed_seconds": 9,
+      "attempts_used": 2,
+      "attempts_cap": 2,
       "cpus": 2,
       "memory_gib": 8,
       "approved_seconds": 3600,
@@ -628,21 +628,34 @@
       "http_calls": 0,
       "api_calls": 0,
       "failure": "Original allocation clock exhausted or exceeds cumulative cap",
-      "cause_status": "Clock guard now reads Slurm JSON epochs; timezone causality inferred, failed process timezone not captured.",
+      "cause_status": "Second saved scheduler snapshot reports end-start=3543 seconds for a 3540-second request. Clamp deadline to min(scheduler end,start+approved limit); first failure timezone causality remains unproven.",
       "automatic_resubmission_authorized": false,
       "clock_fix_implemented": true,
-      "clock_fix_validation": "40 focused tests passed, including timezone/DST and cumulative-budget regressions",
+      "clock_fix_validation": "54 offline tests passed, including replay of actual second failed scheduler record",
       "replacement": {
-        "status": "prepared_pending_explicit_one_attempt_exception",
-        "approved": false,
-        "submitted": false,
+        "status": "approved_failed_before_download",
+        "approved": true,
+        "submitted": true,
         "proposed_seconds": 3540,
         "prior_used_seconds": 4,
         "combined_seconds": 3544,
         "original_seconds_cap": 3600,
         "resources_and_transfer_storage_caps_unchanged": true,
         "requires_exception_to_original_one_attempt_limit": true,
-        "proposal_sha256": "81bda043c9264e639445e10b6d4368c9f226f2a5de29453c84463524a329c05b"
+        "proposal_sha256": "81bda043c9264e639445e10b6d4368c9f226f2a5de29453c84463524a329c05b",
+        "scheduler_elapsed_seconds": 5
+      },
+      "startup_recovery": {
+        "status": "prepared_pending_exact_attempt_cap_approval",
+        "proposal_sha256": "07b951987e548072058a3e319c2a83ff119cef8847d9692c03594a3078c51c18",
+        "maximum_additional_startups": 3,
+        "original_cumulative_seconds": 3600,
+        "prior_seconds": 9,
+        "remaining_seconds": 3591,
+        "first_requested_seconds": 3540,
+        "maximum_transfer_attempts": 1,
+        "automatic_resubmission": false,
+        "subsequent_start_requires_tested_source_fix": true
       }
     },
     "prompt_and_judge_diagnostic": {
@@ -673,15 +686,74 @@
       "clarified_prompt_integrated_into_primary_worker": true,
       "clarified_prompt_requires_explicit_opt_in": true,
       "diagnostic_system_prompts_matching_generated_bytes": 8,
-      "new_controller_and_proposal_frozen": false,
+      "new_controller_and_proposal_frozen": true,
       "new_primary_episodes": 0,
       "prospective_worker_turn_limit_and_fuzzy_tests_passed": 47,
-      "new_controller_and_proposal_prepared": false
+      "new_controller_and_proposal_prepared": true
+    },
+    "map_frontend_acquisition": {
+      "status": "prepared_pending_exact_resource_approval",
+      "proposal_sha256": "7f9db5cc99610be719d447ee2c399d67c446e7486ac7f805ea689305a3ffb70a",
+      "cpus": 2,
+      "memory_gib": 4,
+      "gpus": 0,
+      "seconds": 1800,
+      "api_usd": 0,
+      "published_total_bytes": 1231929664,
+      "charged_download_cap_bytes": 1300000000,
+      "retained_cap_bytes": 2147483648,
+      "temporary_cap_bytes": 67108864,
+      "allocation_attempt_cap": 1,
+      "transfers_per_file_cap": 1,
+      "files": 3,
+      "published_metadata_source": "https://zenodo.org/records/12636845",
+      "offline_tests_passed": 12,
+      "hosting_verified": false
+    },
+    "cpu_no_search_browser_validation": {
+      "status": "frozen_pending_exact_approval",
+      "proposal_sha256": "1efd512ce928e1aff25298eb292123314c6c848c8d82689767f546541a4e30e6",
+      "cpus": 8,
+      "memory_gib": 16,
+      "seconds": 2700,
+      "gpus": 0,
+      "paid_requests_cap": 98,
+      "api_usd_cap": 2,
+      "local_calls_cap": 0,
+      "scratch_cap_bytes": 137438953472,
+      "maximum_allocations": 1,
+      "main_tests_passed": 163,
+      "final_controller_tests_passed": 30,
+      "frozen_sources": 49,
+      "primary_episodes": 0,
+      "evaluator_protocol": "native_with_explicit_na_abstention_guard_v1",
+      "no_search_prompt_version": "single_blocks_envelope_v2",
+      "raw_native_verdicts_preserved": true
     }
   },
   "cumulative_accounting_only": {
     "paid_calls": 976,
     "charged_usd": 0.681962,
     "scope": "Original pilot 389 calls/USD 0.27544590; corrected pilot 571/USD 0.39634990; separate diagnostic 16/USD 0.01016620. No outcome pooling or transfer of unused approvals."
+  },
+  "prospective_native_helpers": {
+    "status": "offline_contracts_verified_not_live_deployment_validation",
+    "single_site_tasks": 13,
+    "helper_expressions": 15,
+    "new_tests_passed": 21,
+    "existing_native_tests_passed": 30,
+    "functions": [
+      "reddit_get_post_url",
+      "gitlab_get_project_memeber_role",
+      "shopping_get_latest_order_url"
+    ],
+    "source_sha256": "499907cc05c864d163b9520bb0c086a71ffc6a44e403e67e75b51ab104150080",
+    "expression_execution": "exact_dispatch_without_python_eval",
+    "deployment_configuration": "explicit_owned_origin_and_accounts",
+    "nltk_version": "3.10.3",
+    "dependency_note": "Preserved isolated NLTK site-packages and English punkt_tab data must be explicitly injected into the browser worker environment.",
+    "provider_calls": 0,
+    "network_calls": 0,
+    "website_readiness_verified": false
   }
 }
