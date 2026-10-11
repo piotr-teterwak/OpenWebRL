@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "status": "reddit_fixed_attempts_closed_mechanics_failed",
+  "status": "corrected_reddit_mechanics_completed_judge_semantics_failed_followups_closed",
   "date_utc": "2026-10-11",
   "benchmark_order": [
     "WebArena-Lite",
     "Online-Mind2Web"
   ],
-  "benchmark_task_evaluations": 5,
-  "new_compute_allocations": 8,
-  "paid_api_calls": 389,
+  "benchmark_task_evaluations": 10,
+  "new_compute_allocations": 11,
+  "paid_api_calls": 976,
   "cohort": {
     "released_tasks": 165,
     "single_site_tasks": 155,
@@ -60,9 +60,10 @@
     "identity_note": "Registry config and all uncompressed layer identities match original Drive archive metadata; original Drive tar itself remains incomplete after quota rejection."
   },
   "remaining_gates": [
-    "Execute separately approved corrected Reddit pilot with turn-limit fallback, explicit Piotr representation revision and native-judge preflight",
-    "Original Shopping/CMS/GitLab/Map deployment/reset and native helper validation",
-    "Freeze historical-fidelity disclosures, full cohort and exact benchmark resource envelope"
+    "Validate an explicit native-judge semantic correction with negative as well as positive controls before trusting fuzzy-grading rates.",
+    "Freeze a matching controller/proposal for the diagnostic-tested opt-in no-search clarification, then validate in a separately versioned browser cohort before claiming behavioral gains.",
+    "Complete original CMS, Shopping, GitLab and Map hosting/authentication/reset and evaluator-helper validation.",
+    "Freeze full matched cohort and exact compute/API budgets before benchmark-scale evaluation."
   ],
   "sources": {
     "paper": "https://arxiv.org/html/2601.21872v2#S5.T5",
@@ -227,7 +228,8 @@
       "model_context_limit": 32768,
       "all_tensors_cpu": true,
       "inference_requests": 0,
-      "proof_sha256": "801936c44bf1bca973d73899537321e1bdfd3fe8af672932b9b0a99a7d9dbe92"
+      "proof_sha256": "801936c44bf1bca973d73899537321e1bdfd3fe8af672932b9b0a99a7d9dbe92",
+      "scope": "Historical descriptor-v1 synthetic prompt; corrected descriptor-v2 preflight is recorded under corrected_pilot_execution_v3."
     },
     "max_output_tokens_adapted": true,
     "released_demo_max_new_tokens": 2048,
@@ -240,7 +242,8 @@
       "strict_json_valid": true,
       "exact_saved_payload_cpu_replay_matches": true,
       "audit_sha256": "2fcdcf0e99fee07d25f9c0973eece517514834736b991f1cf97067ad5accc205",
-      "benchmark_quality_claim": false
+      "benchmark_quality_claim": false,
+      "scope": "Historical descriptor-v1 preflight; not the corrected pilot preflight."
     }
   },
   "integration_validation_v1": {
@@ -442,7 +445,7 @@
     "current_proposal_sha256": "fa01e7eb3f0fa4339fa336e8a47f1c457903fb79706d2e723a73ca2df60ea956",
     "local_requests_charged_before_recovery": 38
   },
-  "benchmark_task_evaluations_semantics": "Five preserved attempted primary cells; zero valid native verdicts at verified closure.",
+  "benchmark_task_evaluations_semantics": "Ten attempted cells across two distinct five-cell Reddit pilots: original zero mechanically valid native verdicts, corrected five mechanically valid verdicts but five semantic false positives. Cohort outcomes are never pooled. Followup diagnostic adds no benchmark/browser episode.",
   "pilot_fixed_cells": {
     "planned": 5,
     "attempted": 5,
@@ -512,9 +515,9 @@
     "proposed_single_site_helper_tasks": 13
   },
   "corrected_pilot_preparation_v3": {
-    "status": "ready_pending_exact_new_approval",
-    "approved": false,
-    "submitted": false,
+    "status": "approved_completed_mechanics_only",
+    "approved": true,
+    "submitted": true,
     "resources": {
       "gpus": 1,
       "gpu_type": "H200",
@@ -557,5 +560,127 @@
     "proposal_identity_sha256": "38989717c6c7a5963a5b77984de59bb776905bddb2d91673183e83e9f488d798",
     "readiness_sha256": "eacc7e32eb2b9591a08fefeece65282d9e80a32ef17f2e9575dae36db2aed970",
     "old_budget_carried_forward": false
+  },
+  "corrected_pilot_execution_v3": {
+    "status": "closed_complete_mechanics_valid_outcome_measurement_invalid",
+    "resources_approved": true,
+    "planned": 5,
+    "attempted": 5,
+    "valid": 5,
+    "valid_semantics": "Mechanical/native-verdict completeness only; all five positive scores are reference-relative false positives.",
+    "invalid": 0,
+    "completed": 5,
+    "missing": 0,
+    "native_positive_verdicts": 5,
+    "reference_relative_false_positives": 5,
+    "supported_task_successes": 0,
+    "old_cohort_preserved": true,
+    "old_budget_carried_forward": false,
+    "all_registered_controllers_closed": true,
+    "startup_gates_passed": true,
+    "allocation_seconds": 3179,
+    "approved_allocation_seconds": 5400,
+    "source_files_verified_unchanged": 52,
+    "paid_requests": 571,
+    "api_charged_usd": 0.3963499,
+    "local_requests": 312,
+    "local_primary_requests": 301,
+    "local_startup_requests": 11,
+    "final_node_local_bytes": 288561127428,
+    "aggregate": "webarena_corrected_pilot_20261011.json",
+    "known_quality_caveats": [
+      "All five N/A turn-limit fallbacks were marked correct against numeric reference 0; native scores remain preserved but do not establish task success.",
+      "No-search 27/30 empty pools match pinned native parser rejection of the missing BLOCKS envelope.",
+      "Arbiter 14/30 selected targets were absent from both pre-action AX and captured bounds; 16 native dispatches were generated.",
+      "Piotr 30 actual payloads and selected actions reconstructed exactly, with 150 original slots retained; metadata records a stale representation label without affecting payloads/execution."
+    ],
+    "site_watchdog_controller_processes_verified_closed": 11,
+    "broker_process_reaped": true,
+    "piotr_preflight": {
+      "input_tokens": 1021,
+      "image_tokens": 252,
+      "resized_image_dimensions": [
+        672,
+        384
+      ],
+      "response_tokens": 10,
+      "earlier_descriptor_v1_input_tokens": 956,
+      "descriptor_v2_additional_tokens": 65,
+      "additional_token_reason": "Five candidates now include target element ID and availability status",
+      "serving_compatibility_only": true
+    },
+    "prospective_trace_label_fix_tests_passed": 21
+  },
+  "post_pilot_followups": {
+    "cms_acquisition": {
+      "status": "failed_before_download",
+      "scheduler_elapsed_seconds": 4,
+      "attempts_used": 1,
+      "attempts_cap": 1,
+      "cpus": 2,
+      "memory_gib": 8,
+      "approved_seconds": 3600,
+      "gpus": 0,
+      "api_cap_usd": 0,
+      "charged_http_bytes_cap": 10000000000,
+      "retained_bytes_cap": 12884901888,
+      "temporary_bytes_cap": 536870912,
+      "http_calls": 0,
+      "api_calls": 0,
+      "failure": "Original allocation clock exhausted or exceeds cumulative cap",
+      "cause_status": "Clock guard now reads Slurm JSON epochs; timezone causality inferred, failed process timezone not captured.",
+      "automatic_resubmission_authorized": false,
+      "clock_fix_implemented": true,
+      "clock_fix_validation": "focused_tests_pending",
+      "replacement": {
+        "status": "prepared_pending_explicit_one_attempt_exception",
+        "approved": false,
+        "submitted": false,
+        "proposed_seconds": 3540,
+        "prior_used_seconds": 4,
+        "combined_seconds": 3544,
+        "original_seconds_cap": 3600,
+        "resources_and_transfer_storage_caps_unchanged": true,
+        "requires_exception_to_original_one_attempt_limit": true
+      }
+    },
+    "prompt_and_judge_diagnostic": {
+      "status": "completed",
+      "cpus": 1,
+      "memory_gib": 2,
+      "approved_seconds": 900,
+      "gpus": 0,
+      "attempts_used": 1,
+      "attempts_cap": 1,
+      "paid_request_cap": 16,
+      "api_cap_usd": 1,
+      "storage_cap_bytes": 1073741824,
+      "paid_requests": 16,
+      "charged_usd": 0.0101662,
+      "benchmark_episodes": 0,
+      "original_envelope_valid": 0,
+      "clarified_envelope_valid": 4,
+      "saved_inputs_per_prompt": 4,
+      "judge_controls": 8,
+      "judge_control_agreement": 6,
+      "judge_false_positives": 2,
+      "scheduler_elapsed_seconds": 23,
+      "frozen_sources_verified": 17,
+      "saved_request_response_pairs_verified": 16,
+      "accounting_method": "Conservative charge without cached-input discounts",
+      "package_bytes_before_final_audit": 1357803,
+      "clarified_prompt_integrated_into_primary_worker": true,
+      "clarified_prompt_requires_explicit_opt_in": true,
+      "diagnostic_system_prompts_matching_generated_bytes": 8,
+      "new_controller_and_proposal_frozen": false,
+      "new_primary_episodes": 0,
+      "prospective_worker_turn_limit_and_fuzzy_tests_passed": 47,
+      "new_controller_and_proposal_prepared": false
+    }
+  },
+  "cumulative_accounting_only": {
+    "paid_calls": 976,
+    "charged_usd": 0.681962,
+    "scope": "Original pilot 389 calls/USD 0.27544590; corrected pilot 571/USD 0.39634990; separate diagnostic 16/USD 0.01016620. No outcome pooling or transfer of unused approvals."
   }
 }

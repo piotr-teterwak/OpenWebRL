@@ -1,0 +1,288 @@
+{
+  "schema_version": 1,
+  "date_utc": "2026-10-11",
+  "cohort": "corrected_reddit_mechanics_pilot_v3",
+  "status": "closed_complete_mechanics_valid_outcome_measurement_invalid",
+  "scope": "One prospectively fixed Reddit task, one primary attempt per selector; not Table 5 performance reproduction.",
+  "actor": "gpt-4o-mini-2024-07-18",
+  "judge": "gpt-4o-2024-05-13",
+  "released_judge": "gpt-4-1106-preview",
+  "judge_substitution_disclosed": true,
+  "paper_exact_protocol": false,
+  "protocol": "webarena_table5_viewer_reconstruction_v3",
+  "turn_limit_protocol": "released_viewer_na_fallback_v1",
+  "piotr_representation": "native_operation_descriptor_preaction_status_v2",
+  "task_count": 1,
+  "selector_count": 5,
+  "max_turns": 30,
+  "totals": {
+    "planned": 5,
+    "attempted": 5,
+    "mechanics_valid": 5,
+    "native_verdict_valid": 5,
+    "invalid": 0,
+    "missing": 0,
+    "native_positive_verdicts": 5,
+    "reference_relative_false_positive_verdicts": 5,
+    "supported_task_successes": 0
+  },
+  "rows": [
+    {
+      "selector": "no_search",
+      "planned": 1,
+      "attempted": 1,
+      "native_verdict_valid": 1,
+      "mechanics_valid": 1,
+      "invalid": 0,
+      "missing": 0,
+      "native_positive_verdicts": 1,
+      "reference_relative_false_positive_verdicts": 1,
+      "supported_task_successes": 0,
+      "saved_interaction_turns": 30,
+      "actor_aux_calls": 89,
+      "selector_calls": 0,
+      "native_judge_calls": 1,
+      "generated_native_dispatches": 3,
+      "empty_candidate_turns": 27,
+      "native_action_errors": 0
+    },
+    {
+      "selector": "gpt4omini",
+      "planned": 1,
+      "attempted": 1,
+      "native_verdict_valid": 1,
+      "mechanics_valid": 1,
+      "invalid": 0,
+      "missing": 0,
+      "native_positive_verdicts": 1,
+      "reference_relative_false_positive_verdicts": 1,
+      "supported_task_successes": 0,
+      "saved_interaction_turns": 30,
+      "actor_aux_calls": 89,
+      "selector_calls": 120,
+      "native_judge_calls": 1,
+      "generated_native_dispatches": 30,
+      "empty_candidate_turns": 0,
+      "native_action_errors": 0
+    },
+    {
+      "selector": "shepherd8b",
+      "planned": 1,
+      "attempted": 1,
+      "native_verdict_valid": 1,
+      "mechanics_valid": 1,
+      "invalid": 0,
+      "missing": 0,
+      "native_positive_verdicts": 1,
+      "reference_relative_false_positive_verdicts": 1,
+      "supported_task_successes": 0,
+      "saved_interaction_turns": 30,
+      "actor_aux_calls": 89,
+      "selector_calls": 151,
+      "native_judge_calls": 1,
+      "generated_native_dispatches": 30,
+      "empty_candidate_turns": 0,
+      "native_action_errors": 0
+    },
+    {
+      "selector": "arbiter7b",
+      "planned": 1,
+      "attempted": 1,
+      "native_verdict_valid": 1,
+      "mechanics_valid": 1,
+      "invalid": 0,
+      "missing": 0,
+      "native_positive_verdicts": 1,
+      "reference_relative_false_positive_verdicts": 1,
+      "supported_task_successes": 0,
+      "saved_interaction_turns": 30,
+      "actor_aux_calls": 89,
+      "selector_calls": 120,
+      "native_judge_calls": 1,
+      "generated_native_dispatches": 16,
+      "empty_candidate_turns": 0,
+      "native_action_errors": 14
+    },
+    {
+      "selector": "piotr_selectionarm",
+      "planned": 1,
+      "attempted": 1,
+      "native_verdict_valid": 1,
+      "mechanics_valid": 1,
+      "invalid": 0,
+      "missing": 0,
+      "native_positive_verdicts": 1,
+      "reference_relative_false_positive_verdicts": 1,
+      "supported_task_successes": 0,
+      "saved_interaction_turns": 30,
+      "actor_aux_calls": 89,
+      "selector_calls": 30,
+      "native_judge_calls": 1,
+      "generated_native_dispatches": 30,
+      "empty_candidate_turns": 0,
+      "native_action_errors": 0
+    }
+  ],
+  "mechanics_definition": "Saved complete native verdicts, matched actor/auxiliary responses, scoring coverage for all four guided selectors and closed controllers; not error-free action execution or correct judge semantics.",
+  "outcome_audit": {
+    "all_five_answers": "N/A",
+    "answer_origin": "released viewer turn-limit fallback, recorded separately from actor choices",
+    "reference_answer": "0",
+    "all_five_native_scores": 1,
+    "native_scores_and_verdicts_preserved": true,
+    "reported_task_success_rate": null,
+    "reason": "All five native positives grade a non-answer as correct against a numeric reference. They do not establish task completion; no trustworthy benchmark rate or selector ranking is reported.",
+    "automatic_reporting_check": {
+      "diagnostic": "nonanswer_numeric_reference_positive_v1",
+      "checked_valid_cells": 5,
+      "flagged_cells": 5,
+      "performance_rates_withheld": true,
+      "native_counts_and_scores_preserved": true,
+      "tests_passed": 18,
+      "limitation": "Reporting guard only; not a replacement judge or general semantic validation."
+    }
+  },
+  "allocation": {
+    "gpu_type": "H200",
+    "gpus": 1,
+    "cpus": 8,
+    "memory_gib": 120,
+    "approved_seconds_total": 5400,
+    "consumed_seconds": 3179,
+    "unused_seconds": 2221,
+    "attempts": 1,
+    "terminal_state": "COMPLETED",
+    "unused_budget_carried_forward": false
+  },
+  "requests": {
+    "paid": 571,
+    "paid_cap": 575,
+    "local": 312,
+    "local_cap": 400,
+    "local_primary": 301,
+    "local_startup": 11,
+    "combined": 883,
+    "combined_cap": 975
+  },
+  "api": {
+    "cap_usd": 15,
+    "settled_usd": 0.3963499,
+    "retained_reservations_usd": 0,
+    "charged_usd": 0.3963499
+  },
+  "storage": {
+    "final_node_local_bytes": 288561127428,
+    "cap_bytes": 322122547200,
+    "continuous_peak_verified": false
+  },
+  "preservation": {
+    "frozen_source_files_verified_unchanged": 52,
+    "prior_pilot_unchanged": true,
+    "raw_native_verdicts_unchanged": true,
+    "primary_attempts_resampled": 0,
+    "site_watchdog_controller_processes_verified_closed": 11,
+    "broker_process_reaped": true
+  },
+  "piotr_actual_input_audit": {
+    "status": "passed_with_known_trace_label_erratum",
+    "scoring_requests": 30,
+    "scoring_responses": 30,
+    "reconstructed_payloads_exact": 30,
+    "reconstructed_traces_exact": 30,
+    "original_candidate_slots": 150,
+    "unchanged_selected_native_actions": 30,
+    "verified_own_preaction_last_five_history_turns": 30,
+    "candidate_target_status_counts": {
+      "center_outside_viewport": 2,
+      "in_viewport": 114,
+      "non_target_operation": 26,
+      "unavailable": 8
+    },
+    "selected_operation_counts": {
+      "click": 8,
+      "scroll": 21,
+      "type": 1
+    },
+    "trace_label_erratum": {
+      "affected_turns": 30,
+      "approved_and_actual": "native_operation_descriptor_preaction_status_v2",
+      "execution_or_payload_affected": false,
+      "recorded": "native_operation_descriptor_normalized_point_v1"
+    },
+    "limitations": [
+      "Payload reconstruction does not verify numerical model internals or independent screenshot capture timing.",
+      "This one-task audit verifies input/action contracts, not selector quality or training-data independence."
+    ],
+    "prospective_trace_label_fix_tests_passed": 21
+  },
+  "arbiter_action_audit": {
+    "saved_turns": 30,
+    "selected_action_attempts": 30,
+    "generated_native_dispatches": 16,
+    "selected_target_ids_absent_from_both_preaction_ax_and_bounds": 14,
+    "classification": "stale or unavailable selected targets rejected before native dispatch; no demonstrated coordinate-mapping corruption"
+  },
+  "no_search_action_audit": {
+    "saved_turns": 30,
+    "empty_candidate_turns": 27,
+    "generated_native_dispatches": 3,
+    "cause": "Bare action objects without the required BLOCKS envelope; both wrapper and pinned released parser reject them."
+  },
+  "post_pilot_diagnostic": {
+    "status": "completed",
+    "benchmark_episodes": 0,
+    "browser_episodes": 0,
+    "calls": 16,
+    "charged_usd": 0.0101662,
+    "original_no_search": {
+      "saved_inputs": 4,
+      "valid_envelopes": 0
+    },
+    "clarified_no_search": {
+      "saved_inputs": 4,
+      "valid_envelopes": 4
+    },
+    "native_judge_controls": {
+      "total": 8,
+      "agreed": 6,
+      "false_positives": 2,
+      "false_positive_cases": [
+        "N/A versus reference 0",
+        "normalized n/a versus reference 0"
+      ]
+    },
+    "primary_pilot_changed": false,
+    "limits": "Four fixed saved inputs and eight synthetic controls; no evidence of browser-task success or a general reliability estimate.",
+    "scheduler_elapsed_seconds": 23,
+    "frozen_sources_verified": 17,
+    "saved_request_response_pairs_verified": 16,
+    "accounting_method": "Conservative charge without cached-input discounts",
+    "package_bytes_before_final_audit": 1357803,
+    "clarified_prompt_integrated_into_primary_worker": true,
+    "clarified_prompt_requires_explicit_opt_in": true,
+    "diagnostic_system_prompts_matching_generated_bytes": 8,
+    "new_controller_and_proposal_frozen": false,
+    "new_primary_episodes": 0,
+    "prospective_worker_turn_limit_and_fuzzy_tests_passed": 47,
+    "new_controller_and_proposal_prepared": false
+  },
+  "remaining_gates": [
+    "Validate an explicit native-judge semantic correction with negative as well as positive controls before trusting fuzzy-grading rates.",
+    "Freeze a matching controller/proposal for the diagnostic-tested opt-in no-search clarification, then validate in a separately versioned browser cohort before claiming behavioral gains.",
+    "Complete original CMS, Shopping, GitLab and Map hosting/authentication/reset and evaluator-helper validation.",
+    "Freeze full matched cohort and exact compute/API budgets before benchmark-scale evaluation."
+  ],
+  "piotr_preflight": {
+    "input_tokens": 1021,
+    "image_tokens": 252,
+    "resized_image_dimensions": [
+      672,
+      384
+    ],
+    "response_tokens": 10,
+    "earlier_descriptor_v1_input_tokens": 956,
+    "descriptor_v2_additional_tokens": 65,
+    "additional_token_reason": "Five candidates now include target element ID and availability status",
+    "serving_compatibility_only": true
+  }
+}
