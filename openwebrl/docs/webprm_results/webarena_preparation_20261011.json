@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "status": "preparation_validated_websites_not_deployed",
+  "date_utc": "2026-10-11",
+  "benchmark_order": [
+    "WebArena-Lite",
+    "Online-Mind2Web"
+  ],
+  "benchmark_task_evaluations": 0,
+  "new_compute_allocations": 0,
+  "paid_api_calls": 0,
+  "cohort": {
+    "released_tasks": 165,
+    "single_site_tasks": 155,
+    "cross_site_tasks": 10,
+    "single_site_counts": {
+      "gitlab": 30,
+      "map": 26,
+      "reddit": 19,
+      "shopping": 45,
+      "shopping_admin": 35
+    },
+    "prospective_pilot_tasks": 5,
+    "pilot_rule": "lowest released task_id per single-site domain, selected before outcomes",
+    "paper_table_5_membership_verified": false,
+    "source_commit": "764ec2670750c50388bac56efb1a3989fd5c1b54"
+  },
+  "validation": {
+    "offline_native_contract_tests_passed": 29,
+    "controlled_real_chromium_checks_passed": 6,
+    "isolated_native_nltk_fixtures_passed": 10,
+    "nltk_version": "3.10.3",
+    "original_author_nltk_version_known": false,
+    "minimal_apptainer_rootless_and_fakeroot_probes_passed": true,
+    "website_startup_login_reset_validated": false,
+    "source_sha256": {
+      "openwebrl/webprm_webarena.py": "3b960aedd0501c3802e5aa2b17eb544a99c32ecd90c43c5833c2d87c8ab908c8",
+      "scripts/prepare_webprm_webarena.py": "0e2d6c18aa4ebac06ff305501a13956fb5f17ba430bf7af722df55168c0da29c",
+      "tests/test_webprm_webarena.py": "2d11e98f36eecf6a44fe59ef7fe6334bb8f91c91b8fa80e3adfee65d2e96fd84"
+    }
+  },
+  "original_reddit_image": {
+    "archive_bytes": 53435097088,
+    "bounded_http_range_bytes_read": 2998272,
+    "config_sha256": "bd8ae768c200fc4d005672af33fe03d49c9a058ae33997f3d50576e84cf51a1d",
+    "config_hash_matches_manifest": true,
+    "full_archive_and_layers_verified": false,
+    "full_image_downloaded": false
+  },
+  "selector_audit": {
+    "candidates_inventoried": 8,
+    "our_selector_checkpoint_family_selected": false,
+    "causal_adapter_needed": true,
+    "gpt_actor_proposals_require_extra_openwebrl_scoring_forward_pass": true
+  },
+  "remaining_gates": [
+    "Original website import, service user handling, ports, login, reset and native helper validation",
+    "Budgeted native fuzzy judge integration and availability/fidelity audit for 40 tasks",
+    "Exact Table 5 membership and inference protocol reconciliation",
+    "Frozen PRM/ARM checkpoint choice from independent development evidence and grounded candidate adapters"
+  ],
+  "next_resource_proposal": {
+    "status": "pending_exact_approval",
+    "cpus": 4,
+    "ram_gib": 16,
+    "gpus": 0,
+    "total_seconds_including_retries": 7200,
+    "node_local_free_space_required_gib": 300,
+    "archive_download_cap_bytes": 54000000000,
+    "api_budget_usd": 0,
+    "scope": "Original Reddit deployment diagnosis and reset validation; no benchmark collection"
+  },
+  "sources": {
+    "paper": "https://arxiv.org/html/2601.21872v2#S5.T5",
+    "official_environment": "https://github.com/web-arena-x/webarena/blob/dce04686a56253aefba7b18a4fa0937cf1dc987b/environment_docker/README.md"
+  }
+}
