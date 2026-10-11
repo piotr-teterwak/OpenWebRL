@@ -320,7 +320,18 @@ The interactive curve now includes all six checkpoints10–60. This separate dat
 ablation does not change the task pool used by the ARM runs above.
 [Expanded-pool results and comparison caveats](RL_EVALUATION.md#expanded4102-iter10-results-20261003).
 
-The separate **outcome-only 56-group control on the original 2,102 tasks** has verified evaluations through iteration40: **34.33% overall** (103 successes / 300 tasks) and **42.92% valid-only** (103 / 240 valid tasks; 60 invalid). Overall improved by 2.00pp from iteration30; training to60 remains incomplete. It tests increased accepted mixed groups with global batch and PPO settings unchanged. The historical comparison remains descriptive because dates, valid-task sets and optimizer work differ. [Verified results and comparison limits](RL_EVALUATION.md#outcome56-iter40-results-20261010) · [Interactive curve](rl_results/arm_rl_interactive.html).
+The separate **outcome-only 56-group control on the original 2,102 tasks** has verified evaluations through iteration50.
+
+| Iteration | Successes | Tasks | Valid | Invalid | Overall % | Valid-only % |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+|50 |102 |300 |239 |61 |34.00 |42.68 |
+
+The change from iteration40 is −0.33pp overall / −0.24pp valid-only; training
+to60 remains incomplete. It tests increased accepted mixed groups with global
+batch and PPO settings unchanged. Dates, valid-task sets and optimizer work
+differ, so comparisons remain descriptive.
+[Verified results and comparison limits](RL_EVALUATION.md#outcome56-iter50-results-20261011) ·
+[Interactive curve](rl_results/arm_rl_interactive.html).
 
 The **uniform G8 outcome-only control** has verified evaluations through iteration 40.
 

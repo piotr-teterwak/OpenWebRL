@@ -1,0 +1,77 @@
+{
+  "api_calls": 0,
+  "browser_sessions": 0,
+  "checked_utc": "2026-10-11T19:50:20.339970+00:00",
+  "errors": 0,
+  "failures": 0,
+  "files_sha256": {
+    "openwebrl/action_credit.py": "c9806d64374b1298fd08b6e8de36498e3f311c8c7037fa494ed60b281bd51c8e",
+    "openwebrl/action_credit_advantages.py": "65e725e41165deb7fe39b0827f8c36043541d8ba0e9f7d9d7d1513d667be0435",
+    "openwebrl/action_credit_binding.py": "2e3c58e1e0decc83a32a12aea9cdf81f0593396931e61d1088daf395b5b0d7a8",
+    "openwebrl/action_credit_objective.py": "b91444947c3b7ae68e4d688b811a6e04d2b154f5aad360a1b66d2e45ce8930fe",
+    "openwebrl/action_credit_receipts.py": "895cb42a7f12a0ca31a4a1a5c6fe66ca615ffec3dc859d4b390fc831ce383daa",
+    "openwebrl/action_credit_sampling.py": "bd916c719d9ff710d86508f1de0e2e856d5ac7b3c292f7639d334532b2b12d75",
+    "openwebrl/action_credit_selection.py": "a20889f0901fed27aa0d02fab7a397218781f8bc22bc57e0deb2a2e007d3ce93",
+    "openwebrl/action_credit_state.py": "ee96cef8997c25fe86bbac2d9649d809f441f2dd2282025744461eedd84f9e8f",
+    "scripts/validate_action_credit.py": "e5a98de95f006c9ab1fab73fe1d8e6122d82afc4a087bd776df3ccfd6bd3982d",
+    "tests/test_action_credit.py": "260e9fb868da501c54d10967613f1510437bbb5eab808abb68159abd42400e68",
+    "tests/test_action_credit_advantages.py": "fb7872df2a5ec686bcdc9c3bdc8017a2f71981cf76215a19f7f5b2de6d07356b",
+    "tests/test_action_credit_binding.py": "d5c6f4ef4ef16df74e7cd0bc5f197543639995b95fe6e2e6b445d608ddeb3c90",
+    "tests/test_action_credit_objective.py": "f89d5133f6a6ecf57cf319b6cbbf929f69ae93a66bfd9a9bf16f4362f8da268e",
+    "tests/test_action_credit_receipts.py": "6ed99ca207eb6b7a3530a59652ee6a8065e57a4be22e14abdbc06e398ae03e84",
+    "tests/test_action_credit_sampling.py": "1089a9f13b27bef0bd442bef9731613d30c97bf82299cd989480c5105b76167f",
+    "tests/test_action_credit_selection.py": "c812b67f74aeb097b104a16b4a256d5089945e3ab178afd5d7a8a9fb461ef041",
+    "tests/test_action_credit_state.py": "2e7f4e425bf2fe5fa3f8ce8590558f47da72e7879418a44f76bf013cc874ec34",
+    "tests/test_action_credit_upstream.py": "e28532573c40b3504ca32dd0abd21968599238b735bf5bd0a23c1cc0abdbc48f"
+  },
+  "launch_ready": false,
+  "new_compute_allocations": 0,
+  "python_version": "3.12.14",
+  "remaining_gates": [
+    "Online actor-version freezing and recursive tree/chain collection adapters",
+    "Before-dispatch sampling-request/draw binding and independent terminal artifact provenance",
+    "Physical browser replay and parent-response/observation/context transition verification",
+    "Actual multimodal token alignment and frozen old-policy scores",
+    "TP2/DP4 full-batch/long-context numerical and restore/save/resume acceptance",
+    "Atomic optimizer/checkpoint transaction recovery integration",
+    "Exact new per-arm GPU/browser/judge budgets before any allocation or dispatch"
+  ],
+  "schema_version": 1,
+  "skipped": 0,
+  "status": "cpu_verified_not_launch_ready",
+  "tests_run": 137,
+  "torch_version": "2.9.1+cu129",
+  "upstream_oracle_passed": true,
+  "upstream_sources": {
+    "gigpo": {
+      "commit": "20bd331bdbc9026a5668e11362178e10ab7400c8",
+      "expected_sha256": "fa709b91baf2331c4857fee32a249c4ca8d8d69e864d1e71f08730cc8c5cc456",
+      "observed_sha256": "fa709b91baf2331c4857fee32a249c4ca8d8d69e864d1e71f08730cc8c5cc456",
+      "path": "gigpo/core_gigpo.py",
+      "repository": "langfengQ/verl-agent"
+    },
+    "tree_core": {
+      "commit": "19bf3fa0c74d8b9ba70619a09a2fd480c31b9d59",
+      "expected_sha256": "6d62c3a6c20e3621c9cddef1a5ab7252867489aa44028274304124bc37813363",
+      "observed_sha256": "6d62c3a6c20e3621c9cddef1a5ab7252867489aa44028274304124bc37813363",
+      "path": "verl/trainer/ppo/core_algos.py",
+      "repository": "AMAP-ML/Tree-GRPO"
+    },
+    "tree_trainer": {
+      "commit": "19bf3fa0c74d8b9ba70619a09a2fd480c31b9d59",
+      "expected_sha256": "be85b049d3d05fef367c8525d4a3a3342eb0b9efb570b843d16cd9625e818e39",
+      "observed_sha256": "be85b049d3d05fef367c8525d4a3a3342eb0b9efb570b843d16cd9625e818e39",
+      "path": "verl/trainer/ppo/ray_trainer_ts.py",
+      "repository": "AMAP-ML/Tree-GRPO"
+    }
+  },
+  "validated_scope": [
+    "Five scalar objectives; official Tree/GiGPO source functions when upstream_oracle_passed",
+    "Masked clipped-loss values/gradients, shared-prefix terms, explicit reductions",
+    "CPU simulated uneven rank/microbatch gradient reduction (not real distributed GPU execution)",
+    "Policy/context/horizon/receipt binding and fit/holdout separation",
+    "Sealed inventory and full objective/scientific configuration binding",
+    "Outcome-blind tree scheduling, complete round barriers and retained leaf selection",
+    "Locked crash-safe ledger, immutable planned panels, all-attempt reservation accounting"
+  ]
+}

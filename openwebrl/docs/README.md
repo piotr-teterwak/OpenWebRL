@@ -2,11 +2,11 @@
 
 [WebPRM baselines: five-row mechanics pilot audited; judge and prompt defects isolated](WEBPRM_BASELINES.md#table5-plan-20261010).
 
-[Faster reward improvement: recent evidence, ranked ideas and proposed controlled experiments](RL_LEARNING_EFFICIENCY.md).
+[Faster reward improvement: five fresh iteration0→10 action-credit pilots, pending native GPU validation, controlled comparisons and recent evidence](RL_LEARNING_EFFICIENCY.md#action-credit-implementation-20261011).
 
 [GPT-6.1 Sol N=5: verified OM2W medium 45.67%, high 43.67%; WebVoyager 57.98%; DeepShop 46.00%](ARM_INFERENCE_SCALING.md#sol61-n5-launch-20261009). [Verified matching SFT controls: Sol N5 gains +11.26 pp [+7.39, +15.13] on WebVoyager; DeepShop +3.33 pp [−5.33, +11.33] remains inconclusive](ARM_INFERENCE_SCALING.md#sol61-actor-controls-20261009).
 
-[MolmoWeb: all six N5 cohorts stopped partial; 491 audited records, paired results and limitations](ARM_INFERENCE_SCALING.md#molmoweb-sol61-plan-20261010). [Native batching: CPU checks passed; approved two-GPU-hour benchmark queued](ARM_INFERENCE_SCALING.md#molmoweb-native-batching-20261011).
+[MolmoWeb: all six N1 controls verified; 4B WebVoyager 45.04% raw / 56.30% access-filtered; historical N5 paired results and limitations](ARM_INFERENCE_SCALING.md#molmoweb-sol61-plan-20261010). [Native batching and production RPC audited: exact replay, 2.28×/2.43× actor speedups; conditional N5 estimate 148→67 H200-hours](ARM_INFERENCE_SCALING.md#molmoweb-native-batching-20261011). [Approved optimized continuation: four N5 conditions running within an 85.5-H200-hour ceiling](ARM_INFERENCE_SCALING.md#molmoweb-optimized-completion-20261011).
 
 
 [Original bonus iteration 90: local OM2W300 verified; counts, validity and historical comparison](RL_EVALUATION.md#arm-original-iter90-results-20261008).
@@ -76,7 +76,7 @@ for the work you are doing, then follow its contents to dated experiment records
 | [ARM_PREFERENCE.md](ARM_PREFERENCE.md) | Preference experiments, pair audits, and viability plans |
 | [ARM_JOINT_DATA.md](ARM_JOINT_DATA.md) | Combined C2/Piotr data review, examples, training, and recovery |
 | [RL_RESULTS.md](RL_RESULTS.md) | Tables-only RL checkpoint scores; overall, valid-only, invalid counts, and separate protocols |
-| [RL_LEARNING_EFFICIENCY.md](RL_LEARNING_EFFICIENCY.md) | Recent evidence for faster learning; action correction, critics, replay, task selection and systems tradeoffs |
+| [RL_LEARNING_EFFICIENCY.md](RL_LEARNING_EFFICIENCY.md) | Five fresh iteration0→10 action-credit pilots; pending GPU validation, exact comparison limits and learning-efficiency evidence |
 | [RL_RUNTIME.md](RL_RUNTIME.md) | Reference baseline resume, GPU scaling, archives, and runtime history |
 | [RL_EVALUATION.md](RL_EVALUATION.md) | Evaluation harness code map, protocols, commands/tests, checkpoint results and scheduling |
 | [RL_METRICS.md](RL_METRICS.md) | Metric definitions, paper reward comparisons, and gradient diagnostics |

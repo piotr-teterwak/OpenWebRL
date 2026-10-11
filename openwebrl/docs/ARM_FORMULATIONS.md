@@ -8,8 +8,9 @@
 | Can old continuation outcomes select better than uniform on fresh outcomes? | 58 | +8.51, select on three − uniform | [+3.45, +14.37] | Evidence of outcome signal; gains over actor-first and Luna remain uncertain |
 | Does selecting with 24 continuations beat selecting with eight? | 14 | +3.52, select with 24 − select with eight | [−0.12, +7.35] | Inconclusive on the same fresh, valid-only holdout |
 | Do teacher-trained selectors pick better actions than uniform? | 138 | Piotr ARM +2.48; outcome-selected on five draws +5.32 | [−0.14, +5.21]; [+3.09, +7.62] | Only outcome selection is clearly above uniform ([details](#selection-head-20261009)) |
+| Do execution evidence or a stronger teacher improve picks? | 194 | Sol after − before −0.31; Luna after − before +0.15; after: Sol − Luna +0.41 | [−2.40, +1.68]; [−1.86, +2.10]; [−1.17, +1.89] | No measurable gain from either; all teachers ≈ +3 pp over uniform ([2×2](#teacher-labels-211-20261011)) |
 
-The first interval resamples states; the others resample task groups. All are exploratory, pointwise intervals. **No selector has yet been trained from these branching outcomes or matched post-action labels.** Selectors trained on teacher choices (Piotr ARM and the [actor-based selectors](#selection-head-20261009)) do not clearly beat a uniform pick on held-out draws of 138 eight-draw states, while selecting by outcomes on five draws does: +5.32 pp [+3.09, +7.62].
+The first interval resamples states; the others resample task groups. All are exploratory, pointwise intervals. **Students trained on branching outcomes or on matched pre- and post-action labels have so far stayed at uniform** ([student results](#teacher-labels-211-20261011)). Selectors trained on teacher choices (Piotr ARM and the [actor-based selectors](#selection-head-20261009)) do not clearly beat a uniform pick on held-out draws of 138 eight-draw states, while selecting by outcomes on five draws does: +5.32 pp [+3.09, +7.62].
 
 <a id="branching-experiment-map"></a>
 
@@ -352,6 +353,103 @@ The 138 states are 51 historical (topped up to eight draws), 32 pilot and 55 fre
 ![Five selector designs compared by weights, inputs, candidate interaction, order effects, readout, added cost and status](arm_results/methods/selection_designs_compared.svg)
 
 Method, metric definitions, teacher-agreement results, robustness checks and data sufficiency are in [ARM_SELECTION_HEAD.md](ARM_SELECTION_HEAD.md#selection-head-outcomes-20261010). The original 124-state, three-draw comparison is in its [robustness details](ARM_SELECTION_HEAD.md#selection-head-teacher-agreement).
+
+<a id="teacher-labels-211-20261011"></a>
+
+## Execution evidence and a stronger teacher on 211 states
+
+**Neither immediate execution evidence nor a stronger teacher measurably improves action choice; every teacher sits about 3 pp above uniform, still below a pick from three observed continuations.** Each teacher's judgments are scored directly as picks on held-out continuation draws 3–7, which no teacher evidence touched. After-execution judgments saw only the immediate results of draws 0–2 (Luna) or draw 0 (Sol). The 211 states are the 160 new pilot, fresh and successor states, plus the 51 historical states with draws 3–7 for every action. Invalid draws count as zero, and intervals resample whole task groups.
+
+**The 2×2: teacher strength × execution evidence.** These pairs share an identical layout: 3 repeats + 1 shuffled order per state, with after-evidence from draw 0. They are paired on the 194 states with complete draw-0 evidence.
+
+| Paired comparison, 194 states | Difference, pp [95%] |
+| --- | --- |
+| Luna: after − before | +0.15 [−1.86, +2.10] |
+| Sol: after − before | −0.31 [−2.40, +1.68] |
+| After execution: Sol − Luna | +0.41 [−1.17, +1.89] |
+| Outcome reference (best on draws 0–2) − Sol after | +1.83 [−0.98, +4.73] |
+
+| Picker | States | Success, draws 3–7 | − Uniform, pp [95%] |
+| --- | ---: | ---: | --- |
+| Outcome reference: best on draws 0–2 | 211 | 39.16% | +5.68 [+3.67, +7.85] |
+| Sol after (draw-0 evidence) | 194 | 39.20% | +3.45 [+1.17, +5.84] |
+| Luna after (draw-0 evidence) | 194 | 38.79% | +3.04 [+0.82, +5.34] |
+| Luna after (evidence draws 0–2, 10 calls) | 201 | 38.37% | +3.44 [+1.31, +5.72] |
+| Sol before | 211 | 36.78% | +3.30 [+1.07, +5.63] |
+| Piotr SelectionARM | 138 | 35.51% | +3.54 [+0.53, +6.59] |
+| Luna before | 211 | 35.92% | +2.45 [+0.34, +4.64] |
+| Actor's first sample | 211 | 35.55% | — |
+| Uniform candidate | 211 | 33.48% | — |
+
+On all 211 states, Sol before − Luna before is +0.85 [−0.79, +2.51] pp, and Luna's full 10-call after − before is +0.73 [−1.08, +2.51] pp. The historical states alone gave +2.37 for Luna after − before (49 states), consistent with the earlier +2.24; the new states give +0.20.
+
+<details>
+<summary>Why immediate post-action evidence does not help here: diagnostics on 194 states</summary>
+
+These diagnostics use saved data only (`scripts/analyze_post_action_value.py`). The 194 states have draw-0 evidence and held-out draws 3–7 (146 new, 48 historical). After-picks are each teacher's draw-0 judgments.
+
+| Check | Luna | Sol |
+| --- | ---: | ---: |
+| States whose majority action changes after execution | 69 (36%) | 49 (25%) |
+| Changed picks: better / worse / tied on draws 3–7 | 21 / 15 / 33 | 16 / 10 / 23 |
+| After − before on changed states, pp [95%] | +0.58 [−3.88, +4.93] | +0.10 [−7.10, +6.98] |
+| Share of picks on visibly failed candidates (error or unchanged screen), before → after | 18.0% → 15.1% | 15.6% → 15.3% |
+
+- **The evidence often cannot discriminate.**
+  - In 39 states all five candidates are the same action.
+  - In 18 states every distinct action produces the same screen and URL.
+  - In 60 states some do.
+  - Only 77 states (40%) show a distinct result for every distinct action.
+- **Visible failures are rare and not costly.**
+  - Only 4 of 970 candidate executions report a tool error.
+  - 134 leave the screen unchanged, and those candidates succeed only 1.0 pp less than their state's mean.
+  - Teachers already pick them less often than uniform (20%) before execution.
+- **The kind of immediate result barely predicts the outcome.** Within-state relative success by immediate-result type, draw 0:
+
+| Immediate result | Candidates | Relative success, pp |
+| --- | ---: | ---: |
+| navigated to a new URL | 482 | +0.7 |
+| same URL, screen changed | 329 | −0.4 |
+| terminated (done) | 81 | −3.3 |
+| screen unchanged | 74 | +0.6 |
+| errored | 4 | −2.0 |
+
+- **The evidence replays consistently.** 98% of later draws reach the same URL as draw 0, and 76% the same screenshot.
+- **No stratum shows a gain.** After − before stays within ±1.3 pp when states are split by whether the evidence distinguishes the actions, or by how much the actions' outcomes differ on draws 0–2. The draw-0–2 split is independent of the scored draws.
+- **Changed picks (qualitative).**
+  - The largest losses pick a page that looks closer to the goal: a direct article URL instead of a search, or an official site instead of a news hub. From there the fixed SFT continuation then fails more often.
+  - Several other changes switch between near-identical actions, whose outcome differences are draw noise.
+  - The teachers judge apparent progress. The outcome depends on whether this particular continuation policy can finish from the new page, and one post-action screen does not reveal that.
+
+</details>
+
+**Can these labels supervise a pre-action student?** Not at this scale. The [actor-feature head](ARM_SELECTION_HEAD.md#selection-head-label-types-20261011) trained from scratch on each label type stays at uniform:
+
+| Training labels, original 124 states | Labelled states | 5-fold task-grouped CV, − uniform, pp [95%] | Trained on 124, tested on 87 new states, − uniform, pp [95%] |
+| --- | ---: | --- | --- |
+| Luna before | 124 | −1.71 [−4.82, +1.31] | −0.46 [−3.44, +2.67] |
+| Luna after (evidence draws 0–2) | 121 | −0.52 [−3.60, +2.49] | +0.26 [−2.72, +3.15] |
+| Outcomes on draws 0–2 (same executions) | 59 | −1.05 [−4.02, +2.00] | −1.03 [−4.27, +1.94] |
+| GPT-5.5 labels, same number of other states | 124 | −1.13 [−4.07, +1.77] | −0.46 [−3.30, +2.33] |
+| Sol before | 124 | +0.17 [−2.96, +3.27] | +0.26 [−2.76, +3.31] |
+
+Outcome labels exist only where draws 0–2 separate the actions (59 states).
+
+<details>
+<summary>Labelling runs: layout, evidence protection and accounting</summary>
+
+| Run | Model, effort | States | Calls | Charged, USD | Approved caps |
+| --- | --- | ---: | ---: | ---: | --- |
+| Luna, job `355533` | GPT-6 Luna, high | 160 | 2,115 | 8.22 | 2,400 calls, USD 15 |
+| Sol, job `355536` | GPT-6.1 Sol, medium | 284 | 1,136 | 24.76 | 1,250 calls, USD 50 |
+| Sol after, job `355686` | GPT-6.1 Sol, medium; draw-0 evidence | 194 of 211 (17 lack complete draw-0 evidence) | 776 | 70.87 | 850 calls, USD 100 |
+
+- **Luna layout.** It uses the historical [4 before + 10 after layout](#arm-continuation-branches-results-20261007), with `arm_branch_teacher.py` unchanged. The teacher-only campaign's per-state release lists only draws 0–2, so draws 3–7 are never opened.
+- **Luna coverage.** 144 states have all 14 judgments. 16 states lack evidence for some candidate in one or more of draws 0–2, because the action failed to execute; those after-calls are recorded invalid without a request. Every API call returned a valid choice.
+- **Sol run.** It sends the same request as Luna before, with only the model and effort changed: 3 repeats and 1 shuffled order per state, with no execution evidence. It covers the 160 new states and all 124 historical states. Its own ledger reserved each call's worst case before dispatch and settled actual usage; all 1,136 calls were valid.
+- **Compute.** Both runs were CPU-only Slurm jobs, without GPUs.
+
+</details>
 
 <a id="branch-post-to-pre-study-20261008"></a>
 

@@ -98,6 +98,7 @@
 | Outcome-only56-group control |30 |5 |56 |488 |97 |250 |50 |32.33 |38.80 |[October9 audit](arm_results/rl_integration/outcome56-iteration30-audit.json) |
 | Historical outcome-only |40 |5 |48 |— |100 |231 |69 |33.33 |43.29 |[Historical counts](rl_results/baseline_vs_arm_full300.json) |
 | Outcome-only56-group control |40 |5 |56 |626 |103 |240 |60 |34.33 |42.92 |[October 10 audit](arm_results/rl_integration/outcome56-iteration40-audit.json) |
+| Outcome-only56-group control |50 |5 |56 |762 |102 |239 |61 |34.00 |42.68 |[October 11 audit](arm_results/rl_integration/outcome56-iteration50-audit.json) |
 | Uniform G8 |10 |8 |48 |244 |88 |241 |59 |29.33 |36.51 |[October7 audit](arm_results/rl_integration/uniform8-iteration10-audit.json) |
 | Uniform G8 |20 |8 |48 |492 |96 |235 |65 |32.00 |40.85 |[October 9 audit](arm_results/rl_integration/uniform8-iteration20-audit.json) |
 | Uniform G8 |30 |8 |48 |716 |101 |241 |59 |33.67 |41.91 |[October 11 audit](arm_results/rl_integration/uniform8-iteration30-audit.json) |
@@ -111,7 +112,8 @@
 |56-group iteration30 − iteration20 |+1.33pp overall /+0.53pp valid-only |[Checkpoint comparison limits](RL_EVALUATION.md#outcome56-iter30-results-20261009) |
 |56-group − historical48-group, iteration40 |+1.00pp overall /−0.37pp valid-only |[Comparability caveats](RL_EVALUATION.md#outcome56-iter40-results-20261010) |
 |56-group iteration40 − iteration30 |+2.00pp overall /+4.12pp valid-only |[Checkpoint comparison limits](RL_EVALUATION.md#outcome56-iter40-results-20261010) |
-|56-group target / verified evaluations |60 incomplete /10,20,30,40 verified |[Verified milestone and remaining scope](RL_EVALUATION.md#outcome56-iter40-results-20261010) |
+|56-group iteration50 − iteration40 |−0.33pp overall /−0.24pp valid-only |[Checkpoint comparison limits](RL_EVALUATION.md#outcome56-iter50-results-20261011) |
+|56-group target / verified evaluations |60 incomplete /10,20,30,40,50 verified |[Verified milestone and remaining scope](RL_EVALUATION.md#outcome56-iter50-results-20261011) |
 | G8 iteration 20 − iteration 10 |+2.67 pp overall / +4.34 pp valid-only |[Checkpoint comparison limits](RL_EVALUATION.md#uniform8-iter20-results-20261009) |
 | G8 − G5/56 groups, iteration 20 |+1.00 pp overall / +2.58 pp valid-only |[Comparability caveats](RL_EVALUATION.md#uniform8-iter20-results-20261009) |
 | G8 iteration 30 − iteration 20 |+1.67 pp overall / +1.06 pp valid-only |[Checkpoint comparison limits](RL_EVALUATION.md#uniform8-iter30-results-20261011) |

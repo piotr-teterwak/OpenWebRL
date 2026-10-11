@@ -1,0 +1,421 @@
+{
+  "epoch": 1791747456.7768307,
+  "diagnostic_verified_complete": true,
+  "request_sha256": "067c6fc0121e1ebc34123a35e0eb557abc629b942a8017a5aa505971a36cb6ed",
+  "repair_manifest_sha256": "fba7bbeedee6fa8758527bb22ba4192635a66320c1436fcfbb99eb1ff5f3dbfb",
+  "jobs": {
+    "355532": {
+      "state": "FAILED",
+      "elapsed_seconds": 89,
+      "exit_code": "1:0",
+      "resources": {
+        "billing": "16",
+        "cpu": "16",
+        "gres/gpu:h200": "2",
+        "gres/gpu": "2",
+        "mem": "240G",
+        "node": "1"
+      }
+    },
+    "355538": {
+      "state": "COMPLETED",
+      "elapsed_seconds": 887,
+      "exit_code": "0:0",
+      "resources": {
+        "billing": "16",
+        "cpu": "16",
+        "gres/gpu:h200": "2",
+        "gres/gpu": "2",
+        "mem": "240G",
+        "node": "1"
+      }
+    }
+  },
+  "all_attempt_allocation_seconds": 976,
+  "all_attempt_H200_hours": 0.5422222222222223,
+  "unused_all_attempt_seconds": 2624,
+  "cap_seconds": 3600,
+  "API_calls": 0,
+  "browser_calls": 0,
+  "models": {
+    "4b": {
+      "cases": 9,
+      "timed_panels": 54,
+      "timed_draw_outputs": 270,
+      "all_attempt_draws_reserved": 282,
+      "local_draw_cap": 300,
+      "exact_token_and_text_matches": 270,
+      "methods": {
+        "batch5": {
+          "median_speedup": 1.6565328881781636,
+          "min_speedup": 1.5450248364794728,
+          "max_speedup": 1.7718494061033807,
+          "cases": 9
+        },
+        "batch5-shared-prefill": {
+          "median_speedup": 2.281882568434433,
+          "min_speedup": 2.0894814989890187,
+          "max_speedup": 2.435386310832268,
+          "cases": 9
+        }
+      },
+      "peak_GPU_reserved_GiB": 39.99609375,
+      "peak_GPU_allocated_GiB": 35.11898374557495,
+      "host_maxRSS_GiB": 17.98150634765625,
+      "parameter_dtypes": [
+        "torch.float32"
+      ]
+    },
+    "8b": {
+      "cases": 9,
+      "timed_panels": 54,
+      "timed_draw_outputs": 270,
+      "all_attempt_draws_reserved": 282,
+      "local_draw_cap": 300,
+      "exact_token_and_text_matches": 270,
+      "methods": {
+        "batch5": {
+          "median_speedup": 1.6166914671783743,
+          "min_speedup": 1.4419259209087691,
+          "max_speedup": 1.7469460511181931,
+          "cases": 9
+        },
+        "batch5-shared-prefill": {
+          "median_speedup": 2.431733742081482,
+          "min_speedup": 1.9558105773182872,
+          "max_speedup": 2.730012954969173,
+          "cases": 9
+        }
+      },
+      "peak_GPU_reserved_GiB": 54.79296875,
+      "peak_GPU_allocated_GiB": 50.58506917953491,
+      "host_maxRSS_GiB": 33.6727180480957,
+      "parameter_dtypes": [
+        "torch.float32"
+      ]
+    }
+  },
+  "timed_panels_audited": 108,
+  "timed_draw_outputs_audited": 540,
+  "production_enabled": false,
+  "suite_verified_complete": false,
+  "projection": {
+    "N5_only": true,
+    "missing_N5_records": 1599,
+    "serial_remaining_H200_hours": 148.189123015873,
+    "projected_remaining_H200_hours": 67.08965428858924,
+    "gross_projected_savings_H200_hours": 81.09946872728376,
+    "net_projected_savings_after_diagnostic_H200_hours": 80.55724650506154,
+    "projected_reduction_fraction": 0.5472700497633483,
+    "observed_case_speed_sensitivity_H200_hours": [
+      65.6768354630575,
+      76.27970874346711
+    ],
+    "cohorts": [
+      {
+        "cohort": "molmoweb-4b-deepshop-paired",
+        "observed_records": 45,
+        "latest_attempt_records": 24,
+        "missing_records": 105,
+        "serial_remaining_H200_hours": 10.918055555555556,
+        "actor_service_fraction": 0.9196351928590716,
+        "median_case_speedup": 2.281882568434433,
+        "projected_remaining_H200_hours": 5.277578543499254,
+        "observed_case_speed_sensitivity_H200_hours": [
+          5.188254636942464,
+          5.575490670813638
+        ]
+      },
+      {
+        "cohort": "molmoweb-4b-online_mind2web-paired",
+        "observed_records": 58,
+        "latest_attempt_records": 58,
+        "missing_records": 242,
+        "serial_remaining_H200_hours": 24.73198275862069,
+        "actor_service_fraction": 0.8945848338284652,
+        "median_case_speedup": 2.2253758051487713,
+        "projected_remaining_H200_hours": 12.5492026577791,
+        "observed_case_speed_sensitivity_H200_hours": [
+          11.963167571040538,
+          12.964720778621567
+        ]
+      },
+      {
+        "cohort": "molmoweb-4b-webvoyager-paired",
+        "observed_records": 111,
+        "latest_attempt_records": 87,
+        "missing_records": 484,
+        "serial_remaining_H200_hours": 36.137739463601534,
+        "actor_service_fraction": 0.9305067245857039,
+        "median_case_speedup": 2.36462198125196,
+        "projected_remaining_H200_hours": 16.731957892474256,
+        "observed_case_speed_sensitivity_H200_hours": [
+          16.318753136030036,
+          18.604513572409015
+        ]
+      },
+      {
+        "cohort": "molmoweb-8b-deepshop-paired",
+        "observed_records": 59,
+        "latest_attempt_records": 42,
+        "missing_records": 91,
+        "serial_remaining_H200_hours": 10.427685185185185,
+        "actor_service_fraction": 0.9255723844668919,
+        "median_case_speedup": 2.4146251716849045,
+        "projected_remaining_H200_hours": 4.77324053055873,
+        "observed_case_speed_sensitivity_H200_hours": [
+          4.745118525882711,
+          5.195760881682643
+        ]
+      },
+      {
+        "cohort": "molmoweb-8b-online_mind2web-paired",
+        "observed_records": 77,
+        "latest_attempt_records": 77,
+        "missing_records": 223,
+        "serial_remaining_H200_hours": 25.821984126984127,
+        "actor_service_fraction": 0.9325930137828387,
+        "median_case_speedup": 2.4571335858130876,
+        "projected_remaining_H200_hours": 11.541189688874686,
+        "observed_case_speed_sensitivity_H200_hours": [
+          11.511518976893212,
+          12.451577166109445
+        ]
+      },
+      {
+        "cohort": "molmoweb-8b-webvoyager-paired",
+        "observed_records": 141,
+        "latest_attempt_records": 120,
+        "missing_records": 454,
+        "serial_remaining_H200_hours": 40.15167592592592,
+        "actor_service_fraction": 0.951166860359535,
+        "median_case_speedup": 2.6789847340132247,
+        "projected_remaining_H200_hours": 16.216484975403215,
+        "observed_case_speed_sensitivity_H200_hours": [
+          15.950022616268539,
+          21.487645673830794
+        ]
+      }
+    ],
+    "formula": "H_new=H_serial*((1-actor_service_fraction)+actor_service_fraction/panel_speedup)",
+    "limitations": [
+      "Conditional estimate, not measured end-to-end throughput.",
+      "Three saved cases per cohort selected by input length; sensitivity range is not a confidence interval.",
+      "Remaining 13 WebVoyager 4B N1 tasks, future validation, handoff/recovery headroom excluded.",
+      "No new allocation or production activation authorized by this estimate."
+    ]
+  },
+  "wandb": {
+    "url": "https://wandb.ai/zixianma/openwebrl-evals/runs/7767bf1f6154446d97e3780948956c7c",
+    "run_id": "7767bf1f6154446d97e3780948956c7c",
+    "project": "openwebrl-evals",
+    "remote_verified": true
+  },
+  "remaining_production_gates": [
+    "RPC and all-attempt accounting integration",
+    "Bounded concurrent rollout validation with unchanged protocols and caps"
+  ],
+  "methodology": {
+    "frozen_cases": 18,
+    "unique_archived_draws": 90,
+    "methods": 3,
+    "timing_repetitions": 2,
+    "outputs_are_repeated_replays_not_independent_cases": true,
+    "case_selection": "Median, p95 and maximum input length in each of six latest post-repair cohorts, independent of outcome",
+    "scientific_settings_unchanged": true,
+    "first_attempt_failure": "Non-contiguous expanded images rejected by native vision encoder view; fixed by materializing contiguous identical tensors",
+    "first_attempt_seconds": 89,
+    "final_attempt_seconds": 887
+  },
+  "rpc_validation": {
+    "job_id": "355611",
+    "outputs_verified": 32,
+    "original_benchmark_outputs_verified": 540,
+    "all_attempt_allocation_seconds": 1070,
+    "all_attempt_H200_hours": 0.5944444444444444,
+    "browser_calls": 0,
+    "paid_API_calls": 0,
+    "owned_teardown_verified": true,
+    "rpc_validation_verified_complete": true,
+    "production_enabled": false,
+    "terminal_audit_sha256": "3a952eedf60fa9e1f7b780daeaaecb9daf9d757fad6e56a7c3985a66db1ea894",
+    "wandb_url": "https://wandb.ai/zixianma/openwebrl-evals/runs/791257dd372445199786414ef05b5301",
+    "models": {
+      "4b": {
+        "all_attempt_draws": 298,
+        "all_outputs_match_archive": true,
+        "concurrent_http_requests": 3,
+        "draws_verified": 16,
+        "max_simultaneous_model_calls": 1,
+        "n1_requests": 1,
+        "owned_teardown": true,
+        "panels": 3,
+        "pre_exit_cuda_allocated_bytes": 34603008,
+        "resources": {
+          "host_maxrss_kib": 18956588,
+          "peak_allocated_bytes": 26990251008,
+          "peak_reserved_bytes": 30234640384
+        },
+        "seconds": 62.09483698802069
+      },
+      "8b": {
+        "all_attempt_draws": 298,
+        "all_outputs_match_archive": true,
+        "concurrent_http_requests": 3,
+        "draws_verified": 16,
+        "max_simultaneous_model_calls": 1,
+        "n1_requests": 1,
+        "owned_teardown": true,
+        "panels": 3,
+        "pre_exit_cuda_allocated_bytes": 34603008,
+        "resources": {
+          "host_maxrss_kib": 35321548,
+          "peak_allocated_bytes": 44086657024,
+          "peak_reserved_bytes": 47888465920
+        },
+        "seconds": 59.6472187852487
+      }
+    },
+    "teardown_note": "33 MiB remained in each pre-exit CUDA allocator snapshot. Controller joined both workers; allocation, batch and extern steps completed exit0. Direct post-exit node PID scan unavailable. No zero-pre-exit-allocation claim."
+  },
+  "optimized_completion_proposal": {
+    "additional_h200_hours": 85.5,
+    "additional_allocation_seconds": 307800,
+    "additional_API_usd": 0,
+    "additional_browser_attempts": 0,
+    "additional_local_generations": 0,
+    "per_allocation": {
+      "cpus": 8,
+      "gpu_type": "H200",
+      "gpus": 1,
+      "max_wall_seconds": 86400,
+      "memory_gib": 120
+    },
+    "peak": {
+      "browsers": 32,
+      "cpus": 32,
+      "h200_gpus": 4,
+      "jobs": 4,
+      "memory_gib": 480
+    },
+    "approved": true,
+    "request_sha256": "1d710bfa5bad08bc572bb395941e109a1113e2a33c2e9340f641f9dbee0b005f",
+    "conditions": [
+      {
+        "job": "molmoweb-4b-webvoyager-paired",
+        "condition": "n1",
+        "missing_records": 13,
+        "additional_hours_all_attempts": 1.5
+      },
+      {
+        "job": "molmoweb-4b-webvoyager-paired",
+        "condition": "n5",
+        "missing_records": 484,
+        "additional_hours_all_attempts": 20
+      },
+      {
+        "job": "molmoweb-8b-webvoyager-paired",
+        "condition": "n5",
+        "missing_records": 454,
+        "additional_hours_all_attempts": 24
+      },
+      {
+        "job": "molmoweb-4b-deepshop-paired",
+        "condition": "n5",
+        "missing_records": 105,
+        "additional_hours_all_attempts": 6
+      },
+      {
+        "job": "molmoweb-8b-deepshop-paired",
+        "condition": "n5",
+        "missing_records": 91,
+        "additional_hours_all_attempts": 6
+      },
+      {
+        "job": "molmoweb-4b-online_mind2web-paired",
+        "condition": "n5",
+        "missing_records": 242,
+        "additional_hours_all_attempts": 14
+      },
+      {
+        "job": "molmoweb-8b-online_mind2web-paired",
+        "condition": "n5",
+        "missing_records": 223,
+        "additional_hours_all_attempts": 14
+      }
+    ],
+    "status": "approved_four_jobs_running_first_live_panels_verified",
+    "extension_approval_sha256": "8ce1ef5e718ba56070c53e5547b57b25e9dc4450438d6fb50db8374f715f9a02",
+    "first_jobs": [
+      {
+        "job_id": "355667",
+        "id": "molmoweb-8b-webvoyager-paired",
+        "allowed_conditions": [
+          "n5"
+        ],
+        "allocation_seconds": 86400
+      },
+      {
+        "job_id": "355668",
+        "id": "molmoweb-4b-online_mind2web-paired",
+        "allowed_conditions": [
+          "n5"
+        ],
+        "allocation_seconds": 50400
+      },
+      {
+        "job_id": "355669",
+        "id": "molmoweb-4b-webvoyager-paired",
+        "allowed_conditions": [
+          "n1"
+        ],
+        "allocation_seconds": 5400
+      },
+      {
+        "job_id": "355670",
+        "id": "molmoweb-8b-online_mind2web-paired",
+        "allowed_conditions": [
+          "n5"
+        ],
+        "allocation_seconds": 50400
+      }
+    ],
+    "peak_H200s": 4,
+    "suite_verified_complete": false,
+    "first_live_panel_audit_sha256": "1cb717acb0baa8dafbe948fd2b1a074b4825f7ccc7e7b25f720d543aac02671f",
+    "first_live_panels": [
+      {
+        "job_id": "355667",
+        "condition": "n5",
+        "first_generation_verified": true,
+        "first_selector_physical_receipt_verified": true,
+        "first_panel_seconds": 3.883604852948338,
+        "new_selector_calls": null
+      },
+      {
+        "job_id": "355668",
+        "condition": "n5",
+        "first_generation_verified": true,
+        "first_selector_physical_receipt_verified": true,
+        "first_panel_seconds": 5.0716922408901155,
+        "new_selector_calls": null
+      },
+      {
+        "job_id": "355669",
+        "condition": "n1",
+        "first_generation_verified": true,
+        "first_selector_physical_receipt_verified": null,
+        "first_panel_seconds": null,
+        "new_selector_calls": 0
+      },
+      {
+        "job_id": "355670",
+        "condition": "n5",
+        "first_generation_verified": true,
+        "first_selector_physical_receipt_verified": true,
+        "first_panel_seconds": 4.832680847961456,
+        "new_selector_calls": null
+      }
+    ]
+  }
+}
