@@ -632,7 +632,7 @@
     "interpretation": "Incomplete diagnostic collection; no established selection benefit. Wall-time exclusions disproportionately remove long-running episodes; filtered rates do not repair this confound."
   },
   "n5_interim_snapshot": {
-    "as_of_utc": "2026-10-11T08:14:58.100060+00:00",
+    "as_of_utc": "2026-10-11T08:40:19.634712+00:00",
     "status": "partial; infrastructure-confounded interim snapshot",
     "cohorts": [
       {
@@ -660,17 +660,17 @@
           "n5": {
             "native": {
               "raw": {
-                "episodes": 42,
-                "successes": 14,
-                "success_rate": 0.3333333333333333
+                "episodes": 45,
+                "successes": 16,
+                "success_rate": 0.35555555555555557
               },
               "access_infra_filtered": {
-                "episodes": 28,
-                "successes": 14,
-                "success_rate": 0.5
+                "episodes": 30,
+                "successes": 16,
+                "success_rate": 0.5333333333333333
               },
               "excluded": {
-                "episodes": 14,
+                "episodes": 15,
                 "successes": 0,
                 "success_rate": 0.0
               }
@@ -680,35 +680,35 @@
         "paired": {
           "native": {
             "common_observed": {
-              "episodes": 42,
-              "n1_successes": 15,
-              "n5_successes": 14,
-              "n5_minus_n1": -0.023809523809523808,
+              "episodes": 45,
+              "n1_successes": 16,
+              "n5_successes": 16,
+              "n5_minus_n1": 0.0,
               "paired_task_bootstrap_95ci": [
-                -0.19047619047619047,
-                0.14285714285714285
+                -0.15555555555555556,
+                0.15555555555555556
               ],
               "bootstrap_draws": 10000,
               "bootstrap_seed": 20261010,
-              "both_success": 8,
+              "both_success": 9,
               "n1_only": 7,
-              "n5_only": 6,
-              "both_failure": 21
+              "n5_only": 7,
+              "both_failure": 22
             },
             "common_valid": {
-              "episodes": 28,
-              "n1_successes": 9,
-              "n5_successes": 14,
-              "n5_minus_n1": 0.17857142857142858,
+              "episodes": 30,
+              "n1_successes": 10,
+              "n5_successes": 16,
+              "n5_minus_n1": 0.2,
               "paired_task_bootstrap_95ci": [
-                0.0,
-                0.35714285714285715
+                0.03333333333333333,
+                0.36666666666666664
               ],
               "bootstrap_draws": 10000,
               "bootstrap_seed": 20261010,
-              "both_success": 8,
+              "both_success": 9,
               "n1_only": 1,
-              "n5_only": 6,
+              "n5_only": 7,
               "both_failure": 13
             }
           }
@@ -874,14 +874,14 @@
           "n5": {
             "native": {
               "raw": {
-                "episodes": 54,
-                "successes": 24,
-                "success_rate": 0.4444444444444444
+                "episodes": 59,
+                "successes": 28,
+                "success_rate": 0.4745762711864407
               },
               "access_infra_filtered": {
-                "episodes": 32,
-                "successes": 24,
-                "success_rate": 0.75
+                "episodes": 37,
+                "successes": 28,
+                "success_rate": 0.7567567567567568
               },
               "excluded": {
                 "episodes": 22,
@@ -894,36 +894,36 @@
         "paired": {
           "native": {
             "common_observed": {
-              "episodes": 54,
-              "n1_successes": 23,
-              "n5_successes": 24,
-              "n5_minus_n1": 0.018518518518518517,
+              "episodes": 59,
+              "n1_successes": 24,
+              "n5_successes": 28,
+              "n5_minus_n1": 0.06779661016949153,
               "paired_task_bootstrap_95ci": [
-                -0.09259259259259259,
-                0.14814814814814814
+                -0.05084745762711865,
+                0.1864406779661017
               ],
               "bootstrap_draws": 10000,
               "bootstrap_seed": 20261010,
-              "both_success": 18,
+              "both_success": 19,
               "n1_only": 5,
-              "n5_only": 6,
-              "both_failure": 25
+              "n5_only": 9,
+              "both_failure": 26
             },
             "common_valid": {
-              "episodes": 32,
-              "n1_successes": 21,
-              "n5_successes": 24,
-              "n5_minus_n1": 0.09375,
+              "episodes": 37,
+              "n1_successes": 22,
+              "n5_successes": 28,
+              "n5_minus_n1": 0.16216216216216217,
               "paired_task_bootstrap_95ci": [
-                -0.09375,
-                0.28125
+                0.0,
+                0.32432432432432434
               ],
               "bootstrap_draws": 10000,
               "bootstrap_seed": 20261010,
-              "both_success": 18,
+              "both_success": 19,
               "n1_only": 3,
-              "n5_only": 6,
-              "both_failure": 5
+              "n5_only": 9,
+              "both_failure": 6
             }
           }
         }
@@ -953,14 +953,14 @@
           "n5": {
             "native": {
               "raw": {
-                "episodes": 34,
-                "successes": 8,
-                "success_rate": 0.23529411764705882
+                "episodes": 37,
+                "successes": 10,
+                "success_rate": 0.2702702702702703
               },
               "access_infra_filtered": {
-                "episodes": 22,
-                "successes": 8,
-                "success_rate": 0.36363636363636365
+                "episodes": 25,
+                "successes": 10,
+                "success_rate": 0.4
               },
               "excluded": {
                 "episodes": 12,
@@ -973,36 +973,36 @@
         "paired": {
           "native": {
             "common_observed": {
-              "episodes": 34,
-              "n1_successes": 11,
-              "n5_successes": 8,
-              "n5_minus_n1": -0.08823529411764706,
+              "episodes": 37,
+              "n1_successes": 13,
+              "n5_successes": 10,
+              "n5_minus_n1": -0.08108108108108109,
               "paired_task_bootstrap_95ci": [
-                -0.2647058823529412,
-                0.08823529411764706
+                -0.24324324324324326,
+                0.08108108108108109
               ],
               "bootstrap_draws": 10000,
               "bootstrap_seed": 20261010,
-              "both_success": 5,
+              "both_success": 7,
               "n1_only": 6,
               "n5_only": 3,
-              "both_failure": 20
+              "both_failure": 21
             },
             "common_valid": {
-              "episodes": 22,
-              "n1_successes": 7,
-              "n5_successes": 8,
-              "n5_minus_n1": 0.045454545454545456,
+              "episodes": 25,
+              "n1_successes": 9,
+              "n5_successes": 10,
+              "n5_minus_n1": 0.04,
               "paired_task_bootstrap_95ci": [
-                -0.13636363636363635,
-                0.22727272727272727
+                -0.12,
+                0.2
               ],
               "bootstrap_draws": 10000,
               "bootstrap_seed": 20261010,
-              "both_success": 5,
+              "both_success": 7,
               "n1_only": 2,
               "n5_only": 3,
-              "both_failure": 12
+              "both_failure": 13
             }
           }
         }
@@ -1167,14 +1167,14 @@
           "n5": {
             "native": {
               "raw": {
-                "episodes": 47,
-                "successes": 21,
-                "success_rate": 0.44680851063829785
+                "episodes": 51,
+                "successes": 23,
+                "success_rate": 0.45098039215686275
               },
               "access_infra_filtered": {
-                "episodes": 27,
-                "successes": 20,
-                "success_rate": 0.7407407407407407
+                "episodes": 31,
+                "successes": 22,
+                "success_rate": 0.7096774193548387
               },
               "excluded": {
                 "episodes": 20,
@@ -1187,36 +1187,36 @@
         "paired": {
           "native": {
             "common_observed": {
-              "episodes": 47,
-              "n1_successes": 18,
-              "n5_successes": 21,
-              "n5_minus_n1": 0.06382978723404255,
+              "episodes": 51,
+              "n1_successes": 20,
+              "n5_successes": 23,
+              "n5_minus_n1": 0.058823529411764705,
               "paired_task_bootstrap_95ci": [
-                -0.06382978723404255,
-                0.19148936170212766
+                -0.058823529411764705,
+                0.17647058823529413
               ],
               "bootstrap_draws": 10000,
               "bootstrap_seed": 20261010,
-              "both_success": 15,
+              "both_success": 17,
               "n1_only": 3,
               "n5_only": 6,
-              "both_failure": 23
+              "both_failure": 25
             },
             "common_valid": {
-              "episodes": 27,
-              "n1_successes": 18,
-              "n5_successes": 20,
-              "n5_minus_n1": 0.07407407407407407,
+              "episodes": 31,
+              "n1_successes": 20,
+              "n5_successes": 22,
+              "n5_minus_n1": 0.06451612903225806,
               "paired_task_bootstrap_95ci": [
-                -0.1111111111111111,
-                0.25925925925925924
+                -0.0967741935483871,
+                0.22580645161290322
               ],
               "bootstrap_draws": 10000,
               "bootstrap_seed": 20261010,
-              "both_success": 15,
+              "both_success": 17,
               "n1_only": 3,
               "n5_only": 5,
-              "both_failure": 4
+              "both_failure": 6
             }
           }
         }
@@ -1343,16 +1343,67 @@
     "artifacts_verified": 7345,
     "images_verified": 1947,
     "evidence_sha256": {
-      "paired-metrics.json": "62709fdfcec230606b65fbe60f7f2debea366cb6874774bf1d6931500d65d04d",
+      "paired-metrics.json": "a7374f78b9c537417db52b8aad12436bba956b921ad0bb50fc5b1e81b8ec9057",
       "recovery-artifact-audit.json": "8d512d2c96ed72fb677688cc457d5ff62b48724914737bdd3bd14a1125792419",
       "runtime-audit.json": "828084270541b9d473763252207995c64e78f0a2716c0c2c587d69e70b50e554"
     },
     "caveats": [
-      "Running, nonrandom partial task coverage; neither Online-Mind2Web N5 cohort has started.",
-      "All 56 earlier wall-timeout outcomes remain included in raw rates; the fixed filter excludes them.",
+      "Nonrandom partial task coverage; no complete N5 cohort.",
+      "All 56 earlier wall timeouts remain in raw rates, plus one subsequently audited 4B DeepShop timeout.",
       "Common-valid subsets condition on availability and runtime completion in both arms; intervals do not correct this bias.",
       "Eight-browser and two-browser admission phases are mixed; this snapshot does not establish selector effectiveness.",
-      "Throughput is insufficient for complete requested coverage within current stage time caps; no added budget."
-    ]
+      "4B DeepShop stopped partial at its allocation reserve; full requested coverage is unavailable within remaining stage time."
+    ],
+    "recovery_artifact_audit_as_of_utc": "2026-10-11T08:14:58.100060+00:00",
+    "latest_4b_deepshop_partial_audit": {
+      "records": 45,
+      "requested_records": 150,
+      "unresolved_records": 105,
+      "interrupted_rollouts": 2,
+      "untouched_tasks": 103,
+      "stats": {
+        "completed": 30,
+        "native_judged": 30,
+        "native_eligible": 30,
+        "native_valid": 30,
+        "native_successes": 16,
+        "completed_timeout": 15
+      },
+      "verified_complete": false,
+      "partial_artifacts_verified": true,
+      "owned_teardown_verified": true,
+      "artifact_files": 9025,
+      "decoded_images": 865,
+      "native_generations_verified": 4271,
+      "physical_api_responses": 987,
+      "selector_calls": 957,
+      "native_judge_calls": 30,
+      "browser_attempts": 55,
+      "local_generations": 4840,
+      "selector_usd": 8.304591,
+      "native_judge_usd": 1.768195,
+      "allocation_seconds_all_attempts": 14180,
+      "stage_cap_seconds": 14400,
+      "remaining_seconds": 220,
+      "artifact_audit_sha256": "e569eabf5dd77415bf224263289f4cf3455e0027484a38fbd2d5230244a3233e",
+      "api_reconciliation_sha256": "09e63359a5f9c170928d6e15f5ae8ec276bf4807624c6bd0d62f149656adb9e2",
+      "scheduler_accounting_sha256": "70aeaf5cc53120518357b4798f1292964b46e10643b09a4d52d0553efbc0b89d"
+    },
+    "om8_n5_startup_recovery": {
+      "reason": "Completed N1 recovery review incorrectly reused at N5 startup",
+      "failed_startup_seconds": 86,
+      "total_prior_n5_seconds": 89,
+      "replacement_seconds": 32280,
+      "stage_cap_seconds": 32400,
+      "failed_startup_n5_records": 0,
+      "failed_startup_n5_api_browser_generation_requests": 0,
+      "committed_outcome_replay_guard_preserved": true,
+      "n1_records_preserved": 300,
+      "startup_verified": true,
+      "five_proposals_and_sol_medium_verified": true,
+      "new_budget": false,
+      "validation_sha256": "3a13f076e9ba7b775cf61fe02aa40e28182693cf73fca08dd37bc1b782415471"
+    },
+    "runtime_audit_as_of_utc": "2026-10-11T08:14:58.100060+00:00"
   }
 }

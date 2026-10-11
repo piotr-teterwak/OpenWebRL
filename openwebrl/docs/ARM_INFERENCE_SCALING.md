@@ -286,9 +286,9 @@ The campaign ceilings remain **26 H200-hours**, **$625** for APIs and **1,480 ph
 
 **The retained 4B WebVoyager control rates are 45.19% raw and 56.07% after excluding identified access/infra exposures.** This is a partial 582-task cohort; 13 of the requested 595 tasks remain unresolved. The filter removes 129 episodes, including nine successes, and changes the task mix. It is a diagnostic of the observed local-browser cohort, not a prediction of performance under Browserbase.
 
-**Following control review, the user approved all six paired N=5 + GPT-6.1 Sol medium evaluations on October 10.** The 4B/8B WebVoyager and DeepShop N5 jobs are running; both Online-Mind2Web jobs are queued with dependencies that keep the total at four jobs and 32 browsers across the suite. They use the existing reserved N5 budgets and unchanged actor/browser/judge settings. No complete N5 cohort or selection improvement is established yet. Five N1 controls are independently complete: 8B WebVoyager, both DeepShop and both Online-Mind2Web cohorts. The 4B WebVoyager control remains partial at 582/595 records.
+**Following control review, the user approved all six paired N=5 + GPT-6.1 Sol medium evaluations on October 10.** The two WebVoyager N5 jobs, 8B DeepShop and 8B Online-Mind2Web are running; 4B Online-Mind2Web remains queued. **4B DeepShop stopped partial at 45/150 records:** its remaining allocation cannot support another rollout. The total remains within four jobs and 32 approved browsers across the suite (two admitted rollouts per active job). They use the existing reserved N5 budgets and unchanged actor/browser/judge settings. No complete N5 cohort or selection improvement is established yet. Five N1 controls are independently complete: 8B WebVoyager, both DeepShop and both Online-Mind2Web cohorts. The 4B WebVoyager control remains partial at 582/595 records.
 
-**N5 collection has a runtime confound:** 56 of the first 83 committed episodes hit the unchanged 30-minute wall limit, generally before reaching 30 decisions. Eight browsers were sharing one serial native predictor. Collection was restarted with two concurrent rollouts per job within the original resource caps; all committed outcomes remain, and no committed timeout is retried. The first 94 post-repair episodes have now passed artifact verification with no timeouts, including 44 full 30-decision episodes. Filtered early scores preferentially retain shorter episodes and do not establish selection quality. See the runtime audit and interim paired metrics below.
+**N5 collection has a runtime confound:** 56 of the first 83 committed episodes hit the unchanged 30-minute wall limit, generally before reaching 30 decisions. Eight browsers were sharing one serial native predictor. Collection was restarted with two concurrent rollouts per job within the original resource caps; all committed outcomes remain, and no committed timeout is retried. The first 94 post-repair episodes passed artifact verification without timeouts, including 44 full 30-decision episodes; a later 4B DeepShop episode timed out after its last completed actor/selector decision. That outcome is retained. Filtered early scores preferentially retain shorter episodes and do not establish selection quality. See the runtime audit and interim paired metrics below.
 
 The two headline metrics below use the same saved verdicts. **Raw** divides successes by all observed task records, including committed invalid outcomes; **access/infra-filtered** removes any episode with identified access/infra evidence, whether it succeeded, failed or recovered. Missing records remain unresolved. Native and AgentTrek scores remain separate.
 
@@ -328,33 +328,50 @@ Every attempt is charged to its original stage; replacement time is rounded down
 </details>
 
 <details>
-<summary>First post-repair validation and interim paired metrics, October 11</summary>
+<summary>Interim paired metrics and 4B DeepShop partial audit, October 11</summary>
 
-Snapshot: 2026-10-11T08:14:58.100060+00:00. **The first 94 post-repair episodes finished without wall timeouts**, including 44 that reached all 30 decisions. The audit verified 7,345 artifact files, 1,947 images and all 1,947 five-proposal selection decisions. The longest of these completed episodes took 1,107 seconds. Mean queue waits across sampled generation receipts are now 1.4–2.0 seconds. Frozen actor settings, actual Sol medium requests, native GPT-4o responses, W&B and separate stage caps passed; all 2,160 previously committed records remain unchanged.
-
-**These are incomplete, infrastructure-confounded diagnostics, not evidence of a selection improvement.** All 56 original timeout outcomes remain in the following raw counts. Removing them preferentially retains faster-finishing episodes; common-valid pairing and its bootstrap interval do not remove that selection bias. Both Online-Mind2Web N5 runs remain queued. At current throughput the requested full cohorts will not fit their remaining time caps; collection will stop partial at those caps.
+Score snapshot: 2026-10-11T08:40:19.634712+00:00. **No complete N5 cohort or general selection benefit is established.** Earlier infrastructure timeouts and nonrandom partial task coverage affect these comparisons. All 56 original wall-timeout outcomes remain in raw counts. The fixed filter removes them and the later 4B DeepShop timeout, preferentially retaining faster-finishing episodes; common-valid pairing and its interval do not remove that bias.
 
 | N5 actor | Benchmark | Observed tasks | Raw successes | Raw rate | Filtered tasks | Filtered successes | Filtered rate |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| 4B | WebVoyager | 54 | 24 | 44.44% | 32 | 24 | 75.00% |
-| 4B | DeepShop | 42 | 14 | 33.33% | 28 | 14 | 50.00% |
-| 8B | WebVoyager | 47 | 21 | 44.68% | 27 | 20 | 74.07% |
-| 8B | DeepShop | 34 | 8 | 23.53% | 22 | 8 | 36.36% |
+| 4B | WebVoyager | 59 | 28 | 47.46% | 37 | 28 | 75.68% |
+| 4B | DeepShop; stopped partial | 45 | 16 | 35.56% | 30 | 16 | 53.33% |
+| 8B | WebVoyager | 51 | 23 | 45.10% | 31 | 22 | 70.97% |
+| 8B | DeepShop | 37 | 10 | 27.03% | 25 | 10 | 40.00% |
 
-Paired comparisons below use identical task IDs in N1 and N5. Common-valid additionally requires that both trajectories pass the frozen access/infra filter. Counts and rates apply only to the indicated subset.
+Both OM N5 cohorts had no committed records at this score snapshot; 8B subsequently passed startup recovery and is generating five-proposal selections. Paired rows below compare exactly the same tasks. Common-valid requires both trajectories to pass the frozen access/infra filter.
 
 | Actor | Benchmark | Paired subset | Tasks | N1 successes | N5 successes | N1 rate | N5 rate | N5 − N1, pp | Paired 95% interval, pp |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| 4B | WebVoyager | Common observed | 54 | 23 | 24 | 42.59% | 44.44% | +1.85 | [-9.26, +14.81] |
-| 4B | WebVoyager | Common valid | 32 | 21 | 24 | 65.62% | 75.00% | +9.38 | [-9.38, +28.12] |
-| 4B | DeepShop | Common observed | 42 | 15 | 14 | 35.71% | 33.33% | -2.38 | [-19.05, +14.29] |
-| 4B | DeepShop | Common valid | 28 | 9 | 14 | 32.14% | 50.00% | +17.86 | [+0.00, +35.71] |
-| 8B | WebVoyager | Common observed | 47 | 18 | 21 | 38.30% | 44.68% | +6.38 | [-6.38, +19.15] |
-| 8B | WebVoyager | Common valid | 27 | 18 | 20 | 66.67% | 74.07% | +7.41 | [-11.11, +25.93] |
-| 8B | DeepShop | Common observed | 34 | 11 | 8 | 32.35% | 23.53% | -8.82 | [-26.47, +8.82] |
-| 8B | DeepShop | Common valid | 22 | 7 | 8 | 31.82% | 36.36% | +4.55 | [-13.64, +22.73] |
+| 4B | WebVoyager | Common observed | 59 | 24 | 28 | 40.68% | 47.46% | +6.78 | [-5.08, +18.64] |
+| 4B | WebVoyager | Common valid | 37 | 22 | 28 | 59.46% | 75.68% | +16.22 | [+0.00, +32.43] |
+| 4B | DeepShop; stopped partial | Common observed | 45 | 16 | 16 | 35.56% | 35.56% | +0.00 | [-15.56, +15.56] |
+| 4B | DeepShop; stopped partial | Common valid | 30 | 10 | 16 | 33.33% | 53.33% | +20.00 | [+3.33, +36.67] |
+| 8B | WebVoyager | Common observed | 51 | 20 | 23 | 39.22% | 45.10% | +5.88 | [-5.88, +17.65] |
+| 8B | WebVoyager | Common valid | 31 | 20 | 22 | 64.52% | 70.97% | +6.45 | [-9.68, +22.58] |
+| 8B | DeepShop | Common observed | 37 | 13 | 10 | 35.14% | 27.03% | -8.11 | [-24.32, +8.11] |
+| 8B | DeepShop | Common valid | 25 | 9 | 10 | 36.00% | 40.00% | +4.00 | [-12.00, +20.00] |
 
-Intervals use 10,000 paired task-bootstrap resamples, seed 20261010; they quantify sampling variation within the observed subset only. The filter excludes one N5 success for 8B WebVoyager and zero for the other three N5 cohorts. All four raw paired intervals include zero. [Aggregate counts, uncertainty and audit hashes](arm_results/molmoweb_n1_controls_20261010.json).
+Intervals use 10,000 paired task-bootstrap resamples, seed 20261010, and quantify variation within the observed subset only. All four raw paired intervals include zero. For 4B DeepShop, both conditions have 16 successes on the same 45 tasks; the +20 pp common-valid difference is conditional on excluding all 15 N5 timeouts and does not establish an unbiased selection gain.
+
+**4B DeepShop audit and budget stop.** All 45 committed records, 9,025 artifact files, 865 saved images and 4,271 completed actor-generation receipts passed verification. Every completed selection retains five native proposals and a strict Sol medium index. All 987 physical API responses reconcile with charged usage: 957 selector calls ($8.304591) and 30 native GPT-4o judge calls ($1.768195), with no unresolved reservations. The ledger records 55 browser attempts and 4,840 local generation attempts. All attempts and owned scheduler steps are terminal; W&B records the audited partial status. There are 105 unresolved tasks: two saved allocation-interrupted rollouts and 103 untouched tasks. No missing outcome is imputed or selectively retried.
+
+| 4B DeepShop N5 accounting | Used | Approved cap | Remaining |
+| --- | ---: | ---: | ---: |
+| Allocation seconds, all attempts | 14,180 | 14,400 | 220 |
+| Browser attempts | 55 | 165 | 110 |
+| Selector HTTP calls | 957 | 4,950 | 3,993 |
+| Native judge HTTP calls | 30 | 660 | 630 |
+| Selector USD | 8.304591 | 75 | 66.695409 |
+| Native judge USD | 1.768195 | 10 | 8.231805 |
+
+The 220 remaining allocation seconds round down to 180 seconds, entirely consumed by the fixed shutdown reserve; no useful relaunch fits. The run remains incomplete. Fourteen timeouts predate the admission repair; one followed it. For that later timeout, all 16 observed decisions finished actor generation and selection before a long downstream gap; the exact stalled operation is unproven. It remains a raw zero and a filtered exclusion.
+
+**Recovery validation.** The earlier 08:14 UTC audit covered the first 94 post-repair episodes without wall timeouts: 7,345 artifact files, 1,947 images/selection decisions, and 44 episodes reaching 30 decisions. Mean sampled inference queue waits were 1.4–2.0 seconds. The separate, latest DeepShop audit above includes the subsequent timeout.
+
+**8B Online-Mind2Web startup repair.** Its first successor reused a historical N1 CUDA-recovery review. The committed-outcome guard rejected replay of a completed N1 task; the startup failed before any N5 browser, generation or paid API work. The completed review and successful original regression receipt are now preserved as history, with no current replay authorization. The guard, actor source and scientific protocol are unchanged. The failed startup consumed 86 seconds; including an earlier three-second failure, 89 N5 seconds are charged. A replacement received 32,280 seconds within the original 32,400-second N5 cap and passed fresh actor/five-proposal/Sol-medium validation. All 300 N1 records remain unchanged.
+
+[Aggregate counts, uncertainty and audit hashes](arm_results/molmoweb_n1_controls_20261010.json) · [4B DeepShop N5 W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/2ac5fb56ba574b3ba3f459521b683f02).
 
 </details>
 
