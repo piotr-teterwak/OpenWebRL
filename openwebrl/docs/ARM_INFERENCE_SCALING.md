@@ -286,7 +286,7 @@ The campaign ceilings remain **26 H200-hours**, **$625** for APIs and **1,480 ph
 
 **The retained 4B WebVoyager control rates are 45.19% raw and 56.07% after excluding identified access/infra exposures.** This is a partial 582-task cohort; 13 of the requested 595 tasks remain unresolved. The filter removes 129 episodes, including nine successes, and changes the task mix. It is a diagnostic of the observed local-browser cohort, not a prediction of performance under Browserbase.
 
-**Following control review, the user approved all six paired N=5 + GPT-6.1 Sol medium evaluations on October 10.** The 4B WebVoyager/DeepShop and 8B WebVoyager N5 jobs are running; the other three are queued with dependencies that keep the total at four jobs and 32 browsers, including active N1 controls. They use the existing reserved N5 budgets and unchanged actor/browser/judge settings. No complete N5 cohort or selection improvement is established yet. Four N1 controls are independently complete: 8B WebVoyager, 4B DeepShop and both Online-Mind2Web cohorts. The 8B DeepShop control continues separately.
+**Following control review, the user approved all six paired N=5 + GPT-6.1 Sol medium evaluations on October 10.** The 4B/8B WebVoyager and DeepShop N5 jobs are running; both Online-Mind2Web jobs are queued with dependencies that keep the total at four jobs and 32 browsers across the suite. They use the existing reserved N5 budgets and unchanged actor/browser/judge settings. No complete N5 cohort or selection improvement is established yet. Five N1 controls are independently complete: 8B WebVoyager, both DeepShop and both Online-Mind2Web cohorts. The 4B WebVoyager control remains partial at 582/595 records.
 
 The two headline metrics below use the same saved verdicts. **Raw** divides successes by all observed task records, including committed invalid outcomes; **access/infra-filtered** removes any episode with identified access/infra evidence, whether it succeeded, failed or recovered. Missing records remain unresolved. Native and AgentTrek scores remain separate.
 
@@ -295,6 +295,7 @@ The two headline metrics below use the same saved verdicts. **Raw** divides succ
 | WebVoyager (partial) | 4B | Native MolmoWeb | 582 | 263 | 45.19% | 453 | 254 | 56.07% |
 | WebVoyager | 8B | Native MolmoWeb | 595 | 264 | 44.37% | 463 | 254 | 54.86% |
 | DeepShop | 4B | Native MolmoWeb | 150 | 43 | 28.67% | 150 | 43 | 28.67% |
+| DeepShop | 8B | Native MolmoWeb | 150 | 45 | 30.00% | 149 | 45 | 30.20% |
 | Online-Mind2Web | 4B | Native MolmoWeb | 300 | 38 | 12.67% | 218 | 37 | 16.97% |
 | Online-Mind2Web | 4B | AgentTrek | 300 | 81 | 27.00% | 218 | 73 | 33.49% |
 | Online-Mind2Web | 8B | Native MolmoWeb | 300 | 48 | 16.00% | 229 | 47 | 20.52% |
@@ -317,6 +318,7 @@ The earlier internal rollout-valid flag is narrower than this exposure filter; i
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | WebVoyager | MolmoWeb-8B-Native | Native MolmoWeb, GPT-4o | 595 | 595 | 595 | 264 | 44.37% | 44.37% |
 | DeepShop | MolmoWeb-4B-Native | Native MolmoWeb, GPT-4o | 150 | 150 | 150 | 43 | 28.67% | 28.67% |
+| DeepShop | MolmoWeb-8B-Native | Native MolmoWeb, GPT-4o | 150 | 149 | 149 | 45 | 30.00% | 30.20% |
 | Online-Mind2Web | MolmoWeb-4B-Native | Native MolmoWeb, o4-mini | 300 | 287 | 287 | 38 | 12.67% | 13.24% |
 | Online-Mind2Web | MolmoWeb-4B-Native | AgentTrek, o4-mini | 300 | 287 | 105 | 81 | 27.00% | 28.22% |
 | Online-Mind2Web | MolmoWeb-8B-Native | Native MolmoWeb, o4-mini | 300 | 289 | 289 | 48 | 16.00% | 16.61% |
@@ -395,7 +397,24 @@ All 595 task identities, 57,905 artifact files, 11,798 decoded images, 11,798 na
 | Native judge HTTP attempts | 595 | 2,620 |
 | Native judge cost, USD | 34.232500 | 40 |
 
-Every judge response and usage charge settled; no uncertain API reservation remains. Unused N1 time stays in its original stage budget. Four controls totaling 1,345 requested task slots are verified complete; the six-control suite remains incomplete.
+Every judge response and usage charge settled; no uncertain API reservation remains. Unused N1 time stays in its original stage budget. Five controls totaling 1,495 requested task slots are verified complete; the six-control suite remains incomplete.
+
+</details>
+
+<details>
+<summary>DeepShop 8B control: complete artifact and accounting audit</summary>
+
+All 150 task records, 17,749 artifact files, 3,767 decoded images and 3,767 native generation receipts passed independent verification. The native GPT-4o judge produced 149 verdicts and 45 successes. One episode exceeded its wall-time limit; it remains an explicit unjudged zero in the raw denominator and is excluded by the fixed access/infra filter. Actor and judge settings, zero N1 selector calls, W&B and owned teardown were verified. [8B DeepShop control W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/bc9c971cddac4c0fbaa31661e2591eb0).
+
+| N1 resource | Used across all attempts | Stage cap |
+| --- | ---: | ---: |
+| One-H200 allocation seconds | 13,543 | 21,600 |
+| Browser attempts | 150 | 165 |
+| Local generations | 3,767 | 4,950 |
+| Native judge HTTP attempts | 149 | 660 |
+| Native judge cost, USD | 10.906712 | 12 |
+
+Every physical judge response, usage charge and saved verdict reconciled; no uncertain API reservation remains. The approved N5 successor uses its separate stage budget. Unused N1 resources are not transferred.
 
 </details>
 

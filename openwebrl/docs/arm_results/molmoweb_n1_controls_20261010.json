@@ -5,8 +5,8 @@
   "n5_blocked_pending_control_review": false,
   "requested_control_cohorts": 6,
   "requested_control_records": 2090,
-  "verified_control_cohorts": 4,
-  "verified_control_records": 1345,
+  "verified_control_cohorts": 5,
+  "verified_control_records": 1495,
   "cohorts": [
     {
       "actor": "MolmoWeb-4B-Native",
@@ -242,6 +242,63 @@
         }
       },
       "wandb": "https://wandb.ai/zixianma/openwebrl-evals/runs/e8780ff9ffb94d6d8bb9d6d9f16e2933"
+    },
+    {
+      "actor": "MolmoWeb-8B-Native",
+      "benchmark": "DeepShop",
+      "condition": "N1",
+      "verified_complete": true,
+      "requested_tasks": 150,
+      "saved_records": 150,
+      "valid_records": 149,
+      "invalid_records": 1,
+      "native_judge": {
+        "protocol": "official MolmoWeb deepshop",
+        "model": "gpt-4o",
+        "successes": 45,
+        "eligible": 149,
+        "judged": 149,
+        "overall_success_rate": 0.3,
+        "valid_only_success_rate": 0.30201342281879195,
+        "physical_http_attempts": 149,
+        "charged_micro_usd": 10906712
+      },
+      "accounting": {
+        "all_attempt_seconds": 13543,
+        "n1_stage_cap_seconds": 21600,
+        "browser_attempts": 150,
+        "browser_cap": 165,
+        "local_generation_attempts": 3767,
+        "local_generation_cap": 4950,
+        "selector_calls": 0,
+        "unresolved_API_reservations": 0,
+        "owned_teardown_verified": true
+      },
+      "audit": {
+        "artifact_files": 17749,
+        "decoded_images": 3767,
+        "native_generation_receipts_verified": 3767,
+        "physical_judge_response_receipts_verified": 149,
+        "artifact_audit_sha256": "77a1796d78879975ef39cda88e19afeec5c3d633598363c125c6343f6c90816a"
+      },
+      "requested_metrics": {
+        "raw": {
+          "episodes": 150,
+          "successes": 45,
+          "success_rate": 0.3
+        },
+        "access_infra_filtered": {
+          "episodes": 149,
+          "successes": 45,
+          "success_rate": 0.30201342281879195
+        },
+        "excluded": {
+          "episodes": 1,
+          "successes": 0,
+          "success_rate": 0.0
+        }
+      },
+      "wandb": "https://wandb.ai/zixianma/openwebrl-evals/runs/bc9c971cddac4c0fbaa31661e2591eb0"
     }
   ],
   "comparability": {
@@ -456,6 +513,28 @@
             }
           }
         }
+      },
+      {
+        "job": "molmoweb-8b-deepshop-paired",
+        "metrics": {
+          "native": {
+            "raw": {
+              "episodes": 150,
+              "successes": 45,
+              "success_rate": 0.3
+            },
+            "access_infra_filtered": {
+              "episodes": 149,
+              "successes": 45,
+              "success_rate": 0.30201342281879195
+            },
+            "excluded": {
+              "episodes": 1,
+              "successes": 0,
+              "success_rate": 0.0
+            }
+          }
+        }
       }
     ]
   },
@@ -476,7 +555,7 @@
     "failed_startup_allocation_seconds": 14,
     "failed_startup_attempts_preserved": 4,
     "replacements_within_remaining_stage_caps": true,
-    "reported_status": "4B WebVoyager/DeepShop and 8B WebVoyager running; three conditions dependency queued",
+    "reported_status": "4B/8B WebVoyager and DeepShop running; both Online-Mind2Web conditions dependency queued",
     "verified_complete": false
   }
 }
