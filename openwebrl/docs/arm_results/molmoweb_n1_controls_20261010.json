@@ -1,12 +1,12 @@
 {
   "schema": "molmoweb-n1-control-aggregates-v1",
-  "date": "2026-10-10",
-  "suite_controls_verified_complete": false,
+  "date": "2026-10-11",
+  "suite_controls_verified_complete": true,
   "n5_blocked_pending_control_review": false,
   "requested_control_cohorts": 6,
   "requested_control_records": 2090,
-  "verified_control_cohorts": 5,
-  "verified_control_records": 1495,
+  "verified_control_cohorts": 6,
+  "verified_control_records": 2090,
   "cohorts": [
     {
       "actor": "MolmoWeb-4B-Native",
@@ -299,6 +299,69 @@
         }
       },
       "wandb": "https://wandb.ai/zixianma/openwebrl-evals/runs/bc9c971cddac4c0fbaa31661e2591eb0"
+    },
+    {
+      "actor": "MolmoWeb-4B-Native",
+      "benchmark": "WebVoyager",
+      "condition": "N1",
+      "verified_complete": true,
+      "requested_tasks": 595,
+      "saved_records": 595,
+      "valid_records": 595,
+      "invalid_records": 0,
+      "native_judge": {
+        "protocol": "official MolmoWeb webvoyager",
+        "model": "gpt-4o",
+        "successes": 268,
+        "eligible": 595,
+        "judged": 595,
+        "overall_success_rate": 0.4504201680672269,
+        "valid_only_success_rate": 0.4504201680672269,
+        "physical_http_attempts": 595,
+        "charged_micro_usd": 34190929
+      },
+      "accounting": {
+        "all_attempt_seconds": 29357,
+        "original_n1_seconds": 28616,
+        "original_n1_seconds_cap": 28800,
+        "extension_n1_seconds": 741,
+        "extension_n1_seconds_cap": 5400,
+        "no_budget_transfer": true,
+        "browser_attempts": 609,
+        "browser_cap": 655,
+        "local_generation_attempts": 11961,
+        "local_generation_cap": 19650,
+        "selector_calls": 0,
+        "unresolved_API_reservations": 0,
+        "owned_teardown_verified": true,
+        "teardown_scope": "Controller-owned N1 workers and terminal allocation/batch/extern scheduler records; no fresh host-wide orphan scan."
+      },
+      "audit": {
+        "artifact_files": 57845,
+        "decoded_images": 11783,
+        "native_generation_receipts_verified": 11783,
+        "physical_judge_response_receipts_verified": 595,
+        "artifact_audit_sha256": "80ec4bb972ebe295bc9e913aa92f47d2e48b9ca1cc942b414e0f93a2ea4e5c87",
+        "all_controls_completion_sha256": "6a569c891aefc9905a093c99116fe1746b51c909b997e105c578f4797e9eb761"
+      },
+      "requested_metrics": {
+        "access_infra_filtered": {
+          "episodes": 460,
+          "success_rate": 0.5630434782608695,
+          "successes": 259
+        },
+        "excluded": {
+          "episodes": 135,
+          "success_rate": 0.06666666666666667,
+          "successes": 9
+        },
+        "raw": {
+          "episodes": 595,
+          "success_rate": 0.4504201680672269,
+          "successes": 268
+        }
+      },
+      "wandb": "https://wandb.ai/zixianma/openwebrl-evals/runs/007f4d8cd1bd49c9891f1aee4b16cf17"
     }
   ],
   "comparability": {
@@ -306,50 +369,9 @@
     "environment": "Local SimpleEnv; different from paper Browserbase/advanced-stealth environment",
     "agenttrek": "Completed EXIT episodes only; task, full native action history and last supplied actor observation; other outcomes remain zero overall",
     "no_pooled_or_best_of_judge_score": true,
-    "remaining_control_cohorts": "4B WebVoyager is partial and blocked by residual N1 allocation time; 8B WebVoyager and 8B DeepShop remain running. Missing outcomes are unresolved, not failures."
+    "remaining_control_cohorts": "None; all six N1 controls are verified complete. N5 continuation remains incomplete."
   },
-  "incomplete_cohorts": [
-    {
-      "actor": "MolmoWeb-4B-Native",
-      "benchmark": "WebVoyager",
-      "condition": "N1",
-      "verified_complete": false,
-      "partial_artifacts_verified": true,
-      "status": "partial_n1_budget_blocked",
-      "requested_tasks": 595,
-      "saved_records": 582,
-      "valid_saved_records": 582,
-      "observed_successes": 263,
-      "unresolved_records": 13,
-      "allocation_interrupted_rollouts": 8,
-      "untouched_tasks": 5,
-      "full_benchmark_success_rate": null,
-      "remaining_n1_stage_seconds": 184,
-      "accounting": {
-        "all_attempt_seconds": 28616,
-        "n1_stage_cap_seconds": 28800,
-        "browser_attempts": 596,
-        "browser_cap": 655,
-        "local_generation_attempts": 11699,
-        "local_generation_cap": 19650,
-        "native_judge_http_attempts": 582,
-        "native_judge_http_cap": 2620,
-        "native_judge_micro_usd": 33430103,
-        "native_judge_cap_usd": 40,
-        "unresolved_API_reservations": 0,
-        "selector_calls": 0,
-        "owned_teardown_verified": true
-      },
-      "audit": {
-        "artifact_files": 56562,
-        "decoded_images": 11521,
-        "native_generation_receipts_verified": 11521,
-        "http_response_receipts_verified": 582,
-        "artifact_audit_sha256": "896ce25880b0c493618e0977f6f27b258f493017f2403705f72e3a6f21ead2d0"
-      },
-      "wandb": "https://wandb.ai/zixianma/openwebrl-evals/runs/007f4d8cd1bd49c9891f1aee4b16cf17"
-    }
-  ],
+  "incomplete_cohorts": [],
   "reviewed_metrics": {
     "headline": [
       "raw_success_rate",
@@ -374,20 +396,20 @@
         "job": "molmoweb-4b-deepshop-paired",
         "metrics": {
           "native": {
-            "raw": {
-              "episodes": 150,
-              "successes": 43,
-              "success_rate": 0.2866666666666667
-            },
             "access_infra_filtered": {
               "episodes": 150,
-              "successes": 43,
-              "success_rate": 0.2866666666666667
+              "success_rate": 0.2866666666666667,
+              "successes": 43
             },
             "excluded": {
               "episodes": 0,
-              "successes": 0,
-              "success_rate": null
+              "success_rate": null,
+              "successes": 0
+            },
+            "raw": {
+              "episodes": 150,
+              "success_rate": 0.2866666666666667,
+              "successes": 43
             }
           }
         }
@@ -396,37 +418,37 @@
         "job": "molmoweb-4b-online_mind2web-paired",
         "metrics": {
           "agenttrek": {
-            "raw": {
-              "episodes": 300,
-              "successes": 81.0,
-              "success_rate": 0.27
-            },
             "access_infra_filtered": {
               "episodes": 218,
-              "successes": 73.0,
-              "success_rate": 0.3348623853211009
+              "success_rate": 0.3348623853211009,
+              "successes": 73.0
             },
             "excluded": {
               "episodes": 82,
-              "successes": 8.0,
-              "success_rate": 0.0975609756097561
+              "success_rate": 0.0975609756097561,
+              "successes": 8.0
+            },
+            "raw": {
+              "episodes": 300,
+              "success_rate": 0.27,
+              "successes": 81.0
             }
           },
           "native": {
-            "raw": {
-              "episodes": 300,
-              "successes": 38,
-              "success_rate": 0.12666666666666668
-            },
             "access_infra_filtered": {
               "episodes": 218,
-              "successes": 37,
-              "success_rate": 0.16972477064220184
+              "success_rate": 0.16972477064220184,
+              "successes": 37
             },
             "excluded": {
               "episodes": 82,
-              "successes": 1,
-              "success_rate": 0.012195121951219513
+              "success_rate": 0.012195121951219513,
+              "successes": 1
+            },
+            "raw": {
+              "episodes": 300,
+              "success_rate": 0.12666666666666668,
+              "successes": 38
             }
           }
         }
@@ -435,81 +457,20 @@
         "job": "molmoweb-4b-webvoyager-paired",
         "metrics": {
           "native": {
-            "raw": {
-              "episodes": 582,
-              "successes": 263,
-              "success_rate": 0.4518900343642612
-            },
             "access_infra_filtered": {
-              "episodes": 453,
-              "successes": 254,
-              "success_rate": 0.5607064017660044
+              "episodes": 460,
+              "success_rate": 0.5630434782608695,
+              "successes": 259
             },
             "excluded": {
-              "episodes": 129,
-              "successes": 9,
-              "success_rate": 0.06976744186046512
-            }
-          }
-        }
-      },
-      {
-        "job": "molmoweb-8b-online_mind2web-paired",
-        "metrics": {
-          "agenttrek": {
-            "raw": {
-              "episodes": 300,
-              "successes": 76.0,
-              "success_rate": 0.25333333333333335
+              "episodes": 135,
+              "success_rate": 0.06666666666666667,
+              "successes": 9
             },
-            "access_infra_filtered": {
-              "episodes": 229,
-              "successes": 74.0,
-              "success_rate": 0.3231441048034934
-            },
-            "excluded": {
-              "episodes": 71,
-              "successes": 2.0,
-              "success_rate": 0.028169014084507043
-            }
-          },
-          "native": {
-            "raw": {
-              "episodes": 300,
-              "successes": 48,
-              "success_rate": 0.16
-            },
-            "access_infra_filtered": {
-              "episodes": 229,
-              "successes": 47,
-              "success_rate": 0.2052401746724891
-            },
-            "excluded": {
-              "episodes": 71,
-              "successes": 1,
-              "success_rate": 0.014084507042253521
-            }
-          }
-        }
-      },
-      {
-        "job": "molmoweb-8b-webvoyager-paired",
-        "metrics": {
-          "native": {
             "raw": {
               "episodes": 595,
-              "successes": 264,
-              "success_rate": 0.4436974789915966
-            },
-            "access_infra_filtered": {
-              "episodes": 463,
-              "successes": 254,
-              "success_rate": 0.5485961123110151
-            },
-            "excluded": {
-              "episodes": 132,
-              "successes": 10,
-              "success_rate": 0.07575757575757576
+              "success_rate": 0.4504201680672269,
+              "successes": 268
             }
           }
         }
@@ -518,20 +479,81 @@
         "job": "molmoweb-8b-deepshop-paired",
         "metrics": {
           "native": {
-            "raw": {
-              "episodes": 150,
-              "successes": 45,
-              "success_rate": 0.3
-            },
             "access_infra_filtered": {
               "episodes": 149,
-              "successes": 45,
-              "success_rate": 0.30201342281879195
+              "success_rate": 0.30201342281879195,
+              "successes": 45
             },
             "excluded": {
               "episodes": 1,
-              "successes": 0,
-              "success_rate": 0.0
+              "success_rate": 0.0,
+              "successes": 0
+            },
+            "raw": {
+              "episodes": 150,
+              "success_rate": 0.3,
+              "successes": 45
+            }
+          }
+        }
+      },
+      {
+        "job": "molmoweb-8b-online_mind2web-paired",
+        "metrics": {
+          "agenttrek": {
+            "access_infra_filtered": {
+              "episodes": 229,
+              "success_rate": 0.3231441048034934,
+              "successes": 74.0
+            },
+            "excluded": {
+              "episodes": 71,
+              "success_rate": 0.028169014084507043,
+              "successes": 2.0
+            },
+            "raw": {
+              "episodes": 300,
+              "success_rate": 0.25333333333333335,
+              "successes": 76.0
+            }
+          },
+          "native": {
+            "access_infra_filtered": {
+              "episodes": 229,
+              "success_rate": 0.2052401746724891,
+              "successes": 47
+            },
+            "excluded": {
+              "episodes": 71,
+              "success_rate": 0.014084507042253521,
+              "successes": 1
+            },
+            "raw": {
+              "episodes": 300,
+              "success_rate": 0.16,
+              "successes": 48
+            }
+          }
+        }
+      },
+      {
+        "job": "molmoweb-8b-webvoyager-paired",
+        "metrics": {
+          "native": {
+            "access_infra_filtered": {
+              "episodes": 463,
+              "success_rate": 0.5485961123110151,
+              "successes": 254
+            },
+            "excluded": {
+              "episodes": 132,
+              "success_rate": 0.07575757575757576,
+              "successes": 10
+            },
+            "raw": {
+              "episodes": 595,
+              "success_rate": 0.4436974789915966,
+              "successes": 264
             }
           }
         }
@@ -555,7 +577,7 @@
     "failed_startup_allocation_seconds": 14,
     "failed_startup_attempts_preserved": 4,
     "replacements_within_remaining_stage_caps": true,
-    "reported_status": "4B/8B WebVoyager and DeepShop replacements started with two concurrent rollouts; both Online-Mind2Web conditions dependency queued",
+    "reported_status": "Validated native batching continuation: both WebVoyager and both Online-Mind2Web N5 conditions running; both DeepShop N5 conditions await available slots.",
     "verified_complete": false
   },
   "n5_runtime_repair": {
@@ -2140,5 +2162,74 @@
     "supervision_status": "completed_after_terminal_audit",
     "exact_token_text_outputs_matched": 540,
     "projected_N5_H200_hours": 67.08965428858924
+  },
+  "historical_incomplete_cohorts_at_original_compute_stop": [
+    {
+      "actor": "MolmoWeb-4B-Native",
+      "benchmark": "WebVoyager",
+      "condition": "N1",
+      "verified_complete": false,
+      "partial_artifacts_verified": true,
+      "status": "partial_n1_budget_blocked",
+      "requested_tasks": 595,
+      "saved_records": 582,
+      "valid_saved_records": 582,
+      "observed_successes": 263,
+      "unresolved_records": 13,
+      "allocation_interrupted_rollouts": 8,
+      "untouched_tasks": 5,
+      "full_benchmark_success_rate": null,
+      "remaining_n1_stage_seconds": 184,
+      "accounting": {
+        "all_attempt_seconds": 28616,
+        "n1_stage_cap_seconds": 28800,
+        "browser_attempts": 596,
+        "browser_cap": 655,
+        "local_generation_attempts": 11699,
+        "local_generation_cap": 19650,
+        "native_judge_http_attempts": 582,
+        "native_judge_http_cap": 2620,
+        "native_judge_micro_usd": 33430103,
+        "native_judge_cap_usd": 40,
+        "unresolved_API_reservations": 0,
+        "selector_calls": 0,
+        "owned_teardown_verified": true
+      },
+      "audit": {
+        "artifact_files": 56562,
+        "decoded_images": 11521,
+        "native_generation_receipts_verified": 11521,
+        "http_response_receipts_verified": 582,
+        "artifact_audit_sha256": "896ce25880b0c493618e0977f6f27b258f493017f2403705f72e3a6f21ead2d0"
+      },
+      "wandb": "https://wandb.ai/zixianma/openwebrl-evals/runs/007f4d8cd1bd49c9891f1aee4b16cf17"
+    }
+  ],
+  "suite_verified_complete": false,
+  "controls_completion_audit": {
+    "controls_verified_complete": true,
+    "records": 2090,
+    "cohorts": 6,
+    "artifact_audit_reuse": "Five prior SHA-bound audits with every committed record pointer revalidated; new full WV4 record/image/receipt audit.",
+    "all_controls_completion_sha256": "6a569c891aefc9905a093c99116fe1746b51c909b997e105c578f4797e9eb761",
+    "metrics_policy_sha256": "e0902900285480c3e25d483d8b3e6a926e276fbc1aa7938001ae2e8062d3febf",
+    "classification_implementation_sha256": "96d714fe28d1cbc5019669c3b9e866cca75bb84869680b63904244d7b022e76b"
+  },
+  "optimized_completion_current": {
+    "active_n5_job_ids": [
+      "355667",
+      "355668",
+      "355670",
+      "355688"
+    ],
+    "completed_n1_tail_job_id": "355669",
+    "remaining_waiting_n5_conditions": [
+      "4B DeepShop",
+      "8B DeepShop"
+    ],
+    "approved_additional_h200_hours": 85.5,
+    "new_API_budget": false,
+    "new_browser_budget": false,
+    "suite_verified_complete": false
   }
 }
