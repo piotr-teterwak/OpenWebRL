@@ -2120,16 +2120,25 @@
   },
   "inference_optimization": {
     "date": "2026-10-11",
-    "status": "GPU_benchmark_approved_queued",
-    "regression_tests_passed": 4,
+    "status": "diagnostic_verified_complete_production_disabled",
+    "regression_tests_passed": 5,
     "archived_input_tokenizations_matched": 18,
-    "GPU_speedup_measured": false,
+    "GPU_speedup_measured": true,
     "additional_API_budget_usd": 0,
     "browser_attempts": 0,
     "production_resumption_blocked": true,
     "previous_199_5_H200_hour_proposal": "deferred_not_approved",
-    "diagnostic_job_id": "355532",
+    "diagnostic_job_id": "355538",
     "approved_diagnostic_H200_hours": 2,
-    "active_agent_continuation_verified": true
+    "active_agent_continuation_verified": false,
+    "attempt_job_ids": [
+      "355532",
+      "355538"
+    ],
+    "diagnostic_H200_hours_used": 0.5422222222222223,
+    "diagnostic_aggregate": "molmoweb_native_batching_20261011.json",
+    "supervision_status": "completed_after_terminal_audit",
+    "exact_token_text_outputs_matched": 540,
+    "projected_N5_H200_hours": 67.08965428858924
   }
 }
