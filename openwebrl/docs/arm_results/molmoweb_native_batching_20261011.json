@@ -298,7 +298,7 @@
       "jobs": 4,
       "memory_gib": 480
     },
-    "approved": false,
+    "approved": true,
     "request_sha256": "1d710bfa5bad08bc572bb395941e109a1113e2a33c2e9340f641f9dbee0b005f",
     "conditions": [
       {
@@ -343,6 +343,44 @@
         "missing_records": 223,
         "additional_hours_all_attempts": 14
       }
-    ]
+    ],
+    "status": "approved_first_four_jobs_running_startup_validation_in_progress",
+    "extension_approval_sha256": "8ce1ef5e718ba56070c53e5547b57b25e9dc4450438d6fb50db8374f715f9a02",
+    "first_jobs": [
+      {
+        "job_id": "355667",
+        "id": "molmoweb-8b-webvoyager-paired",
+        "allowed_conditions": [
+          "n5"
+        ],
+        "allocation_seconds": 86400
+      },
+      {
+        "job_id": "355668",
+        "id": "molmoweb-4b-online_mind2web-paired",
+        "allowed_conditions": [
+          "n5"
+        ],
+        "allocation_seconds": 50400
+      },
+      {
+        "job_id": "355669",
+        "id": "molmoweb-4b-webvoyager-paired",
+        "allowed_conditions": [
+          "n1"
+        ],
+        "allocation_seconds": 5400
+      },
+      {
+        "job_id": "355670",
+        "id": "molmoweb-8b-online_mind2web-paired",
+        "allowed_conditions": [
+          "n5"
+        ],
+        "allocation_seconds": 50400
+      }
+    ],
+    "peak_H200s": 4,
+    "suite_verified_complete": false
   }
 }
