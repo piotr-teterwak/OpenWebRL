@@ -288,7 +288,7 @@ The campaign ceilings remain **26 H200-hours**, **$625** for APIs and **1,480 ph
 
 **Following control review, the user approved all six paired N=5 + GPT-6.1 Sol medium evaluations on October 10.** The 4B/8B WebVoyager and DeepShop N5 jobs are running; both Online-Mind2Web jobs are queued with dependencies that keep the total at four jobs and 32 browsers across the suite. They use the existing reserved N5 budgets and unchanged actor/browser/judge settings. No complete N5 cohort or selection improvement is established yet. Five N1 controls are independently complete: 8B WebVoyager, both DeepShop and both Online-Mind2Web cohorts. The 4B WebVoyager control remains partial at 582/595 records.
 
-**N5 collection has a runtime confound:** 56 of the first 83 committed episodes hit the unchanged 30-minute wall limit, generally before reaching 30 decisions. Eight browsers were sharing one serial native predictor. Collection was restarted with two concurrent rollouts per job within the original resource caps; all committed outcomes remain, and no committed timeout is retried. Filtered early scores preferentially retain shorter episodes and do not establish selection quality. See the runtime audit below.
+**N5 collection has a runtime confound:** 56 of the first 83 committed episodes hit the unchanged 30-minute wall limit, generally before reaching 30 decisions. Eight browsers were sharing one serial native predictor. Collection was restarted with two concurrent rollouts per job within the original resource caps; all committed outcomes remain, and no committed timeout is retried. The first 45 post-repair episodes have now passed artifact verification with no timeouts, including 19 full 30-decision episodes. Filtered early scores preferentially retain shorter episodes and do not establish selection quality. See the runtime audit and interim paired metrics below.
 
 The two headline metrics below use the same saved verdicts. **Raw** divides successes by all observed task records, including committed invalid outcomes; **access/infra-filtered** removes any episode with identified access/infra evidence, whether it succeeded, failed or recovered. Missing records remain unresolved. Native and AgentTrek scores remain separate.
 
@@ -324,6 +324,37 @@ The repair reduces admitted rollouts to two per job, below the approved eight-br
 | 8B | Online-Mind2Web | 0 | 0 | 3 | 32,340 | 32,400 |
 
 Every attempt is charged to its original stage; replacement time is rounded down, and N1 balances remain separate. The two Online-Mind2Web successors follow the updated dependencies. Maximum concurrent jobs remains four; the repaired controller admits at most eight browsers across those four jobs. The full requested cohorts are still incomplete. Final raw/common-task and filtered/common-valid comparisons must disclose the mixed admission phases and timeout coverage; excluding timeouts alone does not establish a fair 30-decision comparison.
+
+</details>
+
+<details>
+<summary>First post-repair validation and interim paired metrics, October 11</summary>
+
+Snapshot: 2026-10-11T07:11:22.430596+00:00. **The first 45 post-repair episodes finished without wall timeouts**, including 19 that reached all 30 decisions. The audit verified 3,468 artifact files, 916 images and all 916 five-proposal selection decisions. The longest of these completed episodes took 1,107 seconds. Mean queue waits across sampled generation receipts are now 1.5–2.0 seconds. Frozen actor settings, actual Sol medium requests, native GPT-4o responses, W&B and separate stage caps passed; all 2,160 previously committed records remain unchanged.
+
+**These are incomplete, infrastructure-confounded diagnostics, not evidence of a selection improvement.** All 56 original timeout outcomes remain in the following raw counts. Removing them preferentially retains faster-finishing episodes; common-valid pairing and its bootstrap interval do not remove that selection bias. Both Online-Mind2Web N5 runs remain queued. At current throughput the requested full cohorts will not fit their remaining time caps; collection will stop partial at those caps.
+
+| N5 actor | Benchmark | Observed tasks | Raw successes | Raw rate | Filtered tasks | Filtered successes | Filtered rate |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 4B | WebVoyager | 39 | 19 | 48.72% | 22 | 19 | 86.36% |
+| 4B | DeepShop | 32 | 10 | 31.25% | 18 | 10 | 55.56% |
+| 8B | WebVoyager | 32 | 13 | 40.62% | 16 | 12 | 75.00% |
+| 8B | DeepShop | 25 | 8 | 32.00% | 13 | 8 | 61.54% |
+
+Paired comparisons below use identical task IDs in N1 and N5. Common-valid additionally requires that both trajectories pass the frozen access/infra filter. Counts and rates apply only to the indicated subset.
+
+| Actor | Benchmark | Paired subset | Tasks | N1 successes | N5 successes | N1 rate | N5 rate | N5 − N1, pp | Paired 95% interval, pp |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| 4B | WebVoyager | Common observed | 39 | 16 | 19 | 41.03% | 48.72% | +7.69 | [-5.13, +20.51] |
+| 4B | WebVoyager | Common valid | 22 | 14 | 19 | 63.64% | 86.36% | +22.73 | [+9.09, +40.91] |
+| 4B | DeepShop | Common observed | 32 | 11 | 10 | 34.38% | 31.25% | -3.12 | [-25.00, +18.75] |
+| 4B | DeepShop | Common valid | 18 | 5 | 10 | 27.78% | 55.56% | +27.78 | [+5.56, +55.56] |
+| 8B | WebVoyager | Common observed | 32 | 10 | 13 | 31.25% | 40.62% | +9.38 | [-3.12, +21.88] |
+| 8B | WebVoyager | Common valid | 16 | 10 | 12 | 62.50% | 75.00% | +12.50 | [-12.50, +37.50] |
+| 8B | DeepShop | Common observed | 25 | 9 | 8 | 36.00% | 32.00% | -4.00 | [-24.00, +16.00] |
+| 8B | DeepShop | Common valid | 13 | 5 | 8 | 38.46% | 61.54% | +23.08 | [+0.00, +46.15] |
+
+Intervals use 10,000 paired task-bootstrap resamples, seed 20261010; they quantify sampling variation within the observed subset only. The filter excludes one N5 success for 8B WebVoyager and zero for the other three N5 cohorts. All four raw paired intervals include zero. [Aggregate counts, uncertainty and audit hashes](arm_results/molmoweb_n1_controls_20261010.json).
 
 </details>
 

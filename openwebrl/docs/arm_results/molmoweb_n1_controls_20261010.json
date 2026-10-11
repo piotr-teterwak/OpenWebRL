@@ -630,5 +630,729 @@
       }
     ],
     "interpretation": "Incomplete diagnostic collection; no established selection benefit. Wall-time exclusions disproportionately remove long-running episodes; filtered rates do not repair this confound."
+  },
+  "n5_interim_snapshot": {
+    "as_of_utc": "2026-10-11T07:11:22.430596+00:00",
+    "status": "partial; infrastructure-confounded interim snapshot",
+    "cohorts": [
+      {
+        "job": "molmoweb-4b-deepshop-paired",
+        "conditions": {
+          "n1": {
+            "native": {
+              "raw": {
+                "episodes": 150,
+                "successes": 43,
+                "success_rate": 0.2866666666666667
+              },
+              "access_infra_filtered": {
+                "episodes": 150,
+                "successes": 43,
+                "success_rate": 0.2866666666666667
+              },
+              "excluded": {
+                "episodes": 0,
+                "successes": 0,
+                "success_rate": null
+              }
+            }
+          },
+          "n5": {
+            "native": {
+              "raw": {
+                "episodes": 32,
+                "successes": 10,
+                "success_rate": 0.3125
+              },
+              "access_infra_filtered": {
+                "episodes": 18,
+                "successes": 10,
+                "success_rate": 0.5555555555555556
+              },
+              "excluded": {
+                "episodes": 14,
+                "successes": 0,
+                "success_rate": 0.0
+              }
+            }
+          }
+        },
+        "paired": {
+          "native": {
+            "common_observed": {
+              "episodes": 32,
+              "n1_successes": 11,
+              "n5_successes": 10,
+              "n5_minus_n1": -0.03125,
+              "paired_task_bootstrap_95ci": [
+                -0.25,
+                0.1875
+              ],
+              "bootstrap_draws": 10000,
+              "bootstrap_seed": 20261010,
+              "both_success": 4,
+              "n1_only": 7,
+              "n5_only": 6,
+              "both_failure": 15
+            },
+            "common_valid": {
+              "episodes": 18,
+              "n1_successes": 5,
+              "n5_successes": 10,
+              "n5_minus_n1": 0.2777777777777778,
+              "paired_task_bootstrap_95ci": [
+                0.05555555555555555,
+                0.5555555555555556
+              ],
+              "bootstrap_draws": 10000,
+              "bootstrap_seed": 20261010,
+              "both_success": 4,
+              "n1_only": 1,
+              "n5_only": 6,
+              "both_failure": 7
+            }
+          }
+        }
+      },
+      {
+        "job": "molmoweb-4b-online_mind2web-paired",
+        "conditions": {
+          "n1": {
+            "agenttrek": {
+              "raw": {
+                "episodes": 300,
+                "successes": 81.0,
+                "success_rate": 0.27
+              },
+              "access_infra_filtered": {
+                "episodes": 218,
+                "successes": 73.0,
+                "success_rate": 0.3348623853211009
+              },
+              "excluded": {
+                "episodes": 82,
+                "successes": 8.0,
+                "success_rate": 0.0975609756097561
+              }
+            },
+            "native": {
+              "raw": {
+                "episodes": 300,
+                "successes": 38,
+                "success_rate": 0.12666666666666668
+              },
+              "access_infra_filtered": {
+                "episodes": 218,
+                "successes": 37,
+                "success_rate": 0.16972477064220184
+              },
+              "excluded": {
+                "episodes": 82,
+                "successes": 1,
+                "success_rate": 0.012195121951219513
+              }
+            }
+          },
+          "n5": {
+            "agenttrek": {
+              "raw": {
+                "episodes": 0,
+                "successes": 0,
+                "success_rate": null
+              },
+              "access_infra_filtered": {
+                "episodes": 0,
+                "successes": 0,
+                "success_rate": null
+              },
+              "excluded": {
+                "episodes": 0,
+                "successes": 0,
+                "success_rate": null
+              }
+            },
+            "native": {
+              "raw": {
+                "episodes": 0,
+                "successes": 0,
+                "success_rate": null
+              },
+              "access_infra_filtered": {
+                "episodes": 0,
+                "successes": 0,
+                "success_rate": null
+              },
+              "excluded": {
+                "episodes": 0,
+                "successes": 0,
+                "success_rate": null
+              }
+            }
+          }
+        },
+        "paired": {
+          "agenttrek": {
+            "common_observed": {
+              "episodes": 0,
+              "n1_successes": 0,
+              "n5_successes": 0,
+              "n5_minus_n1": null,
+              "paired_task_bootstrap_95ci": null,
+              "bootstrap_draws": 0,
+              "bootstrap_seed": 20261010,
+              "both_success": 0,
+              "n1_only": 0,
+              "n5_only": 0,
+              "both_failure": 0
+            },
+            "common_valid": {
+              "episodes": 0,
+              "n1_successes": 0,
+              "n5_successes": 0,
+              "n5_minus_n1": null,
+              "paired_task_bootstrap_95ci": null,
+              "bootstrap_draws": 0,
+              "bootstrap_seed": 20261010,
+              "both_success": 0,
+              "n1_only": 0,
+              "n5_only": 0,
+              "both_failure": 0
+            }
+          },
+          "native": {
+            "common_observed": {
+              "episodes": 0,
+              "n1_successes": 0,
+              "n5_successes": 0,
+              "n5_minus_n1": null,
+              "paired_task_bootstrap_95ci": null,
+              "bootstrap_draws": 0,
+              "bootstrap_seed": 20261010,
+              "both_success": 0,
+              "n1_only": 0,
+              "n5_only": 0,
+              "both_failure": 0
+            },
+            "common_valid": {
+              "episodes": 0,
+              "n1_successes": 0,
+              "n5_successes": 0,
+              "n5_minus_n1": null,
+              "paired_task_bootstrap_95ci": null,
+              "bootstrap_draws": 0,
+              "bootstrap_seed": 20261010,
+              "both_success": 0,
+              "n1_only": 0,
+              "n5_only": 0,
+              "both_failure": 0
+            }
+          }
+        }
+      },
+      {
+        "job": "molmoweb-4b-webvoyager-paired",
+        "conditions": {
+          "n1": {
+            "native": {
+              "raw": {
+                "episodes": 582,
+                "successes": 263,
+                "success_rate": 0.4518900343642612
+              },
+              "access_infra_filtered": {
+                "episodes": 453,
+                "successes": 254,
+                "success_rate": 0.5607064017660044
+              },
+              "excluded": {
+                "episodes": 129,
+                "successes": 9,
+                "success_rate": 0.06976744186046512
+              }
+            }
+          },
+          "n5": {
+            "native": {
+              "raw": {
+                "episodes": 39,
+                "successes": 19,
+                "success_rate": 0.48717948717948717
+              },
+              "access_infra_filtered": {
+                "episodes": 22,
+                "successes": 19,
+                "success_rate": 0.8636363636363636
+              },
+              "excluded": {
+                "episodes": 17,
+                "successes": 0,
+                "success_rate": 0.0
+              }
+            }
+          }
+        },
+        "paired": {
+          "native": {
+            "common_observed": {
+              "episodes": 39,
+              "n1_successes": 16,
+              "n5_successes": 19,
+              "n5_minus_n1": 0.07692307692307693,
+              "paired_task_bootstrap_95ci": [
+                -0.05128205128205128,
+                0.20512820512820512
+              ],
+              "bootstrap_draws": 10000,
+              "bootstrap_seed": 20261010,
+              "both_success": 14,
+              "n1_only": 2,
+              "n5_only": 5,
+              "both_failure": 18
+            },
+            "common_valid": {
+              "episodes": 22,
+              "n1_successes": 14,
+              "n5_successes": 19,
+              "n5_minus_n1": 0.22727272727272727,
+              "paired_task_bootstrap_95ci": [
+                0.09090909090909091,
+                0.4090909090909091
+              ],
+              "bootstrap_draws": 10000,
+              "bootstrap_seed": 20261010,
+              "both_success": 14,
+              "n1_only": 0,
+              "n5_only": 5,
+              "both_failure": 3
+            }
+          }
+        }
+      },
+      {
+        "job": "molmoweb-8b-deepshop-paired",
+        "conditions": {
+          "n1": {
+            "native": {
+              "raw": {
+                "episodes": 150,
+                "successes": 45,
+                "success_rate": 0.3
+              },
+              "access_infra_filtered": {
+                "episodes": 149,
+                "successes": 45,
+                "success_rate": 0.30201342281879195
+              },
+              "excluded": {
+                "episodes": 1,
+                "successes": 0,
+                "success_rate": 0.0
+              }
+            }
+          },
+          "n5": {
+            "native": {
+              "raw": {
+                "episodes": 25,
+                "successes": 8,
+                "success_rate": 0.32
+              },
+              "access_infra_filtered": {
+                "episodes": 13,
+                "successes": 8,
+                "success_rate": 0.6153846153846154
+              },
+              "excluded": {
+                "episodes": 12,
+                "successes": 0,
+                "success_rate": 0.0
+              }
+            }
+          }
+        },
+        "paired": {
+          "native": {
+            "common_observed": {
+              "episodes": 25,
+              "n1_successes": 9,
+              "n5_successes": 8,
+              "n5_minus_n1": -0.04,
+              "paired_task_bootstrap_95ci": [
+                -0.24,
+                0.16
+              ],
+              "bootstrap_draws": 10000,
+              "bootstrap_seed": 20261010,
+              "both_success": 5,
+              "n1_only": 4,
+              "n5_only": 3,
+              "both_failure": 13
+            },
+            "common_valid": {
+              "episodes": 13,
+              "n1_successes": 5,
+              "n5_successes": 8,
+              "n5_minus_n1": 0.23076923076923078,
+              "paired_task_bootstrap_95ci": [
+                0.0,
+                0.46153846153846156
+              ],
+              "bootstrap_draws": 10000,
+              "bootstrap_seed": 20261010,
+              "both_success": 5,
+              "n1_only": 0,
+              "n5_only": 3,
+              "both_failure": 5
+            }
+          }
+        }
+      },
+      {
+        "job": "molmoweb-8b-online_mind2web-paired",
+        "conditions": {
+          "n1": {
+            "agenttrek": {
+              "raw": {
+                "episodes": 300,
+                "successes": 76.0,
+                "success_rate": 0.25333333333333335
+              },
+              "access_infra_filtered": {
+                "episodes": 229,
+                "successes": 74.0,
+                "success_rate": 0.3231441048034934
+              },
+              "excluded": {
+                "episodes": 71,
+                "successes": 2.0,
+                "success_rate": 0.028169014084507043
+              }
+            },
+            "native": {
+              "raw": {
+                "episodes": 300,
+                "successes": 48,
+                "success_rate": 0.16
+              },
+              "access_infra_filtered": {
+                "episodes": 229,
+                "successes": 47,
+                "success_rate": 0.2052401746724891
+              },
+              "excluded": {
+                "episodes": 71,
+                "successes": 1,
+                "success_rate": 0.014084507042253521
+              }
+            }
+          },
+          "n5": {
+            "agenttrek": {
+              "raw": {
+                "episodes": 0,
+                "successes": 0,
+                "success_rate": null
+              },
+              "access_infra_filtered": {
+                "episodes": 0,
+                "successes": 0,
+                "success_rate": null
+              },
+              "excluded": {
+                "episodes": 0,
+                "successes": 0,
+                "success_rate": null
+              }
+            },
+            "native": {
+              "raw": {
+                "episodes": 0,
+                "successes": 0,
+                "success_rate": null
+              },
+              "access_infra_filtered": {
+                "episodes": 0,
+                "successes": 0,
+                "success_rate": null
+              },
+              "excluded": {
+                "episodes": 0,
+                "successes": 0,
+                "success_rate": null
+              }
+            }
+          }
+        },
+        "paired": {
+          "agenttrek": {
+            "common_observed": {
+              "episodes": 0,
+              "n1_successes": 0,
+              "n5_successes": 0,
+              "n5_minus_n1": null,
+              "paired_task_bootstrap_95ci": null,
+              "bootstrap_draws": 0,
+              "bootstrap_seed": 20261010,
+              "both_success": 0,
+              "n1_only": 0,
+              "n5_only": 0,
+              "both_failure": 0
+            },
+            "common_valid": {
+              "episodes": 0,
+              "n1_successes": 0,
+              "n5_successes": 0,
+              "n5_minus_n1": null,
+              "paired_task_bootstrap_95ci": null,
+              "bootstrap_draws": 0,
+              "bootstrap_seed": 20261010,
+              "both_success": 0,
+              "n1_only": 0,
+              "n5_only": 0,
+              "both_failure": 0
+            }
+          },
+          "native": {
+            "common_observed": {
+              "episodes": 0,
+              "n1_successes": 0,
+              "n5_successes": 0,
+              "n5_minus_n1": null,
+              "paired_task_bootstrap_95ci": null,
+              "bootstrap_draws": 0,
+              "bootstrap_seed": 20261010,
+              "both_success": 0,
+              "n1_only": 0,
+              "n5_only": 0,
+              "both_failure": 0
+            },
+            "common_valid": {
+              "episodes": 0,
+              "n1_successes": 0,
+              "n5_successes": 0,
+              "n5_minus_n1": null,
+              "paired_task_bootstrap_95ci": null,
+              "bootstrap_draws": 0,
+              "bootstrap_seed": 20261010,
+              "both_success": 0,
+              "n1_only": 0,
+              "n5_only": 0,
+              "both_failure": 0
+            }
+          }
+        }
+      },
+      {
+        "job": "molmoweb-8b-webvoyager-paired",
+        "conditions": {
+          "n1": {
+            "native": {
+              "raw": {
+                "episodes": 595,
+                "successes": 264,
+                "success_rate": 0.4436974789915966
+              },
+              "access_infra_filtered": {
+                "episodes": 463,
+                "successes": 254,
+                "success_rate": 0.5485961123110151
+              },
+              "excluded": {
+                "episodes": 132,
+                "successes": 10,
+                "success_rate": 0.07575757575757576
+              }
+            }
+          },
+          "n5": {
+            "native": {
+              "raw": {
+                "episodes": 32,
+                "successes": 13,
+                "success_rate": 0.40625
+              },
+              "access_infra_filtered": {
+                "episodes": 16,
+                "successes": 12,
+                "success_rate": 0.75
+              },
+              "excluded": {
+                "episodes": 16,
+                "successes": 1,
+                "success_rate": 0.0625
+              }
+            }
+          }
+        },
+        "paired": {
+          "native": {
+            "common_observed": {
+              "episodes": 32,
+              "n1_successes": 10,
+              "n5_successes": 13,
+              "n5_minus_n1": 0.09375,
+              "paired_task_bootstrap_95ci": [
+                -0.03125,
+                0.21875
+              ],
+              "bootstrap_draws": 10000,
+              "bootstrap_seed": 20261010,
+              "both_success": 9,
+              "n1_only": 1,
+              "n5_only": 4,
+              "both_failure": 18
+            },
+            "common_valid": {
+              "episodes": 16,
+              "n1_successes": 10,
+              "n5_successes": 12,
+              "n5_minus_n1": 0.125,
+              "paired_task_bootstrap_95ci": [
+                -0.125,
+                0.375
+              ],
+              "bootstrap_draws": 10000,
+              "bootstrap_seed": 20261010,
+              "both_success": 9,
+              "n1_only": 1,
+              "n5_only": 3,
+              "both_failure": 3
+            }
+          }
+        }
+      }
+    ],
+    "recovery_artifact_audit": [
+      {
+        "job": "molmoweb-4b-webvoyager-paired",
+        "new_records": 15,
+        "status_counts": {
+          "completed": 15
+        },
+        "all_N5_records": 39,
+        "prior_N5_records": 24,
+        "artifact_files_verified": 1068,
+        "images_verified": 276,
+        "decisions_verified": 276,
+        "episodes_reaching_30_steps": 5,
+        "median_episode_seconds": 479.5342388153076,
+        "max_episode_seconds": 864.8513300418854
+      },
+      {
+        "job": "molmoweb-4b-deepshop-paired",
+        "new_records": 11,
+        "status_counts": {
+          "completed": 11
+        },
+        "all_N5_records": 32,
+        "prior_N5_records": 21,
+        "artifact_files_verified": 899,
+        "images_verified": 241,
+        "decisions_verified": 241,
+        "episodes_reaching_30_steps": 6,
+        "median_episode_seconds": 780.7075881958008,
+        "max_episode_seconds": 917.3258476257324
+      },
+      {
+        "job": "molmoweb-8b-webvoyager-paired",
+        "new_records": 11,
+        "status_counts": {
+          "completed": 11
+        },
+        "all_N5_records": 32,
+        "prior_N5_records": 21,
+        "artifact_files_verified": 767,
+        "images_verified": 197,
+        "decisions_verified": 197,
+        "episodes_reaching_30_steps": 3,
+        "median_episode_seconds": 670.9319176673889,
+        "max_episode_seconds": 1084.671287536621
+      },
+      {
+        "job": "molmoweb-8b-deepshop-paired",
+        "new_records": 8,
+        "status_counts": {
+          "completed": 8
+        },
+        "all_N5_records": 25,
+        "prior_N5_records": 17,
+        "artifact_files_verified": 734,
+        "images_verified": 202,
+        "decisions_verified": 202,
+        "episodes_reaching_30_steps": 5,
+        "median_episode_seconds": 1041.5049228668213,
+        "max_episode_seconds": 1106.11749792099
+      }
+    ],
+    "runtime_audit": [
+      {
+        "job": "molmoweb-4b-webvoyager-paired",
+        "browser_concurrency_actual": 2,
+        "native_generations_sampled": 168,
+        "mean_queue_seconds": 1.5413748958464046,
+        "mean_predict_seconds": 1.8649468584917486,
+        "physical_receipts_verified": {
+          "selector": 737,
+          "native_judge": 24
+        },
+        "wandb_url": "https://wandb.ai/zixianma/openwebrl-evals/runs/82e3d3aca2264d4195971b1dbb698486",
+        "wandb_state": "running"
+      },
+      {
+        "job": "molmoweb-4b-deepshop-paired",
+        "browser_concurrency_actual": 2,
+        "native_generations_sampled": 130,
+        "mean_queue_seconds": 1.502752325630102,
+        "mean_predict_seconds": 1.7401726008500331,
+        "physical_receipts_verified": {
+          "selector": 659,
+          "native_judge": 18
+        },
+        "wandb_url": "https://wandb.ai/zixianma/openwebrl-evals/runs/2ac5fb56ba574b3ba3f459521b683f02",
+        "wandb_state": "running"
+      },
+      {
+        "job": "molmoweb-8b-webvoyager-paired",
+        "browser_concurrency_actual": 2,
+        "native_generations_sampled": 130,
+        "mean_queue_seconds": 2.0132227384950965,
+        "mean_predict_seconds": 2.2441121000760735,
+        "physical_receipts_verified": {
+          "selector": 568,
+          "native_judge": 17
+        },
+        "wandb_url": "https://wandb.ai/zixianma/openwebrl-evals/runs/09835cc5a9ea435ebb45dca149d59fe9",
+        "wandb_state": "running"
+      },
+      {
+        "job": "molmoweb-8b-deepshop-paired",
+        "browser_concurrency_actual": 2,
+        "native_generations_sampled": 100,
+        "mean_queue_seconds": 1.7072894441289828,
+        "mean_predict_seconds": 2.0911388304131107,
+        "physical_receipts_verified": {
+          "selector": 470,
+          "native_judge": 13
+        },
+        "wandb_url": "https://wandb.ai/zixianma/openwebrl-evals/runs/d1c53254096a44a19abfe46c1aaee9ec",
+        "wandb_state": "running"
+      }
+    ],
+    "prior_committed_timeouts_retained": 56,
+    "prior_records_unchanged": 2160,
+    "artifacts_verified": 3468,
+    "images_verified": 916,
+    "evidence_sha256": {
+      "paired-metrics.json": "73b7bd86082b6512f246aa8d81155ddbe7b329e69024512e75d08da56e076242",
+      "recovery-artifact-audit.json": "c536158b9affcce3f33b8a673513e102f3039a88d0c9d038988d58089e7f448d",
+      "runtime-audit.json": "5392e51869971a5b7f842ccd981019379a2627ac9357fa856615ab1076d183a7"
+    },
+    "caveats": [
+      "Running, nonrandom partial task coverage; neither Online-Mind2Web N5 cohort has started.",
+      "All 56 earlier wall-timeout outcomes remain included in raw rates; the fixed filter excludes them.",
+      "Common-valid subsets condition on availability and runtime completion in both arms; intervals do not correct this bias.",
+      "Eight-browser and two-browser admission phases are mixed; this snapshot does not establish selector effectiveness.",
+      "Throughput is insufficient for complete requested coverage within current stage time caps; no added budget."
+    ]
   }
 }
