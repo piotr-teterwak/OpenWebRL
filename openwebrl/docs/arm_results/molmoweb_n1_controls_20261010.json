@@ -632,7 +632,7 @@
     "interpretation": "Incomplete diagnostic collection; no established selection benefit. Wall-time exclusions disproportionately remove long-running episodes; filtered rates do not repair this confound."
   },
   "n5_interim_snapshot": {
-    "as_of_utc": "2026-10-11T08:40:19.634712+00:00",
+    "as_of_utc": "2026-10-11T09:47:45.829984+00:00",
     "status": "partial; infrastructure-confounded interim snapshot",
     "cohorts": [
       {
@@ -874,17 +874,17 @@
           "n5": {
             "native": {
               "raw": {
-                "episodes": 59,
-                "successes": 28,
-                "success_rate": 0.4745762711864407
+                "episodes": 74,
+                "successes": 38,
+                "success_rate": 0.5135135135135135
               },
               "access_infra_filtered": {
-                "episodes": 37,
-                "successes": 28,
-                "success_rate": 0.7567567567567568
+                "episodes": 50,
+                "successes": 38,
+                "success_rate": 0.76
               },
               "excluded": {
-                "episodes": 22,
+                "episodes": 24,
                 "successes": 0,
                 "success_rate": 0.0
               }
@@ -894,36 +894,36 @@
         "paired": {
           "native": {
             "common_observed": {
-              "episodes": 59,
-              "n1_successes": 24,
-              "n5_successes": 28,
-              "n5_minus_n1": 0.06779661016949153,
+              "episodes": 74,
+              "n1_successes": 32,
+              "n5_successes": 38,
+              "n5_minus_n1": 0.08108108108108109,
               "paired_task_bootstrap_95ci": [
-                -0.05084745762711865,
-                0.1864406779661017
+                -0.02702702702702703,
+                0.1891891891891892
               ],
               "bootstrap_draws": 10000,
               "bootstrap_seed": 20261010,
-              "both_success": 19,
-              "n1_only": 5,
-              "n5_only": 9,
-              "both_failure": 26
+              "both_success": 26,
+              "n1_only": 6,
+              "n5_only": 12,
+              "both_failure": 30
             },
             "common_valid": {
-              "episodes": 37,
-              "n1_successes": 22,
-              "n5_successes": 28,
-              "n5_minus_n1": 0.16216216216216217,
+              "episodes": 50,
+              "n1_successes": 30,
+              "n5_successes": 38,
+              "n5_minus_n1": 0.16,
               "paired_task_bootstrap_95ci": [
-                0.0,
-                0.32432432432432434
+                0.02,
+                0.32
               ],
               "bootstrap_draws": 10000,
               "bootstrap_seed": 20261010,
-              "both_success": 19,
-              "n1_only": 3,
-              "n5_only": 9,
-              "both_failure": 6
+              "both_success": 26,
+              "n1_only": 4,
+              "n5_only": 12,
+              "both_failure": 8
             }
           }
         }
@@ -953,17 +953,17 @@
           "n5": {
             "native": {
               "raw": {
-                "episodes": 37,
-                "successes": 10,
-                "success_rate": 0.2702702702702703
+                "episodes": 48,
+                "successes": 14,
+                "success_rate": 0.2916666666666667
               },
               "access_infra_filtered": {
-                "episodes": 25,
-                "successes": 10,
+                "episodes": 35,
+                "successes": 14,
                 "success_rate": 0.4
               },
               "excluded": {
-                "episodes": 12,
+                "episodes": 13,
                 "successes": 0,
                 "success_rate": 0.0
               }
@@ -973,36 +973,36 @@
         "paired": {
           "native": {
             "common_observed": {
-              "episodes": 37,
-              "n1_successes": 13,
-              "n5_successes": 10,
-              "n5_minus_n1": -0.08108108108108109,
+              "episodes": 48,
+              "n1_successes": 17,
+              "n5_successes": 14,
+              "n5_minus_n1": -0.0625,
               "paired_task_bootstrap_95ci": [
-                -0.24324324324324326,
-                0.08108108108108109
+                -0.1875,
+                0.0625
               ],
               "bootstrap_draws": 10000,
               "bootstrap_seed": 20261010,
-              "both_success": 7,
+              "both_success": 11,
               "n1_only": 6,
               "n5_only": 3,
-              "both_failure": 21
+              "both_failure": 28
             },
             "common_valid": {
-              "episodes": 25,
-              "n1_successes": 9,
-              "n5_successes": 10,
-              "n5_minus_n1": 0.04,
+              "episodes": 35,
+              "n1_successes": 13,
+              "n5_successes": 14,
+              "n5_minus_n1": 0.02857142857142857,
               "paired_task_bootstrap_95ci": [
-                -0.12,
-                0.2
+                -0.08571428571428572,
+                0.14285714285714285
               ],
               "bootstrap_draws": 10000,
               "bootstrap_seed": 20261010,
-              "both_success": 7,
+              "both_success": 11,
               "n1_only": 2,
               "n5_only": 3,
-              "both_failure": 13
+              "both_failure": 19
             }
           }
         }
@@ -1049,36 +1049,36 @@
           "n5": {
             "agenttrek": {
               "raw": {
-                "episodes": 0,
-                "successes": 0,
-                "success_rate": null
+                "episodes": 9,
+                "successes": 3.0,
+                "success_rate": 0.3333333333333333
               },
               "access_infra_filtered": {
-                "episodes": 0,
-                "successes": 0,
-                "success_rate": null
+                "episodes": 7,
+                "successes": 3.0,
+                "success_rate": 0.42857142857142855
               },
               "excluded": {
-                "episodes": 0,
-                "successes": 0,
-                "success_rate": null
+                "episodes": 2,
+                "successes": 0.0,
+                "success_rate": 0.0
               }
             },
             "native": {
               "raw": {
-                "episodes": 0,
-                "successes": 0,
-                "success_rate": null
+                "episodes": 9,
+                "successes": 1,
+                "success_rate": 0.1111111111111111
               },
               "access_infra_filtered": {
-                "episodes": 0,
-                "successes": 0,
-                "success_rate": null
+                "episodes": 7,
+                "successes": 1,
+                "success_rate": 0.14285714285714285
               },
               "excluded": {
-                "episodes": 0,
+                "episodes": 2,
                 "successes": 0,
-                "success_rate": null
+                "success_rate": 0.0
               }
             }
           }
@@ -1086,58 +1086,70 @@
         "paired": {
           "agenttrek": {
             "common_observed": {
-              "episodes": 0,
-              "n1_successes": 0,
-              "n5_successes": 0,
-              "n5_minus_n1": null,
-              "paired_task_bootstrap_95ci": null,
-              "bootstrap_draws": 0,
+              "episodes": 9,
+              "n1_successes": 1,
+              "n5_successes": 3,
+              "n5_minus_n1": 0.2222222222222222,
+              "paired_task_bootstrap_95ci": [
+                -0.2222222222222222,
+                0.6666666666666666
+              ],
+              "bootstrap_draws": 10000,
               "bootstrap_seed": 20261010,
               "both_success": 0,
-              "n1_only": 0,
-              "n5_only": 0,
-              "both_failure": 0
+              "n1_only": 1,
+              "n5_only": 3,
+              "both_failure": 5
             },
             "common_valid": {
-              "episodes": 0,
-              "n1_successes": 0,
-              "n5_successes": 0,
-              "n5_minus_n1": null,
-              "paired_task_bootstrap_95ci": null,
-              "bootstrap_draws": 0,
+              "episodes": 7,
+              "n1_successes": 1,
+              "n5_successes": 3,
+              "n5_minus_n1": 0.2857142857142857,
+              "paired_task_bootstrap_95ci": [
+                -0.2857142857142857,
+                0.7142857142857143
+              ],
+              "bootstrap_draws": 10000,
               "bootstrap_seed": 20261010,
               "both_success": 0,
-              "n1_only": 0,
-              "n5_only": 0,
-              "both_failure": 0
+              "n1_only": 1,
+              "n5_only": 3,
+              "both_failure": 3
             }
           },
           "native": {
             "common_observed": {
-              "episodes": 0,
+              "episodes": 9,
               "n1_successes": 0,
-              "n5_successes": 0,
-              "n5_minus_n1": null,
-              "paired_task_bootstrap_95ci": null,
-              "bootstrap_draws": 0,
+              "n5_successes": 1,
+              "n5_minus_n1": 0.1111111111111111,
+              "paired_task_bootstrap_95ci": [
+                0.0,
+                0.3333333333333333
+              ],
+              "bootstrap_draws": 10000,
               "bootstrap_seed": 20261010,
               "both_success": 0,
               "n1_only": 0,
-              "n5_only": 0,
-              "both_failure": 0
+              "n5_only": 1,
+              "both_failure": 8
             },
             "common_valid": {
-              "episodes": 0,
+              "episodes": 7,
               "n1_successes": 0,
-              "n5_successes": 0,
-              "n5_minus_n1": null,
-              "paired_task_bootstrap_95ci": null,
-              "bootstrap_draws": 0,
+              "n5_successes": 1,
+              "n5_minus_n1": 0.14285714285714285,
+              "paired_task_bootstrap_95ci": [
+                0.0,
+                0.42857142857142855
+              ],
+              "bootstrap_draws": 10000,
               "bootstrap_seed": 20261010,
               "both_success": 0,
               "n1_only": 0,
-              "n5_only": 0,
-              "both_failure": 0
+              "n5_only": 1,
+              "both_failure": 6
             }
           }
         }
@@ -1167,19 +1179,19 @@
           "n5": {
             "native": {
               "raw": {
-                "episodes": 51,
-                "successes": 23,
-                "success_rate": 0.45098039215686275
+                "episodes": 62,
+                "successes": 29,
+                "success_rate": 0.46774193548387094
               },
               "access_infra_filtered": {
-                "episodes": 31,
-                "successes": 22,
-                "success_rate": 0.7096774193548387
+                "episodes": 41,
+                "successes": 28,
+                "success_rate": 0.6829268292682927
               },
               "excluded": {
-                "episodes": 20,
+                "episodes": 21,
                 "successes": 1,
-                "success_rate": 0.05
+                "success_rate": 0.047619047619047616
               }
             }
           }
@@ -1187,36 +1199,36 @@
         "paired": {
           "native": {
             "common_observed": {
-              "episodes": 51,
-              "n1_successes": 20,
-              "n5_successes": 23,
-              "n5_minus_n1": 0.058823529411764705,
+              "episodes": 62,
+              "n1_successes": 23,
+              "n5_successes": 29,
+              "n5_minus_n1": 0.0967741935483871,
               "paired_task_bootstrap_95ci": [
-                -0.058823529411764705,
-                0.17647058823529413
+                0.0,
+                0.20967741935483872
               ],
               "bootstrap_draws": 10000,
               "bootstrap_seed": 20261010,
-              "both_success": 17,
+              "both_success": 20,
               "n1_only": 3,
-              "n5_only": 6,
-              "both_failure": 25
+              "n5_only": 9,
+              "both_failure": 30
             },
             "common_valid": {
-              "episodes": 31,
-              "n1_successes": 20,
-              "n5_successes": 22,
-              "n5_minus_n1": 0.06451612903225806,
+              "episodes": 41,
+              "n1_successes": 23,
+              "n5_successes": 28,
+              "n5_minus_n1": 0.12195121951219512,
               "paired_task_bootstrap_95ci": [
-                -0.0967741935483871,
-                0.22580645161290322
+                -0.024390243902439025,
+                0.2682926829268293
               ],
               "bootstrap_draws": 10000,
               "bootstrap_seed": 20261010,
-              "both_success": 17,
+              "both_success": 20,
               "n1_only": 3,
-              "n5_only": 5,
-              "both_failure": 6
+              "n5_only": 8,
+              "both_failure": 10
             }
           }
         }
@@ -1343,16 +1355,17 @@
     "artifacts_verified": 7345,
     "images_verified": 1947,
     "evidence_sha256": {
-      "paired-metrics.json": "a7374f78b9c537417db52b8aad12436bba956b921ad0bb50fc5b1e81b8ec9057",
+      "paired-metrics.json": "9bb405e2ba332a41ab5b01224d6c4b800da26d3bbf8ff8f50cc65630a1b18e91",
       "recovery-artifact-audit.json": "8d512d2c96ed72fb677688cc457d5ff62b48724914737bdd3bd14a1125792419",
       "runtime-audit.json": "828084270541b9d473763252207995c64e78f0a2716c0c2c587d69e70b50e554"
     },
     "caveats": [
       "Nonrandom partial task coverage; no complete N5 cohort.",
-      "All 56 earlier wall timeouts remain in raw rates, plus one subsequently audited 4B DeepShop timeout.",
+      "All 56 earlier wall timeouts remain in raw rates, plus one later timeout for each DeepShop actor.",
       "Common-valid subsets condition on availability and runtime completion in both arms; intervals do not correct this bias.",
       "Eight-browser and two-browser admission phases are mixed; this snapshot does not establish selector effectiveness.",
-      "4B DeepShop stopped partial at its allocation reserve; full requested coverage is unavailable within remaining stage time."
+      "4B DeepShop remains budget-blocked at 45/150; all stages stay within their existing caps.",
+      "Only nine OM8 records in this snapshot; native and AgentTrek use distinct eligibility rules and are not pooled."
     ],
     "recovery_artifact_audit_as_of_utc": "2026-10-11T08:14:58.100060+00:00",
     "latest_4b_deepshop_partial_audit": {
@@ -1404,6 +1417,295 @@
       "new_budget": false,
       "validation_sha256": "3a13f076e9ba7b775cf61fe02aa40e28182693cf73fca08dd37bc1b782415471"
     },
-    "runtime_audit_as_of_utc": "2026-10-11T08:14:58.100060+00:00"
+    "runtime_audit_as_of_utc": "2026-10-11T08:14:58.100060+00:00",
+    "latest_runtime_audit": {
+      "epoch": 1791712102.0532725,
+      "passed": true,
+      "actual_running_jobs": 4,
+      "actual_browsers_per_job": 2,
+      "approved_peak_jobs": 4,
+      "no_added_budget": true,
+      "cohorts": [
+        {
+          "job": "molmoweb-4b-webvoyager-paired",
+          "n5_records_observed": 74,
+          "remaining_controller_seconds": 9926,
+          "all_attempt_n5_seconds": 18677,
+          "n5_stage_cap_seconds": 28800,
+          "counters": [
+            {
+              "condition": "n5",
+              "kind": "browser_attempts_all_attempts",
+              "count": 84,
+              "charged_reserved_micro": 0
+            },
+            {
+              "condition": "n5",
+              "kind": "local_sft_generations_all_attempts",
+              "count": 7280,
+              "charged_reserved_micro": 0
+            },
+            {
+              "condition": "n5",
+              "kind": "native_judge",
+              "count": 59,
+              "charged_reserved_micro": 3071339
+            },
+            {
+              "condition": "n5",
+              "kind": "selector",
+              "count": 1441,
+              "charged_reserved_micro": 11797380
+            }
+          ],
+          "physical_response_receipts_verified": {
+            "selector": 20,
+            "native_judge": 20
+          },
+          "physical_audit_scope": "All settled N5 receipts as of ledger snapshot for OM8; latest 20 per kind for other running jobs",
+          "sample_cost_micro_usd": {
+            "selector": 182588,
+            "native_judge": 1133140
+          },
+          "sampled_generations": 20,
+          "mean_predict_seconds": 2.591651214915328,
+          "mean_queue_seconds": 2.140953376260586,
+          "wandb_url": "https://wandb.ai/zixianma/openwebrl-evals/runs/82e3d3aca2264d4195971b1dbb698486",
+          "wandb_state": "running",
+          "fresh_heartbeat": true
+        },
+        {
+          "job": "molmoweb-8b-webvoyager-paired",
+          "n5_records_observed": 62,
+          "remaining_controller_seconds": 24746,
+          "all_attempt_n5_seconds": 18238,
+          "n5_stage_cap_seconds": 43200,
+          "counters": [
+            {
+              "condition": "n5",
+              "kind": "browser_attempts_all_attempts",
+              "count": 72,
+              "charged_reserved_micro": 0
+            },
+            {
+              "condition": "n5",
+              "kind": "local_sft_generations_all_attempts",
+              "count": 5790,
+              "charged_reserved_micro": 0
+            },
+            {
+              "condition": "n5",
+              "kind": "native_judge",
+              "count": 47,
+              "charged_reserved_micro": 2365252
+            },
+            {
+              "condition": "n5",
+              "kind": "selector",
+              "count": 1144,
+              "charged_reserved_micro": 9308652
+            }
+          ],
+          "physical_response_receipts_verified": {
+            "selector": 20,
+            "native_judge": 20
+          },
+          "physical_audit_scope": "All settled N5 receipts as of ledger snapshot for OM8; latest 20 per kind for other running jobs",
+          "sample_cost_micro_usd": {
+            "selector": 205105,
+            "native_judge": 1131540
+          },
+          "sampled_generations": 20,
+          "mean_predict_seconds": 3.462551056430675,
+          "mean_queue_seconds": 2.2664372677681968,
+          "wandb_url": "https://wandb.ai/zixianma/openwebrl-evals/runs/09835cc5a9ea435ebb45dca149d59fe9",
+          "wandb_state": "running",
+          "fresh_heartbeat": true
+        },
+        {
+          "job": "molmoweb-8b-deepshop-paired",
+          "n5_records_observed": 48,
+          "remaining_controller_seconds": 3868,
+          "all_attempt_n5_seconds": 17508,
+          "n5_stage_cap_seconds": 21600,
+          "counters": [
+            {
+              "condition": "n5",
+              "kind": "browser_attempts_all_attempts",
+              "count": 58,
+              "charged_reserved_micro": 0
+            },
+            {
+              "condition": "n5",
+              "kind": "local_sft_generations_all_attempts",
+              "count": 4904,
+              "charged_reserved_micro": 0
+            },
+            {
+              "condition": "n5",
+              "kind": "native_judge",
+              "count": 35,
+              "charged_reserved_micro": 2172456
+            },
+            {
+              "condition": "n5",
+              "kind": "selector",
+              "count": 969,
+              "charged_reserved_micro": 8412725
+            }
+          ],
+          "physical_response_receipts_verified": {
+            "selector": 20,
+            "native_judge": 20
+          },
+          "physical_audit_scope": "All settled N5 receipts as of ledger snapshot for OM8; latest 20 per kind for other running jobs",
+          "sample_cost_micro_usd": {
+            "selector": 149569,
+            "native_judge": 1329747
+          },
+          "sampled_generations": 20,
+          "mean_predict_seconds": 3.084960209322162,
+          "mean_queue_seconds": 2.527154741343111,
+          "wandb_url": "https://wandb.ai/zixianma/openwebrl-evals/runs/d1c53254096a44a19abfe46c1aaee9ec",
+          "wandb_state": "running",
+          "fresh_heartbeat": true
+        },
+        {
+          "job": "molmoweb-8b-online_mind2web-paired",
+          "n5_records_observed": 9,
+          "remaining_controller_seconds": 28005,
+          "all_attempt_n5_seconds": 4192,
+          "n5_stage_cap_seconds": 32400,
+          "counters": [
+            {
+              "condition": "n5",
+              "kind": "agenttrek_judge",
+              "count": 4,
+              "charged_reserved_micro": 20096
+            },
+            {
+              "condition": "n5",
+              "kind": "browser_attempts_all_attempts",
+              "count": 11,
+              "charged_reserved_micro": 0
+            },
+            {
+              "condition": "n5",
+              "kind": "local_sft_generations_all_attempts",
+              "count": 1056,
+              "charged_reserved_micro": 0
+            },
+            {
+              "condition": "n5",
+              "kind": "native_judge",
+              "count": 215,
+              "charged_reserved_micro": 1021615
+            },
+            {
+              "condition": "n5",
+              "kind": "selector",
+              "count": 210,
+              "charged_reserved_micro": 1837662
+            }
+          ],
+          "physical_response_receipts_verified": {
+            "selector": 210,
+            "native_judge": 215,
+            "agenttrek_judge": 4
+          },
+          "physical_audit_scope": "All settled N5 receipts as of ledger snapshot for OM8; latest 20 per kind for other running jobs",
+          "sample_cost_micro_usd": {
+            "selector": 1837662,
+            "native_judge": 1021615,
+            "agenttrek_judge": 20096
+          },
+          "sampled_generations": 20,
+          "mean_predict_seconds": 2.7939252433599906,
+          "mean_queue_seconds": 2.003875992563553,
+          "wandb_url": "https://wandb.ai/zixianma/openwebrl-evals/runs/6f9f212f7cf6461f84b88b61d6edec32",
+          "wandb_state": "running",
+          "fresh_heartbeat": true
+        }
+      ],
+      "sha256": "a54a80ebb076d35e20c53ad9c1d1c62ea6477ef9609b9dae0a2f73310426b32d"
+    },
+    "om8_first_record_audit": {
+      "records": 9,
+      "stats": {
+        "completed": 9,
+        "native_judged": 9,
+        "native_eligible": 9,
+        "native_valid": 9,
+        "native_successes": 1,
+        "agenttrek_judged": 4,
+        "agenttrek_eligible": 4,
+        "agenttrek_valid": 9,
+        "agenttrek_successes": 3
+      },
+      "common_judged_2x2_native_agenttrek": {
+        "00": 1,
+        "01": 3
+      },
+      "native_generations_verified": 985,
+      "decisions_verified": 197,
+      "artifact_files": 2601,
+      "decoded_images": 197,
+      "selector_http_attempts": 208,
+      "verified_complete": false,
+      "as_of_epoch": 1791712067.044362,
+      "passed": true,
+      "sha256": "e6eeb81676f8eeb661756c5c7d378debcd34b40e714465b34345f48e359d527a",
+      "native_om_calls": 215,
+      "agenttrek_calls": 4,
+      "post_action_evidence_not_substituted_for_judge_input": true
+    },
+    "latest_incremental_record_audit": {
+      "epoch": 1791712192.7292917,
+      "passed": true,
+      "previous_audited_records_unchanged": 94,
+      "cohorts": [
+        {
+          "job": "molmoweb-4b-webvoyager-paired",
+          "new_records_audited": 20,
+          "stats": {
+            "completed": 20
+          },
+          "artifact_files_verified": 1493,
+          "decoded_images": 391,
+          "completed_five_proposal_decisions": 391
+        },
+        {
+          "job": "molmoweb-8b-webvoyager-paired",
+          "new_records_audited": 16,
+          "stats": {
+            "completed": 16
+          },
+          "artifact_files_verified": 1282,
+          "decoded_images": 342,
+          "completed_five_proposal_decisions": 342
+        },
+        {
+          "job": "molmoweb-8b-deepshop-paired",
+          "new_records_audited": 14,
+          "stats": {
+            "completed": 13,
+            "completed_timeout": 1
+          },
+          "artifact_files_verified": 1048,
+          "decoded_images": 280,
+          "completed_five_proposal_decisions": 280
+        }
+      ],
+      "sha256": "28aa4499e236860cf235feb5aac634919c9790bb146cdabccfd1628a8fb0067f"
+    },
+    "om4_dependency_update": {
+      "predecessor": "8B DeepShop N5",
+      "same_allocation": true,
+      "allocation_seconds": 21540,
+      "prior_n5_seconds": 3,
+      "stage_cap_seconds": 21600,
+      "max_simultaneous_jobs": 4,
+      "new_budget": false
+    }
   }
 }
