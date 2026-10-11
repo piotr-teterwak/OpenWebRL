@@ -2218,5 +2218,1120 @@
    }
   },
   "breakdown_job": 354696
+ },
+ "early_signal_experiments": {
+  "code": "scripts/selection_outcome_experiments.py (arm-selection-head c28ddd8, 6599de8)",
+  "jobs": {
+   "probe": 354972,
+   "power_depth": 354967,
+   "combine": 354978,
+   "joint": 354998,
+   "failed_attempts": {
+    "354969": "probe leakage (candidate-level LOO), superseded",
+    "354990": "state reshape bug, 27 s"
+   }
+  },
+  "probe": {
+   "states": 138,
+   "fold_sizes": [
+    28,
+    29,
+    27,
+    27,
+    27
+   ],
+   "probe_fit": {
+    "Ridge, all 12 feature blocks": {
+     "alpha_per_fold": [
+      1000000000.0,
+      1000000000.0,
+      4641588.834,
+      2154434.69,
+      2154434.69
+     ],
+     "train_best_action_hit": [
+      0.773,
+      0.78,
+      0.775,
+      0.829,
+      0.856
+     ],
+     "dims": 30720,
+     "picks_changed_vs_teacher_head": 100
+    },
+    "Ridge, layers 18/27/36, all pools (teacher-head inputs)": {
+     "alpha_per_fold": [
+      1000000000.0,
+      1000000000.0,
+      4641588.834,
+      1000000.0,
+      2154434.69
+     ],
+     "train_best_action_hit": [
+      0.791,
+      0.761,
+      0.784,
+      0.82,
+      0.847
+     ],
+     "dims": 23040,
+     "picks_changed_vs_teacher_head": 98
+    },
+    "Ridge, layer 27 action tokens": {
+     "alpha_per_fold": [
+      1000000000.0,
+      46415888.336,
+      1000000.0,
+      1000000000.0,
+      215443.469
+     ],
+     "train_best_action_hit": [
+      0.718,
+      0.743,
+      0.721,
+      0.73,
+      0.793
+     ],
+     "dims": 2560,
+     "picks_changed_vs_teacher_head": 107
+    },
+    "Ridge, layer 36 end token": {
+     "alpha_per_fold": [
+      2154434.69,
+      1000000000.0,
+      1000000.0,
+      46415.888,
+      2154434.69
+     ],
+     "train_best_action_hit": [
+      0.773,
+      0.734,
+      0.748,
+      0.829,
+      0.82
+     ],
+     "dims": 2560,
+     "picks_changed_vs_teacher_head": 108
+    }
+   },
+   "success": {
+    "0_7": {
+     "Ridge, all 12 feature blocks": 32.065,
+     "Ridge, layers 18/27/36, all pools (teacher-head inputs)": 31.793,
+     "Ridge, layer 27 action tokens": 31.612,
+     "Ridge, layer 36 end token": 30.072,
+     "Piotr ARM": 34.149,
+     "Teacher-trained head": 33.696,
+     "Kev-style step 150": 32.156,
+     "Kev-style step 600": 32.79,
+     "Actor's first sample": 33.333,
+     "Uniform": 31.667
+    },
+    "6_7": {
+     "Ridge, all 12 feature blocks": 32.246,
+     "Ridge, layers 18/27/36, all pools (teacher-head inputs)": 32.246,
+     "Ridge, layer 27 action tokens": 32.246,
+     "Ridge, layer 36 end token": 30.435,
+     "Piotr ARM": 34.058,
+     "Teacher-trained head": 34.058,
+     "Kev-style step 150": 34.783,
+     "Kev-style step 600": 33.333,
+     "Actor's first sample": 34.42,
+     "Uniform": 32.319,
+     "Outcome reference: best on draws 0-5": 38.883
+    }
+   },
+   "minus_uniform": {
+    "0_7": {
+     "Ridge, all 12 feature blocks": [
+      0.399,
+      -1.88,
+      2.761
+     ],
+     "Ridge, layers 18/27/36, all pools (teacher-head inputs)": [
+      0.127,
+      -2.231,
+      2.518
+     ],
+     "Ridge, layer 27 action tokens": [
+      -0.054,
+      -2.338,
+      2.296
+     ],
+     "Ridge, layer 36 end token": [
+      -1.594,
+      -4.019,
+      0.821
+     ],
+     "Piotr ARM": [
+      2.482,
+      -0.142,
+      5.111
+     ],
+     "Teacher-trained head": [
+      2.029,
+      -0.241,
+      4.402
+     ],
+     "Kev-style step 150": [
+      0.489,
+      -1.982,
+      2.974
+     ],
+     "Kev-style step 600": [
+      1.123,
+      -1.385,
+      3.714
+     ],
+     "Actor's first sample": [
+      1.667,
+      -0.944,
+      4.32
+     ]
+    },
+    "6_7": {
+     "Ridge, all 12 feature blocks": [
+      -0.072,
+      -3.309,
+      3.309
+     ],
+     "Ridge, layers 18/27/36, all pools (teacher-head inputs)": [
+      -0.072,
+      -3.636,
+      3.478
+     ],
+     "Ridge, layer 27 action tokens": [
+      -0.072,
+      -3.955,
+      3.957
+     ],
+     "Ridge, layer 36 end token": [
+      -1.884,
+      -5.333,
+      1.6
+     ],
+     "Piotr ARM": [
+      1.739,
+      -2.308,
+      6.0
+     ],
+     "Teacher-trained head": [
+      1.739,
+      -1.46,
+      5.116
+     ],
+     "Kev-style step 150": [
+      2.464,
+      -1.049,
+      6.286
+     ],
+     "Kev-style step 600": [
+      1.014,
+      -2.908,
+      5.182
+     ],
+     "Actor's first sample": [
+      2.101,
+      -1.955,
+      6.231
+     ],
+     "Outcome reference: best on draws 0-5": [
+      6.564,
+      3.527,
+      9.872
+     ]
+    }
+   },
+   "minus_teacher_head": {
+    "0_7": {
+     "Ridge, all 12 feature blocks": [
+      -1.63,
+      -4.745,
+      1.54
+     ],
+     "Ridge, layers 18/27/36, all pools (teacher-head inputs)": [
+      -1.902,
+      -5.055,
+      1.241
+     ],
+     "Ridge, layer 27 action tokens": [
+      -2.083,
+      -5.332,
+      1.215
+     ],
+     "Ridge, layer 36 end token": [
+      -3.623,
+      -7.321,
+      -0.093
+     ],
+     "Piotr ARM": [
+      0.453,
+      -2.19,
+      3.265
+     ],
+     "Kev-style step 150": [
+      -1.54,
+      -4.352,
+      1.339
+     ],
+     "Kev-style step 600": [
+      -0.906,
+      -3.788,
+      2.01
+     ],
+     "Actor's first sample": [
+      -0.362,
+      -4.008,
+      3.172
+     ],
+     "Uniform": [
+      -2.029,
+      -4.401,
+      0.248
+     ]
+    },
+    "6_7": {
+     "Ridge, all 12 feature blocks": [
+      -1.812,
+      -6.204,
+      2.837
+     ],
+     "Ridge, layers 18/27/36, all pools (teacher-head inputs)": [
+      -1.812,
+      -6.209,
+      2.555
+     ],
+     "Ridge, layer 27 action tokens": [
+      -1.812,
+      -6.818,
+      3.237
+     ],
+     "Ridge, layer 36 end token": [
+      -3.623,
+      -8.394,
+      1.007
+     ],
+     "Piotr ARM": [
+      0.0,
+      -4.138,
+      4.196
+     ],
+     "Kev-style step 150": [
+      0.725,
+      -3.285,
+      5.036
+     ],
+     "Kev-style step 600": [
+      -0.725,
+      -4.93,
+      3.65
+     ],
+     "Actor's first sample": [
+      0.362,
+      -4.779,
+      5.396
+     ],
+     "Uniform": [
+      -1.739,
+      -5.116,
+      1.46
+     ],
+     "Outcome reference: best on draws 0-5": [
+      4.825,
+      0.155,
+      9.453
+     ]
+    }
+   }
+  },
+  "power": {
+   "states": 138,
+   "note": "two-sided alpha 0.05, power 0.80; state-level variance (most task groups hold one state)",
+   "comparisons": {
+    "Piotr ARM - Uniform": {
+     "mean_pp": 2.482,
+     "sd_per_state_8draws": 0.148,
+     "between_state_var": 0.012,
+     "draw_noise_var_8draws": 0.01,
+     "noise_share": 0.441,
+     "states_needed": {
+      "delta_2pp_draws_4": 617,
+      "delta_2pp_draws_8": 428,
+      "delta_2pp_draws_16": 334,
+      "delta_3pp_draws_4": 274,
+      "delta_3pp_draws_8": 191,
+      "delta_3pp_draws_16": 149,
+      "delta_5pp_draws_4": 99,
+      "delta_5pp_draws_8": 69,
+      "delta_5pp_draws_16": 54
+     }
+    },
+    "Teacher-trained head - Uniform": {
+     "mean_pp": 2.029,
+     "sd_per_state_8draws": 0.145,
+     "between_state_var": 0.012,
+     "draw_noise_var_8draws": 0.009,
+     "noise_share": 0.449,
+     "states_needed": {
+      "delta_2pp_draws_4": 600,
+      "delta_2pp_draws_8": 414,
+      "delta_2pp_draws_16": 321,
+      "delta_3pp_draws_4": 267,
+      "delta_3pp_draws_8": 184,
+      "delta_3pp_draws_16": 143,
+      "delta_5pp_draws_4": 96,
+      "delta_5pp_draws_8": 67,
+      "delta_5pp_draws_16": 52
+     }
+    },
+    "Piotr ARM - Teacher-trained head": {
+     "mean_pp": 0.453,
+     "sd_per_state_8draws": 0.16,
+     "between_state_var": 0.01,
+     "draw_noise_var_8draws": 0.015,
+     "noise_share": 0.591,
+     "states_needed": {
+      "delta_2pp_draws_4": 801,
+      "delta_2pp_draws_8": 504,
+      "delta_2pp_draws_16": 355,
+      "delta_3pp_draws_4": 356,
+      "delta_3pp_draws_8": 224,
+      "delta_3pp_draws_16": 158,
+      "delta_5pp_draws_4": 129,
+      "delta_5pp_draws_8": 81,
+      "delta_5pp_draws_16": 57
+     }
+    },
+    "Actor's first sample - Uniform": {
+     "mean_pp": 1.667,
+     "sd_per_state_8draws": 0.158,
+     "between_state_var": 0.014,
+     "draw_noise_var_8draws": 0.01,
+     "noise_share": 0.42,
+     "states_needed": {
+      "delta_2pp_draws_4": 697,
+      "delta_2pp_draws_8": 491,
+      "delta_2pp_draws_16": 388,
+      "delta_3pp_draws_4": 310,
+      "delta_3pp_draws_8": 218,
+      "delta_3pp_draws_16": 173,
+      "delta_5pp_draws_4": 112,
+      "delta_5pp_draws_8": 79,
+      "delta_5pp_draws_16": 62
+     }
+    },
+    "Kev-style step 600 - Uniform": {
+     "mean_pp": 1.123,
+     "sd_per_state_8draws": 0.146,
+     "between_state_var": 0.014,
+     "draw_noise_var_8draws": 0.007,
+     "noise_share": 0.338,
+     "states_needed": {
+      "delta_2pp_draws_4": 558,
+      "delta_2pp_draws_8": 417,
+      "delta_2pp_draws_16": 347,
+      "delta_3pp_draws_4": 248,
+      "delta_3pp_draws_8": 186,
+      "delta_3pp_draws_16": 154,
+      "delta_5pp_draws_4": 90,
+      "delta_5pp_draws_8": 67,
+      "delta_5pp_draws_16": 56
+     }
+    }
+   }
+  },
+  "depth_action_types": {
+   "by_lineage_depth": {
+    "all | depth 0": {
+     "states": 50,
+     "Actor's first sample": 43.75,
+     "Uniform": 39.45,
+     "Piotr ARM": 45.25,
+     "Teacher-trained head": 44.0,
+     "Outcome reference: best on draws 0-5": 42.6
+    },
+    "all | depth 1-3": {
+     "states": 59,
+     "Actor's first sample": 27.119,
+     "Uniform": 27.669,
+     "Piotr ARM": 26.695,
+     "Teacher-trained head": 28.178,
+     "Outcome reference: best on draws 0-5": 38.418
+    },
+    "all | depth 4+": {
+     "states": 29,
+     "Actor's first sample": 28.017,
+     "Uniform": 26.379,
+     "Piotr ARM": 30.172,
+     "Teacher-trained head": 27.155,
+     "Outcome reference: best on draws 0-5": 33.42
+    },
+    "fresh | depth 0": {
+     "states": 22,
+     "Actor's first sample": 42.045,
+     "Uniform": 36.25,
+     "Piotr ARM": 43.75,
+     "Teacher-trained head": 40.909,
+     "Outcome reference: best on draws 0-5": 39.545
+    },
+    "fresh | depth 1-3": {
+     "states": 23,
+     "Actor's first sample": 41.848,
+     "Uniform": 42.826,
+     "Piotr ARM": 42.935,
+     "Teacher-trained head": 42.935,
+     "Outcome reference: best on draws 0-5": 54.601
+    },
+    "fresh | depth 4+": {
+     "states": 10,
+     "Actor's first sample": 43.75,
+     "Uniform": 31.75,
+     "Piotr ARM": 36.25,
+     "Teacher-trained head": 27.5,
+     "Outcome reference: best on draws 0-5": 37.667
+    },
+    "fresh | depth all": {
+     "states": 55,
+     "Actor's first sample": 42.273,
+     "Uniform": 38.182,
+     "Piotr ARM": 42.045,
+     "Teacher-trained head": 39.318,
+     "Outcome reference: best on draws 0-5": 45.5
+    },
+    "historical | depth 0": {
+     "states": 16,
+     "Actor's first sample": 41.406,
+     "Uniform": 38.906,
+     "Piotr ARM": 40.625,
+     "Teacher-trained head": 40.625,
+     "Outcome reference: best on draws 0-5": 45.26
+    },
+    "historical | depth 1-3": {
+     "states": 20,
+     "Actor's first sample": 11.25,
+     "Uniform": 15.875,
+     "Piotr ARM": 16.25,
+     "Teacher-trained head": 18.75,
+     "Outcome reference: best on draws 0-5": 20.333
+    },
+    "historical | depth 4+": {
+     "states": 15,
+     "Actor's first sample": 13.333,
+     "Uniform": 16.833,
+     "Piotr ARM": 22.5,
+     "Teacher-trained head": 20.833,
+     "Outcome reference: best on draws 0-5": 24.611
+    },
+    "historical | depth all": {
+     "states": 51,
+     "Actor's first sample": 21.324,
+     "Uniform": 23.382,
+     "Piotr ARM": 25.735,
+     "Teacher-trained head": 26.225,
+     "Outcome reference: best on draws 0-5": 29.412
+    },
+    "pilot32 | depth 0": {
+     "states": 12,
+     "Actor's first sample": 50.0,
+     "Uniform": 46.042,
+     "Piotr ARM": 54.167,
+     "Teacher-trained head": 54.167,
+     "Outcome reference: best on draws 0-5": 44.653
+    },
+    "pilot32 | depth 1-3": {
+     "states": 16,
+     "Actor's first sample": 25.781,
+     "Uniform": 20.625,
+     "Piotr ARM": 16.406,
+     "Teacher-trained head": 18.75,
+     "Outcome reference: best on draws 0-5": 37.76
+    },
+    "pilot32 | depth 4+": {
+     "states": 4,
+     "Actor's first sample": 43.75,
+     "Uniform": 48.75,
+     "Piotr ARM": 43.75,
+     "Teacher-trained head": 50.0,
+     "Outcome reference: best on draws 0-5": 55.833
+    },
+    "pilot32 | depth all": {
+     "states": 32,
+     "Actor's first sample": 37.109,
+     "Uniform": 33.672,
+     "Piotr ARM": 33.984,
+     "Teacher-trained head": 35.938,
+     "Outcome reference: best on draws 0-5": 42.604
+    }
+   },
+   "historical_reweighted_to_new_depth_mix": {
+    "Actor's first sample": {
+     "raw": 21.324,
+     "reweighted": 23.37,
+     "new_states": 40.374
+    },
+    "Uniform": {
+     "raw": 23.382,
+     "reweighted": 25.03,
+     "new_states": 36.523
+    },
+    "Piotr ARM": {
+     "raw": 25.735,
+     "reweighted": 26.782,
+     "new_states": 39.08
+    },
+    "Teacher-trained head": {
+     "raw": 26.225,
+     "reweighted": 27.634,
+     "new_states": 38.075
+    }
+   },
+   "depth_band_counts": {
+    "historical": {
+     "0": 16,
+     "1-3": 20,
+     "4+": 15
+    },
+    "new": {
+     "1-3": 39,
+     "4+": 14,
+     "0": 34
+    }
+   },
+   "action_kinds": {
+    "click": {
+     "candidates": 297,
+     "mean_success": 38.931
+    },
+    "scroll": {
+     "candidates": 117,
+     "mean_success": 33.654
+    },
+    "goto_url": {
+     "candidates": 80,
+     "mean_success": 9.844
+    },
+    "done": {
+     "candidates": 58,
+     "mean_success": 62.069
+    },
+    "go_back": {
+     "candidates": 54,
+     "mean_success": 18.056
+    },
+    "new_tab": {
+     "candidates": 39,
+     "mean_success": 10.577
+    },
+    "wait": {
+     "candidates": 20,
+     "mean_success": 10.625
+    },
+    "press_keys": {
+     "candidates": 12,
+     "mean_success": 19.792
+    },
+    "write": {
+     "candidates": 11,
+     "mean_success": 11.364
+    },
+    "close_tab": {
+     "candidates": 2,
+     "mean_success": 0.0
+    }
+   },
+   "picked_kinds": {
+    "Piotr ARM": {
+     "click": 62,
+     "scroll": 23,
+     "goto_url": 20,
+     "done": 11,
+     "new_tab": 9,
+     "go_back": 5,
+     "press_keys": 4,
+     "wait": 3,
+     "write": 1
+    },
+    "Teacher-trained head": {
+     "click": 59,
+     "scroll": 29,
+     "goto_url": 22,
+     "done": 11,
+     "new_tab": 9,
+     "go_back": 3,
+     "wait": 3,
+     "write": 1,
+     "press_keys": 1
+    },
+    "Kev-style step 600": {
+     "click": 63,
+     "scroll": 22,
+     "goto_url": 21,
+     "done": 10,
+     "new_tab": 9,
+     "press_keys": 5,
+     "go_back": 4,
+     "wait": 3,
+     "write": 1
+    },
+    "Actor's first sample": {
+     "click": 61,
+     "scroll": 21,
+     "goto_url": 15,
+     "done": 11,
+     "go_back": 10,
+     "new_tab": 7,
+     "wait": 6,
+     "press_keys": 4,
+     "write": 2,
+     "close_tab": 1
+    },
+    "Best on draws 0-7 (hindsight)": {
+     "click": 61.25,
+     "scroll": 23.1,
+     "goto_url": 16.38,
+     "done": 11.2,
+     "new_tab": 8.87,
+     "go_back": 8.47,
+     "wait": 4.53,
+     "press_keys": 3.0,
+     "write": 1.2
+    }
+   }
+  },
+  "combinations": {
+   "states": 138,
+   "success": {
+    "0_7": {
+     "Piotr ARM": 34.149,
+     "Teacher-trained head": 33.696,
+     "Kev-style step 600": 32.79,
+     "Actor's first sample": 33.333,
+     "Vote: Piotr, teacher head, actor first (ties to Piotr)": 34.42,
+     "Vote: Piotr, teacher head, Kev-style 600 (ties to Piotr)": 33.967,
+     "Action-type prior (training folds), teacher logit tie-break": 33.877,
+     "Teacher head, overridden when its action type is >10 pp worse": 33.696,
+     "Uniform": 31.667
+    },
+    "6_7": {
+     "Piotr ARM": 34.058,
+     "Teacher-trained head": 34.058,
+     "Kev-style step 600": 33.333,
+     "Actor's first sample": 34.42,
+     "Vote: Piotr, teacher head, actor first (ties to Piotr)": 35.145,
+     "Vote: Piotr, teacher head, Kev-style 600 (ties to Piotr)": 34.058,
+     "Action-type prior (training folds), teacher logit tie-break": 35.145,
+     "Teacher head, overridden when its action type is >10 pp worse": 34.058,
+     "Uniform": 32.319
+    }
+   },
+   "minus_uniform": {
+    "0_7": {
+     "Piotr ARM": [
+      2.482,
+      -0.142,
+      5.111
+     ],
+     "Teacher-trained head": [
+      2.029,
+      -0.241,
+      4.402
+     ],
+     "Kev-style step 600": [
+      1.123,
+      -1.385,
+      3.714
+     ],
+     "Actor's first sample": [
+      1.667,
+      -0.944,
+      4.32
+     ],
+     "Vote: Piotr, teacher head, actor first (ties to Piotr)": [
+      2.754,
+      0.106,
+      5.368
+     ],
+     "Vote: Piotr, teacher head, Kev-style 600 (ties to Piotr)": [
+      2.301,
+      -0.321,
+      4.905
+     ],
+     "Action-type prior (training folds), teacher logit tie-break": [
+      2.21,
+      0.019,
+      4.446
+     ],
+     "Teacher head, overridden when its action type is >10 pp worse": [
+      2.029,
+      -0.241,
+      4.402
+     ]
+    },
+    "6_7": {
+     "Piotr ARM": [
+      1.739,
+      -2.308,
+      6.0
+     ],
+     "Teacher-trained head": [
+      1.739,
+      -1.46,
+      5.116
+     ],
+     "Kev-style step 600": [
+      1.014,
+      -2.908,
+      5.182
+     ],
+     "Actor's first sample": [
+      2.101,
+      -1.955,
+      6.231
+     ],
+     "Vote: Piotr, teacher head, actor first (ties to Piotr)": [
+      2.826,
+      -1.203,
+      7.059
+     ],
+     "Vote: Piotr, teacher head, Kev-style 600 (ties to Piotr)": [
+      1.739,
+      -2.446,
+      5.985
+     ],
+     "Action-type prior (training folds), teacher logit tie-break": [
+      2.826,
+      -0.379,
+      6.131
+     ],
+     "Teacher head, overridden when its action type is >10 pp worse": [
+      1.739,
+      -1.46,
+      5.116
+     ]
+    }
+   },
+   "minus_piotr": {
+    "0_7": {
+     "Teacher-trained head": [
+      -0.453,
+      -3.265,
+      2.19
+     ],
+     "Kev-style step 600": [
+      -1.359,
+      -3.373,
+      0.564
+     ],
+     "Actor's first sample": [
+      -0.815,
+      -3.952,
+      2.36
+     ],
+     "Vote: Piotr, teacher head, actor first (ties to Piotr)": [
+      0.272,
+      -0.443,
+      1.05
+     ],
+     "Vote: Piotr, teacher head, Kev-style 600 (ties to Piotr)": [
+      -0.181,
+      -1.05,
+      0.373
+     ],
+     "Action-type prior (training folds), teacher logit tie-break": [
+      -0.272,
+      -2.799,
+      2.126
+     ],
+     "Teacher head, overridden when its action type is >10 pp worse": [
+      -0.453,
+      -3.265,
+      2.19
+     ],
+     "Uniform": [
+      -2.482,
+      -5.111,
+      0.145
+     ]
+    },
+    "6_7": {
+     "Teacher-trained head": [
+      0.0,
+      -4.196,
+      4.138
+     ],
+     "Kev-style step 600": [
+      -0.725,
+      -4.577,
+      3.125
+     ],
+     "Actor's first sample": [
+      0.362,
+      -3.409,
+      4.286
+     ],
+     "Vote: Piotr, teacher head, actor first (ties to Piotr)": [
+      1.087,
+      0.0,
+      2.465
+     ],
+     "Vote: Piotr, teacher head, Kev-style 600 (ties to Piotr)": [
+      0.0,
+      -1.88,
+      1.515
+     ],
+     "Action-type prior (training folds), teacher logit tie-break": [
+      1.087,
+      -3.333,
+      5.474
+     ],
+     "Teacher head, overridden when its action type is >10 pp worse": [
+      0.0,
+      -4.196,
+      4.138
+     ],
+     "Uniform": [
+      -1.739,
+      -6.0,
+      2.313
+     ]
+    }
+   },
+   "piotr_teacher_agreement": {
+    "agree_states": 95,
+    "disagree_states": 43,
+    "agree": {
+     "Piotr": 32.368,
+     "Uniform": 28.132
+    },
+    "disagree": {
+     "Piotr": 38.081,
+     "Teacher head": 40.116,
+     "Uniform": 39.477
+    }
+   }
+  },
+  "teacher_plus_outcome_loss": {
+   "states": 138,
+   "steps": 200,
+   "lr": 0.0,
+   "teacher_batch": 16,
+   "outcome_batch": 8,
+   "weights": [
+    0.0,
+    0.3,
+    1.0,
+    3.0
+   ],
+   "chosen": [
+    {
+     "fold": 0,
+     "chosen": 0.0,
+     "inner_success_draws_0_5": {
+      "0.0": 0.337,
+      "0.3": 0.302,
+      "1.0": 0.308,
+      "3.0": 0.297
+     }
+    },
+    {
+     "fold": 1,
+     "chosen": 0.0,
+     "inner_success_draws_0_5": {
+      "0.0": 0.332,
+      "0.3": 0.317,
+      "1.0": 0.308,
+      "3.0": 0.307
+     }
+    },
+    {
+     "fold": 2,
+     "chosen": 0.0,
+     "inner_success_draws_0_5": {
+      "0.0": 0.335,
+      "0.3": 0.321,
+      "1.0": 0.312,
+      "3.0": 0.317
+     }
+    },
+    {
+     "fold": 3,
+     "chosen": 0.0,
+     "inner_success_draws_0_5": {
+      "0.0": 0.341,
+      "0.3": 0.302,
+      "1.0": 0.302,
+      "3.0": 0.313
+     }
+    },
+    {
+     "fold": 4,
+     "chosen": 0.0,
+     "inner_success_draws_0_5": {
+      "0.0": 0.326,
+      "0.3": 0.308,
+      "1.0": 0.294,
+      "3.0": 0.295
+     }
+    }
+   ],
+   "success": {
+    "0_7": {
+     "Teacher + outcome loss, weight by nested CV": 32.88,
+     "Teacher + outcome loss, weight 0.0": 32.88,
+     "Teacher + outcome loss, weight 0.3": 32.246,
+     "Teacher + outcome loss, weight 1.0": 32.246,
+     "Teacher + outcome loss, weight 3.0": 31.069,
+     "Teacher-trained head": 33.696,
+     "Uniform": 31.667
+    },
+    "6_7": {
+     "Teacher + outcome loss, weight by nested CV": 33.333,
+     "Teacher + outcome loss, weight 0.0": 33.333,
+     "Teacher + outcome loss, weight 0.3": 31.159,
+     "Teacher + outcome loss, weight 1.0": 34.42,
+     "Teacher + outcome loss, weight 3.0": 32.971,
+     "Teacher-trained head": 34.058,
+     "Uniform": 32.319
+    }
+   },
+   "minus_uniform": {
+    "0_7": {
+     "Teacher + outcome loss, weight by nested CV": [
+      1.214,
+      -1.077,
+      3.665
+     ],
+     "Teacher + outcome loss, weight 0.0": [
+      1.214,
+      -1.077,
+      3.665
+     ],
+     "Teacher + outcome loss, weight 0.3": [
+      0.58,
+      -1.929,
+      3.177
+     ],
+     "Teacher + outcome loss, weight 1.0": [
+      0.58,
+      -1.901,
+      3.024
+     ],
+     "Teacher + outcome loss, weight 3.0": [
+      -0.598,
+      -3.025,
+      1.765
+     ],
+     "Teacher-trained head": [
+      2.029,
+      -0.241,
+      4.402
+     ]
+    },
+    "6_7": {
+     "Teacher + outcome loss, weight by nested CV": [
+      1.014,
+      -2.353,
+      4.545
+     ],
+     "Teacher + outcome loss, weight 0.0": [
+      1.014,
+      -2.353,
+      4.545
+     ],
+     "Teacher + outcome loss, weight 0.3": [
+      -1.159,
+      -4.589,
+      2.37
+     ],
+     "Teacher + outcome loss, weight 1.0": [
+      2.101,
+      -1.704,
+      6.029
+     ],
+     "Teacher + outcome loss, weight 3.0": [
+      0.652,
+      -3.015,
+      4.476
+     ],
+     "Teacher-trained head": [
+      1.739,
+      -1.46,
+      5.116
+     ]
+    }
+   },
+   "minus_teacher_head": {
+    "0_7": {
+     "Teacher + outcome loss, weight by nested CV": [
+      -0.815,
+      -2.394,
+      1.087
+     ],
+     "Teacher + outcome loss, weight 0.0": [
+      -0.815,
+      -2.394,
+      1.087
+     ],
+     "Teacher + outcome loss, weight 0.3": [
+      -1.449,
+      -3.759,
+      0.94
+     ],
+     "Teacher + outcome loss, weight 1.0": [
+      -1.449,
+      -3.638,
+      0.663
+     ],
+     "Teacher + outcome loss, weight 3.0": [
+      -2.627,
+      -5.239,
+      -0.28
+     ],
+     "Uniform": [
+      -2.029,
+      -4.401,
+      0.248
+     ]
+    },
+    "6_7": {
+     "Teacher + outcome loss, weight by nested CV": [
+      -0.725,
+      -3.333,
+      1.894
+     ],
+     "Teacher + outcome loss, weight 0.0": [
+      -0.725,
+      -3.333,
+      1.894
+     ],
+     "Teacher + outcome loss, weight 0.3": [
+      -2.899,
+      -6.738,
+      1.02
+     ],
+     "Teacher + outcome loss, weight 1.0": [
+      0.362,
+      -3.986,
+      4.71
+     ],
+     "Teacher + outcome loss, weight 3.0": [
+      -1.087,
+      -5.474,
+      3.191
+     ],
+     "Uniform": [
+      -1.739,
+      -5.116,
+      1.46
+     ]
+    }
+   },
+   "picks_changed_vs_teacher_head": {
+    "0.0": 32,
+    "0.3": 68,
+    "1.0": 74,
+    "3.0": 73
+   }
+  }
  }
 }

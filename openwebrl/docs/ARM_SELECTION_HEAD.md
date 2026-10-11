@@ -4,7 +4,7 @@
 
 **Agreement with teachers does not track action quality.** The Kev-style decision pass on the actor's weights, trained to step 600, matches held-out GPT-5.5 choices best of any actor-based selector: 67.1%, versus 65.4% for the frozen-feature head. On the original 124 states it matches an independent teacher (Luna before execution) on 66.1% of judgments, versus 73.2% for Piotr ARM. Its chosen actions succeed on 32.79% of held-out draws, +1.12 pp [−1.38, +3.75] over uniform.
 
-**Supervising the selector with outcomes needs more states than exist now.** 188 states have eight draws for all five actions: 9,720 outcomes in 151 task groups, 14× fewer states than the 2,692 teacher-labelled training states ([data comparison](#selection-head-outcome-data-20261010)). A pre-registered five-fold [adaptation pilot](#selection-head-outcome-adaptation-20261010) on 138 of these states overfits: it fits training folds but does not beat uniform on held-out tasks.
+**Supervising the selector with outcomes needs more states than exist now.** 188 states have eight draws for all five actions: 9,720 outcomes in 151 task groups, 14× fewer states than the 2,692 teacher-labelled training states ([data comparison](#selection-head-outcome-data-20261010)). A pre-registered five-fold [adaptation pilot](#selection-head-outcome-adaptation-20261010) on 138 of these states overfits: it fits training folds but does not beat uniform on held-out tasks. Ridge probes, a combined teacher-plus-outcome loss and selector combinations also find [no held-out gain](#selection-head-early-signal-20261010). Confirming a 3 pp selector difference needs about 200 states with eight draws, and confirming Piotr's ~2.5 pp gain over uniform about 300.
 
 The question is whether selection can be built into the actor ([integration option 3](ARM_INTEGRATION_PLAN.md)). Today's best-of-N pipeline samples five candidates from the actor, then runs a separate 4B selector over the screenshot and all candidates. A head that reads the hidden states the actor computes while generating would need no second model.
 
@@ -262,6 +262,110 @@ Each cell lists success rates as adapted / from scratch / teacher-trained / unif
 - **The bottleneck is task coverage, not labels.** Each fold trains on about 60 informative states, mostly from distinct tasks. More distinct tasks should help more than more draws per state.
 
 Jobs `354654` (primary) and `354696` (breakdown; identical folds, seeds and picks) are CPU-only.
+
+</details>
+
+<a id="selection-head-early-signal-20261010"></a>
+
+## Early-signal experiments: what else could extract outcome signal now?
+
+**Nothing tried beats the teacher-trained selectors at 138 states.** Every experiment below reuses the adaptation pilot's 138 states, five task-grouped folds, draw 0–5 labels and the rule that a held-out state's draws never enter training. Held-out states are scored on all eight draws. The outcome reference cannot be scored that way, because it selects on draws 0–5.
+
+| Question | Result | Implication |
+| --- | --- | --- |
+| Does a low-capacity model find transferable outcome signal in the frozen features? | No. Ridge probes shrink to near-zero weights (penalty 10⁶–10⁹, chosen inside training folds) and score at uniform (−1.6 to +0.4 pp) | At this scale the features carry no linear, task-transferable outcome signal |
+| Does keeping the teacher loss while adding an outcome loss help? | No. Nested CV chooses outcome weight 0 in all five folds; held-out success falls as the weight rises | Outcomes act as noise, not as a correction |
+| Do combinations of existing selectors help? | Marginally at most: the best vote is +0.27 pp over Piotr | Piotr and the teacher head help only where they agree |
+| What explains the selectors' gain over uniform? | A prior over ten action types learned on training folds matches them (+2.21 pp vs +2.03 to +2.48) | Much of the learned edge is "which kind of action works" |
+| How many states would a confirmatory comparison need? | About 70 states for 5 pp, 185–225 for 3 pp and 415–505 for 2 pp, at eight draws per action | Confirming Piotr's ~2.5 pp needs about 300 states; adding states beats adding draws |
+| Is the historical states' weak first sample a depth effect? | No: depth reweighting moves it from 21.3% to 23.4% (new states: 40.4%) | The historical states are harder after the first decision; the cause is not isolated |
+
+<details>
+<summary>Ridge probes on frozen features</summary>
+
+| Selector, 138 states, out-of-fold, draws 0–7 | Success | − Uniform, pp [95%] |
+| --- | ---: | --- |
+| Teacher-trained head (reference) | 33.70% | +2.03 [-0.24, +4.40] |
+| Ridge, all 12 feature blocks | 32.07% | +0.40 [-1.88, +2.76] |
+| Ridge, layers 18/27/36 (the head's inputs) | 31.79% | +0.13 [-2.23, +2.52] |
+| Ridge, layer 27 action tokens | 31.61% | -0.05 [-2.34, +2.30] |
+| Ridge, layer 36 end token | 30.07% | -1.59 [-4.02, +0.82] |
+
+- **Model.** scikit-learn `RidgeCV` predicts each candidate's within-state-centred success (draws 0–5, pooled over equivalent actions) from within-state-centred, standardized features.
+- **Penalty.** Chosen by four-fold task-grouped CV inside each training fold.
+- **Earlier probe run discarded.** A first run used the default candidate-level leave-one-out. Duplicate candidates of the same state stayed in training, so it chose the smallest penalty and fit training states perfectly.
+
+</details>
+
+<details>
+<summary>Teacher loss plus outcome loss</summary>
+
+| Selector, 138 states, out-of-fold, draws 0–7 | Success | − Teacher-trained head, pp [95%] |
+| --- | ---: | --- |
+| Teacher loss only, 200 further steps (weight 0) | 32.88% | -0.82 [-2.39, +1.09] |
+| Outcome weight 0.3 | 32.25% | -1.45 [-3.76, +0.94] |
+| Outcome weight 1 | 32.25% | -1.45 [-3.64, +0.66] |
+| Outcome weight 3 | 31.07% | -2.63 [-5.24, -0.28] |
+
+- **Training.** Each run starts from the teacher-trained head and trains 200 steps: 16 GPT-5.5 panels (soft teacher target) plus 8 outcome states (target proportional to draw 0–5 success) per step, at learning rate 1e-4.
+- **Weight selection.** Four inner task-grouped folds per outer fold, scored on draws 0–5 of inner held-out states only.
+- **Changed picks.** Weight 0 changes 32 picks relative to the starting head; outcome weights change 68–74.
+- **Input check.** The rebuilt inputs reproduce the teacher head's saved logits to within 3×10⁻⁶.
+
+</details>
+
+<details>
+<summary>Selector combinations and the action-type prior</summary>
+
+| Selector, 138 states, draws 0–7 | Success | − Uniform, pp [95%] |
+| --- | ---: | --- |
+| Vote of Piotr, teacher head and actor's first sample | 34.42% | +2.75 [+0.11, +5.37] |
+| Piotr SelectionARM | 34.15% | +2.48 [-0.14, +5.11] |
+| Action-type prior learned on training folds | 33.88% | +2.21 [+0.02, +4.45] |
+| Teacher-trained head | 33.70% | +2.03 [-0.24, +4.40] |
+
+- **Agreement split.** Piotr and the teacher head pick equivalent actions on 95 states. There Piotr scores 32.4% against 28.1% for uniform. On the other 43 states, Piotr scores 38.1%, the teacher head 40.1% and uniform 39.5%.
+- **Action-type prior.** It ranks candidates by their action type's mean within-state relative success on the training folds, and breaks ties with the teacher head's logit.
+
+</details>
+
+<details>
+<summary>Sample size and draw noise</summary>
+
+| Comparison | Mean, pp | Draw-noise share at 8 draws | States for 5 pp at 8 draws | 3 pp at 4 draws | 3 pp at 8 draws | 3 pp at 16 draws | 2 pp at 8 draws |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Piotr ARM - Uniform | +2.48 | 0.44 | 69 | 274 | 191 | 149 | 428 |
+| Teacher-trained head - Uniform | +2.03 | 0.45 | 67 | 267 | 184 | 143 | 414 |
+| Piotr ARM - Teacher-trained head | +0.45 | 0.59 | 81 | 356 | 224 | 158 | 504 |
+| Actor's first sample - Uniform | +1.67 | 0.42 | 79 | 310 | 218 | 173 | 491 |
+| Kev-style step 600 - Uniform | +1.12 | 0.34 | 67 | 248 | 186 | 154 | 417 |
+
+- **Variance split.** The between-state variance is the covariance of differences computed on interleaved half-draws; draw noise is the remainder.
+- **Power settings.** Required states assume a two-sided 5% test at 80% power, with independent states; most task groups hold one state.
+- **Total outcomes versus states.**
+  - Fewest total outcomes: four draws per action.
+  - Fewest states: sixteen draws.
+  - The better design depends on whether admitting a state or running a draw costs more.
+
+</details>
+
+<details>
+<summary>Decision depth and action types</summary>
+
+| Action type | Candidates | Mean success, draws 0–7 | Piotr picks | Best-action picks (hindsight, ties split) |
+| --- | ---: | ---: | ---: | ---: |
+| `click` | 297 | 38.9% | 62 | 61.2 |
+| `scroll` | 117 | 33.7% | 23 | 23.1 |
+| `goto_url` | 80 | 9.8% | 20 | 16.4 |
+| `done` | 58 | 62.1% | 11 | 11.2 |
+| `go_back` | 54 | 18.1% | 5 | 8.5 |
+| `new_tab` | 39 | 10.6% | 9 | 8.9 |
+| `wait` | 20 | 10.6% | 3 | 4.5 |
+| `press_keys` | 12 | 19.8% | 4 | 3.0 |
+| `write` | 11 | 11.4% | 1 | 1.2 |
+
+- **Depth bands.** Historical states hold 16, 20 and 15 states at decision depth 0, 1–3 and 4+; the newer collections hold 34, 39 and 14.
+- **Historical states beyond the first decision are much harder.** Uniform success is about 16% there, against about 43% in comparable fresh states.
 
 </details>
 
