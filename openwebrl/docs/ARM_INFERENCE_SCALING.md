@@ -540,7 +540,7 @@ All attempted work is charged. The remaining 184 seconds round down to a three-m
 <a id="molmoweb-native-batching-20261011"></a>
 
 <details>
-<summary>October 11 native batching preparation — CPU tests passed; GPU speed unmeasured</summary>
+<summary>October 11 native batching benchmark — approved and queued; GPU speed unmeasured</summary>
 
 The remaining episodes are held while optimizing actor inference. The current implementation makes five serial native predictor calls per decision, repeating image encoding and prompt processing. The prepared prototype runs five independently seeded rows together and can share the identical image/prompt prefill before copying the attention cache for independent decoding. It retains the native weights and dtype, tokenizer, prompt, sampling at temperature 0.7/top-p 0.8, beam size one and 1,024-token ceiling. Five rows remain five sampled proposals; candidate order, duplicate retention, selector protocol and existing outcomes stay fixed.
 
@@ -548,7 +548,7 @@ Four CPU regression tests pass: multi-step sampling against the native sampler, 
 
 The diagnostic freezes **18 saved-input cases**, selected by median, 95th-percentile and maximum input length within each of the six latest post-repair cohorts, without selecting on task outcomes. It compares serial generation, batching and batching with shared prefill, with two timing repetitions. The 4B and 8B tests are prepared to run simultaneously on separate GPUs. Acceptance requires exact archived input IDs and matching serial/batched output tokens and text, memory headroom, and a median speedup of at least 1.5× for each model. Floating-point changes from GPU batching may fail that gate; no gain is claimed before measurement.
 
-**Proposed diagnostic ceiling, not yet approved:** two H200s, 16 CPUs, 240 GiB and 3,600 seconds total across all attempts (two H200-hours); zero browser attempts, selector calls, judge calls or API spend. At most 300 local generation attempts per model, including failures. Production RPC/accounting integration and a bounded concurrent rollout check remain required before resuming the remaining episodes. End-to-end completion time must include browser, selector and judge latency rather than scaling the old estimate by actor speed alone.
+**Approved diagnostic ceiling:** two H200s, 16 CPUs, 240 GiB and 3,600 seconds total across all attempts (two H200-hours); zero browser attempts, selector calls, judge calls or API spend. Job 355532 is submitted and queued, with a verified watcher that brings the owning agent back at startup, failure or completion. At most 300 local generation attempts per model, including failures. Production RPC/accounting integration and a bounded concurrent rollout check remain required before resuming the remaining episodes. End-to-end completion time must include browser, selector and judge latency rather than scaling the old estimate by actor speed alone.
 
 </details>
 
