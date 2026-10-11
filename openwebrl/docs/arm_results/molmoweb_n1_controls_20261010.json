@@ -555,7 +555,80 @@
     "failed_startup_allocation_seconds": 14,
     "failed_startup_attempts_preserved": 4,
     "replacements_within_remaining_stage_caps": true,
-    "reported_status": "4B/8B WebVoyager and DeepShop running; both Online-Mind2Web conditions dependency queued",
+    "reported_status": "4B/8B WebVoyager and DeepShop replacements started with two concurrent rollouts; both Online-Mind2Web conditions dependency queued",
     "verified_complete": false
+  },
+  "n5_runtime_repair": {
+    "epoch": 1791698660.9261436,
+    "reason": "Native inference queue contention under eight concurrent N5 browsers",
+    "old_browser_concurrency_actual": 8,
+    "new_browser_concurrency_actual": 2,
+    "approved_browser_cap_per_job": 8,
+    "peak_jobs_cap": 4,
+    "scientific_actor_selector_and_judge_protocol_unchanged": true,
+    "episode_wall_limit_seconds": 1800,
+    "max_steps": 30,
+    "all_committed_outcomes_preserved": true,
+    "committed_timeouts_not_retried": true,
+    "interrupted_uncommitted_rollouts_reviewed": 32,
+    "offline_checks_passed": 85,
+    "new_budget": false,
+    "cohorts": [
+      {
+        "actor": "4B",
+        "benchmark": "WebVoyager",
+        "committed_before_repair": 24,
+        "committed_wall_timeouts": 15,
+        "prior_n5_seconds": 5197,
+        "replacement_reserved_seconds": 23580,
+        "n5_stage_seconds_cap": 28800
+      },
+      {
+        "actor": "4B",
+        "benchmark": "DeepShop",
+        "committed_before_repair": 21,
+        "committed_wall_timeouts": 14,
+        "prior_n5_seconds": 5196,
+        "replacement_reserved_seconds": 9180,
+        "n5_stage_seconds_cap": 14400
+      },
+      {
+        "actor": "8B",
+        "benchmark": "WebVoyager",
+        "committed_before_repair": 21,
+        "committed_wall_timeouts": 15,
+        "prior_n5_seconds": 4758,
+        "replacement_reserved_seconds": 38400,
+        "n5_stage_seconds_cap": 43200
+      },
+      {
+        "actor": "8B",
+        "benchmark": "DeepShop",
+        "committed_before_repair": 17,
+        "committed_wall_timeouts": 12,
+        "prior_n5_seconds": 4028,
+        "replacement_reserved_seconds": 17520,
+        "n5_stage_seconds_cap": 21600
+      },
+      {
+        "actor": "4B",
+        "benchmark": "Online-Mind2Web",
+        "committed_before_repair": 0,
+        "committed_wall_timeouts": 0,
+        "prior_n5_seconds": 3,
+        "replacement_reserved_seconds": 21540,
+        "n5_stage_seconds_cap": 21600
+      },
+      {
+        "actor": "8B",
+        "benchmark": "Online-Mind2Web",
+        "committed_before_repair": 0,
+        "committed_wall_timeouts": 0,
+        "prior_n5_seconds": 3,
+        "replacement_reserved_seconds": 32340,
+        "n5_stage_seconds_cap": 32400
+      }
+    ],
+    "interpretation": "Incomplete diagnostic collection; no established selection benefit. Wall-time exclusions disproportionately remove long-running episodes; filtered rates do not repair this confound."
   }
 }

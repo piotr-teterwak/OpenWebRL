@@ -288,6 +288,8 @@ The campaign ceilings remain **26 H200-hours**, **$625** for APIs and **1,480 ph
 
 **Following control review, the user approved all six paired N=5 + GPT-6.1 Sol medium evaluations on October 10.** The 4B/8B WebVoyager and DeepShop N5 jobs are running; both Online-Mind2Web jobs are queued with dependencies that keep the total at four jobs and 32 browsers across the suite. They use the existing reserved N5 budgets and unchanged actor/browser/judge settings. No complete N5 cohort or selection improvement is established yet. Five N1 controls are independently complete: 8B WebVoyager, both DeepShop and both Online-Mind2Web cohorts. The 4B WebVoyager control remains partial at 582/595 records.
 
+**N5 collection has a runtime confound:** 56 of the first 83 committed episodes hit the unchanged 30-minute wall limit, generally before reaching 30 decisions. Eight browsers were sharing one serial native predictor. Collection was restarted with two concurrent rollouts per job within the original resource caps; all committed outcomes remain, and no committed timeout is retried. Filtered early scores preferentially retain shorter episodes and do not establish selection quality. See the runtime audit below.
+
 The two headline metrics below use the same saved verdicts. **Raw** divides successes by all observed task records, including committed invalid outcomes; **access/infra-filtered** removes any episode with identified access/infra evidence, whether it succeeded, failed or recovered. Missing records remain unresolved. Native and AgentTrek scores remain separate.
 
 | Benchmark | N1 actor | Judge | Observed tasks | Raw successes | Raw success | Retained tasks | Retained successes | Access/infra-filtered success |
@@ -304,6 +306,26 @@ The two headline metrics below use the same saved verdicts. **Raw** divides succ
 **8B WebVoyager is now verified complete: 44.37% raw and 54.86% access/infra-filtered.** The same fixed filter excludes 132 episodes, including 10 successes. Compare the 4B partial and 8B complete cohorts with their different denominators in view; these rates alone do not establish a reliable model ranking. [8B control W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/e8780ff9ffb94d6d8bb9d6d9f16e2933).
 
 The filter is fixed before collecting N5 outcomes and applied identically to both conditions. Paired N5−N1 comparisons use common observed tasks for raw rates and the intersection of retained tasks for filtered rates, with paired task-bootstrap uncertainty. Separately filtered arm averages alone do not establish selection benefit. Collection is sequential and website changes remain a caveat. These are single-draw task comparisons, not repeated-seed estimates. [Aggregates and metric definitions](arm_results/molmoweb_n1_controls_20261010.json), [4B WV N5 W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/82e3d3aca2264d4195971b1dbb698486), [4B DS N5 W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/2ac5fb56ba574b3ba3f459521b683f02).
+
+<details>
+<summary>N5 inference-queue diagnosis and bounded recovery, October 10</summary>
+
+Thirty sampled generation receipts per active condition measured mean native prediction times of 2.8–3.4 seconds and mean queue waits of 15.0–23.6 seconds. Five proposals per decision across eight browsers caused frequent episode wall deadlines despite busy GPUs. This is collection infrastructure evidence, not a measured ranking of selectors.
+
+The repair reduces admitted rollouts to two per job, below the approved eight-browser ceiling. Native weights, local browser implementation, decoding, deterministic draw seeds, five raw proposals, Sol medium selection, judges, 30 decisions and the 1,800-second episode limit are unchanged. The repair passed 85 offline checks, including rejection of committed-outcome retries and altered interruption evidence. All 2,160 existing N1/N5 records and all attempts remain preserved. Only 32 proven pre-deadline, uncommitted controller interruptions can be replayed; existing timeouts retain explicit raw zeros and their frozen filter classifications.
+
+| N5 actor | Benchmark | Committed before repair | Wall timeouts | Prior allocation seconds | Replacement seconds | Stage cap seconds |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| 4B | WebVoyager | 24 | 15 | 5,197 | 23,580 | 28,800 |
+| 4B | DeepShop | 21 | 14 | 5,196 | 9,180 | 14,400 |
+| 8B | WebVoyager | 21 | 15 | 4,758 | 38,400 | 43,200 |
+| 8B | DeepShop | 17 | 12 | 4,028 | 17,520 | 21,600 |
+| 4B | Online-Mind2Web | 0 | 0 | 3 | 21,540 | 21,600 |
+| 8B | Online-Mind2Web | 0 | 0 | 3 | 32,340 | 32,400 |
+
+Every attempt is charged to its original stage; replacement time is rounded down, and N1 balances remain separate. The two Online-Mind2Web successors follow the updated dependencies. Maximum concurrent jobs remains four; the repaired controller admits at most eight browsers across those four jobs. The full requested cohorts are still incomplete. Final raw/common-task and filtered/common-valid comparisons must disclose the mixed admission phases and timeout coverage; excluding timeouts alone does not establish a fair 30-decision comparison.
+
+</details>
 
 <details>
 <summary>Exposure filter, incomplete coverage and original rollout-valid rates</summary>
