@@ -282,11 +282,33 @@ The campaign ceilings remain **26 H200-hours**, **$625** for APIs and **1,480 ph
 [Results and approval aggregate](arm_results/sol61_n5_launch_20261009.json) · [Official model settings and pricing](https://developers.openai.com/api/docs/models/gpt-6.1-sol).
 
 <a id="molmoweb-sol61-plan-20261010"></a>
-## MolmoWeb 4B/8B: controls first; Sol selection awaits review
+## MolmoWeb 4B/8B: paired Sol selection and access-filtered controls
 
-**Three of six controls are independently verified: MolmoWeb 4B reaches 28.67% on DeepShop, and both Online-Mind2Web cohorts are complete.** On Online-Mind2Web, the model ranking changes with the judge: 8B has more native-judge successes, while 4B has more AgentTrek successes. These single-draw cohorts were collected at different times; they do not establish a reliable actor ranking. The two 8B WebVoyager/DeepShop controls remain active; 4B WebVoyager is budget-blocked and incomplete. **N=5 + GPT-6.1 Sol medium remains blocked pending user review and explicit approval.**
+**The retained 4B WebVoyager control rates are 45.19% raw and 56.07% after excluding identified access/infra exposures.** This is a partial 582-task cohort; 13 of the requested 595 tasks remain unresolved. The filter removes 129 episodes, including nine successes, and changes the task mix. It is a diagnostic of the observed local-browser cohort, not a prediction of performance under Browserbase.
 
-**4B WebVoyager stopped with 582 of 595 outcomes saved.** Eight rollouts were interrupted by the allocation shutdown and five tasks had not started; all 13 remain unresolved. Its 184 seconds of unused N1 time cannot cover another launch with the fixed shutdown reserve. The saved outcomes passed their artifact audit, but this is not a completed control or a full-benchmark score. No extra compute or budget transfer was used.
+**Following control review, the user approved all six paired N=5 + GPT-6.1 Sol medium evaluations on October 10.** The 4B WebVoyager/DeepShop N5 jobs are running; the other four are queued with dependencies that keep the total at four jobs and 32 browsers, including active N1 controls. They use the existing reserved N5 budgets and unchanged actor/browser/judge settings. No N5 outcome or selection improvement is established yet. Three N1 controls are independently complete: 4B DeepShop and both Online-Mind2Web cohorts. The 8B WebVoyager/DeepShop controls continue separately.
+
+The two headline metrics below use the same saved verdicts. **Raw** divides successes by all observed task records, including committed invalid outcomes; **access/infra-filtered** removes any episode with identified access/infra evidence, whether it succeeded, failed or recovered. Missing records remain unresolved. Native and AgentTrek scores remain separate.
+
+| Benchmark | N1 actor | Judge | Observed tasks | Raw successes | Raw success | Retained tasks | Retained successes | Access/infra-filtered success |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| WebVoyager (partial) | 4B | Native MolmoWeb | 582 | 263 | 45.19% | 453 | 254 | 56.07% |
+| DeepShop | 4B | Native MolmoWeb | 150 | 43 | 28.67% | 150 | 43 | 28.67% |
+| Online-Mind2Web | 4B | Native MolmoWeb | 300 | 38 | 12.67% | 218 | 37 | 16.97% |
+| Online-Mind2Web | 4B | AgentTrek | 300 | 81 | 27.00% | 218 | 73 | 33.49% |
+| Online-Mind2Web | 8B | Native MolmoWeb | 300 | 48 | 16.00% | 229 | 47 | 20.52% |
+| Online-Mind2Web | 8B | AgentTrek | 300 | 76 | 25.33% | 229 | 74 | 32.31% |
+
+The filter is fixed before collecting N5 outcomes and applied identically to both conditions. Paired N5−N1 comparisons use common observed tasks for raw rates and the intersection of retained tasks for filtered rates, with paired task-bootstrap uncertainty. Separately filtered arm averages alone do not establish selection benefit. Collection is sequential and website changes remain a caveat. These are single-draw task comparisons, not repeated-seed estimates. [Aggregates and metric definitions](arm_results/molmoweb_n1_controls_20261010.json), [4B WV N5 W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/82e3d3aca2264d4195971b1dbb698486), [4B DS N5 W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/2ac5fb56ba574b3ba3f459521b683f02).
+
+<details>
+<summary>Exposure filter, incomplete coverage and original rollout-valid rates</summary>
+
+The observation-only classifier excludes identified CAPTCHA/verification, access denial, HTTP 429/502/503, a verified site-function 404 transition, and structured worker failures. It applies to successful and unsuccessful episodes, including recovered exposures. Ordinary step-limit failures, outdated dates, wrong answers, guessed bad URLs, generic 404s and empty search results remain included. Image-based exclusions use frozen visually checked evidence templates; URL/title rules and structured failures supplement them. These rules may miss other infrastructure failures. Entire affected task groups can disappear from the retained subset, so filtered rates are not a counterfactual estimate of Browserbase performance. Future evidence-rule corrections must recompute both conditions.
+
+The 4B WebVoyager cohort has eight interrupted and five untouched tasks. Its 184 seconds of unused N1 time cannot cover another launch with the fixed shutdown reserve. The saved outcomes passed their artifact audit, but the control remains incomplete. N5 keeps its separate existing reservation; no unused N1 time is transferred.
+
+The earlier internal rollout-valid flag is narrower than this exposure filter; it does not identify most CAPTCHA/access blocks. The original complete-control audit table remains below for traceability:
 
 | Benchmark | N1 actor | Judge | Task slots | Valid rollouts | Eligible / judged | Successes | Overall success | Valid-only success |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -296,7 +318,9 @@ The campaign ceilings remain **26 H200-hours**, **$625** for APIs and **1,480 ph
 | Online-Mind2Web | MolmoWeb-8B-Native | Native MolmoWeb, o4-mini | 300 | 289 | 289 | 48 | 16.00% | 16.61% |
 | Online-Mind2Web | MolmoWeb-8B-Native | AgentTrek, o4-mini | 300 | 289 | 92 | 76 | 25.33% | 26.30% |
 
-Overall rates divide by the task slots shown; valid-only rates use the corresponding valid-rollout count. Invalid outcomes remain zero. On Online-Mind2Web, AgentTrek additionally assigns unjudged zero to valid episodes without a terminal `[EXIT]`: 182 for 4B and 197 for 8B. Its judged subset is not the benchmark denominator. Both judges use the same saved episodes for each actor. Local SimpleEnv differs from the paper's Browserbase/advanced-stealth environment. All selector counts are zero. [Verified aggregates](arm_results/molmoweb_n1_controls_20261010.json), [4B OM W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/da89a7c667e34365a09d3c380dc90d4e), [8B OM W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/861583d7b358498abf6a5db526d6cd3d).
+On Online-Mind2Web, AgentTrek assigns unjudged zero to valid episodes without a terminal `[EXIT]`: 182 for 4B and 197 for 8B. Its judged subset is not the benchmark denominator. Both judges score the same saved episodes. The native judge favors 8B, whereas AgentTrek favors 4B; these cohorts alone do not establish a reliable actor ranking. All N1 selector counts remain zero. [4B OM W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/da89a7c667e34365a09d3c380dc90d4e), [8B OM W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/861583d7b358498abf6a5db526d6cd3d).
+
+</details>
 
 <details>
 <summary>Online-Mind2Web judge disagreement, audits and accounting</summary>
@@ -368,11 +392,11 @@ The immutable partial cohort contains 582 valid saved outcomes, including 263 su
 | Native judge HTTP attempts | 582 | 2,620 |
 | Native judge cost, USD | 33.430103 | 40 |
 
-All attempted work is charged. The remaining 184 seconds round down to a three-minute allocation, entirely consumed by the existing 180-second shutdown reserve. API/browser headroom cannot substitute for allocation time; blocked N5 resources and other controls' balances are unavailable. This cohort and the six-control suite remain incomplete.
+All attempted work is charged. The remaining 184 seconds round down to a three-minute allocation, entirely consumed by the existing 180-second shutdown reserve. API/browser headroom cannot substitute for allocation time; the separate N5 reservation and other controls' balances are unavailable for N1 recovery. This cohort and the six-control suite remain incomplete.
 
 </details>
 
-The approved collection covers six N1 controls before the user reviews comparability and authorizes any ARM run:
+The approved paired design contains the following six control cohorts and six matching N5 cohorts:
 
 | Benchmark | Tasks per actor | Actors | N1 control episodes | Scoring |
 | --- | ---: | --- | ---: | --- |
@@ -383,7 +407,7 @@ The approved collection covers six N1 controls before the user reviews comparabi
 
 Each remaining control requires the same complete record, image, verdict and accounting audit. Missing infrastructure/judge outcomes remain unresolved; partial collection stays incomplete.
 
-After user review and approval, the planned comparison is the **task-paired N=5 minus N=1 success difference**, with a paired task-bootstrap interval. Controls and ARM are now collected sequentially, so website changes over time remain a comparability caveat. This is not a repeated-seed estimate. The full potential comparison remains 4,180 episodes across 12 conditions; the six N5 conditions are blocked.
+The full requested comparison is 4,180 episodes across 12 conditions. N5 requests all 2,090 task slots; partial N1 coverage limits the paired denominator until missing control records are available. No selective outcome retries are allowed.
 
 **Both Online-Mind2Web judges score the same saved actor episodes; they do not trigger extra continuations.** The native MolmoWeb judge decomposes the goal, assesses each supplied screenshot, then produces a final verdict: **S+2 logical calls for S screenshots**, before retries. The prior AgentTrek protocol instead uses the task, action history and last supplied actor observation in one terminal assessment, with its existing completed-episode eligibility rule. Truncated and format-ineligible episodes retain explicit unjudged zeros in that protocol. Report each judge's eligible/judged counts, overall and valid-only rates, and disagreement on the commonly judged subset. Never select the better judge outcome or pool the two scores.
 
@@ -401,7 +425,7 @@ Source, checkpoint, task, candidate, screenshot, verdict and API identities are 
 </details>
 
 <details>
-<summary>Approved resource ceilings and controls-only execution</summary>
+<summary>Approved resource ceilings, N5 activation and recovery accounting</summary>
 
 Each row is a lifetime N1/N5 budget with **1 H200, 8 CPUs, 120 GiB and eight browser workers total**, including startup checks and every recovery attempt. CPUs were reduced from the approved ceiling of 16 to meet the cluster limit. At most four jobs run concurrently: **4 H200, 32 CPUs, 480 GiB and 32 browsers**. These are hard ceilings, not a throughput forecast or a guarantee of full coverage.
 
@@ -415,7 +439,7 @@ Each row is a lifetime N1/N5 budget with **1 H200, 8 CPUs, 120 GiB and eight bro
 | 8B | Online-Mind2Web | 18 | 100 | 300 | 10 | 410 |
 | **Total** | | **90** | **750** | **784** | **20** | **1,554** |
 
-**The initial N1-only allocations reserve 45 of the approved 90 H200 hours:** 4B WV/DS/OM receive 8/4/6 hours; 8B receive 12/6/9 hours. The October 10 approved amendment adds $24 solely to N1 native judging: WebVoyager $30 → $40 and DeepShop $10 → $12 for each actor. Controls therefore have a $414 judge envelope ($404 native plus $10 AgentTrek), 2,300 browser starts and 69,000 local generations; selector allowance is zero. Compute and HTTP/browser counts are unchanged. [Amendment accounting](arm_results/molmoweb_n1_judge_amendment_20261010.json). Actual time from every attempt charges the corresponding lifetime row, and unused time is never reset or transferred. N5 remains blocked pending explicit review of the control results.
+**The initial N1-only allocations reserve 45 of the approved 90 H200 hours:** 4B WV/DS/OM receive 8/4/6 hours; 8B receive 12/6/9 hours. The October 10 approved amendment adds $24 solely to N1 native judging: WebVoyager $30 → $40 and DeepShop $10 → $12 for each actor. Controls therefore have a $414 judge envelope ($404 native plus $10 AgentTrek), 2,300 browser starts and 69,000 local generations; selector allowance is zero. Compute and HTTP/browser counts are unchanged. [Amendment accounting](arm_results/molmoweb_n1_judge_amendment_20261010.json). Actual time from every attempt charges the corresponding lifetime row, and unused time is never reset or transferred. The October 10 review authorization releases the separately reserved 45 N5 H200-hours and $1,140 API envelope ($750 Sol, $380 native judges and $10 AgentTrek), without extending any cap. Four startup-only N5 attempts consumed 14 allocation seconds before model/API work; they remain charged. The malformed launcher path was corrected and tested, replacements use residual stage time, and all original attempts remain preserved.
 
 Native judge ceilings are N1/N5 $40/$30 for each WebVoyager actor, $12/$10 for each DeepShop actor, and $150/$150 for each OM actor; all Sol allowance belongs to N5. Each OM condition has a separate $5 AgentTrek allowance. Compute cannot transfer between jobs; API/browser caps cannot transfer between conditions or from other experiments. Aggregate limits are **4,600 browser starts, 414,000 local candidate generations and 256,360 actual HTTP attempts**. Every retry reserves its own physical HTTP attempt and worst-case cost before dispatch; unresolved charges retain their reservation. The first binding limit stops further paid work. Ordinary committed invalid outcomes are never selectively rerun, and a replacement receives only the unspent total allocation time.
 
