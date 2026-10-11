@@ -3929,6 +3929,26 @@
     "held_out_teacher_agreement": 0.645
    }
   },
-  "code": "scripts/run_branch_teacher_labels.py (55edc39), scripts/run_branch_sol_labels.py (cc3f472), scripts/selection_outcome_experiments.py teachers/labels"
+  "code": "scripts/run_branch_teacher_labels.py (55edc39), scripts/run_branch_sol_labels.py (cc3f472), scripts/selection_outcome_experiments.py teachers/labels",
+  "students_sol": {
+   "job": 355559,
+   "labelled_states": 124,
+   "cv_124": {
+    "success": 33.27956989247311,
+    "minus_uniform": [
+     0.16801075268817228,
+     -2.9596774193548385,
+     3.272849462365591
+    ]
+   },
+   "train_124_test_new": {
+    "success": 36.78160905838013,
+    "minus_uniform": [
+     0.25862045800206307,
+     -2.7647060835186172,
+     3.3132529424795187
+    ]
+   }
+  }
  }
 }

@@ -389,8 +389,9 @@ Method, metric definitions, teacher-agreement results, robustness checks and dat
 | Luna after (evidence draws 0–2) | 121 | −0.52 [−3.60, +2.49] | +0.26 [−2.72, +3.15] |
 | Outcomes on draws 0–2 (same executions) | 59 | −1.05 [−4.02, +2.00] | −1.03 [−4.27, +1.94] |
 | GPT-5.5 labels, same number of other states | 124 | −1.13 [−4.07, +1.77] | −0.46 [−3.30, +2.33] |
+| Sol before | 124 | +0.17 [−2.96, +3.27] | +0.26 [−2.76, +3.31] |
 
-Outcome labels exist only where draws 0–2 separate the actions (59 states). Sol labels on these states are being added to the student comparison.
+Outcome labels exist only where draws 0–2 separate the actions (59 states).
 
 <details>
 <summary>Labelling runs: layout, evidence protection and accounting</summary>
