@@ -288,7 +288,7 @@ The campaign ceilings remain **26 H200-hours**, **$625** for APIs and **1,480 ph
 
 **The current N5 evidence is mixed and incomplete.** On common observed WebVoyager tasks, Sol selection improves the raw rate by 8.11 percentage points for 4B and 5.67 points for 8B, but both paired 95% intervals include zero. For 8B Online-Mind2Web, AgentTrek shows +11.69 points [95% interval: +1.30, +22.08], while the native judge shows only +1.30 [−6.49, +10.39]. The AgentTrek signal is conditional on the 77 observed tasks; nonrandom partial coverage and sequential collection prevent treating it as a full-benchmark result. DeepShop shows no raw gain for 4B and a negative difference for 8B.
 
-**All six N5 runs stopped at their original compute caps, with 491/2,090 requested records audited.** Coverage is 111/595 and 141/595 for 4B/8B WebVoyager, 45/150 and 59/150 for DeepShop, and 58/300 and 77/300 for Online-Mind2Web. No N5 cohort is complete and no MolmoWeb allocation remains running or queued. Five N1 controls are verified complete; 4B WebVoyager remains partial at 582/595. All 2,077 saved N1 records are unchanged. A [199.5-H200-hour completion proposal](#molmoweb-completion-compute-20261011) awaits confirmation of its exact ceiling; no extension allocation has been submitted.
+**All six N5 runs stopped at their original compute caps, with 491/2,090 requested records audited.** Coverage is 111/595 and 141/595 for 4B/8B WebVoyager, 45/150 and 59/150 for DeepShop, and 58/300 and 77/300 for Online-Mind2Web. No N5 cohort is complete and no MolmoWeb allocation remains running or queued. Five N1 controls are verified complete; 4B WebVoyager remains partial at 582/595. All 2,077 saved N1 records are unchanged. Resumption is now held for [native batching and throughput validation](#molmoweb-native-batching-20261011). The earlier 199.5-H200-hour serial-throughput completion proposal is deferred; its ceiling was not approved and no extension allocation has been submitted.
 
 **N5 collection has a runtime confound:** 56 of the first 83 committed episodes hit the unchanged 30-minute wall limit, generally before reaching 30 decisions. Eight browsers were sharing one serial native predictor. Collection was restarted with two concurrent rollouts per job within the original resource caps; all committed outcomes remain, and no committed timeout is retried. The first 94 post-repair episodes passed artifact verification without timeouts, including 44 full 30-decision episodes; three later DeepShop episodes (one 4B and two 8B) timed out after their last completed actor/selector decisions. All outcomes are retained. Filtered early scores preferentially retain shorter episodes and do not establish selection quality. See the runtime audit and interim paired metrics below.
 
@@ -537,12 +537,27 @@ All attempted work is charged. The remaining 184 seconds round down to a three-m
 
 </details>
 
+<a id="molmoweb-native-batching-20261011"></a>
+
+<details>
+<summary>October 11 native batching preparation — CPU tests passed; GPU speed unmeasured</summary>
+
+The remaining episodes are held while optimizing actor inference. The current implementation makes five serial native predictor calls per decision, repeating image encoding and prompt processing. The prepared prototype runs five independently seeded rows together and can share the identical image/prompt prefill before copying the attention cache for independent decoding. It retains the native weights and dtype, tokenizer, prompt, sampling at temperature 0.7/top-p 0.8, beam size one and 1,024-token ceiling. Five rows remain five sampled proposals; candidate order, duplicate retention, selector protocol and existing outcomes stay fixed.
+
+Four CPU regression tests pass: multi-step sampling against the native sampler, seed independence under row permutation, first-token/EOS behavior with unequal response lengths, and isolated cache copies with restoration after an error. All 18 frozen saved-input cases also reproduce their archived input token IDs, and the installed decoding functions match the pinned native source. These checks do not establish GPU equivalence or speed. The pinned first-token path is deterministic; later tokens use nucleus sampling. In a checked sample of 200 saved N5 proposals per actor, all first tokens encode a space followed by the JSON opening brace and quote.
+
+The diagnostic freezes **18 saved-input cases**, selected by median, 95th-percentile and maximum input length within each of the six latest post-repair cohorts, without selecting on task outcomes. It compares serial generation, batching and batching with shared prefill, with two timing repetitions. The 4B and 8B tests are prepared to run simultaneously on separate GPUs. Acceptance requires exact archived input IDs and matching serial/batched output tokens and text, memory headroom, and a median speedup of at least 1.5× for each model. Floating-point changes from GPU batching may fail that gate; no gain is claimed before measurement.
+
+**Proposed diagnostic ceiling, not yet approved:** two H200s, 16 CPUs, 240 GiB and 3,600 seconds total across all attempts (two H200-hours); zero browser attempts, selector calls, judge calls or API spend. At most 300 local generation attempts per model, including failures. Production RPC/accounting integration and a bounded concurrent rollout check remain required before resuming the remaining episodes. End-to-end completion time must include browser, selector and judge latency rather than scaling the old estimate by actor speed alone.
+
+</details>
+
 <a id="molmoweb-completion-compute-20261011"></a>
 
 <details>
-<summary>October 11 completion compute request — exact ceiling pending</summary>
+<summary>Historical October 11 completion estimate — deferred pending optimization</summary>
 
-The user authorized finishing the existing cohorts; the additional numerical ceiling is prepared for confirmation before submission. At the current two-browser N5 throughput, the missing episodes require approximately **148 H200-hours**. The proposed **199.5 additional H200-hours** include startup, chunk handoffs and recovery headroom, with separate caps for each condition and early exit when its fixed task set is complete. These are caps, not commitments to consume the entire reservation or guarantees against slower websites/API service.
+The user subsequently requested optimizing the serial setup before resuming. This unapproved proposal is retained as the pre-optimization estimate and will be recomputed from validated throughput. At the earlier two-browser N5 throughput, the missing episodes require approximately **148 H200-hours**. The proposed **199.5 additional H200-hours** include startup, chunk handoffs and recovery headroom, with separate caps for each condition and early exit when its fixed task set is complete. These are caps, not commitments to consume the entire reservation or guarantees against slower websites/API service.
 
 | Continuation | Missing at preparation | Additional H200-hours, all attempts |
 | --- | ---: | ---: |
@@ -559,7 +574,7 @@ Each allocation retains **one H200, eight CPUs and 120 GiB RAM**. Keep at most f
 
 **No API or browser-cap increase is proposed.** Straight-line native-judge forecasts for WebVoyager are approximately $28.36 and $29.21 against separate $30 N5 caps; those narrow margins are estimates, not guaranteed coverage. DeepShop has five spare browser starts per actor after one attempt for every missing task. Each condition must stop if an unchanged API/browser/generation cap binds. Preserve every saved outcome and physical request/reservation; replay only audited, uncommitted allocation interruptions. Actor weights, decoding, candidates, Sol effort, 30-decision limit, judges and fixed raw/filtered/common-task metrics remain unchanged.
 
-**Status: prepared; no extension allocation submitted.**
+**Status: deferred pending optimization; not approved, no extension allocation submitted.**
 
 </details>
 

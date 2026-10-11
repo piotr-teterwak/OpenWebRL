@@ -2117,5 +2117,17 @@
       "postrepair_timeouts": 3,
       "no_added_budget": true
     }
+  },
+  "inference_optimization": {
+    "date": "2026-10-11",
+    "status": "CPU_validated_GPU_benchmark_pending_exact_resource_approval",
+    "regression_tests_passed": 4,
+    "archived_input_tokenizations_matched": 18,
+    "GPU_speedup_measured": false,
+    "proposed_diagnostic_H200_hours": 2,
+    "additional_API_budget_usd": 0,
+    "browser_attempts": 0,
+    "production_resumption_blocked": true,
+    "previous_199_5_H200_hour_proposal": "deferred_not_approved"
   }
 }
