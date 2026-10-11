@@ -69,6 +69,27 @@ Both index-only Luna-high conditions choose among the same candidates without se
 
 The paired after-minus-before interval in the overview includes zero. After-execution judgments saw the immediate result of execution draws 0–2, which are also the first steps of the continuations scored here. Scoring only on draws 3–7 avoids that overlap. On 57 states with such draws, after minus before is +1.77 pp [−0.51, +4.40]; after minus uniform is +4.61 [+0.39, +9.16]. Choosing by outcomes of draws 0–2 gives +7.22 [+2.88, +12.21] over uniform ([aggregate](arm_results/rl_integration/selection-outcomes-20261010.json)). Repeated teacher choices average over the same saved outcomes; they add no rollout data. Repeat consistency and label changes are diagnostics, not evidence of better action success. [Original aggregate and paired audit](arm_results/rl_integration/continuation-fixed124-20261008.json).
 
+<details>
+<summary>What one Luna judgment sees, and why there are 4 before and 10 after judgments per state</summary>
+
+Each call is one independent GPT-6 Luna request at high reasoning effort. The request contains the task, the last five history entries, the original screenshot and the five candidate responses, and Luna returns one candidate index (`openwebrl/arm_branch_teacher.py`). An after-execution call also receives, for every candidate, the screenshot and tool feedback **immediately after that candidate's action in one execution draw**. No call sees later steps of a continuation, final screenshots or rewards.
+
+| Condition | Evidence | Calls per state |
+| --- | --- | ---: |
+| Before | State and candidates only | 3 repeats + 1 with candidates shuffled = 4 |
+| After, execution draw 0 | Immediate results from draw 0 | 3 repeats + 1 shuffled = 4 |
+| After, execution draw 1 | Immediate results from draw 1 | 3 repeats |
+| After, execution draw 2 | Immediate results from draw 2 | 3 repeats |
+
+- **Repeats** send identical input, to measure Luna's own variability.
+- **Shuffled calls** test whether Luna favors candidates by position.
+- **The three draws** show the same actions' immediate screens from separate browser replays, which can differ.
+- **Coverage.** Every state planned 14 calls. All 14 are valid on 119 states. Two states have 4 before and 6 after judgments; three have 4 before and none after.
+
+Reported "before" and "after" scores average each condition's valid calls per state. Because after-evidence comes from draws 0–2, which are also the first steps of the continuations scored on those draws, the [leakage-free check](#arm-continuation-branches-results-20261007) scores only draws 3–7. Applying this script unchanged to an eight-draw panel would request after-judgments for all eight draws. A labelling manifest must instead fix the evidence draws in advance and keep held-out draws out of the teacher's view.
+
+</details>
+
 <a id="branch-extra2-heldout58-20261008"></a>
 
 ### Does selection from old outcomes improve fresh continuations?
