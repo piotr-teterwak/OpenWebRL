@@ -1,5 +1,40 @@
 # WebPRM baselines
 
+<a id="table5-plan-20261010"></a>
+## Plan: WebArena-Lite first, then Online-Mind2Web
+
+**Complete a matched WebArena-Lite Table 5 reproduction with our PRM/ARM rows first, then run a separate Online-Mind2Web comparison.** The user requested both benchmarks, ordered by ease of debugging and reproduction. WebArena-Lite is the first target because its resettable website state and benchmark evaluator should make failures easier to replay; this is an engineering judgment, not evidence that deployment is already working. The completed and partial OM2W cohorts below remain preserved harness diagnostics, and the prepared OM2W retry is deferred until the first comparison is complete.
+
+Pin [WebArbiter v2, Table 5 and Section 5.2](https://arxiv.org/html/2601.21872v2#S5.T5): GPT-4o-mini and GPT-4o actors, five action candidates for guided search, and Shopping, CMS, Reddit, GitLab and Map. The older v1 excludes Map. Published averages below are reference values, not our reproduced results; starred paper rows are imported from WebShepherd.
+
+| Selector / search condition | Paper GPT-4o-mini average success (%) | Paper GPT-4o average success (%) |
+| --- | ---: | ---: |
+| No trajectory search | 23.48 | 31.90 |
+| GPT-4o-mini judge | 24.47 | 33.03 |
+| WebShepherd-8B | 34.34 | 40.65 |
+| WebArbiter-7B | 40.52 | 47.01 |
+| Our PRM | — | — |
+| Our ARM | — | — |
+
+1. **Freeze the reproduction specification.** Audit the released task cohort, website versions/reset procedure, evaluator, actor snapshots, prompts, sampling, candidate construction, turn limits and critic interfaces. Record unavailable paper settings as explicit fidelity gaps. Bring up and validate the WebArena-Lite sites and their benchmark evaluator before paid collection; do not substitute the OM2W terminal judge.
+2. **Establish the baseline pipeline on a small prespecified cohort.** Begin with GPT-4o-mini and run the paper's four conditions, retaining an additional random-candidate diagnostic. Check actual action execution, reward selection, task evaluation and accounting. Do not require a favorable success rate or replace failed tasks to pass this mechanical check.
+3. **Integrate our frozen PRM and ARM checkpoints.** Keep the actor, candidate-generation budget, environment, task cohort and evaluator fixed; change the selector. Verify observation/action compatibility and causal inputs, with no future outcome or task-answer access. Select checkpoints using independent development evidence. Existing OM2W results or an ARM-trained actor's success rate are not interchangeable with these selector rows. Any ARM needing post-action rollouts must be disclosed as a separate, costed setting.
+4. **Complete both actor blocks and the comparison table.** Once the pilot mechanics pass and exact resources are approved, evaluate the same frozen task cohort under every selector for GPT-4o-mini and GPT-4o. Retain all attempts and verdicts. Report success per domain, the unweighted domain mean matching the table format, gain over the matched no-search control in percentage points, uncertainty, invalid counts and cost. Separate paper-reported references from our contemporaneous reruns.
+5. **Then evaluate Online-Mind2Web.** Carry the validated selector adapters into a separate experiment on the canonical 300-task benchmark. Freeze actor blocks, the matched selector conditions, observation/candidate protocol and terminal judge before collection, preserving OM2W-specific evaluation requirements. Use a small prespecified startup check before full collection, retain invalid attempts and live-site failures, and report overall plus valid-only success with cost and uncertainty. Do not mix its rates with WebArena-Lite results or paste earlier unmatched ARM-policy results into the new table. Each benchmark requires its own exact resource request; the old three-hour proposal covers only the 72-cell OM2W repair pilot.
+
+<details>
+<summary>Known cohort and implementation gaps</summary>
+
+The pinned released `test_webarena_lite.raw.json` contains 165 tasks: 155 single-site tasks across the five domains and ten multi-site tasks. Single-site counts are 45 Shopping, 35 CMS, 19 Reddit, 30 GitLab and 26 Map. The paper's WebArbiter percentages are consistent with these single-site denominators, but the table alone does not prove task membership; some imported baseline percentages imply different denominators. Verify the exact cohort and exclusions before claiming reproduction, and use one matched cohort for our primary comparison.
+
+The current runner uses live OM2W tasks, an o4-mini terminal judge and adapted author harnesses. Its geometry, parsing and lifecycle repairs are reusable, but its task loader, environment/reset integration and evaluator need WebArena-Lite validation. Paper-faithful baseline interfaces and a common-candidate selector ablation answer different questions; document any standardization rather than silently calling it the original paper setup. The particular PRM/ARM checkpoints and their frontend adapters are still to be pinned. The released viewer compose file provisions the viewer/server and MongoDB, not the benchmark websites; its refresh script does not establish complete five-domain deployment. Forty of the 165 task configurations include fuzzy matching, and the pinned evaluator helper calls `gpt-4-1106-preview`. Verify that evaluator model's availability and fidelity before execution, and reserve its calls in the API ledger; native evaluation is not entirely API-free.
+
+No WebArena-Lite evaluation has been completed by this work. The current host exposes Apptainer/Singularity but no Docker/Podman executable, and no WebArena site variables were found in the checked environment or project configuration. This establishes a deployment gap, not that no external deployment exists. The next implementation gate is to verify a compatible host, website startup and reset, authentication, cross-site URLs, task loading and the native success evaluator on known outcomes. [Official environment setup and reset instructions](https://github.com/web-arena-x/webarena/blob/main/environment_docker/README.md) provide the reference.
+
+The earlier proposed OM2W allocation does not specify or authorize WebArena hosting or this new benchmark stage. Prepare an exact compute/API request after the deployment preflight; preserve the existing archives and ledgers. No containers, paid calls or new jobs have been launched for the two-benchmark plan.
+
+</details>
+
 <a id="repair-status-20261010"></a>
 ## Repair status — October 10, 2026
 
