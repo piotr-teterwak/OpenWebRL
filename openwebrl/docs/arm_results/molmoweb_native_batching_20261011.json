@@ -344,7 +344,7 @@
         "additional_hours_all_attempts": 14
       }
     ],
-    "status": "approved_first_four_jobs_running_startup_validation_in_progress",
+    "status": "approved_four_jobs_running_first_live_panels_verified",
     "extension_approval_sha256": "8ce1ef5e718ba56070c53e5547b57b25e9dc4450438d6fb50db8374f715f9a02",
     "first_jobs": [
       {
@@ -381,6 +381,41 @@
       }
     ],
     "peak_H200s": 4,
-    "suite_verified_complete": false
+    "suite_verified_complete": false,
+    "first_live_panel_audit_sha256": "1cb717acb0baa8dafbe948fd2b1a074b4825f7ccc7e7b25f720d543aac02671f",
+    "first_live_panels": [
+      {
+        "job_id": "355667",
+        "condition": "n5",
+        "first_generation_verified": true,
+        "first_selector_physical_receipt_verified": true,
+        "first_panel_seconds": 3.883604852948338,
+        "new_selector_calls": null
+      },
+      {
+        "job_id": "355668",
+        "condition": "n5",
+        "first_generation_verified": true,
+        "first_selector_physical_receipt_verified": true,
+        "first_panel_seconds": 5.0716922408901155,
+        "new_selector_calls": null
+      },
+      {
+        "job_id": "355669",
+        "condition": "n1",
+        "first_generation_verified": true,
+        "first_selector_physical_receipt_verified": null,
+        "first_panel_seconds": null,
+        "new_selector_calls": 0
+      },
+      {
+        "job_id": "355670",
+        "condition": "n5",
+        "first_generation_verified": true,
+        "first_selector_physical_receipt_verified": true,
+        "first_panel_seconds": 4.832680847961456,
+        "new_selector_calls": null
+      }
+    ]
   }
 }
