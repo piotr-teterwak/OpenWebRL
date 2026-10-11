@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "status": "preparation_validated_websites_not_deployed",
+  "status": "original_reddit_hosting_reset_validated_online_comparison_pending",
   "date_utc": "2026-10-11",
   "benchmark_order": [
     "WebArena-Lite",
     "Online-Mind2Web"
   ],
   "benchmark_task_evaluations": 0,
-  "new_compute_allocations": 0,
+  "new_compute_allocations": 1,
   "paid_api_calls": 0,
   "cohort": {
     "released_tasks": 165,
@@ -32,12 +32,13 @@
     "nltk_version": "3.10.3",
     "original_author_nltk_version_known": false,
     "minimal_apptainer_rootless_and_fakeroot_probes_passed": true,
-    "website_startup_login_reset_validated": false,
+    "website_startup_login_reset_validated": true,
     "source_sha256": {
       "openwebrl/webprm_webarena.py": "3b960aedd0501c3802e5aa2b17eb544a99c32ecd90c43c5833c2d87c8ab908c8",
       "scripts/prepare_webprm_webarena.py": "0e2d6c18aa4ebac06ff305501a13956fb5f17ba430bf7af722df55168c0da29c",
       "tests/test_webprm_webarena.py": "2d11e98f36eecf6a44fe59ef7fe6334bb8f91c91b8fa80e3adfee65d2e96fd84"
-    }
+    },
+    "source_snapshot_scope": "Preserved initial evaluator preparation, before subsequent native fuzzy and worker integration"
   },
   "original_reddit_image": {
     "archive_bytes": 53435097088,
@@ -45,22 +46,118 @@
     "config_sha256": "bd8ae768c200fc4d005672af33fe03d49c9a058ae33997f3d50576e84cf51a1d",
     "config_hash_matches_manifest": true,
     "full_archive_and_layers_verified": false,
-    "full_image_downloaded": false
+    "full_image_downloaded": true,
+    "original_drive_archive_download_completed": false,
+    "original_compressed_layers_verified": 29,
+    "original_uncompressed_layers_verified": 29,
+    "registry_manifest_sha256": "e5b9d29b26ca911048fb14a8d4806a871b796db85c2991d514a13df2af0e427f",
+    "registry_compressed_layer_bytes": 45452752622,
+    "charged_download_bytes": 45944201372,
+    "identity_note": "Registry config and all uncompressed layer identities match original Drive archive metadata; original Drive tar itself remains incomplete after quota rejection."
   },
   "selector_audit": {
     "candidates_inventoried": 8,
     "our_selector_checkpoint_family_selected": false,
     "causal_adapter_needed": true,
-    "gpt_actor_proposals_require_extra_openwebrl_scoring_forward_pass": true
+    "gpt_actor_proposals_require_extra_openwebrl_scoring_forward_pass": true,
+    "recommended_family": "frozen teacher-choice pointwise/listwise heads",
+    "recommended_pointwise_epoch": 13,
+    "recommended_listwise_epoch": 6,
+    "development_panels": 3759,
+    "pointwise_development_agreement_pct": 65.44293761253357,
+    "listwise_development_agreement_pct": 65.52274823188782,
+    "exact_task_text_overlap_webarena": 0,
+    "exact_task_text_overlap_om2w": 0,
+    "near_text_flags_webarena": 0,
+    "near_text_flags_om2w": 1,
+    "near_text_flag_note": "Generic latest-science-news vs latest-climate-news instruction on distinct websites; retained explicitly.",
+    "benchmark_id_overlap_verified": false,
+    "base_model_training_overlap_verified": false
   },
   "remaining_gates": [
-    "Original website import, service user handling, ports, login, reset and native helper validation",
-    "Budgeted native fuzzy judge integration and availability/fidelity audit for 40 tasks",
-    "Exact Table 5 membership and inference protocol reconciliation",
-    "Frozen PRM/ARM checkpoint choice from independent development evidence and grounded candidate adapters"
+    "Original Shopping/CMS/GitLab/Map deployment and reset validation",
+    "Owning site/model/broker controller and live authenticated per-cell fresh-state episode validation",
+    "Original fuzzy judge access or explicit disclosed evaluator change; reviewed input/request/price budget envelope",
+    "Table5 cohort and inference choices documented; NoSearch and GPT selector implementation",
+    "Frozen own-checkpoint decision, grounded candidate feature bridge and GPU validation",
+    "Exact compute/API approval for model collection"
   ],
-  "next_resource_proposal": {
-    "status": "pending_exact_approval",
+  "sources": {
+    "paper": "https://arxiv.org/html/2601.21872v2#S5.T5",
+    "official_environment": "https://github.com/web-arena-x/webarena/blob/dce04686a56253aefba7b18a4fa0937cf1dc987b/environment_docker/README.md"
+  },
+  "provider_metadata_get_requests": 3,
+  "hosting_validation": {
+    "schema_version": 1,
+    "status": "passed",
+    "scope": "Original WebArena Reddit deployment validation; no benchmark evaluation",
+    "benchmark_tasks_executed": 0,
+    "model_provider_calls": 0,
+    "api_spend_usd": 0,
+    "gpus": 0,
+    "original_layers_verified": 29,
+    "login_phases_passed": 3,
+    "start_urls_checked": 3,
+    "released_single_site_reddit_task_count": 19,
+    "native_positive_checks_passed": 8,
+    "native_negative_checks_passed": 8,
+    "synthetic_posts_created": 1,
+    "synthetic_posts_absent_after_fresh_reset": 1,
+    "original_sentinels_restored": 3,
+    "fresh_original_state_instances": 2,
+    "website_and_browser_processes_closed": true,
+    "charged_download_bytes": 45944201372,
+    "download_cap_bytes": 54000000000,
+    "walltime_finalized": true,
+    "limitations": [
+      "Not a benchmark success rate or Table5 reproduction.",
+      "This proves one controlled native mutation is absent and three fixed sentinels survive fresh-image reset; it is not exhaustive database equality.",
+      "Only Reddit hosting is validated; CMS/Shopping/GitLab/Map remain separate deployment work.",
+      "Temporary node-local sandboxes are not persistent hosted websites."
+    ]
+  },
+  "hosting_allocation": {
+    "status": "completed",
+    "cpus": 4,
+    "memory_gib": 16,
+    "gpus": 0,
+    "approved_total_seconds_including_retries": 7200,
+    "consumed_seconds": 2934,
+    "unused_seconds": 4266,
+    "unused_seconds_carried_to_other_experiments": false,
+    "paid_model_calls": 0,
+    "api_spend_usd": 0,
+    "retained_artifact_bytes": 89434872832,
+    "retained_cap_bytes": 107374182400,
+    "temporary_final_bytes": 249336807424,
+    "temporary_peak_conservative_bound_bytes": 303743941293,
+    "temporary_cap_bytes": 322122547200
+  },
+  "immutable_image_cache": {
+    "status": "converted_hashed_not_restore_validated",
+    "bytes": 43595845632,
+    "sha256": "a091e6433070df9dc450f37e9e35719c9ba43d4879d220898c0321d90053b7d6",
+    "source_read_only_during_conversion": true,
+    "first_attempt": "failed_compressor_progress_flag_conflict",
+    "successful_attempt": 2,
+    "all_attempt_workers_closed": true
+  },
+  "native_fuzzy_dependency": {
+    "model": "gpt-4-1106-preview",
+    "account_metadata_http_status": 404,
+    "inference_tested": false,
+    "replacement_protocol_approved": false,
+    "actor_metadata_access": {
+      "gpt-4o-mini-2024-07-18": 200,
+      "gpt-4o-2024-05-13": 200
+    },
+    "note": "Read-only metadata checks made no inference calls. HTTP404 does not distinguish nonexistent model from lack of account access. Official documentation has conflicting shutdown dates.",
+    "offline_adapter_tests_passed": 16,
+    "proposed_input_cap_requires_revision": true,
+    "input_cap_note": "Prior unapproved 4096-token plan is below the transport estimator floor; no runtime cap increased or inference authorized"
+  },
+  "hosting_resource_request": {
+    "status": "approved_completed",
     "cpus": 4,
     "ram_gib": 16,
     "gpus": 0,
@@ -68,10 +165,62 @@
     "node_local_free_space_required_gib": 300,
     "archive_download_cap_bytes": 54000000000,
     "api_budget_usd": 0,
-    "scope": "Original Reddit deployment diagnosis and reset validation; no benchmark collection"
+    "scope": "Original Reddit deployment diagnosis and reset validation; no benchmark collection",
+    "retained_cap_bytes": 107374182400
   },
-  "sources": {
-    "paper": "https://arxiv.org/html/2601.21872v2#S5.T5",
-    "official_environment": "https://github.com/web-arena-x/webarena/blob/dce04686a56253aefba7b18a4fa0937cf1dc987b/environment_docker/README.md"
+  "integration_validation": {
+    "status": "passed",
+    "tests": 102,
+    "test_runner_seconds": 6.658,
+    "code_unchanged": true,
+    "log_sha256": "0c6b7008abd12e4265c6a902d259e862f867cfe7c6a53fc2ce2f1b46a0f03640",
+    "provider_calls": 0,
+    "benchmark_tasks": 0,
+    "new_allocations": 0,
+    "gpu_loads": 0,
+    "scope": "Synthetic native contracts and real local Unix socket/process checks; no hosted network namespace or benchmark inference",
+    "source_and_test_sha256": {
+      "openwebrl/webprm_webarena.py": "071250bdeabcd9210ae61a05b120a637921e93a416c11acf8f42e04c822c81f1",
+      "openwebrl/webprm_webarena_episode.py": "94e56848e69621cd768d6c19c99733316359ea150b481a1a2d74091a39e90f45",
+      "openwebrl/webprm_webarena_worker.py": "cb0e253e500a2e38eba15a032728a35eea32223e3e127bba67f1e428d1ec29e7",
+      "openwebrl/webprm_webarena_fuzzy.py": "cb856c9227ca6e168f423c5b2846f22b571e470e58cadc99d827f185200af6d9",
+      "openwebrl/webprm_broker.py": "c08eb14ccb40a6d08c4207a9d4b051a954708e531855df8f4de45ea954163f12",
+      "openwebrl/webprm_worker.py": "6a2aff97d9a3b5c88bced1367f443cf9c4b6472c65282b9366006bfbf145ffc3",
+      "openwebrl/webprm_lifecycle.py": "36add604c09e41c2bb580b4940cbf59290e4105a06b055ddddc2aaf880bce638",
+      "openwebrl/webprm_runtime.py": "648425f9ede554cf0c7e86e149379827534f6b6d6db4cca79f9e41d81e5a084c",
+      "openwebrl/webprm_source.py": "eed28c8c96320e6aa50d056827be53ce0e3c88d24b792b21e7eadd6a3c1e6445",
+      "openwebrl/webprm_arbiter_harness.py": "ed86e803c3f61447394766c0ce61d697633019879a813fad2a5f7f10e93d0460",
+      "scripts/run_webprm_webarena_pilot.py": "24f63bb4081efcf2f1707be0ea2aa130f08ed84b9438840c8c6980725204a247",
+      "scripts/check_webprm_reddit_reset.py": "aa9c523f8d366a071e4ae5cf1ea77950f4ee8701f648bd7d88b28df2a182c968",
+      "openwebrl/webprm_reddit_provenance.py": "2f0ef55cffeaf8a24711967540a0749cf67dbf289793cbbbeed168c51d0cb404",
+      "openwebrl/jev_eval.py": "106ab91e6f753e6f79aec14f5268af06b6727e543245a95153519e62395e03cc",
+      "tests/test_webprm_webarena.py": "69a7edd91135957398b68d684485d290ce36de35c3a0ef088c707a2f1e5dbe00",
+      "tests/test_webprm_webarena_episode.py": "0979924d3e9bc90d0331842557abce0d65df6a40d816e0f5c44ef3ce7771ebe7",
+      "tests/test_webprm_webarena_worker.py": "b34fdfe2ef14961f9dfb848cc39a462d455ab69df2e452a0a882175f2a3c275b",
+      "tests/test_webprm_webarena_fuzzy.py": "285f7b48f30df78a0e98267a10f1c939823e098fd95c5f069c24ebef16d95b9a",
+      "tests/test_webprm_broker.py": "143ab2e2ea6090b4fe15b920e4e6bfcff73441faf0b94a0142c99960f2ca7ef6",
+      "tests/test_webprm_worker.py": "d6e7426b73a3e2a86677c4b445717f1d8e76c300c962c280989cf166923a24f3"
+    },
+    "supported_selectors": [
+      "first_valid_of_five",
+      "random_valid_of_five",
+      "shepherd8b",
+      "arbiter7b"
+    ],
+    "unsupported_selectors": [
+      "paper_no_search",
+      "gpt4omini",
+      "our_prm",
+      "our_arm"
+    ],
+    "five_slot_handling": "Preserve every raw slot and rejection; retain admissible original slots, no replacement draws; empty pool consumes a turn with error feedback",
+    "live_hosted_episode_verified": false,
+    "hosted_namespace_broker_path_verified": false,
+    "production_site_and_serving_controller_implemented": false,
+    "native_fuzzy_enabled_in_worker": false,
+    "preflight_status": "prepared_not_executed",
+    "preflight_created_collection_output": false,
+    "inventory_cells": 80,
+    "inventory_is_authorized_collection_request": false
   }
 }
