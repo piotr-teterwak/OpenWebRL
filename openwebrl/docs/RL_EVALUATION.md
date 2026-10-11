@@ -86,7 +86,7 @@ Reference-policy checkpoint evaluations, the separate Browser Use protocol, and 
 - [Jev Ultrafast: completed10-task pilot](#jev-ultrafast-online-mind2web-20261004)
 - [Kev0.8B/27B completed paired pilot](#kev-paired-online-mind2web-20261004)
 
-- [Original2,102-task outcome-only56-group control: iteration40 verified; target60 incomplete](#outcome56-iter40-results-20261010)
+- [Original2,102-task outcome-only56-group control: iteration50 verified; target60 incomplete](#outcome56-iter50-results-20261011)
 - [Expanded 4,102-task outcome-only baseline: complete through60](#expanded4102-iter10-results-20261003)
 - [WebVoyager iteration90: completed comparison](#arm-webvoyager90-results-20260930)
 - [Matched iteration90 paired tests and95% CIs](ARM_RESULTS.md#arm-stealth90-paired-inference-20260930)
@@ -1780,8 +1780,66 @@ The pilot endpoint is complete. Its separately approved continuation has now rea
 
 </details>
 
+<a id="outcome56-iter50-results-20261011"></a>
+## Outcome-only 56-group control: iteration50 verified — October 11
+
+Iteration50 scores **34.00% overall / 42.68% valid-only**, a change of
+**−0.33 / −0.24 percentage points** from iteration40. All 300 saved task
+records and rollout archives are independently verified. The training target60
+and its final evaluation remain incomplete.
+
+| Iteration | Mixed groups | Adam updates | Tasks | Successes | Valid | Invalid | Overall % | Valid-only % |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+|40 |56 |626 |300 |103 |240 |60 |34.33 |42.92 |
+|50 |56 |762 |300 |102 |239 |61 |34.00 |42.68 |
+
+Overall includes all 300 attempted tasks; valid-only excludes the 61 invalid
+attempts at iteration50. Collection dates and valid-task sets differ. This
+single-cohort checkpoint comparison is descriptive and does not establish a
+significant change or a causal training-recipe effect. The original 2,102-task
+pool, five rollouts per task and 56 accepted mixed groups remain unchanged.
+
+The shared evaluation protocol is local browser, GPT-4.1/action_history, actor
+T0/p1/k1, 4,096 response tokens, 30 turns and one rollout per task. Stealth
+T0.6/o4-mini cohorts use a separate protocol.
+
+[Aggregate audit](arm_results/rl_integration/outcome56-iteration50-audit.json) ·
+[Interactive full300 curves](rl_results/arm_rl_interactive.html) ·
+[Training recipe](#outcome56-iter10-results-20261007) ·
+[Continuation scope and separate caps](ARM_INTEGRATION_PLAN.md#outcome56-uniform8-to60-20261008).
+
+<details>
+<summary>Checkpoint, artifact and W&B verification</summary>
+
+Checkpoint50 is native49, with 762 Adam updates, scheduler counter195072 and
+task cursor1534 in epoch3 (7,840 submitted groups; 39,200 sampled trajectories).
+Independent checks verified metadata, optimizer/scheduler counters, all 16 shard
+extents, small finite tensor samples and cursor continuity. The evaluation's
+actual GPU actor restore of native49 is verified. This scope does not establish
+an exhaustive tensor reload or a subsequent training-optimizer GPU reload.
+
+All 300 expected task identities, outcome records and self-contained rollout
+archives reconcile. Full ZIP-member CRC checks covered 92,527,613,730 archive
+bytes across 7,782 members. The 239 valid records contain 225 judge-response
+texts and 14 native judge-not-run placeholders; the 61 invalid records contain
+no judge text. All 300 outcome/status records are preserved. All ten task metrics
+recomputed from those records match the finished evaluation W&B history.
+
+The worker and launcher exited successfully, and the controller awaited them
+before continuing training. The 278 multimodal mapping files remain preserved.
+No tasks were selectively retried or rescored; task identities and trajectories
+remain private. Evaluations10/20/30/40/50 are verified; training through60 and
+evaluation60 remain outstanding under the existing separate budgets.
+
+[Evaluation W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/outcome-only-56groups-20261006-iter50).
+
+</details>
+
+<details>
+<summary>Historical iteration40 evaluation — October 10</summary>
+
 <a id="outcome56-iter40-results-20261010"></a>
-## Outcome-only 56-group control: iteration40 verified — October 10
+### Outcome-only 56-group control: iteration40 verified — October 10
 
 Iteration40 scores **34.33% overall / 42.92% valid-only**, up **2.00 percentage
 points overall** from iteration30. All 300 task records and rollout archives are
@@ -1834,10 +1892,12 @@ The worker and launcher both exited successfully, and the controller awaited
 completion before resuming training. No tasks were selectively retried or
 rescored. Raw task identities and trajectories remain private.
 
-Evaluations10/20/30/40 are verified. Training through60 and evaluations50/60
-remain outstanding under the existing separate budgets.
+At this audit, evaluations10/20/30/40 were verified; training through60 and
+evaluations50/60 remained outstanding under the existing separate budgets.
 
 [Evaluation W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/outcome-only-56groups-20261006-iter40).
+
+</details>
 
 </details>
 
