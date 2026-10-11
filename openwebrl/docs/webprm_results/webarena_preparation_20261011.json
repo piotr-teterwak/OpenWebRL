@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "status": "original_reddit_hosting_validated_table5_plus_piotr_pilot_preparation",
+  "status": "reddit_five_selector_pilot_approved_live_startup",
   "date_utc": "2026-10-11",
   "benchmark_order": [
     "WebArena-Lite",
     "Online-Mind2Web"
   ],
   "benchmark_task_evaluations": 0,
-  "new_compute_allocations": 1,
+  "new_compute_allocations": 6,
   "paid_api_calls": 0,
   "cohort": {
     "released_tasks": 165,
@@ -60,8 +60,6 @@
     "identity_note": "Registry config and all uncompressed layer identities match original Drive archive metadata; original Drive tar itself remains incomplete after quota rejection."
   },
   "remaining_gates": [
-    "Original fuzzy model access or explicit disclosed substitution decision",
-    "Exact compute/API approval for the bounded Reddit pilot",
     "Allocated three-critic serving, image processor and complete hosted episode validation",
     "Original Shopping/CMS/GitLab/Map deployment/reset and native helper validation",
     "Document historical fidelity limits and approve exact full-benchmark resources"
@@ -130,7 +128,7 @@
     "model": "gpt-4-1106-preview",
     "account_metadata_http_status": 404,
     "inference_tested": false,
-    "replacement_protocol_approved": false,
+    "replacement_protocol_approved": true,
     "actor_metadata_access": {
       "gpt-4o-mini-2024-07-18": 200,
       "gpt-4o-2024-05-13": 200
@@ -291,7 +289,7 @@
     "scope_note": "Preserved historical integration before NoSearch/GPT/Piotr and approved-model-substitution implementation; source hashes refer to the v1 freeze"
   },
   "pilot_resource_request_v2": {
-    "status": "proposed_not_approved_or_submitted",
+    "status": "approved_submitted_live_startup",
     "gpus": 1,
     "gpu_type": "H200",
     "cpus": 8,
@@ -306,7 +304,7 @@
     "planned_episodes": 5,
     "actor": "gpt-4o-mini-2024-07-18",
     "old_unused_budgets_carried_forward": false,
-    "fuzzy_substitution_approved": false,
+    "fuzzy_substitution_approved": true,
     "proposal_sha256": "ba8fc8924e938255730b214caee32fb454a1d129337b90b17994b996f2cfb36a",
     "batch_template_sha256": "d6ab8996bb44b690d6faedd800491130dec4e456ced9fd50dbbb3dea043a0b62",
     "concrete_controller_prepared": true
@@ -369,5 +367,55 @@
     "live_hosted_episode_verified": false,
     "worker_preflight_output_created": false,
     "batch_template_syntax_passed": true
+  },
+  "pilot_live_validation": {
+    "synthetic_browser_startup": "passed",
+    "scope": "network-isolated synthetic browser; no benchmark episode",
+    "native_click_observed": true,
+    "viewport": [
+      1280,
+      720
+    ],
+    "browsergym_screenshot_shape": [
+      720,
+      1280,
+      3
+    ],
+    "remaining_owned_browser_processes": 0,
+    "benchmark_episodes": 0,
+    "provider_calls": 0,
+    "all_three_weights_loaded": true,
+    "shepherd_selection_contract_passed": true,
+    "arbiter_selection_contract_passed": true,
+    "piotr_selection_contract_passed": false,
+    "local_dispatches": 11,
+    "conservative_internal_warmups": 5
+  },
+  "pilot_runtime_repairs": {
+    "scope": "Operational startup repairs; no scientific changes",
+    "prior_allocation_seconds": 633,
+    "paid_calls_before_recovery": 0,
+    "benchmark_episodes_before_recovery": 0,
+    "repairs": [
+      "Portable full-content checkpoint verification replaces cross-node device-number equality",
+      "Retained scratch reconciliation recognizes verified cluster cleanup only on the original node",
+      "Append-only operational revision history preserves all attempts and cumulative budgets",
+      "Additive nested RoPE compatibility fields preserve original configuration values",
+      "Explicit released Jinja template bypasses erroneous points-v15 matching of checkpoints path",
+      "Disable internal warmups; retain five conservative prior warmup reservations"
+    ],
+    "validation": {
+      "combined_tests_before_storage_fix": 168,
+      "focused_controller_processor_tests_after_storage_fix": 25,
+      "focused_controller_processor_tests_current": 28,
+      "installed_model_config_mrope": true,
+      "explicit_template_render_matches_release": true,
+      "explicit_template_proof_sha256": "0f608edb52b293657571bc255d6613a17f8e57c38561e35295da6e966e1c5cf8",
+      "nested_rope_proof_sha256": "aae18f42e64917f1ca16cd1d890ca5c48201855bf9eec43be1c038c058fc5558"
+    },
+    "historical_scratch_bytes_host_cleared": 48087936379,
+    "original_approval_sha256": "ba8fc8924e938255730b214caee32fb454a1d129337b90b17994b996f2cfb36a",
+    "current_proposal_sha256": "6ba9350561d818ca22b4d853bbbdcee7b7e4f85162700518e6aa683bf1d96219",
+    "local_requests_charged_before_recovery": 16
   }
 }
