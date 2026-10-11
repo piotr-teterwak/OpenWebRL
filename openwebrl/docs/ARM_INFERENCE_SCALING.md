@@ -288,7 +288,7 @@ The campaign ceilings remain **26 H200-hours**, **$625** for APIs and **1,480 ph
 
 **The current N5 evidence is mixed and incomplete.** On common observed WebVoyager tasks, Sol selection improves the raw rate by 8.11 percentage points for 4B and 5.67 points for 8B, but both paired 95% intervals include zero. For 8B Online-Mind2Web, AgentTrek shows +11.69 points [95% interval: +1.30, +22.08], while the native judge shows only +1.30 [−6.49, +10.39]. The AgentTrek signal is conditional on the 77 observed tasks; nonrandom partial coverage and sequential collection prevent treating it as a full-benchmark result. DeepShop shows no raw gain for 4B and a negative difference for 8B.
 
-**All six N5 runs stopped at their original compute caps, with 491/2,090 requested records audited.** Coverage is 111/595 and 141/595 for 4B/8B WebVoyager, 45/150 and 59/150 for DeepShop, and 58/300 and 77/300 for Online-Mind2Web. No N5 cohort is complete and no MolmoWeb allocation remains running or queued. Five N1 controls are verified complete; 4B WebVoyager remains partial at 582/595. All 2,077 saved N1 records are unchanged. The [native batching diagnostic](#molmoweb-native-batching-20261011) has now passed exact replay with 2.28×/2.43× actor speedups; resumption remains held for production integration and concurrent rollout validation. The earlier 199.5-H200-hour serial-throughput completion proposal is deferred; its ceiling was not approved and no extension allocation has been submitted.
+**All six N5 runs stopped at their original compute caps, with 491/2,090 requested records audited.** Coverage is 111/595 and 141/595 for 4B/8B WebVoyager, 45/150 and 59/150 for DeepShop, and 58/300 and 77/300 for Online-Mind2Web. No N5 cohort is complete and no MolmoWeb allocation remains running or queued. Five N1 controls are verified complete; 4B WebVoyager remains partial at 582/595. All 2,077 saved N1 records are unchanged. The [native batching diagnostic](#molmoweb-native-batching-20261011) has now passed exact replay with 2.28×/2.43× actor speedups; production RPC integration and concurrent-request replay are now verified; resumption awaits the exact optimized completion budget. The earlier 199.5-H200-hour serial-throughput completion proposal is deferred; its ceiling was not approved and no extension allocation has been submitted.
 
 **N5 collection has a runtime confound:** 56 of the first 83 committed episodes hit the unchanged 30-minute wall limit, generally before reaching 30 decisions. Eight browsers were sharing one serial native predictor. Collection was restarted with two concurrent rollouts per job within the original resource caps; all committed outcomes remain, and no committed timeout is retried. The first 94 post-repair episodes passed artifact verification without timeouts, including 44 full 30-decision episodes; three later DeepShop episodes (one 4B and two 8B) timed out after their last completed actor/selector decisions. All outcomes are retained. Filtered early scores preferentially retain shorter episodes and do not establish selection quality. See the runtime audit and interim paired metrics below.
 
@@ -550,23 +550,24 @@ All attempted work is charged. The remaining 184 seconds round down to a three-m
 
 **The remaining 1,599 N5 episodes are projected to need about 67 H200-hours, versus 148 at the observed serial throughput: about 81 hours saved, or 55%.** This uses measured actor service fractions and cohort-specific benchmark speedups while retaining non-actor overhead. The observed-case speed sensitivity gives 66–76 hours; this is not a confidence interval or measured end-to-end throughput. The 13 unfinished 4B WebVoyager N1 tasks, future integration/rollout validation and recovery headroom are excluded. The earlier 199.5-hour proposal was a ceiling with headroom and is not the baseline used for this savings claim.
 
-**Diagnostic verified complete; production remains disabled.** Both models ran concurrently on separate H200s. Including the failed first attempt, the diagnostic consumed 0.542 H200-hours of its two-hour ceiling and reserved 282 of 300 permitted local draws per model. Browser and paid API calls were zero. Native RPC/accounting integration and a bounded concurrent rollout validation remain required before production; no completion allocation has been submitted. [Audited aggregates and conditional projection](arm_results/molmoweb_native_batching_20261011.json) · [Verified diagnostic W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/7767bf1f6154446d97e3780948956c7c).
+**Benchmark and production RPC validation are verified complete; production remains disabled pending exact compute approval.** The production client/server path reproduced all 32 additional outputs exactly, including overlapping N1/N5 HTTP requests with one model generation active at a time. Both models ran concurrently on separate H200s. Including all three allocations and the failed first attempt, testing consumed 0.594 H200-hours of its two-hour ceiling and reserved 298 of 300 local draws per model. Browser and paid API calls were zero. This validates saved-input RPC execution and accounting; live browser throughput remains unmeasured. No completion allocation has been submitted. [Audited aggregates and conditional projection](arm_results/molmoweb_native_batching_20261011.json) · [Benchmark W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/7767bf1f6154446d97e3780948956c7c) · [RPC-validation W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/791257dd372445199786414ef05b5301).
 
 <details>
 <summary>Case selection, equivalence checks, overhead model and attempt accounting</summary>
 
 Cases were frozen before GPU measurement: median, 95th-percentile and maximum input length from each of six latest post-repair N5 cohorts, selected independently of outcomes. Each case replays the same five archived seeds under serial native inference, five-row batching and five-row batching with shared prefill, with two timing repetitions. All screenshot hashes, source receipts, archived input IDs, output tokens and text passed verification. Serial versus batched tokens/text must match exactly; this gate was not relaxed. The unchanged native decoder chooses its first token deterministically and uses nucleus sampling for later tokens.
 
-The shared-prefill implementation encodes the identical image and prompt once, copies independent KV state for five rows, and retains the native generation path. Five offline regression checks cover native sampling/RNG behavior, EOS handling, independent KV state, exception restoration and the contiguous layout required by the native vision encoder. Production RPC integration is still pending.
+The shared-prefill implementation encodes the identical image and prompt once, copies independent KV state for five rows, and retains the native generation path. Five offline regression checks cover native sampling/RNG behavior, EOS handling, independent KV state, exception restoration and the contiguous layout required by the native vision encoder. Production integration additionally passed 86 offline RPC/accounting tests; the continuation package passed 49 recovery/launch tests, and its watcher passed six checks. Every panel reserves five draws atomically and saves five separate generation receipts before exposing a complete response; partial panels cannot reach the selector.
 
 | Attempt | Result | Allocation seconds | H200-hours | Reserved draws per model |
 | --- | --- | ---: | ---: | ---: |
 | 355532 | Failed: expanded image tensors incompatible with native `view` | 89 | 0.049 | 11 |
 | 355538 | All frozen cases complete after contiguous-layout repair | 887 | 0.493 | 271 |
-| **All attempts** | **Diagnostic audited** | **976** | **0.542** | **282** |
+| 355611 | Production RPC validation: 32 exact output matches | 94 | 0.052 | 16 |
+| **All attempts** | **Diagnostic and RPC audited** | **1,070** | **0.594** | **298** |
 | Approval ceiling | Two H200s / 16 CPUs / 240 GiB total | 3,600 | 2.000 | 300 |
 
-Every attempt, reservation, seed, case and source version is retained. The repaired source is separate from the original frozen source. The parent awaited both workers; final Slurm batch/extern/diagnostic-step accounting is terminal with no live owned allocation. W&B aggregate metrics were synchronized to `openwebrl-evals` and verified remotely. No scientific evaluation record was replaced, and the full N1/N5 suite remains incomplete.
+Every attempt, reservation, seed, case and source version is retained. The repaired source is separate from the original frozen source. The parent awaited both workers; final Slurm batch/extern/diagnostic-step accounting is terminal with no live owned allocation. W&B aggregate metrics were synchronized to `openwebrl-evals` and verified remotely. No scientific evaluation record was replaced, and the full N1/N5 suite remains incomplete. Each RPC worker recorded 33 MiB still allocated in its CUDA allocator before process exit; teardown is established by joined worker processes and completed Slurm batch/extern steps. A direct post-exit node PID scan was unavailable, so no zero-memory pre-exit claim is made.
 
 For each cohort, the conditional projection is `H_new = H_serial × ((1 − f) + f / s)`, where `f` is the native actor's summed service time divided by its latest post-repair allocation time and `s` is the median of three matched case speedups. The actor accounts for 89–95% of those allocations. Receipt service time excludes actor queue waits; the residual retains startup, browser/selector/judge waits and other overhead. Changed concurrency, queue feedback, site latency and the remaining task mix require a live validation before treating these projections as throughput guarantees.
 
@@ -579,9 +580,30 @@ For each cohort, the conditional projection is `H_new = H_serial × ((1 − f) +
 | 8B Online-Mind2Web | 223 | 25.82 | 11.54 |
 | 8B WebVoyager | 454 | 40.15 | 16.22 |
 
-Subtracting the diagnostic itself leaves about 80.6 H200-hours of projected net savings. No unused diagnostic balance transfers to the evaluation budgets.
+Subtracting all benchmark and RPC validation attempts leaves about 80.5 H200-hours of projected net savings. No unused diagnostic balance transfers to the evaluation budgets.
 
 </details>
+
+<a id="molmoweb-optimized-completion-20261011"></a>
+
+### Optimized completion request: 85.5 additional H200-hours, awaiting approval
+
+The tested, frozen continuation package preserves all **2,568 committed records** and targets the remaining **1,612 episodes**. The **85.5-hour ceiling** includes the conditional 67-hour N5 estimate, unfinished N1 work and recovery headroom. It is a cap, not measured end-to-end runtime or guaranteed completion; any unchanged API/browser/generation cap still stops its condition.
+
+| Continuation | Missing records | Additional H200-hours, all attempts |
+| --- | ---: | ---: |
+| 4B WebVoyager N1 | 13 | 1.5 |
+| 4B WebVoyager N5 | 484 | 20 |
+| 8B WebVoyager N5 | 454 | 24 |
+| 4B DeepShop N5 | 105 | 6 |
+| 8B DeepShop N5 | 91 | 6 |
+| 4B Online-Mind2Web N5 | 242 | 14 |
+| 8B Online-Mind2Web N5 | 223 | 14 |
+| **Total** | **1,612** | **85.5** |
+
+Each allocation uses **one H200 / eight CPUs / 120 GiB**; peak **four jobs / four H200s / 32 CPUs / 480 GiB / 32 browsers**, with two admitted browsers per N5 worker initially. The seven caps are separate, nontransferable and include every retry. No API, browser or local-generation allowance is added; original unused seconds are not carried over. The first frontier can run 8B WebVoyager N5, both Online-Mind2Web N5 cohorts and the 4B WebVoyager N1 tail concurrently; 4B WebVoyager N5 follows its N1 tail, and DeepShop fills available slots. Fixed protocols, task order, judges and metrics remain unchanged. Committed outcomes are never retried; only independently audited, uncommitted allocation interruptions may resume.
+
+**Status: all offline/GPU tests passed; exact 85.5-hour resource approval pending. No production allocation submitted.**
 
 <a id="molmoweb-completion-compute-20261011"></a>
 

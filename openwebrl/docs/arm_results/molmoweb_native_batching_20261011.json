@@ -226,5 +226,123 @@
     "first_attempt_failure": "Non-contiguous expanded images rejected by native vision encoder view; fixed by materializing contiguous identical tensors",
     "first_attempt_seconds": 89,
     "final_attempt_seconds": 887
+  },
+  "rpc_validation": {
+    "job_id": "355611",
+    "outputs_verified": 32,
+    "original_benchmark_outputs_verified": 540,
+    "all_attempt_allocation_seconds": 1070,
+    "all_attempt_H200_hours": 0.5944444444444444,
+    "browser_calls": 0,
+    "paid_API_calls": 0,
+    "owned_teardown_verified": true,
+    "rpc_validation_verified_complete": true,
+    "production_enabled": false,
+    "terminal_audit_sha256": "3a952eedf60fa9e1f7b780daeaaecb9daf9d757fad6e56a7c3985a66db1ea894",
+    "wandb_url": "https://wandb.ai/zixianma/openwebrl-evals/runs/791257dd372445199786414ef05b5301",
+    "models": {
+      "4b": {
+        "all_attempt_draws": 298,
+        "all_outputs_match_archive": true,
+        "concurrent_http_requests": 3,
+        "draws_verified": 16,
+        "max_simultaneous_model_calls": 1,
+        "n1_requests": 1,
+        "owned_teardown": true,
+        "panels": 3,
+        "pre_exit_cuda_allocated_bytes": 34603008,
+        "resources": {
+          "host_maxrss_kib": 18956588,
+          "peak_allocated_bytes": 26990251008,
+          "peak_reserved_bytes": 30234640384
+        },
+        "seconds": 62.09483698802069
+      },
+      "8b": {
+        "all_attempt_draws": 298,
+        "all_outputs_match_archive": true,
+        "concurrent_http_requests": 3,
+        "draws_verified": 16,
+        "max_simultaneous_model_calls": 1,
+        "n1_requests": 1,
+        "owned_teardown": true,
+        "panels": 3,
+        "pre_exit_cuda_allocated_bytes": 34603008,
+        "resources": {
+          "host_maxrss_kib": 35321548,
+          "peak_allocated_bytes": 44086657024,
+          "peak_reserved_bytes": 47888465920
+        },
+        "seconds": 59.6472187852487
+      }
+    },
+    "teardown_note": "33 MiB remained in each pre-exit CUDA allocator snapshot. Controller joined both workers; allocation, batch and extern steps completed exit0. Direct post-exit node PID scan unavailable. No zero-pre-exit-allocation claim."
+  },
+  "optimized_completion_proposal": {
+    "additional_h200_hours": 85.5,
+    "additional_allocation_seconds": 307800,
+    "additional_API_usd": 0,
+    "additional_browser_attempts": 0,
+    "additional_local_generations": 0,
+    "per_allocation": {
+      "cpus": 8,
+      "gpu_type": "H200",
+      "gpus": 1,
+      "max_wall_seconds": 86400,
+      "memory_gib": 120
+    },
+    "peak": {
+      "browsers": 32,
+      "cpus": 32,
+      "h200_gpus": 4,
+      "jobs": 4,
+      "memory_gib": 480
+    },
+    "approved": false,
+    "request_sha256": "1d710bfa5bad08bc572bb395941e109a1113e2a33c2e9340f641f9dbee0b005f",
+    "conditions": [
+      {
+        "job": "molmoweb-4b-webvoyager-paired",
+        "condition": "n1",
+        "missing_records": 13,
+        "additional_hours_all_attempts": 1.5
+      },
+      {
+        "job": "molmoweb-4b-webvoyager-paired",
+        "condition": "n5",
+        "missing_records": 484,
+        "additional_hours_all_attempts": 20
+      },
+      {
+        "job": "molmoweb-8b-webvoyager-paired",
+        "condition": "n5",
+        "missing_records": 454,
+        "additional_hours_all_attempts": 24
+      },
+      {
+        "job": "molmoweb-4b-deepshop-paired",
+        "condition": "n5",
+        "missing_records": 105,
+        "additional_hours_all_attempts": 6
+      },
+      {
+        "job": "molmoweb-8b-deepshop-paired",
+        "condition": "n5",
+        "missing_records": 91,
+        "additional_hours_all_attempts": 6
+      },
+      {
+        "job": "molmoweb-4b-online_mind2web-paired",
+        "condition": "n5",
+        "missing_records": 242,
+        "additional_hours_all_attempts": 14
+      },
+      {
+        "job": "molmoweb-8b-online_mind2web-paired",
+        "condition": "n5",
+        "missing_records": 223,
+        "additional_hours_all_attempts": 14
+      }
+    ]
   }
 }
