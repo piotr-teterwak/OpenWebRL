@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "original_reddit_hosting_reset_validated_online_comparison_pending",
+  "status": "original_reddit_hosting_validated_table5_plus_piotr_pilot_preparation",
   "date_utc": "2026-10-11",
   "benchmark_order": [
     "WebArena-Lite",
@@ -20,10 +20,14 @@
       "shopping": 45,
       "shopping_admin": 35
     },
-    "prospective_pilot_tasks": 5,
-    "pilot_rule": "lowest released task_id per single-site domain, selected before outcomes",
     "paper_table_5_membership_verified": false,
-    "source_commit": "764ec2670750c50388bac56efb1a3989fd5c1b54"
+    "source_commit": "764ec2670750c50388bac56efb1a3989fd5c1b54",
+    "prospective_domain_checks": 5,
+    "domain_check_rule": "lowest released task_id per single-site domain, selected before outcomes",
+    "current_pilot_task_ids": [
+      5
+    ],
+    "current_pilot_episodes": 5
   },
   "validation": {
     "offline_native_contract_tests_passed": 29,
@@ -55,32 +59,12 @@
     "charged_download_bytes": 45944201372,
     "identity_note": "Registry config and all uncompressed layer identities match original Drive archive metadata; original Drive tar itself remains incomplete after quota rejection."
   },
-  "selector_audit": {
-    "candidates_inventoried": 8,
-    "our_selector_checkpoint_family_selected": false,
-    "causal_adapter_needed": true,
-    "gpt_actor_proposals_require_extra_openwebrl_scoring_forward_pass": true,
-    "recommended_family": "frozen teacher-choice pointwise/listwise heads",
-    "recommended_pointwise_epoch": 13,
-    "recommended_listwise_epoch": 6,
-    "development_panels": 3759,
-    "pointwise_development_agreement_pct": 65.44293761253357,
-    "listwise_development_agreement_pct": 65.52274823188782,
-    "exact_task_text_overlap_webarena": 0,
-    "exact_task_text_overlap_om2w": 0,
-    "near_text_flags_webarena": 0,
-    "near_text_flags_om2w": 1,
-    "near_text_flag_note": "Generic latest-science-news vs latest-climate-news instruction on distinct websites; retained explicitly.",
-    "benchmark_id_overlap_verified": false,
-    "base_model_training_overlap_verified": false
-  },
   "remaining_gates": [
-    "Original Shopping/CMS/GitLab/Map deployment and reset validation",
-    "Owning site/model/broker controller and live authenticated per-cell fresh-state episode validation",
-    "Original fuzzy judge access or explicit disclosed evaluator change; reviewed input/request/price budget envelope",
-    "Table5 cohort and inference choices documented; NoSearch and GPT selector implementation",
-    "Frozen own-checkpoint decision, grounded candidate feature bridge and GPU validation",
-    "Exact compute/API approval for model collection"
+    "Original fuzzy model access or explicit disclosed substitution decision",
+    "Exact compute/API approval for the bounded Reddit pilot",
+    "Allocated three-critic serving, image processor and complete hosted episode validation",
+    "Original Shopping/CMS/GitLab/Map deployment/reset and native helper validation",
+    "Document historical fidelity limits and approve exact full-benchmark resources"
   ],
   "sources": {
     "paper": "https://arxiv.org/html/2601.21872v2#S5.T5",
@@ -152,9 +136,12 @@
       "gpt-4o-2024-05-13": 200
     },
     "note": "Read-only metadata checks made no inference calls. HTTP404 does not distinguish nonexistent model from lack of account access. Official documentation has conflicting shutdown dates.",
-    "offline_adapter_tests_passed": 16,
-    "proposed_input_cap_requires_revision": true,
-    "input_cap_note": "Prior unapproved 4096-token plan is below the transport estimator floor; no runtime cap increased or inference authorized"
+    "offline_adapter_tests_passed": 20,
+    "proposed_input_cap_requires_revision": false,
+    "input_cap_note": "Explicitly revised proposal exceeds conservative estimator floor; not authorization for inference",
+    "proposed_input_cap": 8192,
+    "proposed_model": "gpt-4o-2024-05-13",
+    "proposed_protocol": "webarena_fuzzy_gpt4o_20240513_v1"
   },
   "hosting_resource_request": {
     "status": "approved_completed",
@@ -168,7 +155,86 @@
     "scope": "Original Reddit deployment diagnosis and reset validation; no benchmark collection",
     "retained_cap_bytes": 107374182400
   },
-  "integration_validation": {
+  "primary_comparison": {
+    "paper_table": "WebArbiter v2 Table 5",
+    "actors": [
+      "gpt-4o-mini-2024-07-18",
+      "gpt-4o-2024-05-13"
+    ],
+    "selectors": [
+      "no_search",
+      "gpt4omini",
+      "shepherd8b",
+      "arbiter7b",
+      "piotr_selectionarm"
+    ],
+    "proposed_matched_tasks": 155,
+    "proposed_episodes": 1550,
+    "full_benchmark_resources_approved": false,
+    "exact_historical_protocol_verified": false
+  },
+  "historical_local_head_inventory": {
+    "candidates_inventoried": 8,
+    "our_selector_checkpoint_family_selected": false,
+    "causal_adapter_needed": true,
+    "gpt_actor_proposals_require_extra_openwebrl_scoring_forward_pass": true,
+    "recommended_family": "frozen teacher-choice pointwise/listwise heads",
+    "recommended_pointwise_epoch": 13,
+    "recommended_listwise_epoch": 6,
+    "development_panels": 3759,
+    "pointwise_development_agreement_pct": 65.44293761253357,
+    "listwise_development_agreement_pct": 65.52274823188782,
+    "exact_task_text_overlap_webarena": 0,
+    "exact_task_text_overlap_om2w": 0,
+    "near_text_flags_webarena": 0,
+    "near_text_flags_om2w": 1,
+    "near_text_flag_note": "Generic latest-science-news vs latest-climate-news instruction on distinct websites; retained explicitly.",
+    "benchmark_id_overlap_verified": false,
+    "base_model_training_overlap_verified": false,
+    "scope": "Prior independent local-head inventory; not the user-selected Piotr row or evidence of Piotr training-data independence"
+  },
+  "selector_audit": {
+    "user_selected_family": "Piotr released SelectionARM",
+    "model": "PTeterwak/OpenWebRL-4B-SelectionARM",
+    "revision": "81b452d800d9f859687074f82680dd5257e02d89",
+    "source_revision": "02276b0ff3b9048d34e6a2afdcb9042dd9018c8c",
+    "action_representation": "native_operation_descriptor_normalized_point_v1",
+    "additional_modality": "pre-action screenshot",
+    "required_valid_original_slots": 5,
+    "history_window": 5,
+    "greedy": true,
+    "max_output_tokens": 128,
+    "weights_fresh_digest_verified": true,
+    "live_serving_verified": false,
+    "transfer_quality_verified": false,
+    "training_overlap_verified": false,
+    "weight_bytes": 8875719328,
+    "processor_metadata_verified": true,
+    "processor_metadata_changes": [
+      "image_processor.size.longest_edge fixed to 262144",
+      "extra_special_tokens ordered list renamed to additional_special_tokens for installed Transformers"
+    ],
+    "tokenizer_entries_verified": 151669,
+    "special_token_ids_verified": 14,
+    "chat_template_unchanged": true,
+    "cpu_image_preprocessing": {
+      "status": "passed",
+      "input_width": 1280,
+      "input_height": 720,
+      "processed_width": 672,
+      "processed_height": 384,
+      "pixels": 258048,
+      "image_tokens": 252,
+      "synthetic_prompt_tokens": 956,
+      "model_context_limit": 32768,
+      "all_tensors_cpu": true,
+      "inference_requests": 0,
+      "proof_sha256": "801936c44bf1bca973d73899537321e1bdfd3fe8af672932b9b0a99a7d9dbe92"
+    },
+    "max_output_tokens_adapted": true,
+    "released_demo_max_new_tokens": 2048
+  },
+  "integration_validation_v1": {
     "status": "passed",
     "tests": 102,
     "test_runner_seconds": 6.658,
@@ -221,6 +287,87 @@
     "preflight_status": "prepared_not_executed",
     "preflight_created_collection_output": false,
     "inventory_cells": 80,
-    "inventory_is_authorized_collection_request": false
+    "inventory_is_authorized_collection_request": false,
+    "scope_note": "Preserved historical integration before NoSearch/GPT/Piotr and approved-model-substitution implementation; source hashes refer to the v1 freeze"
+  },
+  "pilot_resource_request_v2": {
+    "status": "proposed_not_approved_or_submitted",
+    "gpus": 1,
+    "gpu_type": "H200",
+    "cpus": 8,
+    "memory_gib": 120,
+    "total_seconds_including_retries": 10800,
+    "new_node_local_working_space_gib": 300,
+    "api_usd_cap": 15,
+    "paid_request_cap": 575,
+    "local_request_cap": 320,
+    "total_dispatch_cap": 895,
+    "task_id": 5,
+    "planned_episodes": 5,
+    "actor": "gpt-4o-mini-2024-07-18",
+    "old_unused_budgets_carried_forward": false,
+    "fuzzy_substitution_approved": false,
+    "proposal_sha256": "ba8fc8924e938255730b214caee32fb454a1d129337b90b17994b996f2cfb36a",
+    "batch_template_sha256": "d6ab8996bb44b690d6faedd800491130dec4e456ced9fd50dbbb3dea043a0b62",
+    "concrete_controller_prepared": true
+  },
+  "integration_validation_v2": {
+    "status": "passed",
+    "returncode": 0,
+    "tests": 162,
+    "test_runner_seconds": 14.063,
+    "elapsed_seconds": 14.557678699493408,
+    "code_unchanged": true,
+    "source_and_test_sha256": {
+      "openwebrl/jev_eval.py": "106ab91e6f753e6f79aec14f5268af06b6727e543245a95153519e62395e03cc",
+      "openwebrl/webprm_arbiter_harness.py": "ed86e803c3f61447394766c0ce61d697633019879a813fad2a5f7f10e93d0460",
+      "openwebrl/webprm_broker.py": "56306f6cfe4fea8dd643b36a18587a9b2e14ff6f696d78c5fefb061192374ba3",
+      "openwebrl/webprm_browser_preflight.py": "378ad70ca76ff887658d844aa6435049cf48dd472f3e2d0f25ae6c515b09537e",
+      "openwebrl/webprm_lifecycle.py": "36add604c09e41c2bb580b4940cbf59290e4105a06b055ddddc2aaf880bce638",
+      "openwebrl/webprm_reddit_pilot_preflight.py": "fc2166d1b68bfbce0ea8b783359e96786b8edc7ae943c48b08935c3f222962f3",
+      "openwebrl/webprm_reddit_provenance.py": "2f0ef55cffeaf8a24711967540a0749cf67dbf289793cbbbeed168c51d0cb404",
+      "openwebrl/webprm_runtime.py": "e280c26cd12b4056a6592787efd1ac9dac2b282ff911e3a870dc7707f36b9c56",
+      "openwebrl/webprm_source.py": "eed28c8c96320e6aa50d056827be53ce0e3c88d24b792b21e7eadd6a3c1e6445",
+      "openwebrl/webprm_webarena.py": "071250bdeabcd9210ae61a05b120a637921e93a416c11acf8f42e04c822c81f1",
+      "openwebrl/webprm_webarena_episode.py": "94e56848e69621cd768d6c19c99733316359ea150b481a1a2d74091a39e90f45",
+      "openwebrl/webprm_webarena_fuzzy.py": "218f192da4aa837926712785ffaa4650f55a8c5d1dfb6ad34465d166ef602ee6",
+      "openwebrl/webprm_webarena_piotr.py": "85defedaeecc83bded0c3af8504c5249a43b7d5a3540a653373302300f2ec730",
+      "openwebrl/webprm_webarena_worker.py": "0a644ee13f4e36982f6cf9859bb0399bc2a2af587af2b1ff5219307a37cc6900",
+      "openwebrl/webprm_worker.py": "709aa34f0aecd90ebc26683519a7d566e996ebf04c2f5dc94afb9fe9479b10b6",
+      "scripts/check_webprm_reddit_reset.py": "aa9c523f8d366a071e4ae5cf1ea77950f4ee8701f648bd7d88b28df2a182c968",
+      "scripts/launch_webprm_reddit_pilot.py": "b202b4a0c930a2bc1ae1018f7fede5526905e49e5b37a9d808eb2abdfc912b7f",
+      "scripts/prepare_webprm_piotr_processor.py": "0bf26b34309148c8097f94a3209395579a0396ca786ca4df2d574a72d0bc6090",
+      "scripts/run_webprm_reddit_service.py": "9a3f97399a180dd239ac8b6d7a318be301471e6a92f70ea14f94dd2f2ce7f453",
+      "scripts/run_webprm_webarena_pilot.py": "634a7ddf070c260be4ec183c8407f830ba5789cac6892311a10ed99eb9baffc8",
+      "scripts/runtime_ports.py": "71da7cfc98d6df95b36800ef15219006cd872a18d17edf3396a522dbb753732f",
+      "tests/test_prepare_webprm_piotr_processor.py": "1a753f8c808d817c05a3a16abdf4ac7c4b33b6dae8480b3de502d51a88994b5c",
+      "tests/test_webprm_broker.py": "fcdf2d51423b3fbca9f4e4bdf91c8aa0de9b3e7e3c9dd33aba80ca38ecedf72a",
+      "tests/test_webprm_browser_preflight.py": "edceb74b01983bfb3f15e6dc8ec580f1518f5dd86a240f2a8ad4f8339240e07a",
+      "tests/test_webprm_reddit_pilot_controller.py": "ba463f53d79c6b717c2f84ac09386f3836c39536cec9db2dd982cd9855819fa9",
+      "tests/test_webprm_runtime.py": "531810cc3f74a8f44e02c4375d7a4147138ea525829df65511a5e044632ed602",
+      "tests/test_webprm_webarena.py": "69a7edd91135957398b68d684485d290ce36de35c3a0ef088c707a2f1e5dbe00",
+      "tests/test_webprm_webarena_episode.py": "0979924d3e9bc90d0331842557abce0d65df6a40d816e0f5c44ef3ce7771ebe7",
+      "tests/test_webprm_webarena_fuzzy.py": "0652dda3a8f7bfae91c37f95b07380abca9f829c8265f0e99d74fbec76c092bd",
+      "tests/test_webprm_webarena_piotr.py": "b11ea38ee9322af79a9298e84e8afd9f3992150d1bd9727e6cd76c8a98ba6242",
+      "tests/test_webprm_webarena_worker.py": "c5e8ec9a9cc04898f5bab33e9b2bf41e8d5e6fbbeb13d9d8115d1d53d56eb67e",
+      "tests/test_webprm_worker.py": "d6e7426b73a3e2a86677c4b445717f1d8e76c300c962c280989cf166923a24f3"
+    },
+    "log_sha256": "53488f88aea4daead78967eb6bfd0db2701b2f19bcb517d2a847430aa6e8bd78",
+    "scope": "Offline unit/native contract tests and local socket/process fixtures; no benchmark or GPU inference",
+    "provider_calls": 0,
+    "benchmark_episodes": 0,
+    "new_allocations": 0,
+    "gpu_loads": 0,
+    "supported_primary_selectors": [
+      "no_search",
+      "gpt4omini",
+      "shepherd8b",
+      "arbiter7b",
+      "piotr_selectionarm"
+    ],
+    "owned_controller_implemented": true,
+    "live_hosted_episode_verified": false,
+    "worker_preflight_output_created": false,
+    "batch_template_syntax_passed": true
   }
 }

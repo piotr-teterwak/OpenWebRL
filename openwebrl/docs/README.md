@@ -1,6 +1,6 @@
 # OpenWebRL project documentation
 
-[WebPRM baselines: original Reddit startup/reset validated; WebArena-Lite first, then Online-Mind2Web](WEBPRM_BASELINES.md#table5-plan-20261010).
+[WebPRM baselines: Table 5 reproduction plus Piotr SelectionARM; Reddit hosting validated](WEBPRM_BASELINES.md#table5-plan-20261010).
 
 [GPT-6.1 Sol N=5: verified OM2W medium 45.67%, high 43.67%; WebVoyager 57.98%; DeepShop 46.00%](ARM_INFERENCE_SCALING.md#sol61-n5-launch-20261009). [Verified matching SFT controls: Sol N5 gains +11.26 pp [+7.39, +15.13] on WebVoyager; DeepShop +3.33 pp [−5.33, +11.33] remains inconclusive](ARM_INFERENCE_SCALING.md#sol61-actor-controls-20261009).
 
