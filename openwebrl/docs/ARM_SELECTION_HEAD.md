@@ -391,7 +391,7 @@ Jobs `354654` (primary) and `354696` (breakdown; identical folds, seeds and pick
 | 1000 states | 13,227 | 33.24% | +1.58 [−0.88, +4.21] | 61.9% |
 | 2692 states | 35,916 | 34.24% | +2.57 [+0.21, +5.09] | 64.5% |
 
-The 2,692-state point is being rerun after its job reached its time limit. The one-panel-per-state 110-state result is a single comparison among several; the same states with all their panels do not reproduce it. Pre- versus post-action labels and teacher strength are compared in [ARM_FORMULATIONS.md](ARM_FORMULATIONS.md#teacher-labels-211-20261011).
+Agreement and outcome success rise together with teacher data: the head needs about 1,000–2,700 teacher states to clear uniform, roughly 10–25× the outcome-labelled states available per fold. The one-panel-per-state 110-state result is a single comparison among several; the same states with all their panels do not reproduce it. Pre- versus post-action labels and teacher strength are compared in [ARM_FORMULATIONS.md](ARM_FORMULATIONS.md#teacher-labels-211-20261011).
 
 <a id="selection-head-sweep"></a>
 
