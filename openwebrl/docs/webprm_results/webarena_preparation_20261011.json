@@ -796,7 +796,32 @@
         "requirements": "Fresh private claim; approved prospective policy; complete durable evidence and independent audit; actual worker/service/broker closure."
       },
       "map_hosting_preparation": "Archive inventory, private configuration, original service topology and bounded local relays; original startup/database/reset unverified.",
-      "concurrent_broker": "Prospective shared cumulative append-only financial journal and bounded concurrent handlers under integration; live throughput unverified."
+      "concurrent_broker": "Bounded concurrent handlers and cumulative durable financial journal; allocation epochs preserve caps and unresolved reservations. Offline integration verified, live throughput unverified.",
+      "independent_cell_auditor": {
+        "protocol": "table5_independent_cell_audit_v1",
+        "combined_tests_passed": 45,
+        "cell_auditor_tests": 19,
+        "financial_auditor_tests": 15,
+        "ephemeral_state_tests": 11,
+        "independent_review_findings_closed": 6,
+        "live_full_cohort_episodes_audited": 0,
+        "scope": "Frozen task, protocol, implementation, reset, every saved action, native evaluator replay, financial prefix and closure consistency. Does not independently establish historical process death, website truth or judge accuracy."
+      },
+      "campaign_controller": {
+        "protocol": "fixed_table5_original_site_queue_v1",
+        "fixed_cells": 1550,
+        "implemented_original_site_cells": 190,
+        "other_domain_cells_gated": 1360,
+        "frozen_implementation_files": 51,
+        "tests_passed": 267,
+        "identity_audits_passed": 10,
+        "resource_request": null,
+        "resource_approval": null,
+        "protocol_sha256": "0044edf52a7611eed2452ef2f6ca0cdf1c5fdaa0702fae30627817570e8d46a9",
+        "cohort_sha256": "328388602586f879a29cf3c74ca40db09239ea1a021bbcfd42fc9b0729475a8a",
+        "readiness_sha256": "b19724f3636a2ac72e15b9d730064923961e47f1391e5a0e5eaf95288986644e",
+        "live_validated": false
+      }
     },
     "root_independent_checks": {
       "transcript_tests": 14,
@@ -826,7 +851,15 @@
       "openwebrl/webprm_evaluator_transcript.py": "9e308f9cccf502648dcdcef44af273b143f36195691d6c0bba76c3f154e81593",
       "openwebrl/webprm_ephemeral_state.py": "2b0beb9c30a23b6082cefc5098b06f0c9bda9606ef78e4501ce8c7fed7794639",
       "scripts/prepare_webprm_map_hosting.py": "d8f178146a65fd32b368fe778ae8c0904e24b35a9ac99183408bb1ad7cb1298a",
-      "openwebrl/webprm_local_service_bridge.py": "5a690c70c252dfc6dbfec2dd90f0fafbc5dae2625b66720c5a86b898d4443794"
+      "openwebrl/webprm_local_service_bridge.py": "5a690c70c252dfc6dbfec2dd90f0fafbc5dae2625b66720c5a86b898d4443794",
+      "openwebrl/webprm_concurrent_broker.py": "5a88f74dd05bb729c5c55865578be1a94fd5abc978c278f4ed54738ab974eff4",
+      "openwebrl/webprm_budget_journal.py": "906f3fd1e7da15975e78268db832eb5195258a95f94180d95a018044040777f7",
+      "openwebrl/webprm_journal_audit.py": "1afed89ccd5c98a9812a2900831d3770ca089d48fb6abe2d0ab5d85fe5a5bc9e",
+      "scripts/audit_webprm_table5_cell.py": "02622744b726cb582219f149df3cd7689cdae4eff13dce5b85e048be0817b59d",
+      "scripts/launch_webprm_table5_campaign.py": "34cbba81952aba9582e6abca53cf3ee0887e1e4933e3c500308aadb904a71537",
+      "scripts/run_webprm_table5_reddit.py": "30b65712bf0898e8217005bf84a91d1fa9296c7fcc4a3b744386f7543ceaafea",
+      "openwebrl/webprm_webarena_worker.py": "fda7654a1c8e738280cea132a57f2cb8a20662db542b78de0ef62438bc600b28",
+      "openwebrl/webprm_webarena_sites.py": "23e17da02c08ed47b09a98173878ad5a4380b7be0585237789281d79ec317299"
     }
   },
   "author_trajectory_release_check": {
