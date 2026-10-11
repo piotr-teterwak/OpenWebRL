@@ -1610,5 +1610,249 @@
     7.16
    ]
   }
+ },
+ "outcome_adaptation_pilot": {
+  "job": 354654,
+  "code": "scripts/adapt_selection_head_outcomes.py (arm-selection-head cb25297)",
+  "design": "Adapt the teacher-trained selection head to continuation outcomes (CPU; features already cached).\n\nPre-registered design (2026-10-10):\n* States: branching states with saved features and draws 0-7 for all five candidates.\n* Labels: each candidate's success rate on draws 0-5 (invalid = 0), pooled over action-equivalent\n  candidates. Draws 6-7 are never used for training or model choice.\n* Evaluation: 5-fold cross-validation grouped by task id; every state is scored once, out of fold,\n  by the chosen candidate's success on draws 6-7. All references are scored on the same draws.\n* Primary model: warm start from heads/pointwise/head.pt; soft cross-entropy to rates / sum(rates)\n  over states whose candidates do not all tie; AdamW lr 1e-4, weight decay 0.05, 20 epochs,\n  batch 16, seeds 0 and 1 (reported separately and as a logit average).\n* Secondary: a randomly initialized head with the same recipe; a best-action (ties spread) target;\n  the collections' own train / validation_seen_task / validation_unseen_task roles.\n",
+  "states": 138,
+  "task_groups": 120,
+  "informative_states": 76,
+  "fold_sizes": [
+   28,
+   29,
+   27,
+   27,
+   27
+  ],
+  "success_on_draws_6_7": {
+   "Outcome-adapted head (warm start), seed 0": 30.43,
+   "Outcome-adapted head (warm start), seed 1": 31.52,
+   "Outcome-adapted head (warm start)": 30.07,
+   "Outcome-trained head (from scratch), seed 0": 32.25,
+   "Outcome-trained head (from scratch), seed 1": 33.7,
+   "Outcome-trained head (from scratch)": 32.97,
+   "Outcome-adapted head, best-action target, seed 0": 31.16,
+   "Outcome-adapted head, best-action target, seed 1": 30.8,
+   "Outcome-adapted head, best-action target": 31.16,
+   "Piotr ARM": 34.06,
+   "Teacher-trained head": 34.06,
+   "Kev-style step 150": 34.78,
+   "Kev-style step 600": 33.33,
+   "Actor's first sample": 34.42,
+   "Uniform": 32.32,
+   "Outcome reference: best on draws 0-5": 38.88,
+   "Hindsight best on draws 6-7 (optimistic)": 53.99
+  },
+  "minus_uniform": {
+   "Outcome-adapted head (warm start), seed 0": [
+    -1.88,
+    -5.33,
+    1.72
+   ],
+   "Outcome-adapted head (warm start), seed 1": [
+    -0.8,
+    -4.06,
+    2.55
+   ],
+   "Outcome-adapted head (warm start)": [
+    -2.25,
+    -5.47,
+    1.09
+   ],
+   "Outcome-trained head (from scratch), seed 0": [
+    -0.07,
+    -3.81,
+    3.9
+   ],
+   "Outcome-trained head (from scratch), seed 1": [
+    1.38,
+    -2.47,
+    5.38
+   ],
+   "Outcome-trained head (from scratch)": [
+    0.65,
+    -3.09,
+    4.64
+   ],
+   "Outcome-adapted head, best-action target, seed 0": [
+    -1.16,
+    -5.52,
+    3.07
+   ],
+   "Outcome-adapted head, best-action target, seed 1": [
+    -1.52,
+    -5.77,
+    2.62
+   ],
+   "Outcome-adapted head, best-action target": [
+    -1.16,
+    -5.52,
+    3.08
+   ],
+   "Piotr ARM": [
+    1.74,
+    -2.31,
+    6.0
+   ],
+   "Teacher-trained head": [
+    1.74,
+    -1.46,
+    5.12
+   ],
+   "Kev-style step 150": [
+    2.46,
+    -1.05,
+    6.29
+   ],
+   "Kev-style step 600": [
+    1.01,
+    -2.91,
+    5.18
+   ],
+   "Actor's first sample": [
+    2.1,
+    -1.95,
+    6.23
+   ],
+   "Outcome reference: best on draws 0-5": [
+    6.56,
+    3.53,
+    9.87
+   ],
+   "Hindsight best on draws 6-7 (optimistic)": [
+    21.67,
+    17.59,
+    25.86
+   ]
+  },
+  "minus_teacher_head": {
+   "Outcome-adapted head (warm start), seed 0": [
+    -3.62,
+    -7.66,
+    0.0
+   ],
+   "Outcome-adapted head (warm start), seed 1": [
+    -2.54,
+    -6.3,
+    1.07
+   ],
+   "Outcome-adapted head (warm start)": [
+    -3.99,
+    -7.66,
+    -0.7
+   ],
+   "Outcome-trained head (from scratch), seed 0": [
+    -1.81,
+    -6.49,
+    3.01
+   ],
+   "Outcome-trained head (from scratch), seed 1": [
+    -0.36,
+    -5.11,
+    4.55
+   ],
+   "Outcome-trained head (from scratch)": [
+    -1.09,
+    -5.67,
+    3.6
+   ],
+   "Outcome-adapted head, best-action target, seed 0": [
+    -2.9,
+    -7.55,
+    1.79
+   ],
+   "Outcome-adapted head, best-action target, seed 1": [
+    -3.26,
+    -7.78,
+    1.12
+   ],
+   "Outcome-adapted head, best-action target": [
+    -2.9,
+    -7.52,
+    1.81
+   ],
+   "Piotr ARM": [
+    0.0,
+    -4.14,
+    4.2
+   ],
+   "Kev-style step 150": [
+    0.72,
+    -3.28,
+    5.04
+   ],
+   "Kev-style step 600": [
+    -0.72,
+    -4.93,
+    3.65
+   ],
+   "Actor's first sample": [
+    0.36,
+    -4.78,
+    5.4
+   ],
+   "Uniform": [
+    -1.74,
+    -5.12,
+    1.46
+   ],
+   "Outcome reference: best on draws 0-5": [
+    4.82,
+    0.16,
+    9.45
+   ],
+   "Hindsight best on draws 6-7 (optimistic)": [
+    19.93,
+    14.75,
+    25.18
+   ]
+  },
+  "picks_changed_vs_teacher_head": {
+   "Outcome-adapted head (warm start), seed 0": 81,
+   "Outcome-adapted head (warm start), seed 1": 78,
+   "Outcome-adapted head (warm start)": 80,
+   "Outcome-trained head (from scratch), seed 0": 106,
+   "Outcome-trained head (from scratch), seed 1": 107,
+   "Outcome-trained head (from scratch)": 105,
+   "Outcome-adapted head, best-action target, seed 0": 79,
+   "Outcome-adapted head, best-action target, seed 1": 90,
+   "Outcome-adapted head, best-action target": 85
+  },
+  "role_split": {
+   "validation_seen_task": {
+    "adapted (train role)": 34.62,
+    "Teacher-trained head": 34.62,
+    "Piotr ARM": 30.77,
+    "Uniform": 40.0,
+    "Outcome reference: best on draws 0-5": 45.71,
+    "states": 13
+   },
+   "validation_unseen_task": {
+    "adapted (train role)": 30.77,
+    "Teacher-trained head": 23.08,
+    "Piotr ARM": 34.62,
+    "Uniform": 30.0,
+    "Outcome reference: best on draws 0-5": 47.76,
+    "states": 13
+   }
+  },
+  "training_fit_mean": {
+   "True/best": {
+    "best_action_hit": 1.0,
+    "loss_initial": 2.601,
+    "loss_final": 0.589
+   },
+   "False/rates": {
+    "best_action_hit": 0.914,
+    "loss_initial": 1.618,
+    "loss_final": 1.231
+   },
+   "True/rates": {
+    "best_action_hit": 0.833,
+    "loss_initial": 2.646,
+    "loss_final": 1.29
+   }
+  }
  }
 }

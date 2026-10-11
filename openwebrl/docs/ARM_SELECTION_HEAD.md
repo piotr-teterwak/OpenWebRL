@@ -4,7 +4,7 @@
 
 **Agreement with teachers does not track action quality.** The Kev-style decision pass on the actor's weights, trained to step 600, matches held-out GPT-5.5 choices best of any actor-based selector: 67.1%, versus 65.4% for the frozen-feature head. On the original 124 states it matches an independent teacher (Luna before execution) on 66.1% of judgments, versus 73.2% for Piotr ARM. Its chosen actions succeed on 32.79% of held-out draws, +1.12 pp [−1.38, +3.75] over uniform.
 
-**Next step: supervise the selector with continuation outcomes instead of teacher picks.** 188 states currently have eight draws for all five actions: 9,720 outcomes in 151 task groups. That is 14× fewer states than the 2,692 teacher-labelled training states used so far. Collection is ongoing ([data comparison](#selection-head-outcome-data-20261010)).
+**Supervising the selector with outcomes needs more states than exist now.** 188 states have eight draws for all five actions: 9,720 outcomes in 151 task groups, 14× fewer states than the 2,692 teacher-labelled training states ([data comparison](#selection-head-outcome-data-20261010)). A pre-registered five-fold [adaptation pilot](#selection-head-outcome-adaptation-20261010) on 138 of these states overfits: it fits training folds but does not beat uniform on held-out tasks.
 
 The question is whether selection can be built into the actor ([integration option 3](ARM_INTEGRATION_PLAN.md)). Today's best-of-N pipeline samples five candidates from the actor, then runs a separate 4B selector over the screenshot and all candidates. A head that reads the hidden states the actor computes while generating would need no second model.
 
@@ -185,6 +185,43 @@ These are saved, released records read on 2026-10-10 evening; native-invalid rec
 
 </details>
 
+<a id="selection-head-outcome-adaptation-20261010"></a>
+
+## Outcome adaptation pilot: five-fold, no gain
+
+**Training the frozen-feature head on continuation outcomes overfits at this data size.** The adapted heads choose a best observed action on 83–100% of their training states. On held-out task groups they score at or below uniform.
+
+| Selector, 138 states, out-of-fold | Success on draws 6–7 | − Uniform, pp [95%] | − Teacher-trained head, pp [95%] |
+| --- | ---: | --- | --- |
+| Hindsight best on draws 6–7 (optimistic) | 53.99% | +21.67 [+17.59, +25.86] | +19.93 [+14.75, +25.18] |
+| **Outcome reference: best on draws 0–5** | **38.88%** | **+6.56 [+3.53, +9.87]** | +4.82 [+0.16, +9.45] |
+| Kev-style pass, step 150 | 34.78% | +2.46 [−1.05, +6.29] | +0.72 [−3.28, +5.04] |
+| Teacher-trained head (starting point) | 34.06% | +1.74 [−1.46, +5.12] | — |
+| Piotr SelectionARM | 34.06% | +1.74 [−2.31, +6.00] | 0.00 [−4.14, +4.20] |
+| Head trained on outcomes from scratch | 32.97% | +0.65 [−3.09, +4.64] | −1.09 [−5.67, +3.60] |
+| Uniform candidate | 32.32% | — | −1.74 [−5.12, +1.46] |
+| Teacher head adapted to outcomes, best-action target | 31.16% | −1.16 [−5.52, +3.08] | −2.90 [−7.52, +1.81] |
+| **Teacher head adapted to outcomes (primary)** | **30.07%** | −2.25 [−5.47, +1.09] | **−3.99 [−7.66, −0.70]** |
+
+- **Design, fixed before any result:**
+  - The 138 states with features and draws 0–7 are split into five folds by task id (27–29 states each); each state is scored once by a head that never saw its task.
+  - Labels are each candidate's success rate on draws 0–5, pooled over action-equivalent candidates.
+  - Draws 6–7 are used only for scoring, by every row.
+  - The primary model warm-starts from the teacher-trained pointwise head, with a soft target proportional to the draw 0–5 rates.
+  - Training: AdamW, learning rate 1e-4, weight decay 0.05, 20 epochs; seeds 0 and 1, with their logits averaged.
+- **Why it fails:** only 76 of the 138 states have candidates that differ on draws 0–5, so each fold trains on about 61 informative states.
+  - The adapted head changes 80 of 138 picks relative to its starting point.
+  - Its training loss halves (2.65 → 1.29), yet held-out success falls.
+- **The prespecified collection roles agree, but are too small to conclude:** 13 validation states each.
+  - On unseen tasks, the adapted head scores 30.77% and the teacher head 23.08%.
+  - On seen tasks, both score 34.62%, against 40.00% for uniform.
+- **What could work next:**
+  - more states (the [prospective set](#selection-head-outcome-data-20261010) is untouched);
+  - much stronger regularization chosen inside training folds only, for example a few steps, a lower learning rate, or adapting only the last layer;
+  - combining outcome and teacher losses.
+
+Scores use two draws per action, so per-state estimates are noisy; this protocol is not directly comparable with the five-on-three scores above. [Aggregate and training diagnostics](arm_results/rl_integration/selection-outcomes-20261010.json).
+
 <a id="selection-head-sweep"></a>
 
 ## Frozen-feature sweep: no layer or pooling closes the gap
@@ -277,7 +314,7 @@ The probe was still rising at step 600. Training loss stopped falling after step
 
 ## What would settle the comparison
 
-- **Outcome supervision.** Adapt the frozen head or the Kev-style checkpoint to eight-draw success rates. Evaluate by task-group cross-validation on held-out draws, with the outcome-based reference and uniform as anchors ([data available](#selection-head-outcome-data-20261010)).
+- **Outcome supervision at scale.** The [138-state pilot](#selection-head-outcome-adaptation-20261010) overfits. Repeat it as states accumulate, with regularization chosen inside training folds, and test once on the untouched prospective states.
 - **More fresh states.** Each additional 100 states with eight draws narrows selector-difference intervals and adds training signal. The [collection plan](ARM_FORMULATIONS.md) now prioritizes tasks from Piotr's ARM training split.
 - **Benchmark impact.** Only a matched full300 run (SFT alone, SFT + Piotr ARM, SFT + an actor-based selector) shows whether any selector changes task success. On the [inference benchmark](ARM_INFERENCE_SCALING.md), Piotr ARM adds +5.67 ± 1.15 pp over three runs despite its weak branching-state gain here; the two evaluations measure different things.
 - **Serving.** A deployed head needs the serving engine to return hidden states, or a sidecar scorer. Neither has been benchmarked.
