@@ -1,6 +1,6 @@
 # OpenWebRL project documentation
 
-[Faster reward improvement: five-arm action-credit implementation, validation gates and recent evidence](RL_LEARNING_EFFICIENCY.md).
+[Faster reward improvement: five fresh iteration0→10 action-credit pilots, pending native GPU validation, controlled comparisons and recent evidence](RL_LEARNING_EFFICIENCY.md#action-credit-implementation-20261011).
 
 [GPT-6.1 Sol N=5: verified OM2W medium 45.67%, high 43.67%; WebVoyager 57.98%; DeepShop 46.00%](ARM_INFERENCE_SCALING.md#sol61-n5-launch-20261009). [Verified matching SFT controls: Sol N5 gains +11.26 pp [+7.39, +15.13] on WebVoyager; DeepShop +3.33 pp [−5.33, +11.33] remains inconclusive](ARM_INFERENCE_SCALING.md#sol61-actor-controls-20261009).
 
@@ -74,7 +74,7 @@ for the work you are doing, then follow its contents to dated experiment records
 | [ARM_PREFERENCE.md](ARM_PREFERENCE.md) | Preference experiments, pair audits, and viability plans |
 | [ARM_JOINT_DATA.md](ARM_JOINT_DATA.md) | Combined C2/Piotr data review, examples, training, and recovery |
 | [RL_RESULTS.md](RL_RESULTS.md) | Tables-only RL checkpoint scores; overall, valid-only, invalid counts, and separate protocols |
-| [RL_LEARNING_EFFICIENCY.md](RL_LEARNING_EFFICIENCY.md) | Five-arm action-credit implementation and acceptance gates; recent evidence on learning efficiency |
+| [RL_LEARNING_EFFICIENCY.md](RL_LEARNING_EFFICIENCY.md) | Five fresh iteration0→10 action-credit pilots; pending GPU validation, exact comparison limits and learning-efficiency evidence |
 | [RL_RUNTIME.md](RL_RUNTIME.md) | Reference baseline resume, GPU scaling, archives, and runtime history |
 | [RL_EVALUATION.md](RL_EVALUATION.md) | Evaluation harness code map, protocols, commands/tests, checkpoint results and scheduling |
 | [RL_METRICS.md](RL_METRICS.md) | Metric definitions, paper reward comparisons, and gradient diagnostics |

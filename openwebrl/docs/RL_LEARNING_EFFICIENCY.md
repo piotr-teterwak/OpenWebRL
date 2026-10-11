@@ -3,23 +3,52 @@
 Reviewed 2026-10-11. This is a literature review and implementation record; the reported paper gains have not been reproduced in OpenWebRL. The current RL comparison selected for implementation is the [five-arm action-credit study](#action-credit-implementation-20261011).
 
 <a id="action-credit-implementation-20261011"></a>
-## Five-arm action-credit study: implementation and acceptance
+## Five-arm action-credit study: first iteration10 pilot
 
-**The five objective implementations have a shared CPU-tested loss interface; they are not yet launch-ready browser RL experiments.** The [validation audit](rl_results/action_credit_implementation_audit_20261011.json) records test counts, exact source hashes, upstream-oracle status and remaining gates. No GPU allocation, browser session or judge call was started for implementation validation. Existing outcome-only runs keep their own controllers and budgets.
+**The selected study starts five fresh runs from the original OpenWebRL-4B-SFT actor and compares their iteration10 evaluations. Native GPU mechanics validation has been submitted; acceptance results are pending, and the five training pilots have not been submitted.** The online collector, judge integration and recovery of pending training batches are still under construction. Existing outcome-only runs retain their separate controllers and budgets.
 
-| Arm | Collection and credit | Controlled question |
-| --- | --- | --- |
-| Independent-chain outcome GRPO | Independent trajectories; trajectory outcome advantage | Reference |
-| Tree sampling + outcome GRPO | Branched trajectories; ordinary task-group outcome advantage | Does branching improve collection efficiency? |
-| Tree-GRPO | Same tree collection; task-pooled leaf advantage plus within-tree advantage | Does tree-based credit add value beyond sampling? |
-| Continuation-Q action credit | Same branching protocol; outcome objective plus equally weighted candidate continuation advantages | Does an explicit local comparison help? |
-| GiGPO | Independent trajectories; episode advantage plus matched-state discounted-return advantage | How much local credit can be recovered without extra continuations? |
+The [historical CPU audit](rl_results/action_credit_implementation_audit_20261011.json) records **137 tests**, upstream-oracle results and the exact source hashes tested before GPU preparation. Its no-GPU/no-browser/no-judge statement applies to that audit. Subsequent native-adapter/harness CPU checks require a separate fresh audit; they do not amend the historical result or establish GPU acceptance.
 
-All arms must share the agreed original iteration-zero actor, task manifest/splits, terminal-success judge, generation settings, clipping, reduction, optimizer exposure and evaluation protocol unless a difference is explicitly the tested factor. The preparation API requires those choices; its test coefficients are not approved experiment settings. Match total allocated GPU time, browser interactions and judge spend, charging replay failures and retries. Equal iteration counts alone are not a fair cost comparison.
+| Arm | Planned collection per iteration | Planned terminal draws | Credit and comparison |
+| --- | --- | ---: | --- |
+| Independent-chain outcome GRPO | 48 task groups ×8 independent chains | 384 | Ordinary outcome advantage; contemporaneous reference |
+| Tree sampling + outcome GRPO | 48 groups; M=2, N=2, L=2, K=4 | 480 generated; 384 selected | Ordinary outcome advantage; measures the tree-collection package |
+| Tree-GRPO | Same tree schedule and selection as tree-outcome control | 480 generated; 384 selected | Task-pooled leaf advantage plus within-tree advantage; isolates added tree credit within this pair |
+| Continuation-Q action credit | 384 independent chains plus up to8 states ×5 fixed response candidates ×8 continuations | Up to704 | Outcome objective plus equally weighted candidate-Q terms; combines local credit with additional collection |
+| GiGPO, strict adaptation | Same 48×8 independent chains as reference | 384 | Episode advantage plus state/history/horizon-matched step credit |
 
-**Numerical checks:** hand-computed cases, ties and singleton groups, unequal tree/draw sizes, invalid/missing outcomes, permutation invariance, source/holdout rejection, token-mask gradients, a small CPU optimizer update, and simulated uneven rank/microbatch gradient reduction. The optional oracle executes hash-pinned functions from the official repositories and compares actual advantages and policy-loss gradients. It does not merely compare two implementations of our own formula. CPU rank simulation does not establish distributed GPU correctness.
+M is the number of initial independent chains per task, N the number of expansions per tree in each round, L the number of rounds, and K the terminal leaves selected per tree. Thus the tree schedule generates `2 × (1 + 2 × 2) = 10` leaves per task and selects8 without using rewards. All generated, invalid and missing draws remain accounted for. In each continuation-Q panel,6 draws per candidate fit its target and2 are held out: up to240 fit and80 holdout continuations per iteration. Failed panel admission is recorded; it is not replaced after inspecting outcomes. The ordinary outcome objective uses only the 384 independent base chains; additional panel continuations estimate local Q and never enter the base advantage statistics or loss.
 
-**State checks:** collection policy, complete objective settings, group/tree membership and protocol hashes are immutable; every planned candidate/draw role is pinned before collection. The objective requires the complete sealed ledger, including invalid, missing and holdout slots. Retries retain reservations and actual overages; concurrent workers cannot overspend the ledger. A crash after an optimizer intent leaves `training_pending`, requiring reconciliation against a bound durable checkpoint receipt. A consumed-input flag alone cannot prove an optimizer update occurred. Launch readiness remains false in this offline ledger.
+**Continuation-Q does not share the Tree-GRPO collector.** Its fixed action panels add both data and cost, so this five-arm design cannot attribute a Q-versus-chain difference solely to local credit. A separate matched-panel outcome-only control would be needed for that attribution. Tree-GRPO versus tree-outcome is the directly matched collection comparison.
+
+The common task order is frozen before collection:48 prespecified groups per iteration from the original2,102-task RL pool, seed42, with fresh optimizer, scheduler and task cursor. Tasks are not replaced because their sampled rewards tie. Invalid/missing outcomes remain explicit and are excluded from valid-only targets; valid zero-advantage examples retain their loss denominators. This differs from historical runs that oversampled until48 nonzero-variance groups were accepted, so those runs provide timing context rather than the contemporaneous control. The original RL pool is not interchangeable with Piotr's ARM training split.
+
+All five arms use actor temperature0.8, top-p1, top-k−1, up to15 browser turns,1,024 response tokens and32,768 context tokens; GPT-4.1/action_history terminal binary-success judging (native combined/format rewards remain separate diagnostics); response-mean loss; mean/std outcome normalization with zero singleton advantages; PPO clipping widths0.20/0.28, no dual clip, and zero KL/entropy coefficients. Local-Q and GiGPO step coefficients are1; GiGPO uses discount1, trajectory-weighted episode statistics and strict state/history/image/horizon anchors. These are controlled OpenWebRL adaptations, not full reproductions of the papers' recipes. Report GiGPO's repeated-anchor and nonzero-step-credit coverage because strict matching may yield mostly singleton groups.
+
+Evaluation is one full300-task Online-Mind2Web cohort per iteration10 checkpoint, plus one shared contemporary iteration0 evaluation: local browser, actor temperature0, top-p1/top-k1,4,096 response tokens,30 turns, and GPT-4.1/action_history. Preserve every rollout and verdict disposition; report success counts, overall and valid-only rates, invalid counts and paired-task uncertainty. Continuation holdouts are separate from these held-out evaluation tasks. The1-seed pilot provides preliminary comparisons.
+
+Each PPO pass deterministically shuffles all eligible base response occurrences into windows of 256. The final short window is retained with zero-loss padding and weights of 1/256, without renormalizing the tail. Shared-prefix occurrences retain separate clipped terms. Q evaluates all eligible candidate panels in each window, scaling the entire local mean by the real base-occurrence count divided by 256. Its extra candidate forwards are charged. Full pending batches, window schedules and native RNG/checkpoint identities are saved before optimizer work; recovery restores the previous complete update and replays the saved batch.
+
+Equal 10 collection/update rounds are **not** equal 10 Adam steps or equal spending. Hold the optimizer recipe and two PPO passes fixed, then report actual optimizer updates, trained tokens, GPU-hours, browser/replay interactions and judge expenditure, including failed attempts. Endpoint gains at0/10 do not establish an exact time-to-target speedup.
+
+<details>
+<summary>Resource ceilings and current validation status</summary>
+
+| Stage | GPU request | GPU-hour ceiling | API-dollar ceiling | Status |
+| --- | --- | ---: | ---: | --- |
+| Native mechanics validation | 8 H200,64 CPUs,960GiB;6 hours total | 48 | 0 | Submitted; actual GPU acceptance pending |
+| Separate browser/judge verification, including shared iteration0 evaluation | Within the proposed validation envelope | Included above | 25 | API cap proposed, not approved; no paid judge verification launched |
+| Each of five iteration0→10 pilots, including evaluation10 | 8 H200,64 CPUs,960GiB;24 hours per arm | 192 per arm | 200 per arm | Selected GPU ceilings; pilots not submitted; API caps proposed, not approved |
+
+The proposed API total is **$1,025**; the GPU ceilings total1,008 GPU-hours across validation and five pilots. Each cap includes all attempts and retries, with no transfer from ongoing outcome-only approvals or between arms. These ceilings are limits, not a guarantee that iteration10 fits. Global storage reservations and a feasible forward quota forecast are also required; no new cleanup is authorized by this study.
+
+The isolated GPU gate targets TP2/DP4 and TP8/DP1, actual-model distributed gradient parity, all five objective updates, full256-response accumulation, a separately labeled synthetic32K context with real image tensors, and model/Adam/scheduler save–perturb–reload. Its archived browser fixture contains three real sampled rows, with the longest eligible context11,746 tokens. The fixture and diagnostic ancestry/rewards are mechanics inputs, not proof of fresh on-policy collection or physical browser replay. W&B validation/evaluation belongs in `openwebrl-evals`; actual training belongs in `openwebrl`.
+
+</details>
+
+**CPU numerical checks:** hand-computed cases, ties/singletons, unequal tree/draw sizes, invalid/missing outcomes, permutation invariance, source/holdout rejection, token-mask gradients, a small optimizer update, and simulated uneven rank/microbatch reduction. The upstream oracle executes pinned official functions. CPU rank simulation does not establish distributed GPU correctness.
+
+**State checks:** collection policy, objective settings, group/tree membership and protocol hashes are immutable; planned candidate/draw roles and all invalid, missing and holdout slots must remain in the sealed inventory. Retries preserve reservations and actual overages. A crash after optimizer intent leaves `training_pending`, requiring reconciliation with a bound durable checkpoint; a consumed-input flag alone cannot prove that training occurred. These interfaces are not an end-to-end validated online controller.
 
 <details>
 <summary>Estimator conventions, source fidelity and pitfalls prevented</summary>
@@ -39,13 +68,13 @@ The numerical module pins [Tree-GRPO commit 19bf3fa](https://github.com/AMAP-ML/
 <details>
 <summary>Code, reproduction and remaining runtime gates</summary>
 
-The opt-in implementation is isolated in `openwebrl/action_credit*.py`: numerical estimators, response graph/loss, replay and sealed-collection binding, objective adapter, sampling/selection planner and campaign ledger. Tests are `tests/test_action_credit*.py`. No live training hot path imports these modules.
+The implementation is isolated in `openwebrl/action_credit*.py`: numerical estimators, response graph/loss, replay and sealed-collection binding, objective adapter, sampling/selection planner and campaign ledger. Tests are `tests/test_action_credit*.py`. A separately frozen native validation source connects the adapter to the real trainer for diagnostics. Production collector/judge integration and pending-batch recovery are still being implemented and have not passed end-to-end online acceptance.
 
 Run `python -B scripts/validate_action_credit.py --require-upstream --upstream-dir /tmp/action-credit-upstream --report /tmp/action-credit-audit.json` with a Torch/NumPy environment. Prepare the three upstream files using the immutable repository/commit/path and SHA256 entries in `tests/test_action_credit_upstream.py`; the runner performs no downloads. Omitting upstream fixtures explicitly skips that oracle and cannot satisfy `--require-upstream`.
 
 Before launch, implement and validate the online collection/trainer adapter: freeze and verify the current actor version; bind each parent response, resulting observation and child multimodal actor context; capture exact sampled tokens and independently verified old-policy scores; preserve fixed candidate sets and fit/holdout draw roles. Pin sampling-request-to-draw identities before dispatch and independently verify terminal artifact linkage. Sealed terminal metadata prevents a later caller from permuting a retained mapping, but does not authenticate the collector that wrote it. A receipt's consistent hashes establish identity, not physical browser-state equivalence. Strict visible replay does not clone hidden remote server state.
 
-Then validate the actual TP2/DP4 path on full saved batches and longest contexts, including gradient scaling, optimizer/scheduler/cursor restoration and crash recovery around checkpoint commits. The ledger's externally supplied checkpoint receipt is not itself a trainer transaction. Keep validation in `openwebrl-evals`; these checks need their own exact approved resources. Only after these gates and explicit per-arm compute/API caps should a launcher enable collection or training. The separately approved outcome-only continuation budgets do not fund this study.
+The submitted mechanics gate addresses actual distributed gradient scaling, accumulation and model/optimizer/scheduler restoration. Production task-cursor restoration, physical replay and crash recovery around collection/training commits still require separate verification. The ledger's externally supplied checkpoint receipt is not itself a trainer transaction. Enable each pilot only after its runtime gates, concrete resource/API authority and storage forecast pass. The separately approved outcome-only continuation budgets do not fund this study.
 
 </details>
 
