@@ -118,7 +118,7 @@ for the work you are doing, then follow its contents to dated experiment records
 [Difficulty-first 2K vs. weighted coverage over score≥5: exact task mix, 61.25% overlap and local reviews](ARM_INTEGRATION_PLAN.md#arm-task-pool-difficulty-comparison-20260930).
 [Selected ≥5 weighted2K pool: all10,000 actor attempts verified;682 five-valid-failure tasks,1,061 mixed,213 all-success,44 unresolved;43.86GPUh/$52.62 used](ARM_INTEGRATION_PLAN.md#arm-task-pool-actor-screen-20260930) · [Local selected-task review](http://localhost:8765/arm_min5_weighted_tasks.html).
 [Actor + ARM rescue collection complete:78/682 rescued;11.44% overall,11.49% valid-only; all rollouts/verdicts/candidate traces verified;9.33GPUh/$1.68 used](ARM_INTEGRATION_PLAN.md#arm-task-pool-guided-682-20261002).
-[Uniform G8 outcome-only RL: iteration 30 verified at 33.67% overall / 41.91% valid-only; target 60 incomplete, with comparison limits and artifact audit](RL_EVALUATION.md#uniform8-iter30-results-20261011).
+[Uniform G8 outcome-only RL: iteration 40 verified at 34.67% overall / 43.70% valid-only; target 60 incomplete, with comparison limits and artifact audit](RL_EVALUATION.md#uniform8-iter40-results-20261011).
 
 [Batch-56 and uniform-G8 continuation to 60: separately approved 48h/$300 and 72h/$400 caps; queued October 8, full300 evaluations every ten iterations](ARM_INTEGRATION_PLAN.md#outcome56-uniform8-to60-20261008).
 
