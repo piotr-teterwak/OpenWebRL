@@ -7,8 +7,9 @@
 | Does Luna select better after seeing immediate execution evidence? | 119 | +2.24, after − before | [−0.28, +4.95] | No clear advantage yet; historical invalid-as-zero score |
 | Can old continuation outcomes select better than uniform on fresh outcomes? | 58 | +8.51, select on three − uniform | [+3.45, +14.37] | Evidence of outcome signal; gains over actor-first and Luna remain uncertain |
 | Does selecting with 24 continuations beat selecting with eight? | 14 | +3.52, select with 24 − select with eight | [−0.12, +7.35] | Inconclusive on the same fresh, valid-only holdout |
+| Do teacher-trained selectors pick better actions than uniform? | 138 | Piotr ARM +2.48; outcome-selected on five draws +5.32 | [−0.14, +5.21]; [+3.09, +7.62] | Only outcome selection is clearly above uniform ([details](#selection-head-20261009)) |
 
-The first interval resamples states; the others resample task groups. All are exploratory, pointwise intervals. **No selector has yet been trained from these branching outcomes or matched post-action labels.** The [actor-feature heads](#selection-head-20261009) were trained separately on existing teacher choices: they have lower Luna agreement than Piotr ARM, while continuation-success differences remain uncertain.
+The first interval resamples states; the others resample task groups. All are exploratory, pointwise intervals. **No selector has yet been trained from these branching outcomes or matched post-action labels.** Selectors trained on teacher choices (Piotr ARM and the [actor-based selectors](#selection-head-20261009)) do not clearly beat a uniform pick on held-out draws of 138 eight-draw states, while selecting by outcomes on five draws does: +5.32 pp [+3.09, +7.62].
 
 <a id="branching-experiment-map"></a>
 
@@ -66,7 +67,28 @@ Both index-only Luna-high conditions choose among the same candidates without se
 | Before execution | 119 | 35.11% | [27.73%, 42.67%] |
 | After immediate execution | 119 | 37.35% | [29.88%, 45.10%] |
 
-The paired after-minus-before interval in the overview includes zero. Repeated teacher choices average over the same saved outcomes; they add no rollout data. Repeat consistency and label changes are diagnostics, not evidence of better action success. [Original aggregate and paired audit](arm_results/rl_integration/continuation-fixed124-20261008.json).
+The paired after-minus-before interval in the overview includes zero. After-execution judgments saw the immediate result of execution draws 0–2, which are also the first steps of the continuations scored here. Scoring only on draws 3–7 avoids that overlap. On 57 states with such draws, after minus before is +1.77 pp [−0.51, +4.40]; after minus uniform is +4.61 [+0.39, +9.16]. Choosing by outcomes of draws 0–2 gives +7.22 [+2.88, +12.21] over uniform ([aggregate](arm_results/rl_integration/selection-outcomes-20261010.json)). Repeated teacher choices average over the same saved outcomes; they add no rollout data. Repeat consistency and label changes are diagnostics, not evidence of better action success. [Original aggregate and paired audit](arm_results/rl_integration/continuation-fixed124-20261008.json).
+
+<details>
+<summary>What one Luna judgment sees, and why there are 4 before and 10 after judgments per state</summary>
+
+Each call is one independent GPT-6 Luna request at high reasoning effort. The request contains the task, the last five history entries, the original screenshot and the five candidate responses, and Luna returns one candidate index (`openwebrl/arm_branch_teacher.py`). An after-execution call also receives, for every candidate, the screenshot and tool feedback **immediately after that candidate's action in one execution draw**. No call sees later steps of a continuation, final screenshots or rewards.
+
+| Condition | Evidence | Calls per state |
+| --- | --- | ---: |
+| Before | State and candidates only | 3 repeats + 1 with candidates shuffled = 4 |
+| After, execution draw 0 | Immediate results from draw 0 | 3 repeats + 1 shuffled = 4 |
+| After, execution draw 1 | Immediate results from draw 1 | 3 repeats |
+| After, execution draw 2 | Immediate results from draw 2 | 3 repeats |
+
+- **Repeats** send identical input, to measure Luna's own variability.
+- **Shuffled calls** test whether Luna favors candidates by position.
+- **The three draws** show the same actions' immediate screens from separate browser replays, which can differ.
+- **Coverage.** Every state planned 14 calls. All 14 are valid on 119 states. Two states have 4 before and 6 after judgments; three have 4 before and none after.
+
+Reported "before" and "after" scores average each condition's valid calls per state. Because after-evidence comes from draws 0–2, which are also the first steps of the continuations scored on those draws, the [leakage-free check](#arm-continuation-branches-results-20261007) scores only draws 3–7. Applying this script unchanged to an eight-draw panel would request after-judgments for all eight draws. A labelling manifest must instead fix the evidence draws in advance and keep held-out draws out of the teacher's view.
+
+</details>
 
 <a id="branch-extra2-heldout58-20261008"></a>
 
@@ -312,24 +334,24 @@ All 1,280 record identities, fixed candidate responses, strict replay releases, 
 
 <a id="selection-head-20261009"></a>
 
-## Selectors trained on existing teacher labels: evaluation on the historical 124 states
+## Selectors trained on teacher labels: do they pick better actions?
 
-**The frozen-actor heads agree less with Luna than Piotr SelectionARM, but continuation success does not clearly separate them.** These heads were trained on GPT-5.5 choices from Piotr's release, not on branching returns or post-action labels. They reuse the original 124-state, three-draw outcomes for evaluation; this is a model comparison on the historical family, not another branching collection. Invalid outcomes count as zero.
+**No.** Piotr ARM and every actor-based selector were trained on GPT-5.5 choices, not on branching outcomes. Scored on held-out draws of every state that has eight draws for all five actions, none is clearly above a uniform pick. Selecting by observed outcomes on five draws is. Each fixed selector is scored on draws 0–7 of its chosen action. The outcome-selected reference picks on five draws and is scored on the other three, averaged over all 56 splits. Invalid outcomes count as zero, and intervals resample 120 task groups.
 
-| Selector, 124 branch states | Luna agreement | − Piotr, pp [95%] | Continuation success | − Piotr, pp [95%] |
-| --- | ---: | --- | ---: | --- |
-| Piotr SelectionARM | 73.2% | — | 35.75% | — |
-| Head on frozen actor features, one candidate at a time | 61.7% | −11.5 [−18.5, −4.6] | 34.68% | −1.08 [−4.30, +2.15] |
-| Uniform candidate | 46.9% | — | 32.42% | — |
+| Selector, 138 states | Held-out success | − Uniform, pp [95%] |
+| --- | ---: | --- |
+| Outcome-selected on five draws (privileged reference) | 36.99% | +5.32 [+3.09, +7.62] |
+| Piotr SelectionARM | 34.15% | +2.48 [−0.14, +5.21] |
+| Frozen-feature actor head | 33.70% | +2.03 [−0.26, +4.36] |
+| Actor's first sample | 33.33% | +1.67 [−1.05, +4.30] |
+| Kev-style pass on the actor, step 600 | 32.79% | +1.12 [−1.38, +3.75] |
+| Uniform candidate | 31.67% | — |
 
-A nine-configuration sweep found no frozen layer or pooling that closes the gap, and fine-tuning the top eight layers did not help (held-out agreement 65.5% versus 65.4%). The likely missing piece is comparison between candidates: none of the actor-based selectors so far let candidates interact. Two Kev-inspired variants add a `<decide>` token that reads every candidate inside the actor:
+The 138 states are 51 historical (topped up to eight draws), 32 pilot and 55 fresh states. Outcome selection gains about 5 pp in each collection. Teacher agreement does not predict these outcomes: the Kev-style pass matches held-out GPT-5.5 choices best of any actor-based selector (67.1%), yet its chosen actions succeed no more often than uniform. Outcome-labelled data now covers 188 eight-draw states in 151 task groups; that is 14× fewer states than the 2,692 teacher-labelled training states.
 
 ![Five selector designs compared by weights, inputs, candidate interaction, order effects, readout, added cost and status](arm_results/methods/selection_designs_compared.svg)
 
-- **Joint top layers** reuses the actor's generation-time states for layers 1–28 and compares candidates only in the eight adapted layers, keeping scoring cheap. Its comparison pointer learned to 56.8% agreement on its own but never improved on the head.
-- **Kev-style pass** re-encodes everything through all 36 adapted layers, like Kev, and costs about one actor pass per step, similar to Piotr ARM.
-- Both are order-invariant by construction, unlike Piotr ARM (candidate 1 on 62/124 states) and Kev-27B.
- Method, all three evaluations, the sweep and accounting are in [ARM_SELECTION_HEAD.md](ARM_SELECTION_HEAD.md). The outcome-selected and hindsight references for this cohort are in the [original-three-draw details](#branch-original-three-details).
+Method, metric definitions, teacher-agreement results, robustness checks and data sufficiency are in [ARM_SELECTION_HEAD.md](ARM_SELECTION_HEAD.md#selection-head-outcomes-20261010). The original 124-state, three-draw comparison is in its [robustness details](ARM_SELECTION_HEAD.md#selection-head-teacher-agreement).
 
 <a id="branch-post-to-pre-study-20261008"></a>
 

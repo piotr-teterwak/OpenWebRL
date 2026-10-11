@@ -631,7 +631,7 @@
       "cause_status": "Clock guard now reads Slurm JSON epochs; timezone causality inferred, failed process timezone not captured.",
       "automatic_resubmission_authorized": false,
       "clock_fix_implemented": true,
-      "clock_fix_validation": "focused_tests_pending",
+      "clock_fix_validation": "40 focused tests passed, including timezone/DST and cumulative-budget regressions",
       "replacement": {
         "status": "prepared_pending_explicit_one_attempt_exception",
         "approved": false,
@@ -641,7 +641,8 @@
         "combined_seconds": 3544,
         "original_seconds_cap": 3600,
         "resources_and_transfer_storage_caps_unchanged": true,
-        "requires_exception_to_original_one_attempt_limit": true
+        "requires_exception_to_original_one_attempt_limit": true,
+        "proposal_sha256": "81bda043c9264e639445e10b6d4368c9f226f2a5de29453c84463524a329c05b"
       }
     },
     "prompt_and_judge_diagnostic": {

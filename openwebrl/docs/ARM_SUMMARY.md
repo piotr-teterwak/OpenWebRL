@@ -320,7 +320,21 @@ The interactive curve now includes all six checkpoints10–60. This separate dat
 ablation does not change the task pool used by the ARM runs above.
 [Expanded-pool results and comparison caveats](RL_EVALUATION.md#expanded4102-iter10-results-20261003).
 
-The separate **outcome-only56-group control on the original2,102 tasks** completed its initial target20 and both scheduled evaluations. It tests increased accepted mixed groups with global batch and PPO settings unchanged. The historical comparison remains descriptive because dates, valid-task sets and optimizer work differ. [Verified results and comparison limits](RL_EVALUATION.md#outcome56-iter20-results-20261007) · [Interactive curve](rl_results/arm_rl_interactive.html).
+The separate **outcome-only 56-group control on the original 2,102 tasks** has verified evaluations through iteration40: **34.33% overall** (103 successes / 300 tasks) and **42.92% valid-only** (103 / 240 valid tasks; 60 invalid). Overall improved by 2.00pp from iteration30; training to60 remains incomplete. It tests increased accepted mixed groups with global batch and PPO settings unchanged. The historical comparison remains descriptive because dates, valid-task sets and optimizer work differ. [Verified results and comparison limits](RL_EVALUATION.md#outcome56-iter40-results-20261010) · [Interactive curve](rl_results/arm_rl_interactive.html).
+
+The **uniform G8 outcome-only control** has verified evaluations through iteration 40.
+
+| Iteration | Successes | Tasks | Valid | Invalid | Overall % | Valid-only % |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+|40 |104 |300 |238 |62 |34.67 |43.70 |
+
+Overall increased by 1.00pp from iteration 30. Training uses eight rollouts per
+task and 48 accepted mixed groups on the original 2,102 tasks. At iteration 40
+it exceeds the five-rollout/56-group control by 0.33pp overall, with more Adam
+updates (928 versus 626) and different live collection dates and valid-task sets.
+These single-cohort comparisons do not isolate a causal rollout-count effect or
+establish significance. Training to 60 remains incomplete; adaptive stays paused.
+[Verified results and comparison limits](RL_EVALUATION.md#uniform8-iter40-results-20261011).
 
 Original-bonus full300 at20/30/50/60 was evaluated September27;40 combines
 the saved historical100 with a new disjoint200. Earlier fixed100 values at20/30

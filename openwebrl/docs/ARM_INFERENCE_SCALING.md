@@ -281,6 +281,352 @@ The campaign ceilings remain **26 H200-hours**, **$625** for APIs and **1,480 ph
 
 [Results and approval aggregate](arm_results/sol61_n5_launch_20261009.json) · [Official model settings and pricing](https://developers.openai.com/api/docs/models/gpt-6.1-sol).
 
+<a id="molmoweb-sol61-plan-20261010"></a>
+## MolmoWeb 4B/8B: paired Sol selection and access-filtered controls
+
+**The retained 4B WebVoyager control rates are 45.19% raw and 56.07% after excluding identified access/infra exposures.** This is a partial 582-task cohort; 13 of the requested 595 tasks remain unresolved. The filter removes 129 episodes, including nine successes, and changes the task mix. It is a diagnostic of the observed local-browser cohort, not a prediction of performance under Browserbase.
+
+**The current N5 evidence is mixed and incomplete.** On common observed WebVoyager tasks, Sol selection improves the raw rate by 8.11 percentage points for 4B and 5.67 points for 8B, but both paired 95% intervals include zero. For 8B Online-Mind2Web, AgentTrek shows +11.69 points [95% interval: +1.30, +22.08], while the native judge shows only +1.30 [−6.49, +10.39]. The AgentTrek signal is conditional on the 77 observed tasks; nonrandom partial coverage and sequential collection prevent treating it as a full-benchmark result. DeepShop shows no raw gain for 4B and a negative difference for 8B.
+
+**All six N5 runs stopped at their original compute caps, with 491/2,090 requested records audited.** Coverage is 111/595 and 141/595 for 4B/8B WebVoyager, 45/150 and 59/150 for DeepShop, and 58/300 and 77/300 for Online-Mind2Web. No N5 cohort is complete and no MolmoWeb allocation remains running or queued. Five N1 controls are verified complete; 4B WebVoyager remains partial at 582/595. All 2,077 saved N1 records are unchanged. Resumption is now held for [native batching and throughput validation](#molmoweb-native-batching-20261011). The earlier 199.5-H200-hour serial-throughput completion proposal is deferred; its ceiling was not approved and no extension allocation has been submitted.
+
+**N5 collection has a runtime confound:** 56 of the first 83 committed episodes hit the unchanged 30-minute wall limit, generally before reaching 30 decisions. Eight browsers were sharing one serial native predictor. Collection was restarted with two concurrent rollouts per job within the original resource caps; all committed outcomes remain, and no committed timeout is retried. The first 94 post-repair episodes passed artifact verification without timeouts, including 44 full 30-decision episodes; three later DeepShop episodes (one 4B and two 8B) timed out after their last completed actor/selector decisions. All outcomes are retained. Filtered early scores preferentially retain shorter episodes and do not establish selection quality. See the runtime audit and interim paired metrics below.
+
+The two headline metrics below use the same saved verdicts. **Raw** divides successes by all observed task records, including committed invalid outcomes; **access/infra-filtered** removes any episode with identified access/infra evidence, whether it succeeded, failed or recovered. Missing records remain unresolved. Native and AgentTrek scores remain separate.
+
+| Benchmark | N1 actor | Judge | Observed tasks | Raw successes | Raw success | Retained tasks | Retained successes | Access/infra-filtered success |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| WebVoyager (partial) | 4B | Native MolmoWeb | 582 | 263 | 45.19% | 453 | 254 | 56.07% |
+| WebVoyager | 8B | Native MolmoWeb | 595 | 264 | 44.37% | 463 | 254 | 54.86% |
+| DeepShop | 4B | Native MolmoWeb | 150 | 43 | 28.67% | 150 | 43 | 28.67% |
+| DeepShop | 8B | Native MolmoWeb | 150 | 45 | 30.00% | 149 | 45 | 30.20% |
+| Online-Mind2Web | 4B | Native MolmoWeb | 300 | 38 | 12.67% | 218 | 37 | 16.97% |
+| Online-Mind2Web | 4B | AgentTrek | 300 | 81 | 27.00% | 218 | 73 | 33.49% |
+| Online-Mind2Web | 8B | Native MolmoWeb | 300 | 48 | 16.00% | 229 | 47 | 20.52% |
+| Online-Mind2Web | 8B | AgentTrek | 300 | 76 | 25.33% | 229 | 74 | 32.31% |
+
+**8B WebVoyager is now verified complete: 44.37% raw and 54.86% access/infra-filtered.** The same fixed filter excludes 132 episodes, including 10 successes. Compare the 4B partial and 8B complete cohorts with their different denominators in view; these rates alone do not establish a reliable model ranking. [8B control W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/e8780ff9ffb94d6d8bb9d6d9f16e2933).
+
+The filter is fixed before collecting N5 outcomes and applied identically to both conditions. Paired N5−N1 comparisons use common observed tasks for raw rates and the intersection of retained tasks for filtered rates, with paired task-bootstrap uncertainty. Separately filtered arm averages alone do not establish selection benefit. Collection is sequential and website changes remain a caveat. These are single-draw task comparisons, not repeated-seed estimates. [Aggregates and metric definitions](arm_results/molmoweb_n1_controls_20261010.json), [4B WV N5 W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/82e3d3aca2264d4195971b1dbb698486), [4B DS N5 W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/2ac5fb56ba574b3ba3f459521b683f02).
+
+<details>
+<summary>N5 inference-queue diagnosis and bounded recovery, October 10</summary>
+
+Thirty sampled generation receipts per active condition measured mean native prediction times of 2.8–3.4 seconds and mean queue waits of 15.0–23.6 seconds. Five proposals per decision across eight browsers caused frequent episode wall deadlines despite busy GPUs. This is collection infrastructure evidence, not a measured ranking of selectors.
+
+The repair reduces admitted rollouts to two per job, below the approved eight-browser ceiling. Native weights, local browser implementation, decoding, deterministic draw seeds, five raw proposals, Sol medium selection, judges, 30 decisions and the 1,800-second episode limit are unchanged. The repair passed 85 offline checks, including rejection of committed-outcome retries and altered interruption evidence. All 2,160 existing N1/N5 records and all attempts remain preserved. Only 32 proven pre-deadline, uncommitted controller interruptions can be replayed; existing timeouts retain explicit raw zeros and their frozen filter classifications.
+
+| N5 actor | Benchmark | Committed before repair | Wall timeouts | Prior allocation seconds | Replacement seconds | Stage cap seconds |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| 4B | WebVoyager | 24 | 15 | 5,197 | 23,580 | 28,800 |
+| 4B | DeepShop | 21 | 14 | 5,196 | 9,180 | 14,400 |
+| 8B | WebVoyager | 21 | 15 | 4,758 | 38,400 | 43,200 |
+| 8B | DeepShop | 17 | 12 | 4,028 | 17,520 | 21,600 |
+| 4B | Online-Mind2Web | 0 | 0 | 3 | 21,540 | 21,600 |
+| 8B | Online-Mind2Web | 0 | 0 | 3 | 32,340 | 32,400 |
+
+Every attempt is charged to its original stage; replacement time is rounded down, and N1 balances remain separate. The two Online-Mind2Web successors follow the updated dependencies. Maximum concurrent jobs remains four; the repaired controller admits at most eight browsers across those four jobs. The full requested cohorts are still incomplete. Final raw/common-task and filtered/common-valid comparisons must disclose the mixed admission phases and timeout coverage; excluding timeouts alone does not establish a fair 30-decision comparison.
+
+</details>
+
+<details>
+<summary>Latest paired metrics and all six partial audits, October 11</summary>
+
+Score snapshot: 2026-10-11T17:35:26.876349+00:00. All 491 N5 records across six incomplete cohorts are audited. All 56 initial wall timeouts and three later DeepShop timeouts remain raw zeros. The access/infra filter is unchanged and removes exposures in successful and failed episodes alike. Nonrandom coverage, sequential website changes and completion bias limit the paired comparisons.
+
+| N5 actor | Benchmark | Judge | Observed tasks | Raw successes | Raw rate | Filtered tasks | Filtered successes | Filtered rate |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 4B | WebVoyager | Native | 111 | 56 | 50.45% | 75 | 54 | 72.00% |
+| 8B | WebVoyager | Native | 141 | 66 | 46.81% | 99 | 60 | 60.61% |
+| 4B | DeepShop | Native | 45 | 16 | 35.56% | 30 | 16 | 53.33% |
+| 8B | DeepShop | Native | 59 | 17 | 28.81% | 45 | 17 | 37.78% |
+| 4B | Online-Mind2Web | Native | 58 | 9 | 15.52% | 38 | 7 | 18.42% |
+| 4B | Online-Mind2Web | AgentTrek | 58 | 14 | 24.14% | 38 | 13 | 34.21% |
+| 8B | Online-Mind2Web | Native | 77 | 10 | 12.99% | 55 | 10 | 18.18% |
+| 8B | Online-Mind2Web | AgentTrek | 77 | 25 | 32.47% | 55 | 23 | 41.82% |
+
+OM labels use the same trajectories but distinct eligibility rules. The native judge assessed all 58 4B records and 75 of 77 8B records; two 8B episodes failed initial browser navigation. AgentTrek assessed 16 of 58 and 27 of 77 respectively. Other records retain explicit unjudged zeros under that protocol. Those eligibility differences are not removed by the access/infra filter.
+
+Paired comparisons use common observed tasks or the intersection passing the access/infra filter in both arms. These denominators can be smaller than each arm’s separately filtered denominator.
+
+| Actor | Benchmark / judge | Paired subset | Tasks | N1 successes | N5 successes | N1 rate | N5 rate | N5 − N1, pp | Paired 95% interval, pp |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| 4B | WebVoyager | Common observed | 111 | 47 | 56 | 42.34% | 50.45% | +8.11 | [+0.00, +17.12] |
+| 4B | WebVoyager | Common valid | 74 | 44 | 54 | 59.46% | 72.97% | +13.51 | [+2.70, +24.32] |
+| 8B | WebVoyager | Common observed | 141 | 58 | 66 | 41.13% | 46.81% | +5.67 | [-1.42, +12.77] |
+| 8B | WebVoyager | Common valid | 98 | 55 | 60 | 56.12% | 61.22% | +5.10 | [-4.08, +14.29] |
+| 4B | DeepShop | Common observed | 45 | 16 | 16 | 35.56% | 35.56% | +0.00 | [-15.56, +15.56] |
+| 4B | DeepShop | Common valid | 30 | 10 | 16 | 33.33% | 53.33% | +20.00 | [+3.33, +36.67] |
+| 8B | DeepShop | Common observed | 59 | 24 | 17 | 40.68% | 28.81% | -11.86 | [-23.73, +0.00] |
+| 8B | DeepShop | Common valid | 45 | 20 | 17 | 44.44% | 37.78% | -6.67 | [-20.00, +6.67] |
+| 4B | Online-Mind2Web / Native | Common observed | 58 | 4 | 9 | 6.90% | 15.52% | +8.62 | [+0.00, +18.97] |
+| 4B | Online-Mind2Web / Native | Common valid | 35 | 4 | 7 | 11.43% | 20.00% | +8.57 | [-5.71, +22.86] |
+| 4B | Online-Mind2Web / AgentTrek | Common observed | 58 | 10 | 14 | 17.24% | 24.14% | +6.90 | [-3.45, +18.97] |
+| 4B | Online-Mind2Web / AgentTrek | Common valid | 35 | 7 | 13 | 20.00% | 37.14% | +17.14 | [+0.00, +34.29] |
+| 8B | Online-Mind2Web / Native | Common observed | 77 | 9 | 10 | 11.69% | 12.99% | +1.30 | [-6.49, +10.39] |
+| 8B | Online-Mind2Web / Native | Common valid | 51 | 8 | 10 | 15.69% | 19.61% | +3.92 | [-7.84, +15.69] |
+| 8B | Online-Mind2Web / AgentTrek | Common observed | 77 | 16 | 25 | 20.78% | 32.47% | +11.69 | [+1.30, +22.08] |
+| 8B | Online-Mind2Web / AgentTrek | Common valid | 51 | 13 | 22 | 25.49% | 43.14% | +17.65 | [+5.88, +31.37] |
+
+Intervals use 10,000 paired task-bootstrap resamples, seed 20261010, within the observed subset. The 8B OM/AgentTrek raw interval excludes zero; the other raw intervals include zero. Positive common-valid intervals for 4B WebVoyager, 4B DeepShop and 8B OM/AgentTrek also suggest conditional signals, but do not correct selection from exclusions, timeouts or incomplete coverage. These exploratory intervals do not adjust for repeated interim examination or multiple comparisons. Native OM and AgentTrek are not interchangeable evidence.
+
+**Artifact and accounting audit.** All six stopped N5 cohorts passed verification of task identities, images, native weights/decoding, exactly five proposal identities, Sol medium responses and canonical judge bindings. Their owned processes and scheduler steps are terminal; W&B records audited partial status. Each stop preserves two uncommitted, pre-deadline interrupted rollouts. None has a completed trajectory awaiting a judge. Every earlier attempt and reservation remains charged.
+
+| Stopped N5 cohort | Saved records | Requested | Missing | Interrupted | Untouched | Used seconds | Stage cap seconds | Remaining seconds |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 4B WebVoyager | 111 | 595 | 484 | 2 | 482 | 28,582 | 28,800 | 218 |
+| 4B DeepShop | 45 | 150 | 105 | 2 | 103 | 14,180 | 14,400 | 220 |
+| 4B Online-Mind2Web | 58 | 300 | 242 | 2 | 240 | 21,342 | 21,600 | 258 |
+| 8B WebVoyager | 141 | 595 | 454 | 2 | 452 | 42,964 | 43,200 | 236 |
+| 8B DeepShop | 59 | 150 | 91 | 2 | 89 | 21,354 | 21,600 | 246 |
+| 8B Online-Mind2Web | 77 | 300 | 223 | 2 | 221 | 32,187 | 32,400 | 213 |
+
+Each remaining balance rounds down to at most 240 seconds before the fixed 180-second shutdown reserve, leaving insufficient time for startup and a useful rollout. The cohorts remain incomplete. API/browser headroom does not extend their compute approvals.
+
+| Stopped N5 cohort | Verified artifact files | Decoded images | Native generation receipts | Settled API response receipts | Outstanding reservations |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 4B WebVoyager | 22,740 | 2,123 | 10,577 | 2,285 | 1 |
+| 4B DeepShop | 9,025 | 865 | 4,271 | 987 | 0 |
+| 4B Online-Mind2Web | 19,041 | 1,471 | 7,355 | 3,098 | 0 |
+| 8B WebVoyager | 28,518 | 2,634 | 13,125 | 2,830 | 0 |
+| 8B DeepShop | 11,983 | 1,131 | 5,609 | 1,211 | 0 |
+| 8B Online-Mind2Web | 24,013 | 1,849 | 9,245 | 3,900 | 0 |
+
+All saved API response bodies reconcile with usage and ledger charges. A 4B WebVoyager selector request interrupted at shutdown has no settled response; its full $0.180480 reservation remains charged. Per-service counts, spending and frozen caps are included in the linked aggregate audit.
+
+**Final 8B OM accounting.** All 77 records, 24,013 artifact files, 1,849 decoded images/decision inputs and 9,245 native proposal receipts passed verification. All 3,900 settled API responses reconcile: 1,874 selector, 1,999 native-judge and 27 AgentTrek calls. Their charges are $16.056920, $8.794462 and $0.145809 respectively, with no uncertain reservation in this cohort. All attempts consumed 32,187 of 32,400 approved seconds, leaving 213 seconds. The owned workers are terminal and W&B retains partial status.
+
+The two 8B OM navigation failures remain raw zeros and filtered exclusions. The three later DeepShop timeouts remain separately preserved; their exact downstream stalled operation is unproven. No committed outcome is selectively retried.
+
+**Recovery validation.** The earlier 08:14 UTC audit covered the first 94 post-repair episodes without wall timeouts: 7,345 artifact files, 1,947 images/selection decisions, and 44 episodes reaching 30 decisions. Mean sampled inference queue waits were 1.4–2.0 seconds. The later DeepShop audits above include the three subsequent timeouts.
+
+**8B Online-Mind2Web startup repair.** Its first successor reused a historical N1 CUDA-recovery review. The committed-outcome guard rejected replay of a completed N1 task; the startup failed before any N5 browser, generation or paid API work. The completed review and successful original regression receipt are now preserved as history, with no current replay authorization. The guard, actor source and scientific protocol are unchanged. The failed startup consumed 86 seconds; including an earlier three-second failure, 89 N5 seconds are charged. A replacement received 32,280 seconds within the original 32,400-second N5 cap and passed fresh actor/five-proposal/Sol-medium validation. All 300 N1 records remain unchanged.
+
+[Aggregate counts, uncertainty and audit hashes](arm_results/molmoweb_n1_controls_20261010.json) · [4B DeepShop N5 W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/2ac5fb56ba574b3ba3f459521b683f02) · [8B DeepShop N5 W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/d1c53254096a44a19abfe46c1aaee9ec).
+
+</details>
+
+<details>
+<summary>Exposure filter, incomplete coverage and original rollout-valid rates</summary>
+
+The observation-only classifier excludes identified CAPTCHA/verification, access denial, HTTP 429/502/503, a verified site-function 404 transition, and structured worker failures. It applies to successful and unsuccessful episodes, including recovered exposures. Ordinary step-limit failures, outdated dates, wrong answers, guessed bad URLs, generic 404s and empty search results remain included. Image-based exclusions use frozen visually checked evidence templates; URL/title rules and structured failures supplement them. These rules may miss other infrastructure failures. Entire affected task groups can disappear from the retained subset, so filtered rates are not a counterfactual estimate of Browserbase performance. Future evidence-rule corrections must recompute both conditions.
+
+The 4B WebVoyager cohort has eight interrupted and five untouched tasks. Its 184 seconds of unused N1 time cannot cover another launch with the fixed shutdown reserve. The saved outcomes passed their artifact audit, but the control remains incomplete. N5 keeps its separate existing reservation; no unused N1 time is transferred.
+
+The earlier internal rollout-valid flag is narrower than this exposure filter; it does not identify most CAPTCHA/access blocks. The original complete-control audit table remains below for traceability:
+
+| Benchmark | N1 actor | Judge | Task slots | Valid rollouts | Eligible / judged | Successes | Overall success | Valid-only success |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| WebVoyager | MolmoWeb-8B-Native | Native MolmoWeb, GPT-4o | 595 | 595 | 595 | 264 | 44.37% | 44.37% |
+| DeepShop | MolmoWeb-4B-Native | Native MolmoWeb, GPT-4o | 150 | 150 | 150 | 43 | 28.67% | 28.67% |
+| DeepShop | MolmoWeb-8B-Native | Native MolmoWeb, GPT-4o | 150 | 149 | 149 | 45 | 30.00% | 30.20% |
+| Online-Mind2Web | MolmoWeb-4B-Native | Native MolmoWeb, o4-mini | 300 | 287 | 287 | 38 | 12.67% | 13.24% |
+| Online-Mind2Web | MolmoWeb-4B-Native | AgentTrek, o4-mini | 300 | 287 | 105 | 81 | 27.00% | 28.22% |
+| Online-Mind2Web | MolmoWeb-8B-Native | Native MolmoWeb, o4-mini | 300 | 289 | 289 | 48 | 16.00% | 16.61% |
+| Online-Mind2Web | MolmoWeb-8B-Native | AgentTrek, o4-mini | 300 | 289 | 92 | 76 | 25.33% | 26.30% |
+
+On Online-Mind2Web, AgentTrek assigns unjudged zero to valid episodes without a terminal `[EXIT]`: 182 for 4B and 197 for 8B. Its judged subset is not the benchmark denominator. Both judges score the same saved episodes. The native judge favors 8B, whereas AgentTrek favors 4B; these cohorts alone do not establish a reliable actor ranking. All N1 selector counts remain zero. [4B OM W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/da89a7c667e34365a09d3c380dc90d4e), [8B OM W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/861583d7b358498abf6a5db526d6cd3d).
+
+</details>
+
+<details>
+<summary>Online-Mind2Web judge disagreement, audits and accounting</summary>
+
+The native and AgentTrek labels differ substantially even on episodes eligible for both judges. This disagreement cannot be explained by eligibility alone and does not determine which judge is correct. Keep both verdict sets separate.
+
+| Common-subset verdict / denominator | 4B episodes | 8B episodes |
+| --- | ---: | ---: |
+| Both succeed | 33 | 41 |
+| Native only succeeds | 0 | 0 |
+| AgentTrek only succeeds | 48 | 35 |
+| Both fail | 24 | 16 |
+| Total judged by both | 105 | 92 |
+
+| Retained outcome / audit coverage | 4B | 8B |
+| --- | ---: | ---: |
+| Valid rollouts | 287 | 289 |
+| Ordinary environment failures | 10 | 10 |
+| Fixed episode timeouts | 3 | 1 |
+| Artifact files verified | 47,771 | 49,354 |
+| Images decoded | 6,913 | 7,143 |
+| Native generation receipts verified | 6,913 | 7,143 |
+| Physical judge HTTP response receipts | 7,524 | 7,805 |
+
+All task identities, frozen N1 decoding, source/checkpoint identities, separate judge inputs, W&B synchronization, all-attempt accounting and owned scheduler teardown passed. No selector or N5 calls occurred.
+
+| Resource | 4B used | 4B N1 cap | 8B used | 8B N1 cap |
+| --- | ---: | ---: | ---: | ---: |
+| One-H200 allocation seconds | 18,452 | 21,600 | 23,950 | 32,400 |
+| Browser attempts | 307 | 330 | 308 | 330 |
+| Local generations | 7,015 | 9,900 | 7,276 | 9,900 |
+| Native judge HTTP attempts | 7,419 | 42,240 | 7,713 | 42,240 |
+| Native judge cost plus unresolved reservation, USD | 31.156880 | 150 | 32.163615 | 150 |
+| AgentTrek HTTP attempts | 105 | 1,320 | 92 | 1,320 |
+| AgentTrek cost plus unresolved reservation, USD | 0.559662 | 5 | 0.481468 | 5 |
+
+All 4B API charges settled. The 8B native total includes $0.229012 retained for one HTTP 400 response without usage; it remains fully reserved, with every settled response reconciled. Local-generation totals also charge interrupted attempts and the 8B runtime regression test, so they exceed completed receipts attached to final records. The six-control suite remains incomplete.
+
+</details>
+
+<details>
+<summary>DeepShop 4B audit, recovery preservation and final accounting</summary>
+
+All 150 task identities, 17,287 artifact files, 3,646 decoded images, 3,646 native generation receipts and 150 settled GPT-4o response receipts passed the independent audit. Frozen actor/judge inputs, zero selector calls, W&B synchronization and owned teardown were verified. All 132 outcomes committed before the budget stop were retained; two completed unjudged rollouts were scored from saved evidence without recollection. Only reviewed interrupted work and untouched tasks resumed. [W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/7096821e0e834b30ab696da1556ef05a).
+
+| Resource | Used across all attempts | N1 cap |
+| --- | ---: | ---: |
+| One-H200 allocation seconds | 10,500 | 14,400 |
+| Browser attempts | 156 | 165 |
+| Local generations | 3,709 | 4,950 |
+| Native judge HTTP attempts | 151 | 660 |
+| Native judge cost plus unresolved reservation, USD | 11.080914 | 12 |
+
+The API total includes $0.483840 retained for one interrupted request without a response. Its charge remains reserved; all 150 final verdicts and every settled charge are present. Unused compute and API balances remain in this control's original budget.
+
+</details>
+
+<details>
+<summary>WebVoyager 8B control: complete artifact and accounting audit</summary>
+
+All 595 task identities, 57,905 artifact files, 11,798 decoded images, 11,798 native generation receipts and 595 GPT-4o responses passed the independent N1 audit. Frozen actor and judge settings, zero N1 selector calls, W&B synchronization and owned teardown were verified. All 509 outcomes retained before the judge-budget recovery remain unchanged. The independently approved N5 successor started after the N1 allocation finished; its records, calls and accounting are separate.
+
+| N1 resource | Used across all attempts | Stage cap |
+| --- | ---: | ---: |
+| One-H200 allocation seconds | 37,378 | 43,200 |
+| Browser attempts | 609 | 655 |
+| Local generations | 11,925 | 19,650 |
+| Native judge HTTP attempts | 595 | 2,620 |
+| Native judge cost, USD | 34.232500 | 40 |
+
+Every judge response and usage charge settled; no uncertain API reservation remains. Unused N1 time stays in its original stage budget. Five controls totaling 1,495 requested task slots are verified complete; the six-control suite remains incomplete.
+
+</details>
+
+<details>
+<summary>DeepShop 8B control: complete artifact and accounting audit</summary>
+
+All 150 task records, 17,749 artifact files, 3,767 decoded images and 3,767 native generation receipts passed independent verification. The native GPT-4o judge produced 149 verdicts and 45 successes. One episode exceeded its wall-time limit; it remains an explicit unjudged zero in the raw denominator and is excluded by the fixed access/infra filter. Actor and judge settings, zero N1 selector calls, W&B and owned teardown were verified. [8B DeepShop control W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/bc9c971cddac4c0fbaa31661e2591eb0).
+
+| N1 resource | Used across all attempts | Stage cap |
+| --- | ---: | ---: |
+| One-H200 allocation seconds | 13,543 | 21,600 |
+| Browser attempts | 150 | 165 |
+| Local generations | 3,767 | 4,950 |
+| Native judge HTTP attempts | 149 | 660 |
+| Native judge cost, USD | 10.906712 | 12 |
+
+Every physical judge response, usage charge and saved verdict reconciled; no uncertain API reservation remains. The approved N5 successor uses its separate stage budget. Unused N1 resources are not transferred.
+
+</details>
+
+<details>
+<summary>Incomplete WebVoyager 4B: retained coverage and allocation accounting</summary>
+
+The immutable partial cohort contains 582 valid saved outcomes, including 263 successes. The missing 13 tasks have no final verdict and are not assigned failure labels. All 56,562 committed artifact files, 11,521 images, native generation receipts and 582 settled judge responses passed verification; every interrupted artifact remains preserved. The stopped allocation and its owned processes are terminal. [W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/007f4d8cd1bd49c9891f1aee4b16cf17).
+
+| Resource / coverage | Used or saved | N1 target / cap |
+| --- | ---: | ---: |
+| Task outcomes | 582 | 595 |
+| One-H200 allocation seconds | 28,616 | 28,800 |
+| Browser attempts | 596 | 655 |
+| Local generations | 11,699 | 19,650 |
+| Native judge HTTP attempts | 582 | 2,620 |
+| Native judge cost, USD | 33.430103 | 40 |
+
+All attempted work is charged. The remaining 184 seconds round down to a three-minute allocation, entirely consumed by the existing 180-second shutdown reserve. API/browser headroom cannot substitute for allocation time; the separate N5 reservation and other controls' balances are unavailable for N1 recovery. This cohort and the six-control suite remain incomplete.
+
+</details>
+
+<a id="molmoweb-native-batching-20261011"></a>
+
+<details>
+<summary>October 11 native batching benchmark — approved and queued; GPU speed unmeasured</summary>
+
+The remaining episodes are held while optimizing actor inference. The current implementation makes five serial native predictor calls per decision, repeating image encoding and prompt processing. The prepared prototype runs five independently seeded rows together and can share the identical image/prompt prefill before copying the attention cache for independent decoding. It retains the native weights and dtype, tokenizer, prompt, sampling at temperature 0.7/top-p 0.8, beam size one and 1,024-token ceiling. Five rows remain five sampled proposals; candidate order, duplicate retention, selector protocol and existing outcomes stay fixed.
+
+Four CPU regression tests pass: multi-step sampling against the native sampler, seed independence under row permutation, first-token/EOS behavior with unequal response lengths, and isolated cache copies with restoration after an error. All 18 frozen saved-input cases also reproduce their archived input token IDs, and the installed decoding functions match the pinned native source. These checks do not establish GPU equivalence or speed. The pinned first-token path is deterministic; later tokens use nucleus sampling. In a checked sample of 200 saved N5 proposals per actor, all first tokens encode a space followed by the JSON opening brace and quote.
+
+The diagnostic freezes **18 saved-input cases**, selected by median, 95th-percentile and maximum input length within each of the six latest post-repair cohorts, without selecting on task outcomes. It compares serial generation, batching and batching with shared prefill, with two timing repetitions. The 4B and 8B tests are prepared to run simultaneously on separate GPUs. Acceptance requires exact archived input IDs and matching serial/batched output tokens and text, memory headroom, and a median speedup of at least 1.5× for each model. Floating-point changes from GPU batching may fail that gate; no gain is claimed before measurement.
+
+**Approved diagnostic ceiling:** two H200s, 16 CPUs, 240 GiB and 3,600 seconds total across all attempts (two H200-hours); zero browser attempts, selector calls, judge calls or API spend. Job 355532 is submitted and queued, with a verified watcher that brings the owning agent back at startup, failure or completion. At most 300 local generation attempts per model, including failures. Production RPC/accounting integration and a bounded concurrent rollout check remain required before resuming the remaining episodes. End-to-end completion time must include browser, selector and judge latency rather than scaling the old estimate by actor speed alone.
+
+</details>
+
+<a id="molmoweb-completion-compute-20261011"></a>
+
+<details>
+<summary>Historical October 11 completion estimate — deferred pending optimization</summary>
+
+The user subsequently requested optimizing the serial setup before resuming. This unapproved proposal is retained as the pre-optimization estimate and will be recomputed from validated throughput. At the earlier two-browser N5 throughput, the missing episodes require approximately **148 H200-hours**. The proposed **199.5 additional H200-hours** include startup, chunk handoffs and recovery headroom, with separate caps for each condition and early exit when its fixed task set is complete. These are caps, not commitments to consume the entire reservation or guarantees against slower websites/API service.
+
+| Continuation | Missing at preparation | Additional H200-hours, all attempts |
+| --- | ---: | ---: |
+| 4B WebVoyager N1 | 13 | 1.5 |
+| 4B WebVoyager N5 | 484 | 48 |
+| 8B WebVoyager N5 | 454 | 54 |
+| 4B DeepShop N5 | 105 | 14 |
+| 8B DeepShop N5 | 91 | 14 |
+| 4B Online-Mind2Web N5 | 242 | 32 |
+| 8B Online-Mind2Web N5 | 224 | 36 |
+| **Total** | **1,613** | **199.5** |
+
+Each allocation retains **one H200, eight CPUs and 120 GiB RAM**. Keep at most four jobs and 32 browsers across the suite; actual N5 admission remains two browsers per model. Normal-QoS chunks are at most 24 hours, with every failed attempt charged and no transfer between condition budgets. The original 90-H200-hour envelope remains accounted separately; this proposal would bring the lifetime maximum to 289.5 H200-hours. The preparation snapshot preceded the final 8B OM stop: it subsequently saved one more record, leaving 223 missing OM8 records and 1,612 missing episodes across these seven conditions. The proposed numerical caps are unchanged.
+
+**No API or browser-cap increase is proposed.** Straight-line native-judge forecasts for WebVoyager are approximately $28.36 and $29.21 against separate $30 N5 caps; those narrow margins are estimates, not guaranteed coverage. DeepShop has five spare browser starts per actor after one attempt for every missing task. Each condition must stop if an unchanged API/browser/generation cap binds. Preserve every saved outcome and physical request/reservation; replay only audited, uncommitted allocation interruptions. Actor weights, decoding, candidates, Sol effort, 30-decision limit, judges and fixed raw/filtered/common-task metrics remain unchanged.
+
+**Status: deferred pending optimization; not approved, no extension allocation submitted.**
+
+</details>
+
+The approved paired design contains the following six control cohorts and six matching N5 cohorts:
+
+| Benchmark | Tasks per actor | Actors | N1 control episodes | Scoring |
+| --- | ---: | --- | ---: | --- |
+| WebVoyager | 595 | 4B, 8B | 1,190 | Native MolmoWeb GPT-4o |
+| DeepShop | 150 | 4B, 8B | 300 | Native MolmoWeb GPT-4o |
+| Online-Mind2Web | 300 | 4B, 8B | 600 | Native MolmoWeb and AgentTrek, reported separately |
+| **Total** | **1,045 unique benchmark tasks** | **2** | **2,090** | **Six controls** |
+
+Each remaining control requires the same complete record, image, verdict and accounting audit. Missing infrastructure/judge outcomes remain unresolved; partial collection stays incomplete.
+
+The full requested comparison is 4,180 episodes across 12 conditions. N5 requests all 2,090 task slots; partial N1 coverage limits the paired denominator until missing control records are available. No selective outcome retries are allowed.
+
+**Both Online-Mind2Web judges score the same saved actor episodes; they do not trigger extra continuations.** The native MolmoWeb judge decomposes the goal, assesses each supplied screenshot, then produces a final verdict: **S+2 logical calls for S screenshots**, before retries. The prior AgentTrek protocol instead uses the task, action history and last supplied actor observation in one terminal assessment, with its existing completed-episode eligibility rule. Truncated and format-ineligible episodes retain explicit unjudged zeros in that protocol. Report each judge's eligible/judged counts, overall and valid-only rates, and disagreement on the commonly judged subset. Never select the better judge outcome or pool the two scores.
+
+<details>
+<summary>Frozen scientific design, source and comparability</summary>
+
+Use the official [MolmoWeb repository](https://github.com/allenai/molmoweb/tree/bab3fc3f1bff5b42c0624c073b68ddf9ad651d91) at `bab3fc3`, its native predictor, prompt, action parser and history handling. Checkpoints are [MolmoWeb-4B-Native](https://huggingface.co/allenai/MolmoWeb-4B-Native/tree/7623f7161ab00dd130e5a9f6e755d2a7cc32629c) and [MolmoWeb-8B-Native](https://huggingface.co/allenai/MolmoWeb-8B-Native/tree/b91f4f718120011a53643d3c1efc607f8b92e514). Both arms use temperature 0.7, top-p 0.8, one beam, at most 1,024 generated tokens, 30 decisions, ten prior actions and the current screenshot. N1 draws one action and makes no selector call. N5 draws exactly five from the same state/prompt, retains duplicate or malformed raw proposals, and lets Sol medium return a strict index into that unchanged panel; no candidate replacement, deduplication or actor fallback. The selected action enters native history once. Sol uses a 2,048-token output cap.
+
+Local SimpleEnv browsers are used throughout. This is **not a reproduction of the paper's Browserbase/advanced-stealth environment**; historical paper success rates and the earlier OpenWebRL-SFT decoding settings are contextual comparisons, not matching controls. Native MolmoWeb judge inputs are unchanged. The AgentTrek adapter serializes MolmoWeb's native actions rather than applying the SFT-specific tool parser, preserving all executed actions. A separately saved immediate post-action screenshot is audit evidence and does not replace the last supplied observation in AgentTrek's input. Native OM uses o4-mini/2,048 completion tokens; AgentTrek retains o4-mini/4,096 completion tokens and its existing prompt/schema/seed/eligibility rules.
+
+**October 10 runtime correction:** a 9,320-token input could exceed the upstream 10,240-entry rotary-position table during the unchanged 1,024-token generation allowance. The recovery sizes the default RoPE table for the full input plus generation; weights, frequencies, model configuration, prompt, history and sampling stay unchanged. CPU tests reproduce the boundary error and preserve existing-position outputs exactly. The exact saved input then passed on the GPU with all 1,024 output tokens. All 183 committed 8B Online-Mind2Web outcomes were retained; eight infrastructure-interrupted rollouts resumed within the original time and API caps. The regression generation was charged and contributes no benchmark outcome. This is a runtime repair, not a completed performance result. [Validation and recovery accounting](arm_results/molmoweb_n1_rotary_recovery_20261010.json).
+
+Source, checkpoint, task, candidate, screenshot, verdict and API identities are retained privately. Separate evaluation runs go to `openwebrl-evals`. Final completion requires exhaustive record/image/verdict checks, paired analysis, all-attempt accounting and owned-worker/browser teardown; count coverage alone is insufficient.
+
+</details>
+
+<details>
+<summary>Approved resource ceilings, N5 activation and recovery accounting</summary>
+
+Each row is a lifetime N1/N5 budget with **1 H200, 8 CPUs, 120 GiB and eight browser workers total**, including startup checks and every recovery attempt. CPUs were reduced from the approved ceiling of 16 to meet the cluster limit. At most four jobs run concurrently: **4 H200, 32 CPUs, 480 GiB and 32 browsers**. These are hard ceilings, not a throughput forecast or a guarantee of full coverage.
+
+| Actor | Benchmark | All-attempt H200 hours | Sol ceiling, USD | Native judge ceiling, USD | AgentTrek ceiling, USD | Total API ceiling, USD |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| 4B | WebVoyager | 16 | 200 | 70 | 0 | 270 |
+| 4B | DeepShop | 8 | 75 | 22 | 0 | 97 |
+| 4B | Online-Mind2Web | 12 | 100 | 300 | 10 | 410 |
+| 8B | WebVoyager | 24 | 200 | 70 | 0 | 270 |
+| 8B | DeepShop | 12 | 75 | 22 | 0 | 97 |
+| 8B | Online-Mind2Web | 18 | 100 | 300 | 10 | 410 |
+| **Total** | | **90** | **750** | **784** | **20** | **1,554** |
+
+**The initial N1-only allocations reserve 45 of the approved 90 H200 hours:** 4B WV/DS/OM receive 8/4/6 hours; 8B receive 12/6/9 hours. The October 10 approved amendment adds $24 solely to N1 native judging: WebVoyager $30 → $40 and DeepShop $10 → $12 for each actor. Controls therefore have a $414 judge envelope ($404 native plus $10 AgentTrek), 2,300 browser starts and 69,000 local generations; selector allowance is zero. Compute and HTTP/browser counts are unchanged. [Amendment accounting](arm_results/molmoweb_n1_judge_amendment_20261010.json). Actual time from every attempt charges the corresponding lifetime row, and unused time is never reset or transferred. The October 10 review authorization releases the separately reserved 45 N5 H200-hours and $1,140 API envelope ($750 Sol, $380 native judges and $10 AgentTrek), without extending any cap. Four startup-only N5 attempts consumed 14 allocation seconds before model/API work; they remain charged. The malformed launcher path was corrected and tested, replacements use residual stage time, and all original attempts remain preserved.
+
+Native judge ceilings are N1/N5 $40/$30 for each WebVoyager actor, $12/$10 for each DeepShop actor, and $150/$150 for each OM actor; all Sol allowance belongs to N5. Each OM condition has a separate $5 AgentTrek allowance. Compute cannot transfer between jobs; API/browser caps cannot transfer between conditions or from other experiments. Aggregate limits are **4,600 browser starts, 414,000 local candidate generations and 256,360 actual HTTP attempts**. Every retry reserves its own physical HTTP attempt and worst-case cost before dispatch; unresolved charges retain their reservation. The first binding limit stops further paid work. Ordinary committed invalid outcomes are never selectively rerun, and a replacement receives only the unspent total allocation time.
+
+</details>
+
 ## Actors alone
 
 <a id="local-jev-actor-results-20261006"></a>

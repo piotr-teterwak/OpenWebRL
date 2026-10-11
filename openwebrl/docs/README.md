@@ -2,7 +2,11 @@
 
 [WebPRM baselines: five-row mechanics pilot audited; judge and prompt defects isolated](WEBPRM_BASELINES.md#table5-plan-20261010).
 
+[Faster reward improvement: recent evidence, ranked ideas and proposed controlled experiments](RL_LEARNING_EFFICIENCY.md).
+
 [GPT-6.1 Sol N=5: verified OM2W medium 45.67%, high 43.67%; WebVoyager 57.98%; DeepShop 46.00%](ARM_INFERENCE_SCALING.md#sol61-n5-launch-20261009). [Verified matching SFT controls: Sol N5 gains +11.26 pp [+7.39, +15.13] on WebVoyager; DeepShop +3.33 pp [−5.33, +11.33] remains inconclusive](ARM_INFERENCE_SCALING.md#sol61-actor-controls-20261009).
+
+[MolmoWeb: all six N5 cohorts stopped partial; 491 audited records, paired results and limitations](ARM_INFERENCE_SCALING.md#molmoweb-sol61-plan-20261010). [Native batching: CPU checks passed; approved two-GPU-hour benchmark queued](ARM_INFERENCE_SCALING.md#molmoweb-native-batching-20261011).
 
 
 [Original bonus iteration 90: local OM2W300 verified; counts, validity and historical comparison](RL_EVALUATION.md#arm-original-iter90-results-20261008).
@@ -48,7 +52,7 @@
 Documents are organized by topic. Start with the results or operational guide
 for the work you are doing, then follow its contents to dated experiment records.
 
-[Branching studies: two data families, matched results and remaining tests for post-action evidence and selector training](ARM_FORMULATIONS.md#branching-experiment-map). [Latest continuation-count comparison](ARM_FORMULATIONS.md#branch-extra24-20261008) · [Separately teacher-trained actor heads](ARM_FORMULATIONS.md#selection-head-20261009).
+[Branching studies: two data families, matched results and remaining tests for post-action evidence and selector training](ARM_FORMULATIONS.md#branching-experiment-map). [Latest continuation-count comparison](ARM_FORMULATIONS.md#branch-extra24-20261008) · [Teacher-trained selectors versus outcome selection on 138 states](ARM_FORMULATIONS.md#selection-head-20261009).
 
 [Luna-high independent 200-task teacher diagnostic completed: 32/200 labels change; 100-task repeat controls, evidence review and plots](ARM_RESULTS.md#arm-teacher-evidence-primary200-20261006).
 [Original early-state readout: 70 paired states; after-execution choices are more repeatable, while the success difference remains unresolved](ARM_INTEGRATION_PLAN.md#arm-continuation-early-signal-20261006).
@@ -63,7 +67,7 @@ for the work you are doing, then follow its contents to dated experiment records
 | --- | --- |
 | [ARM_SUMMARY.md](ARM_SUMMARY.md) | Concise methods and headline results; presentation figures for the three stages and RL variants; static/interactive plots; collapsed WebVoyager results |
 | [ARM_FORMULATIONS.md](ARM_FORMULATIONS.md) | Branching experiment map; matched pre/post evidence, held-out outcome selection, continuation scaling, teacher-trained heads and planned student controls |
-| [ARM_SELECTION_HEAD.md](ARM_SELECTION_HEAD.md) | Selection head on the actor's hidden states: three evaluations, Piotr ARM comparison, frozen-feature sweep and scoring adapter |
+| [ARM_SELECTION_HEAD.md](ARM_SELECTION_HEAD.md) | Selecting actions inside the actor: frozen-feature heads, top-layer adapters and a Kev-style full pass versus Piotr ARM and outcome selection; held-out continuation success on 138 eight-draw states, teacher agreement, outcome-data sufficiency, figures |
 | [ARM_RESULTS.md](ARM_RESULTS.md) | Detailed ARM results and analysis, online-RL coverage/admission audits, C2/1A/joint comparisons, and curves |
 | [ARM_INTEGRATION_PLAN.md](ARM_INTEGRATION_PLAN.md) | ARM model understanding, literature, integration options, and longer-term roadmap |
 | [ARM_INFERENCE.md](ARM_INFERENCE.md) | Inference protocol, judge alignment, and retry policy |
@@ -72,6 +76,7 @@ for the work you are doing, then follow its contents to dated experiment records
 | [ARM_PREFERENCE.md](ARM_PREFERENCE.md) | Preference experiments, pair audits, and viability plans |
 | [ARM_JOINT_DATA.md](ARM_JOINT_DATA.md) | Combined C2/Piotr data review, examples, training, and recovery |
 | [RL_RESULTS.md](RL_RESULTS.md) | Tables-only RL checkpoint scores; overall, valid-only, invalid counts, and separate protocols |
+| [RL_LEARNING_EFFICIENCY.md](RL_LEARNING_EFFICIENCY.md) | Recent evidence for faster learning; action correction, critics, replay, task selection and systems tradeoffs |
 | [RL_RUNTIME.md](RL_RUNTIME.md) | Reference baseline resume, GPU scaling, archives, and runtime history |
 | [RL_EVALUATION.md](RL_EVALUATION.md) | Evaluation harness code map, protocols, commands/tests, checkpoint results and scheduling |
 | [RL_METRICS.md](RL_METRICS.md) | Metric definitions, paper reward comparisons, and gradient diagnostics |
@@ -115,13 +120,13 @@ for the work you are doing, then follow its contents to dated experiment records
 [Difficulty-first 2K vs. weighted coverage over score≥5: exact task mix, 61.25% overlap and local reviews](ARM_INTEGRATION_PLAN.md#arm-task-pool-difficulty-comparison-20260930).
 [Selected ≥5 weighted2K pool: all10,000 actor attempts verified;682 five-valid-failure tasks,1,061 mixed,213 all-success,44 unresolved;43.86GPUh/$52.62 used](ARM_INTEGRATION_PLAN.md#arm-task-pool-actor-screen-20260930) · [Local selected-task review](http://localhost:8765/arm_min5_weighted_tasks.html).
 [Actor + ARM rescue collection complete:78/682 rescued;11.44% overall,11.49% valid-only; all rollouts/verdicts/candidate traces verified;9.33GPUh/$1.68 used](ARM_INTEGRATION_PLAN.md#arm-task-pool-guided-682-20261002).
-[Uniform G8 outcome-only RL: iteration 20 verified at 32.00% overall / 40.85% valid-only; target 60 incomplete, with comparison limits and artifact audit](RL_EVALUATION.md#uniform8-iter20-results-20261009).
+[Uniform G8 outcome-only RL: iteration 40 verified at 34.67% overall / 43.70% valid-only; target 60 incomplete, with comparison limits and artifact audit](RL_EVALUATION.md#uniform8-iter40-results-20261011).
 
 [Batch-56 and uniform-G8 continuation to 60: separately approved 48h/$300 and 72h/$400 caps; queued October 8, full300 evaluations every ten iterations](ARM_INTEGRATION_PLAN.md#outcome56-uniform8-to60-20261008).
 
 [Training-pool SFT coverage: historical five attempts plus three on misses improves 64.65% to 73.20%; rubric-difficulty analysis and sampling limits](ARM_INFERENCE_SCALING.md#training-task-pass5-pass8-20261006).
 
-[Original2,102-task outcome-only56-group control: iteration30 verified at32.33% overall /38.80% valid-only; target60 incomplete, with historical comparison limits](RL_EVALUATION.md#outcome56-iter30-results-20261009) · [Control method and approved caps](ARM_INTEGRATION_PLAN.md#outcome56-control-20261006).
+[Original2,102-task outcome-only56-group control: iteration40 verified at34.33% overall /42.92% valid-only; target60 incomplete, with historical comparison limits](RL_EVALUATION.md#outcome56-iter40-results-20261010) · [Control method and approved caps](ARM_INTEGRATION_PLAN.md#outcome56-control-20261006).
 [Expanded-pool throughput audit:68.45min/iteration; two g011 GPUs have confirmed thermal throttling. Phase timing and safe recovery follow-up](RL_RUNTIME.md#expanded4102-thermal-throughput-20261003).
 [Expanded4,102-task outcome-only baseline: complete through60 and all six full300 evaluations verified. Final32.33% overall /39.43% valid-only (97 successes,246 valid); best observed40=39.00% overall. Interactive curve includes10–60; historical comparisons remain descriptive](RL_EVALUATION.md#expanded4102-iter10-results-20261003) · [Method and continuation](ARM_INTEGRATION_PLAN.md#arm-expanded-outcome-to90-20261005) · [Browser repair](RL_RUNTIME.md#expanded4102-egl-regression-20261003).
 [Original extension approval:96h compute/$400 additional judge allowance; current stop60, unchanged recipe and full300 every10, with unused allocations released after final verification](ARM_INTEGRATION_PLAN.md#arm-expanded-outcome-to90-20261005).
