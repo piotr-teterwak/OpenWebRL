@@ -222,6 +222,49 @@ These are saved, released records read on 2026-10-10 evening; native-invalid rec
 
 Scores use two draws per action, so per-state estimates are noisy; this protocol is not directly comparable with the five-on-three scores above. [Aggregate and training diagnostics](arm_results/rl_integration/selection-outcomes-20261010.json).
 
+<details>
+<summary>Breakdown: training folds versus held-out tasks, all-draw scoring, collections and roles</summary>
+
+**The adapted head learns state-specific preferences that do not transfer to new tasks.** It improves on its training states, including on their unseen draws 6–7, but not on held-out tasks.
+
+| Fold | Training states | Informative | Held-out states | Training states, draws 0–5 (trained on) | Training states, draws 6–7 (unseen draws) | Held-out states, draws 0–7 |
+| ---: | ---: | ---: | ---: | --- | --- | --- |
+| 0 | 110 | 63 | 28 | 40.8 / 40.9 / 34.8 / 31.8 | 35.9 / 41.8 / 34.5 / 32.4 | 29.0 / 29.0 / 29.5 / 30.4 |
+| 1 | 109 | 58 | 29 | 40.5 / 40.1 / 33.2 / 31.5 | 38.5 / 37.6 / 33.5 / 33.0 | 29.7 / 28.0 / 35.3 / 30.9 |
+| 2 | 111 | 58 | 27 | 41.4 / 40.2 / 33.6 / 31.9 | 38.7 / 36.5 / 33.3 / 31.8 | 29.2 / 26.9 / 34.3 / 30.8 |
+| 3 | 111 | 62 | 27 | 40.4 / 39.9 / 33.2 / 30.8 | 38.7 / 36.9 / 35.1 / 32.3 | 33.8 / 31.9 / 33.8 / 33.7 |
+| 4 | 111 | 63 | 27 | 40.4 / 39.8 / 33.0 / 31.2 | 39.6 / 38.7 / 33.8 / 32.2 | 31.9 / 34.7 / 35.6 / 32.5 |
+
+Each cell lists success rates as adapted / from scratch / teacher-trained / uniform, in %. All draws of a held-out state are unused in training, so held-out states can be scored on all eight draws. That gives tighter intervals than the two-draw protocol above, with the same conclusion:
+
+| Selector, 138 states, out-of-fold | Success on draws 0–7 | − Uniform, pp [95%] | − Teacher-trained head, pp [95%] |
+| --- | ---: | --- | --- |
+| Piotr SelectionARM | 34.15% | +2.48 [-0.14, +5.11] | +0.45 [-2.19, +3.26] |
+| Teacher-trained head | 33.70% | +2.03 [-0.24, +4.40] | — |
+| Actor's first sample | 33.33% | +1.67 [-0.94, +4.32] | -0.36 [-4.01, +3.17] |
+| Uniform candidate | 31.67% | — | -2.03 [-4.40, +0.25] |
+| Adapted, best-action target | 31.43% | -0.24 [-2.88, +2.37] | -2.26 [-5.02, +0.28] |
+| **Adapted (primary)** | 30.71% | -0.96 [-3.50, +1.51] | -2.99 [-5.67, -0.46] |
+| Trained on outcomes from scratch | 30.07% | -1.59 [-3.97, +0.66] | -3.62 [-6.93, -0.63] |
+
+| Group, held-out scoring on draws 0–7 | States | Adapted | Teacher-trained head | Piotr ARM | Uniform |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Historical | 51 | 24.5% | 26.2% | 25.7% | 23.4% |
+| Pilot | 32 | 32.8% | 35.9% | 34.0% | 33.7% |
+| Fresh 64-state batch | 51 | 34.3% | 39.2% | 41.9% | 37.5% |
+| Fresh successor batch | 4 | 46.9% | 40.6% | 43.8% | 46.2% |
+| Role: train | 61 | 35.7% | 39.8% | 40.4% | 37.6% |
+| Role: validation, seen task | 13 | 36.5% | 41.3% | 43.3% | 43.1% |
+| Role: validation, unseen task | 13 | 26.0% | 26.9% | 28.8% | 24.8% |
+
+- **Training states.** The adapted head beats the teacher-trained head by about 7 pp on the draws it trained on. It still beats it by 3–7 pp on unseen draws of the same states, so outcome labels are consistent within a state.
+- **Held-out tasks.** The adapted head is at or below the teacher-trained head in four of five folds and ties in the fifth. It trails the teacher-trained head in every group with more than four states.
+- **The bottleneck is task coverage, not labels.** Each fold trains on about 60 informative states, mostly from distinct tasks. More distinct tasks should help more than more draws per state.
+
+Jobs `354654` (primary) and `354696` (breakdown; identical folds, seeds and picks) are CPU-only.
+
+</details>
+
 <a id="selection-head-sweep"></a>
 
 ## Frozen-feature sweep: no layer or pooling closes the gap

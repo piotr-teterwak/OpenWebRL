@@ -1613,7 +1613,7 @@
  },
  "outcome_adaptation_pilot": {
   "job": 354654,
-  "code": "scripts/adapt_selection_head_outcomes.py (arm-selection-head cb25297)",
+  "code": "scripts/adapt_selection_head_outcomes.py (arm-selection-head cb25297); breakdown f4e3108",
   "design": "Adapt the teacher-trained selection head to continuation outcomes (CPU; features already cached).\n\nPre-registered design (2026-10-10):\n* States: branching states with saved features and draws 0-7 for all five candidates.\n* Labels: each candidate's success rate on draws 0-5 (invalid = 0), pooled over action-equivalent\n  candidates. Draws 6-7 are never used for training or model choice.\n* Evaluation: 5-fold cross-validation grouped by task id; every state is scored once, out of fold,\n  by the chosen candidate's success on draws 6-7. All references are scored on the same draws.\n* Primary model: warm start from heads/pointwise/head.pt; soft cross-entropy to rates / sum(rates)\n  over states whose candidates do not all tie; AdamW lr 1e-4, weight decay 0.05, 20 epochs,\n  batch 16, seeds 0 and 1 (reported separately and as a logit average).\n* Secondary: a randomly initialized head with the same recipe; a best-action (ties spread) target;\n  the collections' own train / validation_seen_task / validation_unseen_task roles.\n",
   "states": 138,
   "task_groups": 120,
@@ -1853,6 +1853,370 @@
     "loss_initial": 2.646,
     "loss_final": 1.29
    }
-  }
+  },
+  "breakdown": {
+   "by_fold": [
+    {
+     "fold": 0,
+     "train_states": 110,
+     "train_informative": 63,
+     "held_out_states": 28,
+     "Outcome-adapted head (warm start)": {
+      "train_draws_0_5": 40.76,
+      "train_draws_6_7": 35.91,
+      "held_out_draws_6_7": 32.14,
+      "held_out_draws_0_7": 29.02
+     },
+     "Outcome-trained head (from scratch)": {
+      "train_draws_0_5": 40.91,
+      "train_draws_6_7": 41.82,
+      "held_out_draws_6_7": 33.93,
+      "held_out_draws_0_7": 29.02
+     },
+     "Outcome-adapted head, best-action target": {
+      "train_draws_0_5": 42.42,
+      "train_draws_6_7": 39.09,
+      "held_out_draws_6_7": 26.79,
+      "held_out_draws_0_7": 27.23
+     },
+     "Teacher-trained head": {
+      "train_draws_0_5": 34.85,
+      "train_draws_6_7": 34.55,
+      "held_out_draws_6_7": 32.14,
+      "held_out_draws_0_7": 29.46
+     },
+     "Uniform": {
+      "train_draws_0_5": 31.85,
+      "train_draws_6_7": 32.36,
+      "held_out_draws_6_7": 32.14,
+      "held_out_draws_0_7": 30.45
+     }
+    },
+    {
+     "fold": 1,
+     "train_states": 109,
+     "train_informative": 58,
+     "held_out_states": 29,
+     "Outcome-adapted head (warm start)": {
+      "train_draws_0_5": 40.52,
+      "train_draws_6_7": 38.53,
+      "held_out_draws_6_7": 25.86,
+      "held_out_draws_0_7": 29.74
+     },
+     "Outcome-trained head (from scratch)": {
+      "train_draws_0_5": 40.06,
+      "train_draws_6_7": 37.61,
+      "held_out_draws_6_7": 29.31,
+      "held_out_draws_0_7": 28.02
+     },
+     "Outcome-adapted head, best-action target": {
+      "train_draws_0_5": 42.2,
+      "train_draws_6_7": 38.07,
+      "held_out_draws_6_7": 36.21,
+      "held_out_draws_0_7": 32.76
+     },
+     "Teacher-trained head": {
+      "train_draws_0_5": 33.18,
+      "train_draws_6_7": 33.49,
+      "held_out_draws_6_7": 36.21,
+      "held_out_draws_0_7": 35.34
+     },
+     "Uniform": {
+      "train_draws_0_5": 31.47,
+      "train_draws_6_7": 33.03,
+      "held_out_draws_6_7": 29.66,
+      "held_out_draws_0_7": 30.95
+     }
+    },
+    {
+     "fold": 2,
+     "train_states": 111,
+     "train_informative": 58,
+     "held_out_states": 27,
+     "Outcome-adapted head (warm start)": {
+      "train_draws_0_5": 41.44,
+      "train_draws_6_7": 38.74,
+      "held_out_draws_6_7": 29.63,
+      "held_out_draws_0_7": 29.17
+     },
+     "Outcome-trained head (from scratch)": {
+      "train_draws_0_5": 40.24,
+      "train_draws_6_7": 36.49,
+      "held_out_draws_6_7": 35.19,
+      "held_out_draws_0_7": 26.85
+     },
+     "Outcome-adapted head, best-action target": {
+      "train_draws_0_5": 42.34,
+      "train_draws_6_7": 40.09,
+      "held_out_draws_6_7": 25.93,
+      "held_out_draws_0_7": 26.85
+     },
+     "Teacher-trained head": {
+      "train_draws_0_5": 33.63,
+      "train_draws_6_7": 33.33,
+      "held_out_draws_6_7": 37.04,
+      "held_out_draws_0_7": 34.26
+     },
+     "Uniform": {
+      "train_draws_0_5": 31.89,
+      "train_draws_6_7": 31.8,
+      "held_out_draws_6_7": 34.44,
+      "held_out_draws_0_7": 30.83
+     }
+    },
+    {
+     "fold": 3,
+     "train_states": 111,
+     "train_informative": 62,
+     "held_out_states": 27,
+     "Outcome-adapted head (warm start)": {
+      "train_draws_0_5": 40.39,
+      "train_draws_6_7": 38.74,
+      "held_out_draws_6_7": 31.48,
+      "held_out_draws_0_7": 33.8
+     },
+     "Outcome-trained head (from scratch)": {
+      "train_draws_0_5": 39.94,
+      "train_draws_6_7": 36.94,
+      "held_out_draws_6_7": 31.48,
+      "held_out_draws_0_7": 31.94
+     },
+     "Outcome-adapted head, best-action target": {
+      "train_draws_0_5": 40.99,
+      "train_draws_6_7": 35.59,
+      "held_out_draws_6_7": 35.19,
+      "held_out_draws_0_7": 34.72
+     },
+     "Teacher-trained head": {
+      "train_draws_0_5": 33.18,
+      "train_draws_6_7": 35.14,
+      "held_out_draws_6_7": 29.63,
+      "held_out_draws_0_7": 33.8
+     },
+     "Uniform": {
+      "train_draws_0_5": 30.81,
+      "train_draws_6_7": 32.25,
+      "held_out_draws_6_7": 32.59,
+      "held_out_draws_0_7": 33.7
+     }
+    },
+    {
+     "fold": 4,
+     "train_states": 111,
+     "train_informative": 63,
+     "held_out_states": 27,
+     "Outcome-adapted head (warm start)": {
+      "train_draws_0_5": 40.39,
+      "train_draws_6_7": 39.64,
+      "held_out_draws_6_7": 31.48,
+      "held_out_draws_0_7": 31.94
+     },
+     "Outcome-trained head (from scratch)": {
+      "train_draws_0_5": 39.79,
+      "train_draws_6_7": 38.74,
+      "held_out_draws_6_7": 35.19,
+      "held_out_draws_0_7": 34.72
+     },
+     "Outcome-adapted head, best-action target": {
+      "train_draws_0_5": 41.59,
+      "train_draws_6_7": 37.84,
+      "held_out_draws_6_7": 31.48,
+      "held_out_draws_0_7": 35.65
+     },
+     "Teacher-trained head": {
+      "train_draws_0_5": 33.03,
+      "train_draws_6_7": 33.78,
+      "held_out_draws_6_7": 35.19,
+      "held_out_draws_0_7": 35.65
+     },
+     "Uniform": {
+      "train_draws_0_5": 31.23,
+      "train_draws_6_7": 32.16,
+      "held_out_draws_6_7": 32.96,
+      "held_out_draws_0_7": 32.5
+     }
+    }
+   ],
+   "held_out_all_draws": {
+    "Outcome-adapted head (warm start) [all 8 draws]": {
+     "success": 30.71,
+     "minus_uniform": [
+      -0.96,
+      -3.5,
+      1.51
+     ],
+     "minus_teacher_head": [
+      -2.99,
+      -5.67,
+      -0.46
+     ]
+    },
+    "Outcome-trained head (from scratch) [all 8 draws]": {
+     "success": 30.07,
+     "minus_uniform": [
+      -1.59,
+      -3.97,
+      0.66
+     ],
+     "minus_teacher_head": [
+      -3.62,
+      -6.93,
+      -0.63
+     ]
+    },
+    "Outcome-adapted head, best-action target [all 8 draws]": {
+     "success": 31.43,
+     "minus_uniform": [
+      -0.24,
+      -2.88,
+      2.37
+     ],
+     "minus_teacher_head": [
+      -2.26,
+      -5.02,
+      0.28
+     ]
+    },
+    "Teacher-trained head [all 8 draws]": {
+     "success": 33.7,
+     "minus_uniform": [
+      2.03,
+      -0.24,
+      4.4
+     ],
+     "minus_teacher_head": null
+    },
+    "Piotr ARM [all 8 draws]": {
+     "success": 34.15,
+     "minus_uniform": [
+      2.48,
+      -0.14,
+      5.11
+     ],
+     "minus_teacher_head": [
+      0.45,
+      -2.19,
+      3.26
+     ]
+    },
+    "Kev-style step 150 [all 8 draws]": {
+     "success": 32.16,
+     "minus_uniform": [
+      0.49,
+      -1.98,
+      2.97
+     ],
+     "minus_teacher_head": [
+      -1.54,
+      -4.35,
+      1.34
+     ]
+    },
+    "Kev-style step 600 [all 8 draws]": {
+     "success": 32.79,
+     "minus_uniform": [
+      1.12,
+      -1.38,
+      3.71
+     ],
+     "minus_teacher_head": [
+      -0.91,
+      -3.79,
+      2.01
+     ]
+    },
+    "Actor's first sample [all 8 draws]": {
+     "success": 33.33,
+     "minus_uniform": [
+      1.67,
+      -0.94,
+      4.32
+     ],
+     "minus_teacher_head": [
+      -0.36,
+      -4.01,
+      3.17
+     ]
+    },
+    "Uniform [all 8 draws]": {
+     "success": 31.67,
+     "minus_uniform": null,
+     "minus_teacher_head": [
+      -2.03,
+      -4.4,
+      0.25
+     ]
+    }
+   },
+   "by_collection": {
+    "branch124": {
+     "states": 51,
+     "Outcome-adapted head (warm start) [all 8 draws]": 24.51,
+     "Outcome-trained head (from scratch) [all 8 draws]": 20.34,
+     "Teacher-trained head [all 8 draws]": 26.23,
+     "Piotr ARM [all 8 draws]": 25.74,
+     "Uniform [all 8 draws]": 23.38
+    },
+    "fresh64": {
+     "states": 51,
+     "Outcome-adapted head (warm start) [all 8 draws]": 34.31,
+     "Outcome-trained head (from scratch) [all 8 draws]": 36.27,
+     "Teacher-trained head [all 8 draws]": 39.22,
+     "Piotr ARM [all 8 draws]": 41.91,
+     "Uniform [all 8 draws]": 37.55
+    },
+    "fresh64succ": {
+     "states": 4,
+     "Outcome-adapted head (warm start) [all 8 draws]": 46.88,
+     "Outcome-trained head (from scratch) [all 8 draws]": 46.88,
+     "Teacher-trained head [all 8 draws]": 40.62,
+     "Piotr ARM [all 8 draws]": 43.75,
+     "Uniform [all 8 draws]": 46.25
+    },
+    "pilot32": {
+     "states": 32,
+     "Outcome-adapted head (warm start) [all 8 draws]": 32.81,
+     "Outcome-trained head (from scratch) [all 8 draws]": 33.59,
+     "Teacher-trained head [all 8 draws]": 35.94,
+     "Piotr ARM [all 8 draws]": 33.98,
+     "Uniform [all 8 draws]": 33.67
+    }
+   },
+   "by_role": {
+    "historical": {
+     "states": 51,
+     "Outcome-adapted head (warm start) [all 8 draws]": 24.51,
+     "Outcome-trained head (from scratch) [all 8 draws]": 20.34,
+     "Teacher-trained head [all 8 draws]": 26.23,
+     "Piotr ARM [all 8 draws]": 25.74,
+     "Uniform [all 8 draws]": 23.38
+    },
+    "train": {
+     "states": 61,
+     "Outcome-adapted head (warm start) [all 8 draws]": 35.66,
+     "Outcome-trained head (from scratch) [all 8 draws]": 37.09,
+     "Teacher-trained head [all 8 draws]": 39.75,
+     "Piotr ARM [all 8 draws]": 40.37,
+     "Uniform [all 8 draws]": 37.62
+    },
+    "validation_seen_task": {
+     "states": 13,
+     "Outcome-adapted head (warm start) [all 8 draws]": 36.54,
+     "Outcome-trained head (from scratch) [all 8 draws]": 36.54,
+     "Teacher-trained head [all 8 draws]": 41.35,
+     "Piotr ARM [all 8 draws]": 43.27,
+     "Uniform [all 8 draws]": 43.08
+    },
+    "validation_unseen_task": {
+     "states": 13,
+     "Outcome-adapted head (warm start) [all 8 draws]": 25.96,
+     "Outcome-trained head (from scratch) [all 8 draws]": 28.85,
+     "Teacher-trained head [all 8 draws]": 26.92,
+     "Piotr ARM [all 8 draws]": 28.85,
+     "Uniform [all 8 draws]": 24.81
+    }
+   }
+  },
+  "breakdown_job": 354696
  }
 }
