@@ -3333,5 +3333,602 @@
     "3.0": 73
    }
   }
+ },
+ "teacher_labels_20261011": {
+  "luna": {
+   "job": 355533,
+   "model": "gpt-6-luna",
+   "effort": "high",
+   "states": 160,
+   "calls": 2115,
+   "charged_usd": 8.22,
+   "caps": {
+    "calls": 2400,
+    "usd": 15.0
+   },
+   "layout": "4 before + 10 after (evidence draws 0-2) per state; draws without saved evidence are recorded invalid without a call"
+  },
+  "sol": {
+   "job": 355536,
+   "model": "gpt-6.1-sol",
+   "effort": "medium",
+   "states": 284,
+   "calls": 1136,
+   "charged_usd": 24.76,
+   "caps": {
+    "calls": 1250,
+    "usd": 50.0
+   },
+   "layout": "4 before-only calls per state (3 repeats + 1 shuffled), same request as Luna before"
+  },
+  "pickers_held_out_draws_3_7": {
+   "states": 211,
+   "by_lineage": {
+    "new": 160,
+    "historical": 51
+   },
+   "scored": {
+    "all": {
+     "Sol before": {
+      "states": 211,
+      "success": 36.777
+     },
+     "Luna before": {
+      "states": 211,
+      "success": 35.924
+     },
+     "Luna after (evidence draws 0-2)": {
+      "states": 201,
+      "success": 38.369
+     },
+     "Piotr ARM": {
+      "states": 138,
+      "success": 35.507
+     },
+     "Teacher-trained head": {
+      "states": 138,
+      "success": 34.058
+     },
+     "Kev-style step 600": {
+      "states": 138,
+      "success": 33.478
+     },
+     "Actor's first sample": {
+      "states": 211,
+      "success": 35.545
+     },
+     "Outcome reference: best on draws 0-2": {
+      "states": 211,
+      "success": 39.16
+     },
+     "Uniform": {
+      "states": 211,
+      "success": 33.479
+     },
+     "Hindsight best on draws 3-7 (optimistic)": {
+      "states": 211,
+      "success": 50.237
+     }
+    },
+    "new": {
+     "Sol before": {
+      "states": 160,
+      "success": 39.375
+     },
+     "Luna before": {
+      "states": 160,
+      "success": 38.625
+     },
+     "Luna after (evidence draws 0-2)": {
+      "states": 152,
+      "success": 40.764
+     },
+     "Piotr ARM": {
+      "states": 87,
+      "success": 39.77
+     },
+     "Teacher-trained head": {
+      "states": 87,
+      "success": 37.701
+     },
+     "Kev-style step 600": {
+      "states": 87,
+      "success": 37.931
+     },
+     "Actor's first sample": {
+      "states": 160,
+      "success": 39.0
+     },
+     "Outcome reference: best on draws 0-2": {
+      "states": 160,
+      "success": 42.115
+     },
+     "Uniform": {
+      "states": 160,
+      "success": 36.35
+     },
+     "Hindsight best on draws 3-7 (optimistic)": {
+      "states": 160,
+      "success": 54.0
+     }
+    },
+    "historical": {
+     "Sol before": {
+      "states": 51,
+      "success": 28.627
+     },
+     "Luna before": {
+      "states": 51,
+      "success": 27.451
+     },
+     "Luna after (evidence draws 0-2)": {
+      "states": 49,
+      "success": 30.939
+     },
+     "Piotr ARM": {
+      "states": 51,
+      "success": 28.235
+     },
+     "Teacher-trained head": {
+      "states": 51,
+      "success": 27.843
+     },
+     "Kev-style step 600": {
+      "states": 51,
+      "success": 25.882
+     },
+     "Actor's first sample": {
+      "states": 51,
+      "success": 24.706
+     },
+     "Outcome reference: best on draws 0-2": {
+      "states": 51,
+      "success": 29.889
+     },
+     "Uniform": {
+      "states": 51,
+      "success": 24.471
+     },
+     "Hindsight best on draws 3-7 (optimistic)": {
+      "states": 51,
+      "success": 38.431
+     }
+    }
+   },
+   "paired": {
+    "all": {
+     "Sol before - Uniform": {
+      "states": 211,
+      "pp": [
+       3.299,
+       1.071,
+       5.633
+      ]
+     },
+     "Luna before - Uniform": {
+      "states": 211,
+      "pp": [
+       2.445,
+       0.345,
+       4.641
+      ]
+     },
+     "Luna after (evidence draws 0-2) - Uniform": {
+      "states": 201,
+      "pp": [
+       3.443,
+       1.305,
+       5.716
+      ]
+     },
+     "Sol before - Luna before": {
+      "states": 211,
+      "pp": [
+       0.853,
+       -0.786,
+       2.512
+      ]
+     },
+     "Luna after (evidence draws 0-2) - Luna before": {
+      "states": 201,
+      "pp": [
+       0.732,
+       -1.077,
+       2.513
+      ]
+     },
+     "Sol before - Luna after (evidence draws 0-2)": {
+      "states": 201,
+      "pp": [
+       0.139,
+       -2.112,
+       2.398
+      ]
+     },
+     "Sol before - Piotr ARM": {
+      "states": 138,
+      "pp": [
+       1.268,
+       -1.691,
+       4.476
+      ]
+     },
+     "Piotr ARM - Uniform": {
+      "states": 138,
+      "pp": [
+       3.536,
+       0.533,
+       6.586
+      ]
+     },
+     "Outcome reference: best on draws 0-2 - Uniform": {
+      "states": 211,
+      "pp": [
+       5.681,
+       3.675,
+       7.853
+      ]
+     },
+     "Outcome reference: best on draws 0-2 - Sol before": {
+      "states": 211,
+      "pp": [
+       2.382,
+       -0.282,
+       5.168
+      ]
+     }
+    },
+    "new": {
+     "Sol before - Uniform": {
+      "states": 160,
+      "pp": [
+       3.025,
+       0.335,
+       5.72
+      ]
+     },
+     "Luna before - Uniform": {
+      "states": 160,
+      "pp": [
+       2.275,
+       -0.222,
+       4.857
+      ]
+     },
+     "Luna after (evidence draws 0-2) - Uniform": {
+      "states": 152,
+      "pp": [
+       2.79,
+       0.272,
+       5.432
+      ]
+     },
+     "Sol before - Luna before": {
+      "states": 160,
+      "pp": [
+       0.75,
+       -1.361,
+       2.695
+      ]
+     },
+     "Luna after (evidence draws 0-2) - Luna before": {
+      "states": 152,
+      "pp": [
+       0.205,
+       -2.068,
+       2.423
+      ]
+     },
+     "Sol before - Luna after (evidence draws 0-2)": {
+      "states": 152,
+      "pp": [
+       0.552,
+       -2.258,
+       3.427
+      ]
+     },
+     "Sol before - Piotr ARM": {
+      "states": 87,
+      "pp": [
+       1.782,
+       -2.389,
+       6.437
+      ]
+     },
+     "Piotr ARM - Uniform": {
+      "states": 87,
+      "pp": [
+       3.402,
+       -0.488,
+       7.247
+      ]
+     },
+     "Outcome reference: best on draws 0-2 - Uniform": {
+      "states": 160,
+      "pp": [
+       5.765,
+       3.374,
+       8.333
+      ]
+     },
+     "Outcome reference: best on draws 0-2 - Sol before": {
+      "states": 160,
+      "pp": [
+       2.74,
+       -0.504,
+       6.144
+      ]
+     }
+    },
+    "historical": {
+     "Sol before - Uniform": {
+      "states": 51,
+      "pp": [
+       4.157,
+       0.176,
+       8.333
+      ]
+     },
+     "Luna before - Uniform": {
+      "states": 51,
+      "pp": [
+       2.98,
+       -0.706,
+       7.02
+      ]
+     },
+     "Luna after (evidence draws 0-2) - Uniform": {
+      "states": 49,
+      "pp": [
+       5.469,
+       1.837,
+       9.633
+      ]
+     },
+     "Sol before - Luna before": {
+      "states": 51,
+      "pp": [
+       1.176,
+       -1.373,
+       4.118
+      ]
+     },
+     "Luna after (evidence draws 0-2) - Luna before": {
+      "states": 49,
+      "pp": [
+       2.367,
+       -0.143,
+       5.306
+      ]
+     },
+     "Sol before - Luna after (evidence draws 0-2)": {
+      "states": 49,
+      "pp": [
+       -1.143,
+       -4.02,
+       1.143
+      ]
+     },
+     "Sol before - Piotr ARM": {
+      "states": 51,
+      "pp": [
+       0.392,
+       -3.039,
+       4.216
+      ]
+     },
+     "Piotr ARM - Uniform": {
+      "states": 51,
+      "pp": [
+       3.765,
+       -0.549,
+       8.314
+      ]
+     },
+     "Outcome reference: best on draws 0-2 - Uniform": {
+      "states": 51,
+      "pp": [
+       5.418,
+       1.863,
+       9.497
+      ]
+     },
+     "Outcome reference: best on draws 0-2 - Sol before": {
+      "states": 51,
+      "pp": [
+       1.261,
+       -2.346,
+       5.307
+      ]
+     }
+    }
+   }
+  },
+  "students": {
+   "recipe": "fresh pointwise head; AdamW lr 3e-4 one-cycle, wd 0.05, 20 epochs, batch 32; seeds 0 and 1 (logits averaged)",
+   "A_teacher_curve_138": {},
+   "A_reference_138": {
+    "uniform": 31.667,
+    "states": 138,
+    "overlap_states": 11
+   },
+   "A2_matched_cv_138": {
+    "Outcome labels, draws 0-5": {
+     "success": 31.522,
+     "minus_uniform": [
+      -0.145,
+      -2.57,
+      2.162
+     ]
+    },
+    "GPT-5.5 labels, matched states (other tasks)": {
+     "success": 31.159,
+     "minus_uniform": [
+      -0.507,
+      -3.296,
+      2.299
+     ]
+    }
+   },
+   "B_pre_post": {
+    "cv_124": {
+     "Luna before (4 judgments)": {
+      "success": 31.405,
+      "minus_uniform": [
+       -1.707,
+       -4.817,
+       1.313
+      ]
+     },
+     "Luna after (10 judgments, evidence from draws 0-2)": {
+      "success": 32.587,
+      "minus_uniform": [
+       -0.524,
+       -3.605,
+       2.488
+      ]
+     },
+     "Outcomes on draws 0-2 (same executions as Luna after)": {
+      "success": 32.063,
+      "minus_uniform": [
+       -1.048,
+       -4.02,
+       2.004
+      ]
+     },
+     "GPT-5.5 labels, matched states (other tasks)": {
+      "success": 31.983,
+      "minus_uniform": [
+       -1.129,
+       -4.071,
+       1.773
+      ]
+     },
+     "Uniform": {
+      "success": 33.112
+     }
+    },
+    "train_124_test_new": {
+     "Luna before (4 judgments)": {
+      "success": 36.063,
+      "minus_uniform": [
+       -0.46,
+       -3.441,
+       2.67
+      ]
+     },
+     "Luna after (10 judgments, evidence from draws 0-2)": {
+      "success": 36.782,
+      "minus_uniform": [
+       0.259,
+       -2.722,
+       3.155
+      ]
+     },
+     "Outcomes on draws 0-2 (same executions as Luna after)": {
+      "success": 35.489,
+      "minus_uniform": [
+       -1.034,
+       -4.266,
+       1.944
+      ]
+     },
+     "GPT-5.5 labels, matched states (other tasks)": {
+      "success": 36.063,
+      "minus_uniform": [
+       -0.46,
+       -3.304,
+       2.333
+      ]
+     },
+     "Uniform": {
+      "success": 36.523,
+      "states": 87
+     }
+    },
+    "fold_sizes": [
+     25,
+     25,
+     25,
+     25,
+     24
+    ],
+    "labelled_states": {
+     "Luna before (4 judgments)": 124,
+     "Luna after (10 judgments, evidence from draws 0-2)": 121,
+     "Outcomes on draws 0-2 (same executions as Luna after)": 59,
+     "GPT-5.5 labels, matched states (other tasks)": 124
+    }
+   }
+  },
+  "teacher_label_curve_partial": {
+   "GPT-5.5 labels, 110 states": {
+    "panels": 1458,
+    "success": 30.978,
+    "success_without_overlap_tasks": 30.807,
+    "minus_uniform": [
+     -0.688,
+     -3.045,
+     1.591
+    ],
+    "held_out_teacher_agreement": 0.549
+   },
+   "GPT-5.5 labels, 110 states, one panel each": {
+    "panels": 110,
+    "success": 34.783,
+    "success_without_overlap_tasks": 34.35,
+    "minus_uniform": [
+     3.116,
+     0.757,
+     5.53
+    ],
+    "held_out_teacher_agreement": 0.527
+   },
+   "GPT-5.5 labels, 300 states": {
+    "panels": 4103,
+    "success": 31.612,
+    "success_without_overlap_tasks": 31.102,
+    "minus_uniform": [
+     -0.054,
+     -2.446,
+     2.405
+    ],
+    "held_out_teacher_agreement": 0.585
+   },
+   "GPT-5.5 labels, 300 states, one panel each": {
+    "panels": 300,
+    "success": 32.699,
+    "success_without_overlap_tasks": 32.382,
+    "minus_uniform": [
+     1.033,
+     -1.187,
+     3.375
+    ],
+    "held_out_teacher_agreement": 0.561
+   },
+   "GPT-5.5 labels, 1000 states": {
+    "panels": 13227,
+    "success": 33.243,
+    "success_without_overlap_tasks": 32.677,
+    "minus_uniform": [
+     1.576,
+     -0.876,
+     4.214
+    ],
+    "held_out_teacher_agreement": 0.619
+   },
+   "GPT-5.5 labels, 2692 states": {
+    "panels": 35916,
+    "success": 34.239,
+    "success_without_overlap_tasks": 34.154,
+    "minus_uniform": [
+     2.572,
+     0.208,
+     5.087
+    ],
+    "held_out_teacher_agreement": 0.645
+   }
+  },
+  "code": "scripts/run_branch_teacher_labels.py (55edc39), scripts/run_branch_sol_labels.py (cc3f472), scripts/selection_outcome_experiments.py teachers/labels"
  }
 }

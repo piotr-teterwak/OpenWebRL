@@ -369,6 +369,30 @@ Jobs `354654` (primary) and `354696` (breakdown; identical folds, seeds and pick
 
 </details>
 
+<a id="selection-head-label-types-20261011"></a>
+
+## Label types at matched scale: teacher picks versus outcomes
+
+**At about 110–124 training states, no label type trains a useful student.** The same pointwise head is trained from scratch, with AdamW at learning rate 3e-4 on a one-cycle schedule, 20 epochs, batch 32, and two seeds whose logits are averaged. Only the labels change.
+
+| Comparison, 138 eight-draw states, 5-fold task CV, all draws | Success | − Uniform, pp [95%] |
+| --- | ---: | --- |
+| Outcome labels, draws 0–5 | 31.52% | −0.14 [−2.57, +2.16] |
+| GPT-5.5 labels, same number of training states (other tasks) | 31.16% | −0.51 [−3.30, +2.30] |
+
+**How much teacher data does the head need?** Heads were trained on GPT-5.5 panels from task-grouped subsets of the 2,692 teacher states and scored on all 138 states, which are disjoint from the teacher data. The full teacher-trained head reaches +2.03 pp.
+
+| GPT-5.5 training data | Panels | Success | − Uniform, pp [95%] | Held-out GPT-5.5 agreement |
+| --- | ---: | ---: | --- | ---: |
+| 110 states | 1,458 | 30.98% | −0.69 [−3.04, +1.59] | 54.9% |
+| 110 states, one panel each | 110 | 34.78% | +3.12 [+0.76, +5.53] | 52.7% |
+| 300 states | 4,103 | 31.61% | −0.05 [−2.45, +2.40] | 58.5% |
+| 300 states, one panel each | 300 | 32.70% | +1.03 [−1.19, +3.38] | 56.1% |
+| 1000 states | 13,227 | 33.24% | +1.58 [−0.88, +4.21] | 61.9% |
+| 2692 states | 35,916 | 34.24% | +2.57 [+0.21, +5.09] | 64.5% |
+
+The 2,692-state point is being rerun after its job reached its time limit. The one-panel-per-state 110-state result is a single comparison among several; the same states with all their panels do not reproduce it. Pre- versus post-action labels and teacher strength are compared in [ARM_FORMULATIONS.md](ARM_FORMULATIONS.md#teacher-labels-211-20261011).
+
 <a id="selection-head-sweep"></a>
 
 ## Frozen-feature sweep: no layer or pooling closes the gap
