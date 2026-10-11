@@ -383,6 +383,46 @@ Method, metric definitions, teacher-agreement results, robustness checks and dat
 
 On all 211 states, Sol before − Luna before is +0.85 [−0.79, +2.51] pp, and Luna's full 10-call after − before is +0.73 [−1.08, +2.51] pp. The historical states alone gave +2.37 for Luna after − before (49 states), consistent with the earlier +2.24; the new states give +0.20.
 
+<details>
+<summary>Why immediate post-action evidence does not help here: diagnostics on 194 states</summary>
+
+These diagnostics use saved data only (`scripts/analyze_post_action_value.py`). The 194 states have draw-0 evidence and held-out draws 3–7 (146 new, 48 historical). After-picks are each teacher's draw-0 judgments.
+
+| Check | Luna | Sol |
+| --- | ---: | ---: |
+| States whose majority action changes after execution | 69 (36%) | 49 (25%) |
+| Changed picks: better / worse / tied on draws 3–7 | 21 / 15 / 33 | 16 / 10 / 23 |
+| After − before on changed states, pp [95%] | +0.58 [−3.88, +4.93] | +0.10 [−7.10, +6.98] |
+| Share of picks on visibly failed candidates (error or unchanged screen), before → after | 18.0% → 15.1% | 15.6% → 15.3% |
+
+- **The evidence often cannot discriminate.**
+  - In 39 states all five candidates are the same action.
+  - In 18 states every distinct action produces the same screen and URL.
+  - In 60 states some do.
+  - Only 77 states (40%) show a distinct result for every distinct action.
+- **Visible failures are rare and not costly.**
+  - Only 4 of 970 candidate executions report a tool error.
+  - 134 leave the screen unchanged, and those candidates succeed only 1.0 pp less than their state's mean.
+  - Teachers already pick them less often than uniform (20%) before execution.
+- **The kind of immediate result barely predicts the outcome.** Within-state relative success by immediate-result type, draw 0:
+
+| Immediate result | Candidates | Relative success, pp |
+| --- | ---: | ---: |
+| navigated to a new URL | 482 | +0.7 |
+| same URL, screen changed | 329 | −0.4 |
+| terminated (done) | 81 | −3.3 |
+| screen unchanged | 74 | +0.6 |
+| errored | 4 | −2.0 |
+
+- **The evidence replays consistently.** 98% of later draws reach the same URL as draw 0, and 76% the same screenshot.
+- **No stratum shows a gain.** After − before stays within ±1.3 pp when states are split by whether the evidence distinguishes the actions, or by how much the actions' outcomes differ on draws 0–2. The draw-0–2 split is independent of the scored draws.
+- **Changed picks (qualitative).**
+  - The largest losses pick a page that looks closer to the goal: a direct article URL instead of a search, or an official site instead of a news hub. From there the fixed SFT continuation then fails more often.
+  - Several other changes switch between near-identical actions, whose outcome differences are draw noise.
+  - The teachers judge apparent progress. The outcome depends on whether this particular continuation policy can finish from the new page, and one post-action screen does not reveal that.
+
+</details>
+
 **Can these labels supervise a pre-action student?** Not at this scale. The [actor-feature head](ARM_SELECTION_HEAD.md#selection-head-label-types-20261011) trained from scratch on each label type stays at uniform:
 
 | Training labels, original 124 states | Labelled states | 5-fold task-grouped CV, − uniform, pp [95%] | Trained on 124, tested on 87 new states, − uniform, pp [95%] |
