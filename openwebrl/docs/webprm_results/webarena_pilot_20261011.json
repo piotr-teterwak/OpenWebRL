@@ -1,0 +1,461 @@
+{
+  "schema_version": 2,
+  "scope": "Five-row one-task mechanics pilot; not Table5 performance reproduction",
+  "actor": "gpt-4o-mini-2024-07-18",
+  "judge": "gpt-4o-2024-05-13",
+  "judge_substitution_disclosed": true,
+  "paper_exact_protocol": false,
+  "status": "fixed_attempts_recorded",
+  "all_native_verdicts_valid": false,
+  "all_guided_selectors_exercised": false,
+  "all_mechanics_valid": false,
+  "rows": [
+    {
+      "selector": "no_search",
+      "planned": 1,
+      "recorded": 1,
+      "attempted": 1,
+      "valid": 0,
+      "invalid": 1,
+      "missing": 0,
+      "successes": 0,
+      "launched": 1,
+      "attempted_unknown": 0,
+      "recorded_unattempted": 0,
+      "not_launched": 0,
+      "overall_success_pct": 0.0,
+      "valid_only_success_pct": null,
+      "error_type": "AttributeError",
+      "error_stage": null,
+      "watchdog_reason": null,
+      "call_evidence": {
+        "journal_present": false,
+        "by_group": {
+          "actor_aux": {
+            "requests": 0,
+            "complete_responses": 0,
+            "broker_started": 0,
+            "broker_completed": 0,
+            "matched_complete": 0
+          },
+          "selector": {
+            "requests": 0,
+            "complete_responses": 0,
+            "broker_started": 0,
+            "broker_completed": 0,
+            "matched_complete": 0
+          },
+          "native_judge": {
+            "requests": 0,
+            "complete_responses": 0,
+            "broker_started": 0,
+            "broker_completed": 0,
+            "matched_complete": 0
+          },
+          "other": {
+            "requests": 0,
+            "complete_responses": 0,
+            "broker_started": 0,
+            "broker_completed": 0,
+            "matched_complete": 0
+          }
+        },
+        "by_purpose": {},
+        "guided_selector_exercised": null
+      },
+      "guided_selector_exercised": null
+    },
+    {
+      "selector": "gpt4omini",
+      "planned": 1,
+      "recorded": 1,
+      "attempted": 1,
+      "valid": 0,
+      "invalid": 1,
+      "missing": 0,
+      "successes": 0,
+      "launched": 1,
+      "attempted_unknown": 0,
+      "recorded_unattempted": 0,
+      "not_launched": 0,
+      "overall_success_pct": 0.0,
+      "valid_only_success_pct": null,
+      "error_type": "EvaluationNotReady",
+      "error_stage": "native_evaluation",
+      "watchdog_reason": null,
+      "call_evidence": {
+        "journal_present": true,
+        "by_group": {
+          "actor_aux": {
+            "requests": 89,
+            "complete_responses": 89,
+            "broker_started": 89,
+            "broker_completed": 89,
+            "matched_complete": 89
+          },
+          "selector": {
+            "requests": 120,
+            "complete_responses": 120,
+            "broker_started": 120,
+            "broker_completed": 120,
+            "matched_complete": 120
+          },
+          "native_judge": {
+            "requests": 0,
+            "complete_responses": 0,
+            "broker_started": 0,
+            "broker_completed": 0,
+            "matched_complete": 0
+          },
+          "other": {
+            "requests": 0,
+            "complete_responses": 0,
+            "broker_started": 0,
+            "broker_completed": 0,
+            "matched_complete": 0
+          }
+        },
+        "by_purpose": {
+          "terminal": {
+            "requests": 30,
+            "complete_responses": 30,
+            "broker_started": 30,
+            "broker_completed": 30,
+            "matched_complete": 30
+          },
+          "policy": {
+            "requests": 30,
+            "complete_responses": 30,
+            "broker_started": 30,
+            "broker_completed": 30,
+            "matched_complete": 30
+          },
+          "selector_pair": {
+            "requests": 120,
+            "complete_responses": 120,
+            "broker_started": 120,
+            "broker_completed": 120,
+            "matched_complete": 120
+          },
+          "state_diff": {
+            "requests": 29,
+            "complete_responses": 29,
+            "broker_started": 29,
+            "broker_completed": 29,
+            "matched_complete": 29
+          }
+        },
+        "guided_selector_exercised": true
+      },
+      "guided_selector_exercised": true
+    },
+    {
+      "selector": "shepherd8b",
+      "planned": 1,
+      "recorded": 1,
+      "attempted": 1,
+      "valid": 0,
+      "invalid": 1,
+      "missing": 0,
+      "successes": 0,
+      "launched": 1,
+      "attempted_unknown": 0,
+      "recorded_unattempted": 0,
+      "not_launched": 0,
+      "overall_success_pct": 0.0,
+      "valid_only_success_pct": null,
+      "error_type": "EvaluationNotReady",
+      "error_stage": "native_evaluation",
+      "watchdog_reason": null,
+      "call_evidence": {
+        "journal_present": true,
+        "by_group": {
+          "actor_aux": {
+            "requests": 89,
+            "complete_responses": 89,
+            "broker_started": 89,
+            "broker_completed": 89,
+            "matched_complete": 89
+          },
+          "selector": {
+            "requests": 151,
+            "complete_responses": 151,
+            "broker_started": 151,
+            "broker_completed": 151,
+            "matched_complete": 151
+          },
+          "native_judge": {
+            "requests": 0,
+            "complete_responses": 0,
+            "broker_started": 0,
+            "broker_completed": 0,
+            "matched_complete": 0
+          },
+          "other": {
+            "requests": 0,
+            "complete_responses": 0,
+            "broker_started": 0,
+            "broker_completed": 0,
+            "matched_complete": 0
+          }
+        },
+        "by_purpose": {
+          "terminal": {
+            "requests": 30,
+            "complete_responses": 30,
+            "broker_started": 30,
+            "broker_completed": 30,
+            "matched_complete": 30
+          },
+          "policy": {
+            "requests": 30,
+            "complete_responses": 30,
+            "broker_started": 30,
+            "broker_completed": 30,
+            "matched_complete": 30
+          },
+          "selector_checklist": {
+            "requests": 1,
+            "complete_responses": 1,
+            "broker_started": 1,
+            "broker_completed": 1,
+            "matched_complete": 1
+          },
+          "selector_pointwise": {
+            "requests": 150,
+            "complete_responses": 150,
+            "broker_started": 150,
+            "broker_completed": 150,
+            "matched_complete": 150
+          },
+          "state_diff": {
+            "requests": 29,
+            "complete_responses": 29,
+            "broker_started": 29,
+            "broker_completed": 29,
+            "matched_complete": 29
+          }
+        },
+        "guided_selector_exercised": true
+      },
+      "guided_selector_exercised": true
+    },
+    {
+      "selector": "arbiter7b",
+      "planned": 1,
+      "recorded": 1,
+      "attempted": 1,
+      "valid": 0,
+      "invalid": 1,
+      "missing": 0,
+      "successes": 0,
+      "launched": 1,
+      "attempted_unknown": 0,
+      "recorded_unattempted": 0,
+      "not_launched": 0,
+      "overall_success_pct": 0.0,
+      "valid_only_success_pct": null,
+      "error_type": "EvaluationNotReady",
+      "error_stage": "native_evaluation",
+      "watchdog_reason": null,
+      "call_evidence": {
+        "journal_present": true,
+        "by_group": {
+          "actor_aux": {
+            "requests": 89,
+            "complete_responses": 89,
+            "broker_started": 89,
+            "broker_completed": 89,
+            "matched_complete": 89
+          },
+          "selector": {
+            "requests": 120,
+            "complete_responses": 120,
+            "broker_started": 120,
+            "broker_completed": 120,
+            "matched_complete": 120
+          },
+          "native_judge": {
+            "requests": 0,
+            "complete_responses": 0,
+            "broker_started": 0,
+            "broker_completed": 0,
+            "matched_complete": 0
+          },
+          "other": {
+            "requests": 0,
+            "complete_responses": 0,
+            "broker_started": 0,
+            "broker_completed": 0,
+            "matched_complete": 0
+          }
+        },
+        "by_purpose": {
+          "terminal": {
+            "requests": 30,
+            "complete_responses": 30,
+            "broker_started": 30,
+            "broker_completed": 30,
+            "matched_complete": 30
+          },
+          "policy": {
+            "requests": 30,
+            "complete_responses": 30,
+            "broker_started": 30,
+            "broker_completed": 30,
+            "matched_complete": 30
+          },
+          "selector_pair": {
+            "requests": 120,
+            "complete_responses": 120,
+            "broker_started": 120,
+            "broker_completed": 120,
+            "matched_complete": 120
+          },
+          "state_diff": {
+            "requests": 29,
+            "complete_responses": 29,
+            "broker_started": 29,
+            "broker_completed": 29,
+            "matched_complete": 29
+          }
+        },
+        "guided_selector_exercised": true
+      },
+      "guided_selector_exercised": true
+    },
+    {
+      "selector": "piotr_selectionarm",
+      "planned": 1,
+      "recorded": 1,
+      "attempted": 1,
+      "valid": 0,
+      "invalid": 1,
+      "missing": 0,
+      "successes": 0,
+      "launched": 1,
+      "attempted_unknown": 0,
+      "recorded_unattempted": 0,
+      "not_launched": 0,
+      "overall_success_pct": 0.0,
+      "valid_only_success_pct": null,
+      "error_type": "BrokerError",
+      "error_stage": null,
+      "watchdog_reason": null,
+      "call_evidence": {
+        "journal_present": true,
+        "by_group": {
+          "actor_aux": {
+            "requests": 2,
+            "complete_responses": 2,
+            "broker_started": 2,
+            "broker_completed": 2,
+            "matched_complete": 2
+          },
+          "selector": {
+            "requests": 0,
+            "complete_responses": 0,
+            "broker_started": 0,
+            "broker_completed": 0,
+            "matched_complete": 0
+          },
+          "native_judge": {
+            "requests": 0,
+            "complete_responses": 0,
+            "broker_started": 0,
+            "broker_completed": 0,
+            "matched_complete": 0
+          },
+          "other": {
+            "requests": 0,
+            "complete_responses": 0,
+            "broker_started": 0,
+            "broker_completed": 0,
+            "matched_complete": 0
+          }
+        },
+        "by_purpose": {
+          "terminal": {
+            "requests": 1,
+            "complete_responses": 1,
+            "broker_started": 1,
+            "broker_completed": 1,
+            "matched_complete": 1
+          },
+          "policy": {
+            "requests": 1,
+            "complete_responses": 1,
+            "broker_started": 1,
+            "broker_completed": 1,
+            "matched_complete": 1
+          }
+        },
+        "guided_selector_exercised": false
+      },
+      "guided_selector_exercised": false
+    }
+  ],
+  "totals": {
+    "planned": 5,
+    "recorded": 5,
+    "attempted": 5,
+    "valid": 0,
+    "invalid": 5,
+    "missing": 0,
+    "successes": 0,
+    "launched": 5,
+    "attempted_unknown": 0,
+    "recorded_unattempted": 0,
+    "not_launched": 0
+  },
+  "mechanics_semantics": "True only after native replay validates all five verdicts, every row has a matched complete actor/aux response, all four guided selectors have matched complete scoring responses, and all registered controllers are closed. Counts do not prove all actions or candidate translations correct.",
+  "count_semantics": "attempted counts confirmed results only; attempted_unknown means launched with no durable result; missing counts absent result files.",
+  "overall_success_pct": 0.0,
+  "valid_only_success_pct": null,
+  "allocation_attempts_registered": 7,
+  "all_registered_controllers_closed": true,
+  "requests": {
+    "conservative_internal_warmups": 5,
+    "local_dispatches": 315,
+    "journal_local_requests": 315,
+    "paid_dispatches": 389,
+    "journal_paid_requests": 389,
+    "charged_local_requests": 320,
+    "paid_cap": 575,
+    "local_cap": 320
+  },
+  "api": {
+    "cap_usd": 15,
+    "settled_usd": 0.2754459,
+    "retained_reservations_usd": 0.0,
+    "charged_usd": 0.2754459000000001,
+    "reservations": 389,
+    "halt_reason": null
+  },
+  "result_sha256": {
+    "no_search": "804f972a89a0b67ee3ffb910c4dc7cce78d267cc2e89229e8f618a1157655445",
+    "gpt4omini": "45ed26ed4431ab47d4427fc8ab81ae3615e72b015b355d037a137ab68800f639",
+    "shepherd8b": "b47648c6a8867ddd8ab7d9931ff885f06501853e1a5a8598e2186c348fb1eadc",
+    "arbiter7b": "2ccc80baa91c756c20c03aa2d1fd2ba1ab4b18d2f54cb8bee5cf8c7f79ad087a",
+    "piotr_selectionarm": "70b8feb8d81f0b2a703d26fc0099da4a9877fa3dbaf67e78959e0eb953a20130"
+  },
+  "audit_limits": [
+    "Saved text/native-verdict replay only; no live browser or website reexecution.",
+    "Selector exercise means completed scoring dispatches, not offline replay of selector parsing or a guarantee of action/grounding correctness. Terminal-only episodes remain valid without critic coverage.",
+    "Reset receipts verify recorded hash/identity links, not current node-local filesystem bytes or live PID/inode identity.",
+    "Allocation time and retained-storage accounting require the separate controller/scheduler audit."
+  ],
+  "allocation_accounting": {
+    "approved_seconds": 10800,
+    "consumed_seconds": 3834,
+    "unused_seconds": 6966,
+    "unused_budget_carried_forward": false,
+    "all_scheduler_attempts_terminal": true,
+    "source_files_verified_unchanged": 42,
+    "gpu_count": 1,
+    "cpus": 8,
+    "memory_gib": 120,
+    "final_node_local_apparent_bytes": 240454772707,
+    "temporary_cap_bytes": 322122547200
+  }
+}

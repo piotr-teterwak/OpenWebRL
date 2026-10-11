@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "status": "reddit_five_selector_pilot_approved_live_startup",
+  "status": "reddit_fixed_attempts_closed_mechanics_failed",
   "date_utc": "2026-10-11",
   "benchmark_order": [
     "WebArena-Lite",
     "Online-Mind2Web"
   ],
-  "benchmark_task_evaluations": 0,
-  "new_compute_allocations": 6,
-  "paid_api_calls": 0,
+  "benchmark_task_evaluations": 5,
+  "new_compute_allocations": 8,
+  "paid_api_calls": 389,
   "cohort": {
     "released_tasks": 165,
     "single_site_tasks": 155,
@@ -60,9 +60,9 @@
     "identity_note": "Registry config and all uncompressed layer identities match original Drive archive metadata; original Drive tar itself remains incomplete after quota rejection."
   },
   "remaining_gates": [
-    "Allocated three-critic serving, image processor and complete hosted episode validation",
+    "Execute separately approved corrected Reddit pilot with turn-limit fallback, explicit Piotr representation revision and native-judge preflight",
     "Original Shopping/CMS/GitLab/Map deployment/reset and native helper validation",
-    "Document historical fidelity limits and approve exact full-benchmark resources"
+    "Freeze historical-fidelity disclosures, full cohort and exact benchmark resource envelope"
   ],
   "sources": {
     "paper": "https://arxiv.org/html/2601.21872v2#S5.T5",
@@ -203,7 +203,7 @@
     "greedy": true,
     "max_output_tokens": 128,
     "weights_fresh_digest_verified": true,
-    "live_serving_verified": false,
+    "live_serving_verified": true,
     "transfer_quality_verified": false,
     "training_overlap_verified": false,
     "weight_bytes": 8875719328,
@@ -230,7 +230,18 @@
       "proof_sha256": "801936c44bf1bca973d73899537321e1bdfd3fe8af672932b9b0a99a7d9dbe92"
     },
     "max_output_tokens_adapted": true,
-    "released_demo_max_new_tokens": 2048
+    "released_demo_max_new_tokens": 2048,
+    "live_preflight": {
+      "status": "passed",
+      "prompt_tokens": 956,
+      "image_tokens": 252,
+      "completion_tokens": 10,
+      "finish_reason": "stop",
+      "strict_json_valid": true,
+      "exact_saved_payload_cpu_replay_matches": true,
+      "audit_sha256": "2fcdcf0e99fee07d25f9c0973eece517514834736b991f1cf97067ad5accc205",
+      "benchmark_quality_claim": false
+    }
   },
   "integration_validation_v1": {
     "status": "passed",
@@ -289,7 +300,7 @@
     "scope_note": "Preserved historical integration before NoSearch/GPT/Piotr and approved-model-substitution implementation; source hashes refer to the v1 freeze"
   },
   "pilot_resource_request_v2": {
-    "status": "approved_submitted_live_startup",
+    "status": "approved_closed_mechanics_failed",
     "gpus": 1,
     "gpu_type": "H200",
     "cpus": 8,
@@ -307,7 +318,9 @@
     "fuzzy_substitution_approved": true,
     "proposal_sha256": "ba8fc8924e938255730b214caee32fb454a1d129337b90b17994b996f2cfb36a",
     "batch_template_sha256": "d6ab8996bb44b690d6faedd800491130dec4e456ced9fd50dbbb3dea043a0b62",
-    "concrete_controller_prepared": true
+    "concrete_controller_prepared": true,
+    "consumed_seconds": 3834,
+    "unused_seconds": 6966
   },
   "integration_validation_v2": {
     "status": "passed",
@@ -370,7 +383,7 @@
   },
   "pilot_live_validation": {
     "synthetic_browser_startup": "passed",
-    "scope": "network-isolated synthetic browser; no benchmark episode",
+    "scope": "Closed one-task five-selector pilot; all native verdicts missing/invalid",
     "native_click_observed": true,
     "viewport": [
       1280,
@@ -382,40 +395,167 @@
       3
     ],
     "remaining_owned_browser_processes": 0,
-    "benchmark_episodes": 0,
-    "provider_calls": 0,
+    "benchmark_episodes": 5,
+    "provider_calls": 389,
     "all_three_weights_loaded": true,
     "shepherd_selection_contract_passed": true,
     "arbiter_selection_contract_passed": true,
-    "piotr_selection_contract_passed": false,
-    "local_dispatches": 11,
-    "conservative_internal_warmups": 5
+    "piotr_selection_contract_passed": true,
+    "local_dispatches": 315,
+    "conservative_internal_warmups": 5,
+    "benchmark_valid": 0,
+    "benchmark_invalid": 5,
+    "benchmark_not_launched": 0,
+    "all_registered_controllers_closed": true,
+    "all_mechanics_valid": false
   },
   "pilot_runtime_repairs": {
     "scope": "Operational startup repairs; no scientific changes",
-    "prior_allocation_seconds": 633,
+    "prior_allocation_seconds": 1149,
     "paid_calls_before_recovery": 0,
-    "benchmark_episodes_before_recovery": 0,
+    "benchmark_episodes_before_recovery": 1,
     "repairs": [
       "Portable full-content checkpoint verification replaces cross-node device-number equality",
       "Retained scratch reconciliation recognizes verified cluster cleanup only on the original node",
       "Append-only operational revision history preserves all attempts and cumulative budgets",
       "Additive nested RoPE compatibility fields preserve original configuration values",
       "Explicit released Jinja template bypasses erroneous points-v15 matching of checkpoints path",
-      "Disable internal warmups; retain five conservative prior warmup reservations"
+      "Disable internal warmups; retain five conservative prior warmup reservations",
+      "Cookie-aware localhost login readiness preserves the original cookie handshake",
+      "Explicit unchanged1280x720 viewport avoids reading BrowserGym task before its single reset; no_search invalid retained"
     ],
     "validation": {
       "combined_tests_before_storage_fix": 168,
       "focused_controller_processor_tests_after_storage_fix": 25,
-      "focused_controller_processor_tests_current": 28,
+      "focused_controller_processor_tests_current": 30,
       "installed_model_config_mrope": true,
       "explicit_template_render_matches_release": true,
       "explicit_template_proof_sha256": "0f608edb52b293657571bc255d6613a17f8e57c38561e35295da6e966e1c5cf8",
-      "nested_rope_proof_sha256": "aae18f42e64917f1ca16cd1d890ca5c48201855bf9eec43be1c038c058fc5558"
+      "nested_rope_proof_sha256": "aae18f42e64917f1ca16cd1d890ca5c48201855bf9eec43be1c038c058fc5558",
+      "focused_controller_tests_current": 21,
+      "focused_worker_tests_current": 24,
+      "exact_live_piotr_payload_cpu_audit_passed": true,
+      "focused_controller_processor_tests_current_semantics": "21 controller and9 unchanged processor tests passed separately after targeted changes"
     },
     "historical_scratch_bytes_host_cleared": 48087936379,
     "original_approval_sha256": "ba8fc8924e938255730b214caee32fb454a1d129337b90b17994b996f2cfb36a",
-    "current_proposal_sha256": "6ba9350561d818ca22b4d853bbbdcee7b7e4f85162700518e6aa683bf1d96219",
-    "local_requests_charged_before_recovery": 16
+    "current_proposal_sha256": "fa01e7eb3f0fa4339fa336e8a47f1c457903fb79706d2e723a73ca2df60ea956",
+    "local_requests_charged_before_recovery": 38
+  },
+  "benchmark_task_evaluations_semantics": "Five preserved attempted primary cells; zero valid native verdicts at verified closure.",
+  "pilot_fixed_cells": {
+    "planned": 5,
+    "attempted": 5,
+    "valid": 0,
+    "invalid": 5,
+    "successes": 0,
+    "not_launched": 0,
+    "resampling_permitted": false
+  },
+  "pilot_closure": {
+    "status": "closed_fixed_attempts_recorded_mechanics_failed",
+    "approved_seconds": 10800,
+    "consumed_seconds": 3834,
+    "unused_seconds": 6966,
+    "unused_budget_carried_forward": false,
+    "all_scheduler_attempts_terminal": true,
+    "all_registered_controllers_closed": true,
+    "source_files_verified_unchanged": 42,
+    "api": {
+      "cap_usd": 15,
+      "settled_usd": 0.2754459,
+      "retained_reservations_usd": 0.0,
+      "charged_usd": 0.2754459000000001,
+      "reservations": 389,
+      "halt_reason": null
+    },
+    "requests": {
+      "conservative_internal_warmups": 5,
+      "local_dispatches": 315,
+      "journal_local_requests": 315,
+      "paid_dispatches": 389,
+      "journal_paid_requests": 389,
+      "charged_local_requests": 320,
+      "paid_cap": 575,
+      "local_cap": 320
+    },
+    "totals": {
+      "planned": 5,
+      "recorded": 5,
+      "attempted": 5,
+      "valid": 0,
+      "invalid": 5,
+      "missing": 0,
+      "successes": 0,
+      "launched": 5,
+      "attempted_unknown": 0,
+      "recorded_unattempted": 0,
+      "not_launched": 0
+    },
+    "aggregate_sha256": "740d187daa870ed57578f30b5090d8c7a18357811b2334cd38c936a3fd6842b3",
+    "final_node_local_apparent_bytes": 240454772707,
+    "native_judge_calls": 0,
+    "row_failures": {
+      "no_search": "task_access_before_reset",
+      "gpt4omini": "missing_normal_turn_limit_answer_before_native_grading",
+      "shepherd8b": "missing_normal_turn_limit_answer_before_native_grading",
+      "arbiter7b": "missing_normal_turn_limit_answer_before_native_grading",
+      "piotr_selectionarm": "broker_refusal_after_local_allowance_exhausted"
+    }
+  },
+  "dependency_counts": {
+    "all_released_tasks": 165,
+    "all_fuzzy_tasks": 40,
+    "all_helper_tasks": 14,
+    "proposed_single_site_tasks": 155,
+    "proposed_single_site_fuzzy_tasks": 39,
+    "proposed_single_site_helper_tasks": 13
+  },
+  "corrected_pilot_preparation_v3": {
+    "status": "ready_pending_exact_new_approval",
+    "approved": false,
+    "submitted": false,
+    "resources": {
+      "gpus": 1,
+      "gpu_type": "H200",
+      "cpus": 8,
+      "memory_gib": 120,
+      "total_seconds": 5400
+    },
+    "limits": {
+      "api_usd": 15.0,
+      "paid_requests": 575,
+      "local_requests": 400,
+      "total_requests": 975,
+      "scratch_bytes": 322122547200,
+      "runtime_reserve_bytes": 17179869184,
+      "max_turns": 30,
+      "max_candidates": 5
+    },
+    "protocol": "webarena_table5_viewer_reconstruction_v3",
+    "turn_limit_protocol": "released_viewer_na_fallback_v1",
+    "piotr_representation": "native_operation_descriptor_preaction_status_v2",
+    "native_fuzzy_preflight": {
+      "protocol": "synthetic_native_fuzzy_access_v1",
+      "cell_id": "native_fuzzy_preflight",
+      "model": "gpt-4o-2024-05-13",
+      "purpose": "native_fuzzy",
+      "max_calls": 1,
+      "expected_score": 1,
+      "before_primary_admission": true,
+      "automatic_retry": false
+    },
+    "offline_tests_passed": 137,
+    "offline_test_seconds": 58.619,
+    "representation_replay": {
+      "pools": 73,
+      "v1_representable": 61,
+      "v2_representable": 73,
+      "model_calls": 0,
+      "raw_actions_unchanged": true
+    },
+    "proposal_identity_sha256": "38989717c6c7a5963a5b77984de59bb776905bddb2d91673183e83e9f488d798",
+    "readiness_sha256": "eacc7e32eb2b9591a08fefeece65282d9e80a32ef17f2e9575dae36db2aed970",
+    "old_budget_carried_forward": false
   }
 }
