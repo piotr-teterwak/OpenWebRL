@@ -5,8 +5,8 @@
   "n5_blocked_pending_control_review": false,
   "requested_control_cohorts": 6,
   "requested_control_records": 2090,
-  "verified_control_cohorts": 3,
-  "verified_control_records": 750,
+  "verified_control_cohorts": 4,
+  "verified_control_records": 1345,
   "cohorts": [
     {
       "actor": "MolmoWeb-4B-Native",
@@ -185,6 +185,63 @@
         "artifact_audit_sha256": "b3425ccb871713d724ea3b87250339b3a6ebc37c93d0af993b6159247fe93c36"
       },
       "wandb": "https://wandb.ai/zixianma/openwebrl-evals/runs/7096821e0e834b30ab696da1556ef05a"
+    },
+    {
+      "actor": "MolmoWeb-8B-Native",
+      "benchmark": "WebVoyager",
+      "condition": "N1",
+      "verified_complete": true,
+      "requested_tasks": 595,
+      "saved_records": 595,
+      "valid_records": 595,
+      "invalid_records": 0,
+      "native_judge": {
+        "protocol": "official MolmoWeb webvoyager",
+        "model": "gpt-4o",
+        "successes": 264,
+        "eligible": 595,
+        "judged": 595,
+        "overall_success_rate": 0.4436974789915966,
+        "valid_only_success_rate": 0.4436974789915966,
+        "physical_http_attempts": 595,
+        "charged_micro_usd": 34232500
+      },
+      "accounting": {
+        "all_attempt_seconds": 37378,
+        "n1_stage_cap_seconds": 43200,
+        "browser_attempts": 609,
+        "browser_cap": 655,
+        "local_generation_attempts": 11925,
+        "local_generation_cap": 19650,
+        "selector_calls": 0,
+        "unresolved_API_reservations": 0,
+        "owned_teardown_verified": true
+      },
+      "audit": {
+        "artifact_files": 57905,
+        "decoded_images": 11798,
+        "native_generation_receipts_verified": 11798,
+        "physical_judge_response_receipts_verified": 595,
+        "artifact_audit_sha256": "c0fe57a8ba0dce1550bd52540743c9e327f657256d40ae02fca8e3d5fc592e32"
+      },
+      "requested_metrics": {
+        "raw": {
+          "episodes": 595,
+          "successes": 264,
+          "success_rate": 0.4436974789915966
+        },
+        "access_infra_filtered": {
+          "episodes": 463,
+          "successes": 254,
+          "success_rate": 0.5485961123110151
+        },
+        "excluded": {
+          "episodes": 132,
+          "successes": 10,
+          "success_rate": 0.07575757575757576
+        }
+      },
+      "wandb": "https://wandb.ai/zixianma/openwebrl-evals/runs/e8780ff9ffb94d6d8bb9d6d9f16e2933"
     }
   ],
   "comparability": {
@@ -377,6 +434,28 @@
             }
           }
         }
+      },
+      {
+        "job": "molmoweb-8b-webvoyager-paired",
+        "metrics": {
+          "native": {
+            "raw": {
+              "episodes": 595,
+              "successes": 264,
+              "success_rate": 0.4436974789915966
+            },
+            "access_infra_filtered": {
+              "episodes": 463,
+              "successes": 254,
+              "success_rate": 0.5485961123110151
+            },
+            "excluded": {
+              "episodes": 132,
+              "successes": 10,
+              "success_rate": 0.07575757575757576
+            }
+          }
+        }
       }
     ]
   },
@@ -397,7 +476,7 @@
     "failed_startup_allocation_seconds": 14,
     "failed_startup_attempts_preserved": 4,
     "replacements_within_remaining_stage_caps": true,
-    "reported_status": "4B WebVoyager and DeepShop running; four N5 conditions dependency queued",
+    "reported_status": "4B WebVoyager/DeepShop and 8B WebVoyager running; three conditions dependency queued",
     "verified_complete": false
   }
 }

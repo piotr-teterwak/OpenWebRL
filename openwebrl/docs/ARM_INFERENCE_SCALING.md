@@ -286,18 +286,21 @@ The campaign ceilings remain **26 H200-hours**, **$625** for APIs and **1,480 ph
 
 **The retained 4B WebVoyager control rates are 45.19% raw and 56.07% after excluding identified access/infra exposures.** This is a partial 582-task cohort; 13 of the requested 595 tasks remain unresolved. The filter removes 129 episodes, including nine successes, and changes the task mix. It is a diagnostic of the observed local-browser cohort, not a prediction of performance under Browserbase.
 
-**Following control review, the user approved all six paired N=5 + GPT-6.1 Sol medium evaluations on October 10.** The 4B WebVoyager/DeepShop N5 jobs are running; the other four are queued with dependencies that keep the total at four jobs and 32 browsers, including active N1 controls. They use the existing reserved N5 budgets and unchanged actor/browser/judge settings. No N5 outcome or selection improvement is established yet. Three N1 controls are independently complete: 4B DeepShop and both Online-Mind2Web cohorts. The 8B WebVoyager/DeepShop controls continue separately.
+**Following control review, the user approved all six paired N=5 + GPT-6.1 Sol medium evaluations on October 10.** The 4B WebVoyager/DeepShop and 8B WebVoyager N5 jobs are running; the other three are queued with dependencies that keep the total at four jobs and 32 browsers, including active N1 controls. They use the existing reserved N5 budgets and unchanged actor/browser/judge settings. No complete N5 cohort or selection improvement is established yet. Four N1 controls are independently complete: 8B WebVoyager, 4B DeepShop and both Online-Mind2Web cohorts. The 8B DeepShop control continues separately.
 
 The two headline metrics below use the same saved verdicts. **Raw** divides successes by all observed task records, including committed invalid outcomes; **access/infra-filtered** removes any episode with identified access/infra evidence, whether it succeeded, failed or recovered. Missing records remain unresolved. Native and AgentTrek scores remain separate.
 
 | Benchmark | N1 actor | Judge | Observed tasks | Raw successes | Raw success | Retained tasks | Retained successes | Access/infra-filtered success |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | WebVoyager (partial) | 4B | Native MolmoWeb | 582 | 263 | 45.19% | 453 | 254 | 56.07% |
+| WebVoyager | 8B | Native MolmoWeb | 595 | 264 | 44.37% | 463 | 254 | 54.86% |
 | DeepShop | 4B | Native MolmoWeb | 150 | 43 | 28.67% | 150 | 43 | 28.67% |
 | Online-Mind2Web | 4B | Native MolmoWeb | 300 | 38 | 12.67% | 218 | 37 | 16.97% |
 | Online-Mind2Web | 4B | AgentTrek | 300 | 81 | 27.00% | 218 | 73 | 33.49% |
 | Online-Mind2Web | 8B | Native MolmoWeb | 300 | 48 | 16.00% | 229 | 47 | 20.52% |
 | Online-Mind2Web | 8B | AgentTrek | 300 | 76 | 25.33% | 229 | 74 | 32.31% |
+
+**8B WebVoyager is now verified complete: 44.37% raw and 54.86% access/infra-filtered.** The same fixed filter excludes 132 episodes, including 10 successes. Compare the 4B partial and 8B complete cohorts with their different denominators in view; these rates alone do not establish a reliable model ranking. [8B control W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/e8780ff9ffb94d6d8bb9d6d9f16e2933).
 
 The filter is fixed before collecting N5 outcomes and applied identically to both conditions. Paired N5−N1 comparisons use common observed tasks for raw rates and the intersection of retained tasks for filtered rates, with paired task-bootstrap uncertainty. Separately filtered arm averages alone do not establish selection benefit. Collection is sequential and website changes remain a caveat. These are single-draw task comparisons, not repeated-seed estimates. [Aggregates and metric definitions](arm_results/molmoweb_n1_controls_20261010.json), [4B WV N5 W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/82e3d3aca2264d4195971b1dbb698486), [4B DS N5 W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/2ac5fb56ba574b3ba3f459521b683f02).
 
@@ -312,6 +315,7 @@ The earlier internal rollout-valid flag is narrower than this exposure filter; i
 
 | Benchmark | N1 actor | Judge | Task slots | Valid rollouts | Eligible / judged | Successes | Overall success | Valid-only success |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| WebVoyager | MolmoWeb-8B-Native | Native MolmoWeb, GPT-4o | 595 | 595 | 595 | 264 | 44.37% | 44.37% |
 | DeepShop | MolmoWeb-4B-Native | Native MolmoWeb, GPT-4o | 150 | 150 | 150 | 43 | 28.67% | 28.67% |
 | Online-Mind2Web | MolmoWeb-4B-Native | Native MolmoWeb, o4-mini | 300 | 287 | 287 | 38 | 12.67% | 13.24% |
 | Online-Mind2Web | MolmoWeb-4B-Native | AgentTrek, o4-mini | 300 | 287 | 105 | 81 | 27.00% | 28.22% |
@@ -375,6 +379,23 @@ All 150 task identities, 17,287 artifact files, 3,646 decoded images, 3,646 nati
 | Native judge cost plus unresolved reservation, USD | 11.080914 | 12 |
 
 The API total includes $0.483840 retained for one interrupted request without a response. Its charge remains reserved; all 150 final verdicts and every settled charge are present. Unused compute and API balances remain in this control's original budget.
+
+</details>
+
+<details>
+<summary>WebVoyager 8B control: complete artifact and accounting audit</summary>
+
+All 595 task identities, 57,905 artifact files, 11,798 decoded images, 11,798 native generation receipts and 595 GPT-4o responses passed the independent N1 audit. Frozen actor and judge settings, zero N1 selector calls, W&B synchronization and owned teardown were verified. All 509 outcomes retained before the judge-budget recovery remain unchanged. The independently approved N5 successor started after the N1 allocation finished; its records, calls and accounting are separate.
+
+| N1 resource | Used across all attempts | Stage cap |
+| --- | ---: | ---: |
+| One-H200 allocation seconds | 37,378 | 43,200 |
+| Browser attempts | 609 | 655 |
+| Local generations | 11,925 | 19,650 |
+| Native judge HTTP attempts | 595 | 2,620 |
+| Native judge cost, USD | 34.232500 | 40 |
+
+Every judge response and usage charge settled; no uncertain API reservation remains. Unused N1 time stays in its original stage budget. Four controls totaling 1,345 requested task slots are verified complete; the six-control suite remains incomplete.
 
 </details>
 
