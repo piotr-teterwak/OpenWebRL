@@ -322,6 +322,20 @@ ablation does not change the task pool used by the ARM runs above.
 
 The separate **outcome-only 56-group control on the original 2,102 tasks** has verified evaluations through iteration40: **34.33% overall** (103 successes / 300 tasks) and **42.92% valid-only** (103 / 240 valid tasks; 60 invalid). Overall improved by 2.00pp from iteration30; training to60 remains incomplete. It tests increased accepted mixed groups with global batch and PPO settings unchanged. The historical comparison remains descriptive because dates, valid-task sets and optimizer work differ. [Verified results and comparison limits](RL_EVALUATION.md#outcome56-iter40-results-20261010) · [Interactive curve](rl_results/arm_rl_interactive.html).
 
+The **uniform G8 outcome-only control** has verified evaluations through iteration 30.
+
+| Iteration | Successes | Tasks | Valid | Invalid | Overall % | Valid-only % |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+|30 |101 |300 |241 |59 |33.67 |41.91 |
+
+Overall increased by 1.67pp from iteration 20. Training uses eight rollouts per
+task and 48 accepted mixed groups on the original 2,102 tasks. At iteration 30
+it exceeds the five-rollout/56-group control
+by 1.33pp overall, with more Adam updates (716 versus 488) and different live
+collection dates and valid-task sets. This is a descriptive comparison, not a
+causal rollout-count result. Training to 60 remains incomplete; adaptive stays
+paused. [Verified results and comparison limits](RL_EVALUATION.md#uniform8-iter30-results-20261011).
+
 Original-bonus full300 at20/30/50/60 was evaluated September27;40 combines
 the saved historical100 with a new disjoint200. Earlier fixed100 values at20/30
 remain historical. [Backfill audit](RL_EVALUATION.md#arm-original-backfill-results-20260927).
