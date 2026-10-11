@@ -3369,6 +3369,14 @@
    },
    "scored": {
     "all": {
+     "Sol after (draw-0 evidence)": {
+      "states": 194,
+      "success": 39.201
+     },
+     "Luna after (draw-0 evidence)": {
+      "states": 194,
+      "success": 38.789
+     },
      "Sol before": {
       "states": 211,
       "success": 36.777
@@ -3411,6 +3419,14 @@
      }
     },
     "new": {
+     "Sol after (draw-0 evidence)": {
+      "states": 146,
+      "success": 41.678
+     },
+     "Luna after (draw-0 evidence)": {
+      "states": 146,
+      "success": 41.301
+     },
      "Sol before": {
       "states": 160,
       "success": 39.375
@@ -3453,6 +3469,14 @@
      }
     },
     "historical": {
+     "Sol after (draw-0 evidence)": {
+      "states": 48,
+      "success": 31.667
+     },
+     "Luna after (draw-0 evidence)": {
+      "states": 48,
+      "success": 31.146
+     },
      "Sol before": {
       "states": 51,
       "success": 28.627
@@ -3497,6 +3521,54 @@
    },
    "paired": {
     "all": {
+     "Sol after (draw-0 evidence) - Uniform": {
+      "states": 194,
+      "pp": [
+       3.448,
+       1.166,
+       5.841
+      ]
+     },
+     "Luna after (draw-0 evidence) - Uniform": {
+      "states": 194,
+      "pp": [
+       3.036,
+       0.819,
+       5.335
+      ]
+     },
+     "Sol after (draw-0 evidence) - Sol before": {
+      "states": 194,
+      "pp": [
+       -0.309,
+       -2.397,
+       1.675
+      ]
+     },
+     "Luna after (draw-0 evidence) - Luna before": {
+      "states": 194,
+      "pp": [
+       0.155,
+       -1.859,
+       2.097
+      ]
+     },
+     "Sol after (draw-0 evidence) - Luna after (draw-0 evidence)": {
+      "states": 194,
+      "pp": [
+       0.412,
+       -1.17,
+       1.891
+      ]
+     },
+     "Outcome reference: best on draws 0-2 - Sol after (draw-0 evidence)": {
+      "states": 194,
+      "pp": [
+       1.833,
+       -0.984,
+       4.725
+      ]
+     },
      "Sol before - Uniform": {
       "states": 211,
       "pp": [
@@ -3579,6 +3651,54 @@
      }
     },
     "new": {
+     "Sol after (draw-0 evidence) - Uniform": {
+      "states": 146,
+      "pp": [
+       2.692,
+       -0.058,
+       5.648
+      ]
+     },
+     "Luna after (draw-0 evidence) - Uniform": {
+      "states": 146,
+      "pp": [
+       2.315,
+       -0.223,
+       5.077
+      ]
+     },
+     "Sol after (draw-0 evidence) - Sol before": {
+      "states": 146,
+      "pp": [
+       -0.822,
+       -3.464,
+       1.69
+      ]
+     },
+     "Luna after (draw-0 evidence) - Luna before": {
+      "states": 146,
+      "pp": [
+       -0.445,
+       -2.966,
+       1.921
+      ]
+     },
+     "Sol after (draw-0 evidence) - Luna after (draw-0 evidence)": {
+      "states": 146,
+      "pp": [
+       0.377,
+       -1.712,
+       2.324
+      ]
+     },
+     "Outcome reference: best on draws 0-2 - Sol after (draw-0 evidence)": {
+      "states": 146,
+      "pp": [
+       2.434,
+       -1.166,
+       6.084
+      ]
+     },
      "Sol before - Uniform": {
       "states": 160,
       "pp": [
@@ -3661,6 +3781,54 @@
      }
     },
     "historical": {
+     "Sol after (draw-0 evidence) - Uniform": {
+      "states": 48,
+      "pp": [
+       5.75,
+       2.25,
+       9.771
+      ]
+     },
+     "Luna after (draw-0 evidence) - Uniform": {
+      "states": 48,
+      "pp": [
+       5.229,
+       1.687,
+       9.292
+      ]
+     },
+     "Sol after (draw-0 evidence) - Sol before": {
+      "states": 48,
+      "pp": [
+       1.25,
+       -0.833,
+       3.854
+      ]
+     },
+     "Luna after (draw-0 evidence) - Luna before": {
+      "states": 48,
+      "pp": [
+       1.979,
+       -0.625,
+       5.0
+      ]
+     },
+     "Sol after (draw-0 evidence) - Luna after (draw-0 evidence)": {
+      "states": 48,
+      "pp": [
+       0.521,
+       -0.521,
+       1.667
+      ]
+     },
+     "Outcome reference: best on draws 0-2 - Sol after (draw-0 evidence)": {
+      "states": 48,
+      "pp": [
+       0.007,
+       -3.396,
+       3.528
+      ]
+     },
      "Sol before - Uniform": {
       "states": 51,
       "pp": [
@@ -3948,6 +4116,20 @@
      -2.7647060835186172,
      3.3132529424795187
     ]
+   }
+  },
+  "sol_after": {
+   "job": 355686,
+   "model": "gpt-6.1-sol",
+   "effort": "medium",
+   "evidence": "draw 0 only",
+   "states_labelled": 194,
+   "states_planned": 211,
+   "calls": 776,
+   "charged_usd": 70.87,
+   "caps": {
+    "calls": 850,
+    "usd": 100.0
    }
   }
  }
