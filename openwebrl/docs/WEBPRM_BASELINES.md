@@ -55,6 +55,25 @@ Two separately authorized CMS startup attempts failed before any download or API
 5. Then run Online-Mind2Web with the same selector identities, its own frozen live-browser protocol and approved resources. Historical OM2W diagnostics below cannot populate the new matched comparison.
 
 <details>
+<summary>Execution readiness and remaining live gates</summary>
+
+The fixed-grid generator, concurrent episode queue and full-table analyzer are implemented and tested offline. Durable claims prevent a completed or interrupted primary attempt from being silently replaced. The analyzer keeps native and effective scores separate, computes the equal-domain mean separately from pooled success, and withholds primary rates for incomplete or unaudited cohorts. These are preparation results; **zero of the 1,550 full-cohort episodes have run**.
+
+| Original deployment | Released single-site tasks | Live readiness | Remaining gate |
+| --- | ---: | --- | --- |
+| Reddit | 19 | Startup, authentication and controlled fresh reset validated | Revised no-search/judge validation; concurrent reset/resource checks |
+| Shopping | 45 | Not validated | Original image acquisition, startup, authentication, reset and helper checks |
+| CMS | 35 | Not validated | Recover bounded acquisition, then startup, authentication and reset |
+| GitLab | 30 | Not validated | Original image acquisition, startup, authentication, reset and helper checks |
+| Map | 26 | Not validated | Frontend/backend acquisition, database identity, owned services and native checks |
+
+The existing model-request broker serializes requests; adding browser workers alone would not yield concurrent inference. Its prospective replacement and cumulative budget journal are being integrated and tested before any full allocation. The new evaluator transcript saves bounded page/helper inputs and replays the pinned scoring computation offline. Reddit and GitLab helpers are recomputed from saved observations; Shopping replay verifies the recorded helper return boundary, not its underlying REST query. A separate disposal helper permits only newly claimed temporary states to be discarded after complete durable evidence, an independent audit and process closure. Offline tests cover these contracts; live concurrency, resource use and production cleanup remain unverified.
+
+Three exact requests are pending together: the 45-minute CPU no-search validation (USD 2 maximum), CMS startup recovery inside its original one-hour total, and a 30-minute CPU Map frontend download (zero API spend). This bundle does not approve Shopping/GitLab/Map backend acquisition or the full evaluation. Further acquisition packages are prepared independently; none has launched.
+
+</details>
+
+<details>
 <summary>Published Table 5 references and the matched target comparison</summary>
 
 The target remains the four published conditions plus **Piotr's released SelectionARM**, under both GPT-4o-mini and GPT-4o actors. WebArena-Lite comes first, then a separately frozen Online-Mind2Web comparison. Every primary row uses the same cohort, actor snapshot and benchmark evaluator; guided rows request five candidates, while no-search requests one action.
@@ -68,6 +87,8 @@ The target remains the four published conditions plus **Piotr's released Selecti
 | Piotr SelectionARM | — | — | Not run |
 
 Paper values are references from [WebArbiter v2, Table 5](https://arxiv.org/html/2601.21872v2#S5.T5), not reproduced measurements. They are unweighted means over Shopping, CMS, Reddit, GitLab and Map. The paper imports its no-search and Shepherd rows from earlier work; their implied denominators differ from its contemporaneous rows. Exact historical task membership and all inference settings remain unresolved, so this implementation is a disclosed reconstruction.
+
+The authors' [trajectory dataset](https://huggingface.co/datasets/ZYao720/WebArbiter-Trajectories) still contained no released trajectories when checked on October 11. Its advertised 72 trajectories do not establish the complete Table 5 task manifest.
 
 </details>
 

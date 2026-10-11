@@ -42,7 +42,8 @@
       "scripts/prepare_webprm_webarena.py": "0e2d6c18aa4ebac06ff305501a13956fb5f17ba430bf7af722df55168c0da29c",
       "tests/test_webprm_webarena.py": "2d11e98f36eecf6a44fe59ef7fe6334bb8f91c91b8fa80e3adfee65d2e96fd84"
     },
-    "source_snapshot_scope": "Preserved initial evaluator preparation, before subsequent native fuzzy and worker integration"
+    "source_snapshot_scope": "Preserved initial evaluator preparation, before subsequent native fuzzy and worker integration",
+    "website_startup_login_reset_scope": "Original Reddit only; historical preparation record, not all five sites."
   },
   "original_reddit_image": {
     "archive_bytes": 53435097088,
@@ -67,7 +68,8 @@
   ],
   "sources": {
     "paper": "https://arxiv.org/html/2601.21872v2#S5.T5",
-    "official_environment": "https://github.com/web-arena-x/webarena/blob/dce04686a56253aefba7b18a4fa0937cf1dc987b/environment_docker/README.md"
+    "official_environment": "https://github.com/web-arena-x/webarena/blob/dce04686a56253aefba7b18a4fa0937cf1dc987b/environment_docker/README.md",
+    "author_trajectory_dataset": "https://huggingface.co/datasets/ZYao720/WebArbiter-Trajectories"
   },
   "provider_metadata_get_requests": 3,
   "hosting_validation": {
@@ -755,5 +757,82 @@
     "provider_calls": 0,
     "network_calls": 0,
     "website_readiness_verified": false
+  },
+  "full_cohort_preparation": {
+    "status": "offline_preparation_live_validation_and_exact_resource_approval_pending",
+    "planned_tasks": 155,
+    "planned_episodes": 1550,
+    "primary_episodes_started": 0,
+    "original_live_validated_domains": [
+      "reddit"
+    ],
+    "original_live_unvalidated_domains": [
+      "shopping",
+      "shopping_admin",
+      "gitlab",
+      "map"
+    ],
+    "fixed_grid": {
+      "selectors": 5,
+      "actors": 2,
+      "primary_attempts_per_cell": 1,
+      "replacement_task_admission": false,
+      "paper_exact_membership_verified": false
+    },
+    "offline_components": {
+      "concurrent_episode_queue": "Durable fixed primary claims; own and await workers; live resource admission supplied by controller.",
+      "table_aggregation": "Native/effective scores, equal-domain mean distinct from pooled rate, planned denominators, paired uncertainty; incomplete/unaudited headline rates withheld.",
+      "evaluator_transcript": {
+        "protocol": "native_evaluator_observation_transcript_v1",
+        "max_events": 512,
+        "max_bytes": 16777216,
+        "max_value_bytes": 4194304,
+        "replay_scope": "Pinned native computation and Reddit/GitLab helper bodies; Shopping helper return boundary only. Neither independent website truth nor provider accuracy is certified."
+      },
+      "state_disposal": {
+        "protocol": "audited_new_campaign_state_disposal_v1",
+        "tests_passed": 11,
+        "production_states_disposed": 0,
+        "requirements": "Fresh private claim; approved prospective policy; complete durable evidence and independent audit; actual worker/service/broker closure."
+      },
+      "map_hosting_preparation": "Archive inventory, private configuration, original service topology and bounded local relays; original startup/database/reset unverified.",
+      "concurrent_broker": "Prospective shared cumulative append-only financial journal and bounded concurrent handlers under integration; live throughput unverified."
+    },
+    "root_independent_checks": {
+      "transcript_tests": 14,
+      "local_bridge_tests": 5,
+      "map_preparation_tests": 9,
+      "tests_passed": 28,
+      "elapsed_seconds": 2.202,
+      "provider_calls": 0,
+      "browser_calls": 0,
+      "allocations": 0
+    },
+    "pending_three_job_bundle": {
+      "status": "awaiting_exact_user_resource_approval",
+      "includes": [
+        "reddit-no-search-guarded-v4-cpu-v1",
+        "cms-original-acquisition-startup-recovery-v1",
+        "map-original-frontend-acquisition-v2"
+      ],
+      "api_usd_cap": 2,
+      "full_evaluation_included": false,
+      "shopping_gitlab_map_backend_included": false
+    },
+    "source_sha256": {
+      "scripts/prepare_webprm_table5_campaign.py": "ff778402acffe8dd172f725594e9777a20be5af25b5a3cf4efc58b4c84e69431",
+      "openwebrl/webprm_campaign_queue.py": "74c64a8d869c73f0b2bb5211256fc94efcb962678c2e81747b9c62117280e1fc",
+      "openwebrl/webprm_table5_analysis.py": "2b0247af731243dd56920b9b3076fe2733b3b569d7b0f50ee7b59d81a676099c",
+      "openwebrl/webprm_evaluator_transcript.py": "9e308f9cccf502648dcdcef44af273b143f36195691d6c0bba76c3f154e81593",
+      "openwebrl/webprm_ephemeral_state.py": "2b0beb9c30a23b6082cefc5098b06f0c9bda9606ef78e4501ce8c7fed7794639",
+      "scripts/prepare_webprm_map_hosting.py": "d8f178146a65fd32b368fe778ae8c0904e24b35a9ac99183408bb1ad7cb1298a",
+      "openwebrl/webprm_local_service_bridge.py": "5a690c70c252dfc6dbfec2dd90f0fafbc5dae2625b66720c5a86b898d4443794"
+    }
+  },
+  "author_trajectory_release_check": {
+    "date_utc": "2026-10-11",
+    "released_trajectories_available": false,
+    "advertised_trajectories": 72,
+    "complete_historical_table5_membership_established": false
   }
 }
