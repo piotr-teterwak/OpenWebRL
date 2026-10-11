@@ -535,6 +535,32 @@ All attempted work is charged. The remaining 184 seconds round down to a three-m
 
 </details>
 
+<a id="molmoweb-completion-compute-20261011"></a>
+
+<details>
+<summary>October 11 completion compute request — exact ceiling pending</summary>
+
+The user authorized finishing the existing cohorts; the additional numerical ceiling is prepared for confirmation before submission. At the current two-browser N5 throughput, the missing episodes require approximately **148 H200-hours**. The proposed **199.5 additional H200-hours** include startup, chunk handoffs and recovery headroom, with separate caps for each condition and early exit when its fixed task set is complete. These are caps, not commitments to consume the entire reservation or guarantees against slower websites/API service.
+
+| Continuation | Missing at preparation | Additional H200-hours, all attempts |
+| --- | ---: | ---: |
+| 4B WebVoyager N1 | 13 | 1.5 |
+| 4B WebVoyager N5 | 484 | 48 |
+| 8B WebVoyager N5 | 454 | 54 |
+| 4B DeepShop N5 | 105 | 14 |
+| 8B DeepShop N5 | 91 | 14 |
+| 4B Online-Mind2Web N5 | 242 | 32 |
+| 8B Online-Mind2Web N5 | 224 | 36 |
+| **Total** | **1,613** | **199.5** |
+
+Each allocation retains **one H200, eight CPUs and 120 GiB RAM**. Keep at most four jobs and 32 browsers across the suite; actual N5 admission remains two browsers per model. Normal-QoS chunks are at most 24 hours, with every failed attempt charged and no transfer between condition budgets. The original 90-H200-hour envelope remains accounted separately; this proposal would bring the lifetime maximum to 289.5 H200-hours. The currently active 8B OM allocation continues within its original cap and may reduce the missing count before handoff.
+
+**No API or browser-cap increase is proposed.** Straight-line native-judge forecasts for WebVoyager are approximately $28.36 and $29.21 against separate $30 N5 caps; those narrow margins are estimates, not guaranteed coverage. DeepShop has five spare browser starts per actor after one attempt for every missing task. Each condition must stop if an unchanged API/browser/generation cap binds. Preserve every saved outcome and physical request/reservation; replay only audited, uncommitted allocation interruptions. Actor weights, decoding, candidates, Sol effort, 30-decision limit, judges and fixed raw/filtered/common-task metrics remain unchanged.
+
+**Status: prepared; no extension allocation submitted.**
+
+</details>
+
 The approved paired design contains the following six control cohorts and six matching N5 cohorts:
 
 | Benchmark | Tasks per actor | Actors | N1 control episodes | Scoring |
