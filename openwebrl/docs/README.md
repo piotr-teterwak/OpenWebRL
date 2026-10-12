@@ -1,6 +1,6 @@
 # OpenWebRL project documentation
 
-[WebPRM baselines: first two primary outcomes audited; transfer recovery prepared](WEBPRM_BASELINES.md#table5-plan-20261010).
+[WebPRM baselines: eight terminal results audited; final Reddit allocation queued and four pending requests](WEBPRM_BASELINES.md#table5-plan-20261010).
 
 [Faster reward improvement: five fresh iteration0→10 action-credit pilots, pending native GPU validation, controlled comparisons and recent evidence](RL_LEARNING_EFFICIENCY.md#action-credit-implementation-20261011).
 
