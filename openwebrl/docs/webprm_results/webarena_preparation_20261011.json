@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "status": "guarded_no_search_diagnostic_and_map_frontend_verified_cms_quota_blocked_full_cohort_pending",
+  "status": "approved_reddit190_and_four_acquisitions_queued",
   "date_utc": "2026-10-11",
   "benchmark_order": [
     "WebArena-Lite",
     "Online-Mind2Web"
   ],
   "benchmark_task_evaluations": 11,
-  "new_compute_allocations": 16,
+  "new_compute_allocations": 21,
   "paid_api_calls": 1074,
   "cohort": {
     "released_tasks": 165,
@@ -886,7 +886,7 @@
     "website_readiness_verified": false
   },
   "full_cohort_preparation": {
-    "status": "reddit190_and_four_acquisitions_reviewed_pending_exact_approval",
+    "status": "approved_reddit190_and_four_acquisitions_queued",
     "planned_tasks": 155,
     "planned_episodes": 1550,
     "primary_episodes_started": 0,
@@ -1009,11 +1009,13 @@
           "retained_bytes": 77309411328,
           "temporary_bytes": 536870912
         },
-        "approved": false,
-        "submitted": false,
-        "status": "reviewed_pending_exact_approval",
+        "approved": true,
+        "submitted": true,
+        "status": "approved_submitted_queued",
         "original_equivalence_verified": false,
-        "acquisition_launched": false
+        "acquisition_launched": true,
+        "transfer_started": false,
+        "job_id": "356007"
       },
       "gitlab": {
         "name": "gitlab-thirdparty-oci-acquisition-v1",
@@ -1046,11 +1048,13 @@
           "retained_bytes": 85899345920,
           "temporary_bytes": 536870912
         },
-        "approved": false,
-        "submitted": false,
-        "status": "reviewed_pending_exact_approval",
+        "approved": true,
+        "submitted": true,
+        "status": "approved_submitted_queued",
         "original_equivalence_verified": false,
-        "acquisition_launched": false
+        "acquisition_launched": true,
+        "transfer_started": false,
+        "job_id": "356010"
       },
       "map_backend": {
         "name": "map-original-backend-acquisition-v1",
@@ -1083,11 +1087,13 @@
           "retained_bytes": 214748364800,
           "temporary_bytes": 536870912
         },
-        "approved": false,
-        "submitted": false,
-        "status": "reviewed_pending_exact_approval",
+        "approved": true,
+        "submitted": true,
+        "status": "approved_submitted_queued",
         "original_equivalence_verified": false,
-        "acquisition_launched": false
+        "acquisition_launched": true,
+        "transfer_started": false,
+        "job_id": "356008"
       },
       "shopping_gitlab_metadata": {
         "responses": 6,
@@ -1133,11 +1139,13 @@
           "retained_bytes": 12884901888,
           "temporary_bytes": 532676608
         },
-        "approved": false,
-        "submitted": false,
-        "status": "reviewed_pending_exact_approval",
+        "approved": true,
+        "submitted": true,
+        "status": "approved_submitted_queued",
         "original_equivalence_verified": false,
-        "acquisition_launched": false
+        "acquisition_launched": true,
+        "transfer_started": false,
+        "job_id": "356009"
       }
     },
     "closed_three_job_bundle": {
@@ -1158,8 +1166,22 @@
       ],
       "cms_separately_approved_successor_closed": "355928"
     },
-    "pending_five_job_bundle": {
-      "status": "reviewed_pending_exact_user_approval",
+    "reddit190_preparation": {
+      "proposal_sha256": "c6fffcbdba8c94e48c3efa8343ae536dc6cce6b52f2a080accf2d9d3e2b799e0",
+      "readiness_sha256": "85aca61f5088826234aecd2032a1cca39a5bf3e56fb3c44028c2999767e4640b",
+      "tests_passed": 278,
+      "frozen_implementation_files": 52,
+      "frozen_test_files": 18,
+      "identity_checks_passed": 10,
+      "primary_cells": 190,
+      "launched": true,
+      "changes": "Enforce durable artifact-byte cap, complete ordered allocation history, three-attempt limit and safe held-job cancellation. Scientific task/protocol identities unchanged.",
+      "job_id": "356022",
+      "scheduler_state": "PENDING",
+      "submitted_cpus": 8
+    },
+    "approved_five_job_bundle": {
+      "status": "approved_all_five_submitted",
       "bundle_file_sha256": "e53d165ad01a9a69c777c9de9f28d4e9f76d0514df203aa8708fdcdd3004ebde",
       "jobs": [
         {
@@ -1188,8 +1210,22 @@
             "scratch_bytes": 549755813888,
             "total_requests": 32995
           },
-          "approved": false,
-          "submitted": false
+          "approved": true,
+          "submitted": true,
+          "job_id": "356022",
+          "scheduler_state_at_launch_check": "PENDING",
+          "submitted_resource_reduction": {
+            "cpus": 8,
+            "all_other_caps_preserved": true,
+            "proposal_sha256": "c6fffcbdba8c94e48c3efa8343ae536dc6cce6b52f2a080accf2d9d3e2b799e0",
+            "readiness_sha256": "85aca61f5088826234aecd2032a1cca39a5bf3e56fb3c44028c2999767e4640b",
+            "focused_checks_passed": 22,
+            "identity_audits_passed": 10,
+            "scheduler_test_only_passed": true,
+            "prior_rejected_submission_allocated_jobs": 0,
+            "prior_rejection_elapsed_seconds": 0,
+            "python_implementation_unchanged": true
+          }
         },
         {
           "name": "map-original-backend-acquisition-v1",
@@ -1222,8 +1258,10 @@
             "retained_bytes": 214748364800,
             "temporary_bytes": 536870912
           },
-          "approved": false,
-          "submitted": false
+          "approved": true,
+          "submitted": true,
+          "job_id": "356008",
+          "scheduler_state_at_launch_check": "PENDING"
         },
         {
           "name": "cms-thirdparty-oci-acquisition-v1",
@@ -1258,8 +1296,10 @@
             "retained_bytes": 12884901888,
             "temporary_bytes": 532676608
           },
-          "approved": false,
-          "submitted": false
+          "approved": true,
+          "submitted": true,
+          "job_id": "356009",
+          "scheduler_state_at_launch_check": "PENDING"
         },
         {
           "name": "shopping-thirdparty-oci-acquisition-v1",
@@ -1292,8 +1332,10 @@
             "retained_bytes": 77309411328,
             "temporary_bytes": 536870912
           },
-          "approved": false,
-          "submitted": false
+          "approved": true,
+          "submitted": true,
+          "job_id": "356007",
+          "scheduler_state_at_launch_check": "PENDING"
         },
         {
           "name": "gitlab-thirdparty-oci-acquisition-v1",
@@ -1326,8 +1368,10 @@
             "retained_bytes": 85899345920,
             "temporary_bytes": 536870912
           },
-          "approved": false,
-          "submitted": false
+          "approved": true,
+          "submitted": true,
+          "job_id": "356010",
+          "scheduler_state_at_launch_check": "PENDING"
         }
       ],
       "reddit_tasks": 19,
@@ -1342,18 +1386,10 @@
       "new_acquisition_campaigns_per_site": 1,
       "automatic_network_retry": false,
       "ephemeral_policy": "Dispose only prospectively claimed temporary states after complete durable evidence, independent audit and process closure. Preserve immutable bases and historical states; no rm command.",
-      "no_budgets_transferred_between_requests": true
-    },
-    "reddit190_preparation": {
-      "proposal_sha256": "c38edc205b4d1aea3bdf554ff4853a33ba781f3ec1a876cbb92009eab5155d23",
-      "readiness_sha256": "8bd586eb71f2dd9a7a882f80148fa9c8b1d12d6f569bcdf82ec8752817e224b4",
-      "tests_passed": 278,
-      "frozen_implementation_files": 52,
-      "frozen_test_files": 18,
-      "identity_checks_passed": 10,
-      "primary_cells": 190,
-      "launched": false,
-      "changes": "Enforce durable artifact-byte cap, complete ordered allocation history, three-attempt limit and safe held-job cancellation. Scientific task/protocol identities unchanged."
+      "no_budgets_transferred_between_requests": true,
+      "approved": true,
+      "exact_user_approval": "I approve",
+      "approval_receipt_sha256": "8e22b4738dba47d302165194326fdb03120f58088a5f5cfd6ea79defd51bf851"
     }
   },
   "author_trajectory_release_check": {
@@ -1361,5 +1397,6 @@
     "released_trajectories_available": false,
     "advertised_trajectories": 72,
     "complete_historical_table5_membership_established": false
-  }
+  },
+  "new_compute_allocations_semantics": "16 historical allocations plus five submitted next-stage allocations; submitted, queued and consumed time are distinct."
 }
