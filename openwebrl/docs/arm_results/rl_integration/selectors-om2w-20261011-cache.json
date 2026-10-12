@@ -1,0 +1,62 @@
+{
+  "luna5": {
+    "episodes": 300,
+    "prompt": 208444620,
+    "cached": 187083301,
+    "completion": 7092736,
+    "requests": 20895,
+    "unmetered": 50,
+    "record_in": 208444620,
+    "record_out": 7092736
+  },
+  "prior5": {
+    "episodes": 300,
+    "prompt": 284359050,
+    "cached": 257797069,
+    "completion": 8965846,
+    "requests": 27500,
+    "unmetered": 45,
+    "record_in": 284359050,
+    "record_out": 8965846
+  },
+  "head5": {
+    "episodes": 300,
+    "prompt": 239726075,
+    "cached": 216059883,
+    "completion": 7976985,
+    "requests": 23455,
+    "unmetered": 55,
+    "record_in": 239726075,
+    "record_out": 7976985
+  },
+  "kev5": {
+    "episodes": 300,
+    "prompt": 236553785,
+    "cached": 213025456,
+    "completion": 7821227,
+    "requests": 22720,
+    "unmetered": 50,
+    "record_in": 236553785,
+    "record_out": 7821227
+  },
+  "actor0": {
+    "episodes": 300,
+    "prompt": 43060178,
+    "cached": 35299799,
+    "completion": 1441155,
+    "requests": 4462,
+    "unmetered": 4,
+    "record_in": 43060178,
+    "record_out": 1441155
+  },
+  "arm": {
+    "episodes": 300,
+    "prompt": 236375310,
+    "cached": 213331063,
+    "completion": 7772205,
+    "requests": 22900,
+    "unmetered": 75,
+    "record_in": 236375310,
+    "record_out": 7772205
+  }
+}

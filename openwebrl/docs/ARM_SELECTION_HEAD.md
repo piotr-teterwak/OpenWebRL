@@ -8,7 +8,7 @@
 
 The question is whether selection can be built into the actor ([integration option 3](ARM_INTEGRATION_PLAN.md)). Today's best-of-N pipeline samples five candidates from the actor, then runs a separate 4B selector over the screenshot and all candidates. A head that reads the hidden states the actor computes while generating would need no second model.
 
-**In full Online-Mind2Web episodes, Luna is the only new selector that beats the SFT actor alone.** On 300 tasks, Luna reaches 41.3% (+8.3 pp [+3.3, +13.7]), level with Piotr ARM at 40.0%. The Kev-style pass (37.7%) and the frozen head (37.0%) sit between the SFT actor and Piotr ARM; neither difference is significant. The action-type prior is worse than one sample (27.0%). Sampling five candidates multiplies actor compute by about 5.5×; the actor-based selectors add 18% on top, against 6.6% for Piotr ARM ([live-loop results](#selection-head-om2w-20261011)).
+**In full Online-Mind2Web episodes, Luna is the only new selector that beats the SFT actor alone.** On 300 tasks, Luna reaches 41.3% (+8.3 pp [+3.3, +13.7]), level with Piotr ARM at 40.0%. The Kev-style pass (37.7%) and the frozen head (37.0%) sit between the SFT actor and Piotr ARM; neither difference is significant. The action-type prior is worse than one sample (27.0%). Piotr ARM's separate 4B selector is 36% of its system's compute. Reading the frozen head's features from the actor's own generation pass would remove that, about 36% fewer FLOPs per step than Piotr ARM, at a 3.0 pp [−8.0, +2.0] success difference; this integration is projected, not yet built ([live-loop results](#selection-head-om2w-20261011)).
 
 <a id="selection-head-architecture"></a>
 
@@ -37,21 +37,28 @@ The question is whether selection can be built into the actor ([integration opti
 
 **Comparability.** The new conditions were collected four days after the controls, so website drift is not controlled. Across three earlier full-300 runs, the SFT actor scored 98–100/300; the run-to-run spread is small next to these differences, but it does not cover drift. Intervals are task bootstraps: 10,000 samples, seed 42.
 
-**Whole-system cost per episode** (actor plus selector; FLOP proxy = 2 × 4.44B parameters × processed tokens):
+**Whole-system cost per episode** (actor plus selector):
+- **Compute proxy:** 2 × 4.44B parameters × tokens actually computed. For the actor, that is the uncached prompt tokens plus generated tokens, using sglang's per-request `cached_tokens`.
+- **Prefix cache:** the five candidate requests share the prompt prefill, and consecutive steps share the history, so 82–91% of actor prompt tokens hit the prefix cache.
+- **Selectors:** they have no cached-token telemetry and are counted in full.
 
-| Condition | Steps | Actor requests | Actor tokens (k) | Selector tokens (k) | Actor PFLOP | Selector PFLOP | Selector share of FLOPs | API $ | Episode seconds | Seconds per step | Selector seconds per step |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| SFT alone | 14.8 | 14.9 | 148 | 0 | 1.32 | 0 | 0% | 0 | 147 | 9.9 | 0 |
-| Piotr ARM | 15.2 | 76.6 | 814 | 58 | 7.22 | 0.51 | 6.6% | 0 | 193 | 12.7 | 0.52 |
-| Luna | 13.9 | 69.8 | 718 | 73 | 6.38 | external | — | 0.0084 | 224 | 16.1 | 3.48 |
-| Kev-style | 15.1 | 75.9 | 815 | 184 | 7.23 | 1.63 | 18.4% | 0 | 235 | 15.5 | 0.97 |
-| Frozen head | 15.6 | 78.4 | 826 | 187 | 7.33 | 1.66 | 18.4% | 0 | 217 | 13.9 | 0.54 |
-| Action prior | 18.3 | 91.8 | 978 | 0 | 8.68 | 0 | 0% | 0 | 230 | 12.6 | 0 |
+| Condition | Steps | Actor uncached prompt tokens (k) | Actor generated tokens (k) | Selector tokens (k) | Actor PFLOP | Selector PFLOP | System PFLOP | Selector share | System PFLOP per step | API $ | Episode seconds | Seconds per step | Selector seconds per step |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| SFT alone | 14.8 | 25.9 | 4.8 | 0 | 0.27 | 0 | 0.27 | 0% | 0.018 | 0 | 147 | 9.9 | 0 |
+| Piotr ARM | 15.2 | 76.8 | 25.9 | 58 | 0.91 | 0.51 | 1.43 | 36% | 0.094 | 0 | 193 | 12.7 | 0.52 |
+| Luna | 13.9 | 71.2 | 23.6 | 73 | 0.84 | external | ≥0.84 | — | ≥0.061 | 0.0084 | 224 | 16.1 | 3.48 |
+| Kev-style (sidecar) | 15.1 | 78.4 | 26.1 | 184 | 0.93 | 1.63 | 2.56 | 64% | 0.169 | 0 | 235 | 15.5 | 0.97 |
+| Frozen head (sidecar, as run) | 15.6 | 78.9 | 26.6 | 187 | 0.94 | 1.66 | 2.59 | 64% | 0.166 | 0 | 217 | 13.9 | 0.54 |
+| Frozen head, cache-reusing (projected) | 15.6 | 78.9 | 26.6 | ≈0 | 0.94 | ≈0 | 0.94 | ≈0% | 0.060 | 0 | — | — | — |
+| Action prior | 18.3 | 88.5 | 29.9 | 0 | 1.05 | 0 | 1.05 | 0% | 0.058 | 0 | 230 | 12.6 | 0 |
 
-- **Sampling five candidates dominates the cost.** It multiplies the actor's work by about 5.5× (1.3 → 7.2 PFLOP per episode), whichever selector is used.
-- **The actor-based selectors cost more than Piotr ARM.** They re-encode the full-resolution prompt, screenshots and all five candidates on every step, about 187k tokens per episode. Piotr ARM reads downscaled images and costs about 58k tokens. These selectors run as a separate pass over the actor's weights. A head that reuses the actor's own KV cache would remove most of this cost; that integration was not built.
-- **Luna** costs $0.0084 per episode in API fees, about $0.0006 per decision. It also adds the most latency, 3.5 seconds per step.
-- **Total selector cost does not track gains.** The prior adds no selector compute, but its longer episodes raise the actor's cost more than any selector does.
+- **Piotr ARM's separate selector is 36% of the system's compute.** With the prefix cache, five candidates cost the actor about 3.4× SFT alone (0.27 → 0.91 PFLOP), and Piotr's 4B selector then adds 0.51 PFLOP.
+- **A head that reuses the actor's KV cache would cut the system's compute by about 36% relative to Piotr ARM: 0.060 versus 0.094 PFLOP per step.**
+  - The frozen head reads the actor's own hidden states at layers 18, 27 and 36. Those hidden states cover the prompt's last token and each candidate's tokens, which the actor already computes while generating, so it adds only the head itself.
+  - In this run it was served as a sidecar that re-encodes the full-resolution prompt and candidates, which made it the most expensive selector (2.59 PFLOP). The projected row assumes features are taken from the generation pass; that has not been built or measured.
+  - The success cost is 3.0 pp [−8.0, +2.0] below Piotr ARM, not significant.
+- **Kev-style cannot reuse the cache.** Its LoRA changes those layers, so it needs its own pass.
+- **Luna** costs $0.0084 per episode in API fees, about $0.0006 per decision. It adds the most latency, 3.5 seconds per step, and its compute is unknown.
 
 <details>
 <summary>Method, verification, accounting and caveats</summary>
@@ -90,7 +97,10 @@ The question is whether selection can be built into the actor ([integration opti
   - The Luna ledger shows 4,426 calls and $3.21 in total. That includes the discarded halted episodes; the 300 counted episodes cost $2.52.
 - **Metric definitions.**
   - Tokens are the processed input plus output tokens recorded per episode, image tokens included.
-  - The FLOP proxy ignores attention, prefix caching across the five candidate requests, and the split between the vision encoder and the language model. For the actor-based selectors, the sidecar's own estimate counts vision on image patches and agrees within 6%.
+  - The FLOP proxy is linear in tokens computed. It ignores attention cost (which grows with context, including cached context), memory-bound decoding and the split between the vision encoder and the language model.
+  - Actor tokens come from all metered requests of each counted episode; 0.1–0.3% of requests were unmetered ([cache evidence](arm_results/rl_integration/selectors-om2w-20261011-cache.json)).
+  - For the actor-based selectors, the sidecar's own estimate counts vision on image patches and agrees within 6%.
+  - Selector tokens are counted without caching, since there is no cached-token telemetry; Piotr's selector may hit a prefix cache, which would lower its share.
   - Luna's FLOPs are unknown because it is an external model.
   - Seconds per step are wall-clock elapsed time divided by browser steps.
   - Actor request seconds are summed over the five parallel requests, so they can exceed wall time.
