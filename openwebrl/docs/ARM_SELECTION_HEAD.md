@@ -276,7 +276,7 @@ Jobs `354654` (primary) and `354696` (breakdown; identical folds, seeds and pick
 | Does a low-capacity model find transferable outcome signal in the frozen features? | No. Ridge probes shrink to near-zero weights (penalty 10⁶–10⁹, chosen inside training folds) and score at uniform (−1.6 to +0.4 pp) | At this scale the features carry no linear, task-transferable outcome signal |
 | Does keeping the teacher loss while adding an outcome loss help? | No. Nested CV chooses outcome weight 0 in all five folds; held-out success falls as the weight rises | Outcomes act as noise, not as a correction |
 | Do combinations of existing selectors help? | Marginally at most: the best vote is +0.27 pp over Piotr | Piotr and the teacher head help only where they agree |
-| What explains the selectors' gain over uniform? | A prior over ten action types learned on training folds matches them (+2.21 pp vs +2.03 to +2.48) | Much of the learned edge is "which kind of action works" |
+| Does an action-type prior explain the selectors' gain? | No. Alone it ties among candidates in 118 of 138 states and reduces to the actor's first sample (+1.85 pp vs +1.67). Its earlier +2.21 came from breaking ties with the teacher head. | Selectors, the actor's first sample and the prior all lie within noise of each other |
 | How many states would a confirmatory comparison need? | About 70 states for 5 pp, 185–225 for 3 pp and 415–505 for 2 pp, at eight draws per action | Confirming Piotr's ~2.5 pp needs about 300 states; adding states beats adding draws |
 | Is the historical states' weak first sample a depth effect? | No: depth reweighting moves it from 21.3% to 23.4% (new states: 40.4%) | The historical states are harder after the first decision; the cause is not isolated |
 
@@ -321,11 +321,12 @@ Jobs `354654` (primary) and `354696` (breakdown; identical folds, seeds and pick
 | --- | ---: | --- |
 | Vote of Piotr, teacher head and actor's first sample | 34.42% | +2.75 [+0.11, +5.37] |
 | Piotr SelectionARM | 34.15% | +2.48 [-0.14, +5.11] |
-| Action-type prior learned on training folds | 33.88% | +2.21 [+0.02, +4.45] |
+| Action-type prior learned on training folds, ties to the teacher head | 33.88% | +2.21 [+0.02, +4.45] |
+| Action-type prior learned on training folds, ties to the first candidate | 33.51% | +1.85 [−0.51, +4.29] |
 | Teacher-trained head | 33.70% | +2.03 [-0.24, +4.40] |
 
 - **Agreement split.** Piotr and the teacher head pick equivalent actions on 95 states. There Piotr scores 32.4% against 28.1% for uniform. On the other 43 states, Piotr scores 38.1%, the teacher head 40.1% and uniform 39.5%.
-- **Action-type prior.** It ranks candidates by their action type's mean within-state relative success on the training folds, and breaks ties with the teacher head's logit.
+- **Action-type prior.** It ranks candidates by their action type's mean within-state relative success on the training folds. The per-type differences are small, within ±2 pp for every common type. In 118 of 138 states several candidates share the top type, so the tie-break decides. With the teacher head's logit as tie-break it scores like the teacher head; with candidate order it scores like the actor's first sample. *Corrected 2026-10-11: an earlier version credited the prior alone with the tie-broken result.*
 
 </details>
 
