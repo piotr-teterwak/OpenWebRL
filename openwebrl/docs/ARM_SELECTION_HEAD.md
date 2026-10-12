@@ -9,9 +9,8 @@
   - It uses **36% less compute per step** than Piotr ARM (0.060 vs 0.094 PFLOP), because the selector adds about 375 tokens per episode against 58,000.
   - Luna (API) is level with Piotr at 41.3% ([live loop](#selection-head-om2w-20261011)).
 - **Latency on identical hardware (one H200 per configuration):**
-  - The head's own scoring takes 0.02 s.
-  - In the current implementation the whole decision is still slower than Piotr ARM via sglang (7.5 vs 6.7 s), because capture adds overhead to the actor's generation.
-  - A fix is being measured ([latency](#selection-head-latency-20261012)).
+  - A decision with the head takes **6.07 s**, **10% faster than Piotr ARM** (6.76 s, even served by sglang). It is within 3% of five samples with no selector at all (5.89 s).
+  - The head's own scoring takes 0.01 s ([latency](#selection-head-latency-20261012)).
 - **Branching states with held-out outcomes:**
   - No teacher-trained selector clearly beats a uniform pick.
   - Choosing by observed outcomes does: +5.32 pp [+3.09, +7.62] ([details](#selection-head-outcomes-20261010)).
@@ -166,22 +165,23 @@ Left: tokens actually computed by actor and selector (prefix-cache hits excluded
 | Configuration (one H200 each) | Mean decision (s) | p90 (s) | Selector part (s) |
 | --- | ---: | ---: | ---: |
 | SFT 4B, 1 sample, CUDA graphs off (live-run protocol) | 4.33 | 5.88 | — |
-| SFT 4B, 1 sample | 2.45 | 3.62 | — |
+| SFT 4B, 1 sample | 2.55 | 4.06 | — |
 | SFT 8B, 1 sample | 3.18 | 4.62 | — |
-| 5 samples + action prior (no model) | 5.86 | 8.35 | ≈0 |
-| 5 samples + Piotr ARM via sglang | 6.74 | 9.99 | 0.48 |
+| 5 samples + action prior (no model) | 5.89 | 8.53 | ≈0 |
+| **5 samples + selection head (reuses actor KV cache)** | **6.07** | **9.16** | **0.01** |
+| 5 samples + Piotr ARM via sglang | 6.76 | 10.06 | 0.44 |
 | 5 samples + Piotr ARM, original HF server | 7.41 | 10.22 | 1.44 |
-| 5 samples + selection head (reuses actor KV cache) | 7.54 | 10.33 | 0.02 |
 | 5 samples + Kev-style pass | 8.74 | 13.03 | 1.29 |
 
-- **CUDA graphs:** they halve the actor's single-sample latency (4.33 → 2.45 s). The live runs above had them off, so every method will be re-run with them on.
-- **Five candidates:** they cost about 2.4× a single sample even with prefix caching (5.86 s with no selector model).
-- **Piotr ARM served by sglang:** it picks the same candidate as the saved offline picks on 123 of 124 states and cuts its selection time from 1.44 s to 0.48 s. This is the version used from now on.
+- **CUDA graphs:** they nearly halve the actor's single-sample latency (4.33 → 2.55 s). The live runs above had them off, so every method will be re-run with them on.
+- **Five candidates:** they cost about 2.3× a single sample even with prefix caching (5.89 s with no selector model).
+- **Piotr ARM served by sglang:** in two separate runs it picks the same candidate as the saved offline picks on 123 of 124 states. It cuts selection time from 1.44 s to 0.44 s, so this is the version used from now on.
 - **The selection head:**
-  - Its scoring takes 0.02 s, but its decisions take 7.54 s.
-  - Most of the overhead came from a follow-up request per candidate that resent the screenshot to compute the end token's state. Capture requests now feed that token during generation instead; this fix is being measured.
-  - The capture hooks alone cost about 6% of generation time.
-  - Parity with CUDA graphs on: 38 of 40 picks match the reference, and feature cosine is at least 0.9994.
+  - A decision takes 6.07 s, within 3% of five samples with no selector and 10% below Piotr ARM.
+  - Capture requests now finish one decode step after `<|im_end|>`. That step feeds the end token through the actor, so its hidden state is captured too, and the extra sampled token is removed before the response. Only candidates cut off by the token limit still need a follow-up request: 4 of 200 in the parity test.
+  - With hooks, generation ran at 3.58 ms per token against 3.76 ms without, so the overhead is within noise.
+  - Parity with CUDA graphs on (40 states): feature cosine is at least 0.9992; 34 of 40 picks match, and every mismatch is a near-tie (score difference ≤ 0.51).
+  - An earlier version sent a follow-up per candidate that resent the screenshot, and took 7.54 s per decision.
 - **Kev-style:** its separate pass shares the GPU with the actor and is slowest (8.74 s).
 - **Luna:** it is API-bound and not included.
 
