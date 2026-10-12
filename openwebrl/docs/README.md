@@ -1,6 +1,6 @@
 # OpenWebRL project documentation
 
-[WebPRM baselines: guarded no-search validation complete; Map frontend acquired; full Table 5 pending](WEBPRM_BASELINES.md#table5-plan-20261010).
+[WebPRM baselines: Reddit 190-cell request and site acquisitions reviewed; Table 5 awaiting budgets](WEBPRM_BASELINES.md#table5-plan-20261010).
 
 [Faster reward improvement: five fresh iteration0→10 action-credit pilots, pending native GPU validation, controlled comparisons and recent evidence](RL_LEARNING_EFFICIENCY.md#action-credit-implementation-20261011).
 

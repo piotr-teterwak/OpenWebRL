@@ -69,7 +69,7 @@ The completed Map frontend acquisition used **378 of 1,800 approved seconds**, t
 
 ### Remaining comparison plan
 
-1. Prepare a bounded execution request for the fixed 190 Reddit cells, covering both actors and all five selectors, independently of the remaining sites. Preserve the completed diagnostic cohorts and raw verdicts; fixed primary attempts cannot be replaced based on their outcomes.
+1. Launch the reviewed fixed 190-cell Reddit request after exact approval, covering both actors and all five selectors independently of the remaining sites. Preserve the completed diagnostic cohorts and raw verdicts; fixed primary attempts cannot be replaced based on their outcomes.
 2. Acquire and validate Shopping, CMS, GitLab and Map deployments independently, recording verified original identities separately from third-party candidates. Map frontend acquisition is complete; backend acquisition and hosting remain pending. The three native helper adapters passed 21 offline tests exercising all 13 released single-site helper task configurations, plus 30 existing evaluator tests. This proves evaluator contracts on fixtures, not live website/reset readiness. Each acquisition or hosting job needs its exact resource/attempt approval.
 3. Obtain the exact execution budget for the frozen reconstruction cohort. The primary cohort has 155 released single-site tasks: 45 Shopping, 35 CMS, 19 Reddit, 30 GitLab and 26 Map. Five selectors and two actors give 1,550 planned episodes. Keep the ten multi-site tasks separate. Among the proposed 155 tasks, 39 use fuzzy grading and 13 use deployment-specific helpers; across all 165, those counts are 40 and 14.
 4. Report per-domain success and the unweighted domain mean, planned/attempted/valid/success counts, invalid reasons, paired gains, uncertainty and inference cost. Overall success uses the fixed planned denominator; valid-only and common-valid comparisons are secondary. Incomplete or semantically unreliable cohorts do not supply performance claims.
@@ -83,16 +83,45 @@ The fixed-grid generator, concurrent episode queue and full-table analyzer are i
 | Deployment | Released single-site tasks | Live readiness | Remaining gate |
 | --- | ---: | --- | --- |
 | Reddit | 19 | Original startup, authentication, fresh reset and narrow no-search/judge repairs validated | Fixed-cohort resource approval and live concurrent reset/resource checks |
-| Shopping | 45 | Not validated | Original image acquisition, startup, authentication, reset and helper checks |
+| Shopping | 45 | Not validated; original Drive quota exhausted | Usable image source, startup, authentication, reset and helper checks |
 | CMS | 35 | Not validated | Original Drive quota exhausted; disclosed candidate acquisition, identity assessment and hosting |
-| GitLab | 30 | Not validated | Original image acquisition, startup, authentication, reset and helper checks |
+| GitLab | 30 | Not validated; original Drive quota exhausted | Usable image source, startup, authentication, reset and helper checks |
 | Map | 26 | Three frontend archives verified; hosting not validated | Backend acquisition, database identity, owned services and native checks |
 
 The prospective concurrent model-request broker now enforces shared cumulative dispatch and spending caps across allocation attempts, with unknown reservations retained and no automatic refunds. Its read-only financial auditor checks each episode against a fixed journal prefix while allowing unrelated concurrent requests. The independent episode auditor binds task, protocol, source, reset, action history and closure evidence before producing a table record. All six findings from its independent review were corrected; 45 combined episode-audit, financial-audit and temporary-state tests passed.
 
 The evaluator transcript saves bounded page/helper inputs and replays the pinned scoring computation offline. Reddit and GitLab helpers are recomputed from saved observations; Shopping replay verifies the recorded helper return boundary, not its underlying REST query. A separate disposal helper permits only newly claimed temporary states to be discarded after complete durable evidence, an independent audit and process closure. These offline checks establish evidence consistency, not judge accuracy or independent historical process observations. Live concurrency, resource use and production cleanup remain unverified.
 
-The approved CPU validation and Map frontend jobs completed; the CMS recovery and separately approved confirmation transfer closed without archive data. No Table 5 job remains active. The next requests cover fixed Reddit evaluation and independent remaining-site acquisitions; they do not inherit unused API, allocation or transfer allowances from completed jobs.
+The approved CPU validation and Map frontend jobs completed; both CMS transfers closed without archive data. No Table 5 job remains active. All five next-stage requests below are reviewed and pending exact approval. Shopping and GitLab also returned explicit original-Drive quota errors in bounded metadata checks. Their pinned third-party candidates, like CMS, have no verified original-state equivalence. Downloading them does not authorize hosting or establish benchmark readiness.
+
+</details>
+
+<a id="table5-next-resources-20261011"></a>
+<details>
+<summary>Reviewed next requests: Reddit comparison and four independent acquisitions</summary>
+
+The fixed Reddit request covers **19 tasks × five selectors × two actors = 190 primary cells**, retaining the same task and protocol identities within the 1,550-cell reconstruction. Its final frozen implementation passed **278 tests and ten identity audits**. Independent review verified cumulative recovery accounting, the three-allocation cap and cancellation if submission receipts cannot be written. Live throughput and completion within the requested cap remain unverified. The other 1,360 cells remain gated on their deployments and separate execution budgets.
+
+| Request | GPUs | CPUs | RAM (GiB) | Cumulative scheduler time | Maximum allocations | API cap (USD) |
+| --- | ---: | ---: | ---: | --- | ---: | ---: |
+| Reddit: 190 fixed cells | 1 H200 | 16 | 240 | 24 h | 3 | 250 |
+| Map backend acquisition | 0 | 2 | 8 | 4 h | 3 | 0 |
+| CMS third-party acquisition | 0 | 2 | 8 | 3,578 s remaining from original 3,600 s | 2 additional | 0 |
+| Shopping third-party acquisition | 0 | 2 | 8 | 2 h | 3 | 0 |
+| GitLab third-party acquisition | 0 | 2 | 8 | 2 h | 3 | 0 |
+
+Reddit has two concurrent episode lanes, caps of **21,524 paid and 11,471 local requests**, 512 GiB cumulative apparent scratch and 64 GiB durable campaign artifacts. Newly claimed temporary website states may be discarded only after evidence is saved durably, independently audited and all owned processes close. Immutable bases and historical states remain preserved. Every attempt consumes the same cumulative time and request budgets; a primary cell cannot be resampled after failure.
+
+| Acquisition | Charged download cap (GB, decimal) | Retained cap (GiB) | Temporary envelope (MiB) | New transfer campaigns |
+| --- | ---: | ---: | ---: | ---: |
+| Map backend | 195 | 200 | 512 | 1 |
+| CMS third-party | 10 | 12 | 512 | 1 additional |
+| Shopping third-party | 70 | 72 | 512 | 1 |
+| GitLab third-party | 80 | 80 | 512 | 1 |
+
+All acquisitions have zero GPU/model/API calls, one network connection each and no automatic network retries or transfer resume. CMS includes its prior 22 scheduler seconds and 1,326,678 charged bytes; its temporary envelope reserves 4 MiB for prior artifacts. Shopping and GitLab include their respective 495,171 and 478,598 metadata charges. Each request preserves its own caps. CMS, Shopping and GitLab require explicit acceptance of third-party sources with unverified original-state equivalence. Map follows the original dataset recipe with pinned current image blobs; historical image equivalence and runtime compatibility remain unverified. These four jobs download and verify data only; hosting is a later gate.
+
+The reviewed bundle is recorded in the [sanitized preparation artifact](webprm_results/webarena_preparation_20261011.json), including proposal digests and exact limits. Bundle file SHA-256: `e53d165ad01a9a69c777c9de9f28d4e9f76d0514df203aa8708fdcdd3004ebde`. No request in this bundle has been approved or submitted.
 
 </details>
 
