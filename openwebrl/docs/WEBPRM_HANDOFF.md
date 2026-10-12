@@ -1,6 +1,6 @@
 # WebPRM Table 5 handoff
 
-**Table 5 is incomplete. All current jobs are closed, and no supervisor is running.** This handoff records the independently audited state as of 2026-10-12. Read the current execution pointer before acting; this document is not new resource authorization.
+**Table 5 is incomplete.** As of 2026-10-12 (late), Reddit successor **357126 is queued**; no CMS job is running. Supervision was an interactive Claude Code session monitor, not an unattended supervisor. This handoff records the state as of 2026-10-12. Read the current execution pointer before acting; this document is not new resource authorization.
 
 The goal is to reconstruct **WebArbiter Table 5 and add Piotr’s released SelectionARM**, then evaluate Online-Mind2Web separately. The fixed comparison contains **155 single-site tasks × 2 actors × 5 selectors = 1,550 episodes**. Exact historical Table 5 membership/settings remain unresolved, so describe this as a **disclosed reconstruction**, not an exact reproduction.
 
@@ -19,36 +19,46 @@ N/reddit-terminal-independent-root-356127-v1/final-review.json
 
 ## Verified results
 
-Only the **190-cell Reddit subset** has execution approval. All 12 attempted cells are independently audited; none were resampled.
+Only the **190-cell Reddit subset** has execution approval. **26 cells have recorded outcomes; none were resampled.** The first 12 (jobs 356022–356127) are independently audited. The 14 from job 356527 have per-cell worker audits but **no independent audit yet**.
 
-| Disposition | Attempts | Raw positive verdicts | Guarded successes |
-| --- | ---: | ---: | ---: |
-| Valid, task 5 | 6 | 5 | 0 |
-| Valid, task 14 | 2 | 2 | 2 |
-| Wrapper-invalid | 2 | — | — |
-| Interrupted, independently audited | 2 | — | — |
-| Total | 12 | 7 | 2 |
+| Task | Cells recorded | Valid | Successes (after scoring guard) | Invalid | No verdict (interrupted) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 5 | 10 | 6 | 0 | 2 | 2 |
+| 14 | 10 | 10 | 8 | 0 | 0 |
+| 97 | 6 | 5 | 1 | 1 | 0 |
+| Total | 26 | 21 | 9 | 3 | 2 |
 
-The task 14 successes are **GPT-4o-mini + Piotr SelectionARM** and **GPT-4o + no-search**. Five task 5 raw positives incorrectly accepted `N/A`; the explicit scoring guard records zero while preserving the original verdicts. Interrupted attempts retain **null native/effective verdicts**.
+Task 5 shows zero after the explicit `N/A` scoring guard (five raw positives on task 5 incorrectly accepted `N/A`; original verdicts are preserved). Task 14 succeeded for 8 of its 10 actor × selector cells (failures: GPT-4o + Arbiter-7B, GPT-4o + Shepherd-8B). The task 97 invalid cell is **GPT-4o + Piotr SelectionARM**: a terminal-detector fallback click executed without a Piotr call and had no grounded history display, so the next Piotr prompt could not be built (`EvaluationNotReady`). This is fixed in v9 (below); the invalid cell stays invalid and is not resampled.
 
-**178 Reddit cells remain unclaimed.** The other **1,360 cells** still need validated environments and execution budgets. Do not publish selector rankings or cohort success percentages from this partial coverage.
+**164 Reddit cells remain unclaimed.** The other **1,360 cells** still need hosting-validated environments and execution budgets. Do not publish selector rankings or success percentages from this partial, mostly unaudited coverage.
 
-The authoritative collected snapshot is:
+## Current jobs and immediate next actions
 
-```text
-N/reddit-terminal-independent-root-356127-v1/activated-campaign-snapshot.json
-SHA256: 26c966caa70f06702583d17cbe10925e1624a56c7de73cc5bab0df9207b71bdd
-```
+| Job | What | Resources | Status |
+| --- | --- | --- | --- |
+| 357126 | Reddit successor `N/reddit-table5-190-v9` (5th and last allocation slot) | gpu-h200, 1 H200, 8 CPUs, 240 GiB, 1,344 min | Queued (priority) |
+| 357128 | CMS hosting validation `N/cms-hosting-validation-v6` (4th CMS slot) | 0 GPU, 4 CPUs, 16 GiB | Failed after 129 s: bind mount point missing in the image |
+| 357139 | CMS container-start diagnostic (not a validation slot) | 0 GPU, 4 CPUs, 16 GiB, 45 min | All startup checks passed (see CMS section) |
 
-## Immediate next actions
+1. Supervise 357126 from start through closure; independently audit its new cells and the 14 cells from 356527.
+2. CMS: build v7 with the mount-point fix (in the checkout, tested); a **5th CMS attempt needs explicit user approval** (all four approved slots are used; 444 of 7,200 s consumed).
+3. Prepare hosting/reset validation packages for Shopping, GitLab and Map (downloads are complete and independently verified; see below).
+4. The WebPRM code is **not tracked in git on any branch**; it exists in the main checkout and in frozen packages under `N/`. Committing it publishes the whole WebPRM code base to the public remote; ask the user first.
 
-1. Read the current pointer and reviewed repair packages; retain `verified_complete=false` until the requested endpoint is independently verified.
-2. Prepare a successor Reddit package incorporating the queue repair and an explicit allocation-slot exception request, preserving every cumulative cap and existing claim. **Do not relaunch frozen `reddit-table5-190-v7` unchanged.** A successor launch package incorporating the latest repair has not been prepared.
-3. Obtain exact authorization before another submission; likewise resolve the four pending environment requests below. Parallelize independent authorized work.
-4. Restart and verify active supervision for any newly approved jobs. The previous watcher exited after all registered work closed; its recorded PID is historical.
-5. Complete Reddit and environment validation, then obtain execution budgets for the remaining sites. Keep historical Online-Mind2Web diagnostics separate from the new comparison.
+**User approvals on 2026-10-12:** "yes I approve" covered the v8 4th Reddit slot; a later "yes I approve" covered (a) per-node live scratch accounting and (b) the 5th Reddit slot, plus the 3rd CMS attempt; "yes" covered the 4th CMS attempt and, earlier, the four CPU-only bundle-v4 environment jobs. Leftover time or API budget never authorizes another slot.
 
-**The earlier “I approve” authorized bundle v2, not pending bundle v4.** Repeated supervision callbacks are stale deliveries and do not grant new authorization. Leftover time or API budget does not authorize another allocation slot.
+<details>
+<summary>2026-10-12 Reddit attempt 356527 and the v9 successor</summary>
+
+- **v8** (`N/reddit-table5-190-v8`) = v7 + the reviewed admission-drain queue repair + an exactly approved 4th-slot exception. Job **356527** ran 2,766 s and recorded 14 new cells. The queue repair worked live (admission waited for active workers).
+- It stopped early because the task 97 invalid cell's state (48 GB) was preserved, as policy requires for an incomplete audit. That pushed **cumulative** retained scratch across all attempts (480,954,886,176 bytes) to where one more cell would exceed the 549,755,813,888-byte cap, so admission closed with no active worker.
+- **v9** (`N/reddit-table5-190-v9`, builder `N/reddit-table5-190-v9-build/build_v9.py`) adds:
+  - Piotr history grounding for actions executed without a Piotr selection (`PiotrSelectionARMSelector.historical_action`, called from `run_loop`). A frozen-suite test (`test_webprm_terminal_fallback`) caught that the fallback path needs a real adapter; fixed before freezing.
+  - `scratch_accounting_exception` with rule `per_node_live`: the cap counts this node's live usage plus prior attempts' retained state **still present on this node** (node-local `/tmp`); retained states on other nodes are preserved but not charged. The cap value and free-disk check are unchanged. It is exception-gated (approval digest + user text) and outside the allocation contract.
+  - `allocation_exception.additional_attempts=2` (5 slots total).
+- 311 frozen tests pass; `validate_proposal` passes; allocation contract identical to v8. Approval receipt: `N/reddit-table5-190-v9/approved-request.json` (previous closed epoch `bcc1c20f…`).
+
+</details>
 
 <details>
 <summary>Failures, repairs and validation evidence</summary>
@@ -93,18 +103,18 @@ The queue/controller implementation is in `openwebrl/webprm_campaign_queue.py` a
 <details>
 <summary>Reddit resource authority and cumulative accounting</summary>
 
-| Resource | Original cap | Consumed |
+| Resource | Cap | Consumed (after 356527) |
 | --- | ---: | ---: |
-| Allocation attempts | 3 | **3** |
-| Cumulative allocation time | 86,400 s | 2,966 s |
-| API spending | USD 250 | USD 4.90736970 |
-| Paid dispatches | 21,524 | 707 |
-| Local dispatches | 11,471 | 489 |
-| Total dispatches | 32,995 | 1,196 |
-| Cumulative apparent scratch | 549,755,813,888 bytes | 384,763,249,194 bytes |
-| Durable campaign artifacts | 68,719,476,736 bytes | 173,209,452 bytes at final job closure |
+| Allocation attempts | 3 + 2 approved exceptions = 5 | **5** (356022, 356094, 356127, 356527, 357126 queued) |
+| Cumulative allocation time | 86,400 s | 5,732 s before 357126 |
+| API spending | USD 250 | USD 7.800215 |
+| Paid dispatches | 21,524 | 1,037 |
+| Local dispatches | 11,471 | 833 |
+| Total dispatches | 32,995 | 1,870 |
+| Retained apparent scratch (all attempts) | 549,755,813,888 bytes (per node live under v9) | 480,954,886,176 bytes across g017/g009/g001 |
+| Durable campaign artifacts | 68,719,476,736 bytes | 304,104,480 bytes |
 
-The actual allocation profile was **1 H200, 8 CPUs, 240 GiB RAM**, with at most two workers. The original request allowed 16 CPUs; the approved operational reduction used 8 because of scheduler constraints. There are **83,434 unused seconds but zero remaining allocation slots**. A fourth allocation requires an explicit exception; neither the standing recovery instruction nor unused spending grants that exception.
+The actual allocation profile was **1 H200, 8 CPUs, 240 GiB RAM**, with at most two workers. The original request allowed 16 CPUs; the approved operational reduction used 8 because of scheduler constraints. 357126 is the last approved slot; another slot requires another explicit exception.
 
 All failed attempts, startup controls and the historical unfinished local dispatch remain charged. The financial epoch is closed, with no unresolved paid reservations or overruns. Preserve the shared campaign, journal, queue claims, source versions and all original verdicts. Do not reset a budget on retry or resample a claimed primary cell.
 
@@ -127,57 +137,37 @@ The financial epoch recovery for 356022 has already been performed. Do not repea
 </details>
 
 <details>
-<summary>Other-site preparation and four pending exact requests</summary>
+<summary>Other sites: downloads and CMS hosting validation (2026-10-12)</summary>
 
-These requests are prepared and reviewed, **not authorized to launch**:
+The four CPU-only bundle-v4 jobs were approved ("yes") and run. Downloads are complete and **independently re-verified by separate jobs**; none is hosting-validated:
 
-| Request | Prepared resources | Status |
-| --- | --- | --- |
-| Shopping transfer recovery | 2 CPUs, 8 GiB, 7,140 s; one additional allocation and transfer campaign | Unapproved |
-| GitLab transfer recovery | 2 CPUs, 8 GiB, 7,140 s; one additional allocation and transfer campaign | Unapproved |
-| Map append-only transfer recovery | 2 CPUs, 8 GiB, 13,020 s; preserve the existing partial file; one additional allocation/campaign | Unapproved |
-| CMS hosting/reset validation | 4 CPUs, 16 GiB, 7,200 cumulative s, at most two allocations | Unapproved |
+| Site | Job | Result | Charged bytes / cap | Independent check |
+| --- | --- | --- | ---: | --- |
+| Shopping (third-party image) | 356538 | Completed, 1,771 s | 46,675,568,065 / 70,000,000,000 | 356576: 28/28 blobs re-hashed |
+| GitLab (third-party image) | 356548 | Completed, 1,906 s | 49,673,134,791 / 80,000,000,000 | 356581: 12/12 blobs re-hashed |
+| Map (original WebArena data) | 356547 | Completed, 5,146 s (append-only resume) | 190,513,780,871 / 195,000,000,000 | 356631: 35/35 SHA256 plus 4 published S3 multipart ETags |
 
-All four request **zero GPUs and zero model/API budget**. Transfer recoveries preserve their original cumulative time/byte caps. CMS hosting requests new compute. Shopping, GitLab and CMS use third-party image candidates whose original-state equivalence is unverified.
+Shopping and GitLab images' equivalence to the original WebArena state is unverified. No hosting/reset validation packages exist yet for Shopping, GitLab or Map.
 
-The pending bundle contains exact limits, evidence references, required approval fields and launch commands:
+**CMS hosting validation** (campaign root `N/cms-hosting-validation-v3/campaign`, shared by every version; cap 7,200 s cumulative, 4 CPUs/16 GiB/0 GPU):
 
-```text
-N/table5-next-jobs-bundle-v4.json
-SHA256: 6dad3776d0364e1ae782b292430fe0476f1ae7880aaed7fc78842d4e3b0c93db
+| Job | Package | Seconds | Failure | Fix |
+| --- | --- | ---: | --- | --- |
+| 356545 | v3 | 155 | Inherited 32 MiB `RLIMIT_FSIZE` (log cap) killed `cp` on a 255 MB file | v4: logs capped by a pipe drain instead |
+| 356561 | v4 | 156 | Host-user `cp` could not read mode-0 `run/crond.reboot` | v5: copy runs as namespace-mapped root |
+| 357113 | v5 | 4 | `history()` still hard-coded `len(rows)>2` after the cap was raised to 3; the 3rd job failed its own startup check | v6: bound by `RESOURCES['max_allocations']`; a terminal attempt that never created its folder is charged time only |
+| 357128 | v6 | 129 | `apptainer --writable` cannot create bind destination `/opt/webprm-cms` | Checkout: create empty `/opt/native-fakeroot` and `/opt/webprm-cms` in the private state copy only; symlinks rejected |
 
-N/shopping-thirdparty-oci-transfer-exception-v1/
-N/gitlab-thirdparty-oci-transfer-exception-v1/
-N/map-original-backend-resume-exception-v1/
-N/cms-hosting-validation-v3/
-```
-
-Approval-shaped examples within a pending bundle are requirements for a future receipt, not evidence that the user approved them. The bundle itself has `approved=false` and `submitted=false`.
-
-CMS image acquisition **356009 completed and was independently audited**: 118 seconds for that job, 140 cumulative CMS seconds, 31 verified compressed layers. Hosting is unvalidated. Map frontend archives are also verified; backend job **356008 failed after 1,372 seconds**, preserving a 39,862,665,216-byte partial file. Its prepared recovery appends to the original inode; do not truncate, replace, copy or delete that prefix. Shopping **356007 failed after 37 seconds** and GitLab **356010 after 42 seconds** on a file-accounting race; fixes and transfer-exception requests are prepared.
-
-Transfer byte caps remain Shopping 70,000,000,000, GitLab 80,000,000,000 and Map 195,000,000,000, including all prior charged/unknown bytes. Consult the bundle for full storage, temporary-space and reconnect limits. Download completion does not establish website authentication/reset readiness or authorize benchmark execution.
+Diagnostic **357139** (`N/cms-container-probe-v1/probe-result.json`, not a validation slot) passed with the checkout fix: materialize (107 s), namespace copy, control preparation, container start, uid probe, `su elastico` (uid 102), and read-only DB discovery (host 127.0.0.1; credentials never recorded). Services (MySQL, Elasticsearch, PHP-FPM, nginx, cron) have **not** yet been started. The probe's Slurm state is FAILED only because it re-wrote its own result file at exit after all checks.
 
 </details>
 
 <details>
 <summary>Supervision, documentation publication and workspace constraints</summary>
 
-The supervisor is **stopped**, not actively monitoring or repairing. Its last state records `no_registered_work=true` and `verified_complete=false`. Recorded PID 3095173 is historical. Do not promise unattended supervision until a real continuation mechanism has been restarted and verified for the current approved job IDs.
+The old `table5-active-supervisor-v2` remains stopped. Jobs on 2026-10-12 were supervised by Monitor scripts in an interactive Claude Code session (each expires after 30 minutes and must be re-armed). They do not persist after the session ends. Session monitor script for 357126 polls `sacct`, new queue outcomes, unexpected admission denials (ignoring cumulative-scratch denials while a worker is active) and tracebacks in `N/reddit-table5-190-v9/campaign-357126.out`.
 
-```text
-R/table5-supervisor/latest.json
-R/table5-supervisor/finished.json
-N/table5-active-supervisor-v2/supervisor.py
-```
-
-Routine callback acknowledgment command:
-
-```bash
-python3 -B scripts/supervise_webprm_table5.py --root /gpfs/scrubbed/zixianma/openwebrl-runtime/webprm-webarena-20261011/table5-supervisor --ack
-```
-
-Results documentation was committed as **`b1dd5351856f34cda5facb7945b568eaf75de78e`** in `/tmp/openwebrl-webprm-public-20261010`. **Push to `arm` failed because HTTPS credentials were unavailable.** That is the results commit before this handoff document; consult `R/publication-corrected-pilot-20261011.json` for subsequent publication receipts. Do not claim unpublished commits are on the remote. The main checkout contains unrelated dirty work; avoid broad staging.
+Runtime pointer `R/current_table5_preparation.json` lists every job, cause and fix. The main checkout contains unrelated dirty work; avoid broad staging.
 
 Operational constraints:
 
