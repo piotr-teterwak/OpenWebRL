@@ -1,6 +1,6 @@
 # WebPRM Table 5 handoff
 
-**Table 5 is incomplete.** As of 2026-10-12 (late), Reddit successor **357126 is queued**; no CMS job is running. Supervision was an interactive Claude Code session monitor, not an unattended supervisor. This handoff records the state as of 2026-10-12. Read the current execution pointer before acting; this document is not new resource authorization.
+**Table 5 is incomplete.** As of 2026-10-12 (late), Reddit successor **357126 is queued**, and **CMS hosting/reset validation passed** (job 357831). Supervision was an interactive Claude Code session monitor, not an unattended supervisor. This handoff records the state as of 2026-10-12. Read the current execution pointer before acting; this document is not new resource authorization.
 
 The goal is to reconstruct **WebArbiter Table 5 and add Piotr’s released SelectionARM**, then evaluate Online-Mind2Web separately. The fixed comparison contains **155 single-site tasks × 2 actors × 5 selectors = 1,550 episodes**. Exact historical Table 5 membership/settings remain unresolved, so describe this as a **disclosed reconstruction**, not an exact reproduction.
 
@@ -37,15 +37,14 @@ Task 5 shows zero after the explicit `N/A` scoring guard (five raw positives on 
 | Job | What | Resources | Status |
 | --- | --- | --- | --- |
 | 357126 | Reddit successor `N/reddit-table5-190-v9` (5th and last allocation slot) | gpu-h200, 1 H200, 8 CPUs, 240 GiB, 1,344 min | Queued (priority) |
-| 357128 | CMS hosting validation `N/cms-hosting-validation-v6` (4th CMS slot) | 0 GPU, 4 CPUs, 16 GiB | Failed after 129 s: bind mount point missing in the image |
-| 357139 | CMS container-start diagnostic (not a validation slot) | 0 GPU, 4 CPUs, 16 GiB, 45 min | All startup checks passed (see CMS section) |
+| 357831 | CMS hosting validation `N/cms-hosting-validation-v9` (7th CMS slot) | 0 GPU, 4 CPUs, 16 GiB | **Passed** in 231 s (see CMS section) |
 
 1. Supervise 357126 from start through closure; independently audit its new cells and the 14 cells from 356527.
-2. CMS: build v7 with the mount-point fix (in the checkout, tested); a **5th CMS attempt needs explicit user approval** (all four approved slots are used; 444 of 7,200 s consumed).
-3. Prepare hosting/reset validation packages for Shopping, GitLab and Map (downloads are complete and independently verified; see below).
+2. CMS hosting is validated. Next: a CMS Table 5 execution package (its cells still need a GPU budget approved by the user).
+3. Prepare hosting/reset validation packages for Shopping, GitLab and Map by generalizing the CMS validator (downloads are complete and independently verified; see below).
 4. The WebPRM code is **not tracked in git on any branch**; it exists in the main checkout and in frozen packages under `N/`. Committing it publishes the whole WebPRM code base to the public remote; ask the user first.
 
-**User approvals on 2026-10-12:** "yes I approve" covered the v8 4th Reddit slot; a later "yes I approve" covered (a) per-node live scratch accounting and (b) the 5th Reddit slot, plus the 3rd CMS attempt; "yes" covered the 4th CMS attempt and, earlier, the four CPU-only bundle-v4 environment jobs. Leftover time or API budget never authorizes another slot.
+**User approvals on 2026-10-12:** "yes I approve" covered the v8 4th Reddit slot; a later "yes I approve" covered (a) per-node live scratch accounting and (b) the 5th Reddit slot, plus the 3rd CMS attempt; "yes" covered the 4th CMS attempt and, earlier, the four CPU-only bundle-v4 environment jobs. Later, "sure do it" covered the 5th CMS attempt, and "yes" covered the 6th, with a standing rule: **jobs requesting 0 GPUs need no approval**. GPU jobs still need explicit approval for each submission. Leftover time or API budget never authorizes another GPU slot.
 
 <details>
 <summary>2026-10-12 Reddit attempt 356527 and the v9 successor</summary>
@@ -156,9 +155,28 @@ Shopping and GitLab images' equivalence to the original WebArena state is unveri
 | 356545 | v3 | 155 | Inherited 32 MiB `RLIMIT_FSIZE` (log cap) killed `cp` on a 255 MB file | v4: logs capped by a pipe drain instead |
 | 356561 | v4 | 156 | Host-user `cp` could not read mode-0 `run/crond.reboot` | v5: copy runs as namespace-mapped root |
 | 357113 | v5 | 4 | `history()` still hard-coded `len(rows)>2` after the cap was raised to 3; the 3rd job failed its own startup check | v6: bound by `RESOURCES['max_allocations']`; a terminal attempt that never created its folder is charged time only |
-| 357128 | v6 | 129 | `apptainer --writable` cannot create bind destination `/opt/webprm-cms` | Checkout: create empty `/opt/native-fakeroot` and `/opt/webprm-cms` in the private state copy only; symlinks rejected |
+| 357128 | v6 | 129 | `apptainer --writable` cannot create bind destination `/opt/webprm-cms` | v7: create empty `/opt/native-fakeroot` and `/opt/webprm-cms` in the private state copy only; symlinks rejected |
+| 357728 | v7 | 198 | Container, MariaDB, services, origin rewrite and admin login all worked; the check then visited `/admin/dashboard`, a Magento 404 | v8: see the probes below |
+| 357822 | v8 | 0 | Cancelled while pending: cumulative cross-node retained scratch (35.08 GB) would have failed storage admission | v9: charge prior retained scratch only while it exists on this node (the Reddit `per_node_live` rule); the free-disk check is unchanged |
+| **357831** | **v9** | **231** | **Passed** | — |
 
-Diagnostic **357139** (`N/cms-container-probe-v1/probe-result.json`, not a validation slot) passed with the checkout fix: materialize (107 s), namespace copy, control preparation, container start, uid probe, `su elastico` (uid 102), and read-only DB discovery (host 127.0.0.1; credentials never recorded). Services (MySQL, Elasticsearch, PHP-FPM, nginx, cron) have **not** yet been started. The probe's Slurm state is FAILED only because it re-wrote its own result file at exit after all checks.
+CPU-only probes on disposable state (not validation slots) found the v8 fixes:
+- **357743:** found the canonical dashboard route `/admin/admin/dashboard/`.
+- **357750:** found that the product name field is rendered by JavaScript after `domcontentloaded`, so the check now waits for it.
+- **357766:** applying the hash-verified image config `Env` made `elasticsearch` resolvable again (`--cleanenv` had dropped `PATH`), and the UI save then persisted. Save failures now report Magento's message verbatim.
+
+**Result of 357831** (`C_CMS/attempt-357831/validation-result.json`, with `C_CMS = N/cms-hosting-validation-v3/campaign`):
+
+| Check | Count / value |
+| --- | --- |
+| Released shopping_admin tasks / distinct start URLs loaded (HTTP 200) | 35 / 2 |
+| Native evaluator on baseline: positive control / negative control | 1 / 0 |
+| UI product rename persisted in the database | yes |
+| Fresh second copy restored the product (`Joust Duffle Bag`) and the evaluator controls | yes |
+| Owned processes remaining at closure; model calls; API spend | 0; 0; $0 |
+| CMS time used / cap | 873 s / 7,200 s |
+
+This validates the **third-party** image's hosting and reset; its equivalence to the original WebArena CMS state is **not** verified (`original_state_equivalence_verified=false`). Retained scratch on g005: attempts 357728 and 357831 (24.6 GB); earlier attempts' scratch is on other nodes.
 
 </details>
 
