@@ -2304,9 +2304,14 @@
         "native_judge_charged_reserved_usd": "29.580893",
         "native_judge_cap_usd": "30",
         "new_budget_approved": false,
-        "terminal_artifact_audit_status": "pending",
+        "terminal_artifact_audit_status": "independently_verified_partial",
         "next_native_judge_reservation_usd": "0.483840",
-        "native_judge_remaining_usd": "0.419107"
+        "native_judge_remaining_usd": "0.419107",
+        "terminal_partial_audit_sha256": "934c3b1a920f8e2ab2b175842ed0c0c81fc36f9aab57911d725a2d3a5bb4ac0a",
+        "independent_partial_review_sha256": "b4af4d6ab47c90fdb665a048927dca604b393ef8a308ff1cdd641901ca48c249",
+        "verified_complete": false,
+        "remaining_extension_seconds_nontransferable": 25864,
+        "recovery_viable_with_unchanged_caps": false
       }
     ],
     "snapshot_utc": "2026-10-12T14:20:18+00:00",
@@ -3463,5 +3468,288 @@
     "n5_interim_snapshot": "Historical491-record audit at the original compute stop, before the separately approved extension; retain unchanged.",
     "n5_runtime_repair": "Historical October10 admission-queue repair; committed outcomes and timeouts remain in all later results.",
     "inference_optimization": "Historical saved-input diagnostic before subsequent production RPC validation and activation; current continuation status is in optimized_completion_current."
-  }
+  },
+  "n5_audited_partial_cohorts": [
+    {
+      "job": "molmoweb-8b-webvoyager-paired",
+      "actor": "MolmoWeb-8B-Native",
+      "benchmark": "WebVoyager",
+      "condition": "N5",
+      "slurm_job_id": "356859",
+      "status": "terminal_partial_native_judge_budget_blocked",
+      "requested_tasks": 595,
+      "saved_records": 560,
+      "missing_records": 35,
+      "record_coverage_complete": false,
+      "terminal_partial_audit_passed": true,
+      "verified_complete": false,
+      "suite_verified_complete": false,
+      "metrics_status": "independently_verified_observed_partial_cohort",
+      "conditions": {
+        "n1": {
+          "native": {
+            "access_infra_filtered": {
+              "episodes": 463,
+              "success_rate": 0.5485961123110151,
+              "successes": 254
+            },
+            "excluded": {
+              "episodes": 132,
+              "success_rate": 0.07575757575757576,
+              "successes": 10
+            },
+            "raw": {
+              "episodes": 595,
+              "success_rate": 0.4436974789915966,
+              "successes": 264
+            }
+          }
+        },
+        "n5": {
+          "native": {
+            "access_infra_filtered": {
+              "episodes": 431,
+              "success_rate": 0.6473317865429234,
+              "successes": 279
+            },
+            "excluded": {
+              "episodes": 129,
+              "success_rate": 0.10852713178294573,
+              "successes": 14
+            },
+            "raw": {
+              "episodes": 560,
+              "success_rate": 0.5232142857142857,
+              "successes": 293
+            }
+          }
+        }
+      },
+      "paired": {
+        "native": {
+          "common_observed": {
+            "bootstrap_draws": 10000,
+            "bootstrap_seed": 20261010,
+            "both_failure": 241,
+            "both_success": 224,
+            "episodes": 560,
+            "n1_only": 26,
+            "n1_successes": 250,
+            "n5_minus_n1": 0.07678571428571429,
+            "n5_only": 69,
+            "n5_successes": 293,
+            "paired_task_bootstrap_95ci": [
+              0.044642857142857144,
+              0.11071428571428571
+            ],
+            "n1_success_rate": 0.44642857142857145,
+            "n5_success_rate": 0.5232142857142857
+          },
+          "common_valid": {
+            "bootstrap_draws": 10000,
+            "bootstrap_seed": 20261010,
+            "both_failure": 125,
+            "both_success": 218,
+            "episodes": 424,
+            "n1_only": 22,
+            "n1_successes": 240,
+            "n5_minus_n1": 0.08726415094339622,
+            "n5_only": 59,
+            "n5_successes": 277,
+            "paired_task_bootstrap_95ci": [
+              0.04716981132075472,
+              0.12735849056603774
+            ],
+            "n1_success_rate": 0.5660377358490566,
+            "n5_success_rate": 0.6533018867924528
+          }
+        }
+      },
+      "episode_status": {
+        "n1": {
+          "completed": 595,
+          "completed_invalid": 0,
+          "completed_timeout": 0
+        },
+        "n5": {
+          "completed": 545,
+          "completed_invalid": 0,
+          "completed_timeout": 15
+        }
+      },
+      "judge_eligibility": {
+        "n1": {
+          "native_judged": 595
+        },
+        "n5": {
+          "native_judged": 545,
+          "native_unjudged_scientific_wall_timeouts": 15
+        }
+      },
+      "interpretation": {
+        "no_missing_tasks_imputed": true,
+        "missing_are_neither_successes_nor_failures": true,
+        "common_observed_definition": "The 560 tasks with committed outcomes in both arms; the full N1 control contains 595 tasks.",
+        "common_valid_definition": "The 424 common observed tasks passing the frozen access/infra filter in both arms.",
+        "native_gain": "Positive paired intervals within the observed subset; does not establish the gain over all 595 requested tasks.",
+        "task_completion_and_collection_order_selection_limit_full_cohort_inference": true,
+        "sequential_collection": true,
+        "mixed_runtime_phases": true,
+        "counterfactual_Browserbase_estimate": false,
+        "fixed_filter_applies_to_successes_and_failures": true,
+        "excluded_successes": {
+          "n1": 10,
+          "n5": 14
+        },
+        "all_committed_timeouts_preserved_as_raw_failures": true,
+        "effect_scope": "N5 proposal generation plus Sol medium selection; does not isolate selection from extra proposal compute.",
+        "exploratory_intervals_not_adjusted_for_multiple_comparisons_or_interim_examination": true,
+        "agenttrek_not_applicable": true
+      },
+      "audit": {
+        "status": "terminal_partial_independently_verified",
+        "independent_review_sha256": "b4af4d6ab47c90fdb665a048927dca604b393ef8a308ff1cdd641901ca48c249",
+        "terminal_partial_audit_sha256": "934c3b1a920f8e2ab2b175842ed0c0c81fc36f9aab57911d725a2d3a5bb4ac0a",
+        "metrics_aggregate_sha256": "4b5de6ce0008ca361bb85bb347225bc17a6e236f69a7ed5213b72425019554f9",
+        "api_accounting_sha256": "828a48a5a1d673dc0ef3717d342c4354acb7f5342cb082fff34bac217f5c152f",
+        "metrics_policy_sha256": "e0902900285480c3e25d483d8b3e6a926e276fbc1aa7938001ae2e8062d3febf",
+        "metrics_implementation_sha256": "96d714fe28d1cbc5019669c3b9e866cca75bb84869680b63904244d7b022e76b",
+        "all_N1_N5_artifact_files_rehashed": 188249,
+        "owned_teardown_verified": true,
+        "physical_postexit_node_scan_performed": true,
+        "host_wide_orphan_scan_verified": false,
+        "teardown_scope": "Terminal owned workers and native server, released controller lock, terminal allocation/batch/extern steps and physical scan for the stopped allocation owned processes; unrelated processes excluded.",
+        "uncommitted_partial_slots": 2,
+        "uncommitted_partial_native_draws": 125,
+        "uncommitted_partial_delivered_native_draws": 120,
+        "uncommitted_partial_selector_requests": 24,
+        "all_attempts_outcomes_and_uncertain_reservations_preserved": true,
+        "uncommitted_partial_settled_selector_requests": 24,
+        "uncommitted_partial_uncertain_selector_reservations": 0
+      },
+      "accounting": {
+        "per_condition_compute": {
+          "n1": {
+            "extension_cap_seconds": 0,
+            "extension_seconds": 0,
+            "original_cap_seconds": 43200,
+            "original_seconds": 37378
+          },
+          "n5": {
+            "extension_cap_seconds": 86400,
+            "extension_seconds": 60536,
+            "original_cap_seconds": 43200,
+            "original_seconds": 42964
+          }
+        },
+        "all_N1_N5_attempt_seconds": 140878,
+        "remaining_N5_extension_seconds": 25864,
+        "no_budget_transfer": true,
+        "physical_API_attempts": 11668,
+        "all_attempt_requests": 77496,
+        "counters": [
+          {
+            "charged_reserved_micro": 0,
+            "condition": "n1",
+            "count": 609,
+            "kind": "browser_attempts_all_attempts"
+          },
+          {
+            "charged_reserved_micro": 0,
+            "condition": "n1",
+            "count": 11925,
+            "kind": "local_sft_generations_all_attempts"
+          },
+          {
+            "charged_reserved_micro": 34232500,
+            "condition": "n1",
+            "count": 595,
+            "kind": "native_judge"
+          },
+          {
+            "charged_reserved_micro": 0,
+            "condition": "n1",
+            "count": 0,
+            "kind": "selector"
+          },
+          {
+            "charged_reserved_micro": 0,
+            "condition": "n5",
+            "count": 574,
+            "kind": "browser_attempts_all_attempts"
+          },
+          {
+            "charged_reserved_micro": 0,
+            "condition": "n5",
+            "count": 52720,
+            "kind": "local_sft_generations_all_attempts"
+          },
+          {
+            "charged_reserved_micro": 29580893,
+            "condition": "n5",
+            "count": 545,
+            "kind": "native_judge"
+          },
+          {
+            "charged_reserved_micro": 85677892,
+            "condition": "n5",
+            "count": 10528,
+            "kind": "selector"
+          }
+        ],
+        "effective_conditions": {
+          "n1": {
+            "browser_attempts_all_attempts": 655,
+            "local_sft_generations_all_attempts": 19650,
+            "native_judge": {
+              "http_attempts": 2620,
+              "usd": "40"
+            },
+            "primary_episodes": 595,
+            "selector": {
+              "http_attempts": 0,
+              "usd": "0"
+            }
+          },
+          "n5": {
+            "browser_attempts_all_attempts": 655,
+            "local_sft_generations_all_attempts": 98250,
+            "native_judge": {
+              "http_attempts": 2620,
+              "usd": "30"
+            },
+            "primary_episodes": 595,
+            "selector": {
+              "http_attempts": 19650,
+              "usd": "200"
+            }
+          }
+        },
+        "all_uncertain_reservations_preserved": true,
+        "uncertain_reservations": [
+          {
+            "condition": "n5",
+            "kind": "selector",
+            "reserved_micro_usd": 180480
+          },
+          {
+            "condition": "n5",
+            "kind": "selector",
+            "reserved_micro_usd": 180480
+          }
+        ],
+        "uncertain_reservation_scope": "Lifetime ledger; both uncertain selector reservations precede the two current uncommitted slots."
+      },
+      "budget_stop": {
+        "approved_cap_micro": 30000000,
+        "charged_or_reserved_micro": 29580893,
+        "remaining_micro": 419107,
+        "required_reservation_micro": 483840,
+        "shortfall_micro": 64733,
+        "compute_seconds_remaining": 25864,
+        "no_budget_transfer": true,
+        "recovery_viable_with_unchanged_caps": false
+      }
+    }
+  ]
 }

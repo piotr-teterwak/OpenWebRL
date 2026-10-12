@@ -323,7 +323,28 @@ Separately filtered arm rates use different task sets and are descriptive, not t
 
 The frozen filter excludes successful episodes too. For Online-Mind2Web 4B, it removes one native / eight AgentTrek successes from N1 and eight native / thirteen AgentTrek successes from N5. For Online-Mind2Web 8B, the corresponding counts are one / two and five / ten. It changes the task mix and does not estimate counterfactual Browserbase performance. Raw rates retain every requested record (150 DeepShop or 300 Online-Mind2Web tasks), including ordinary invalid outcomes and wall timeouts. For DeepShop, the frozen structured-worker-error rule excludes the 16 N5 timeouts for 4B and the one N1 / 15 N5 timeouts for 8B; none was a success. The N1 separately filtered rates retain 150 tasks for 4B and 149 for 8B, while the paired retained subsets contain 134 and 135 respectively. [Aggregates, metric definitions and audit bindings](arm_results/molmoweb_n1_controls_20261010.json).
 
-**All six N1 controls are verified complete (2,090 records); the full N5 suite remains incomplete.** Both Online-Mind2Web and both DeepShop N5 cohorts are independently verified (900 N5 records). At the October 12 publication snapshot, WebVoyager 4B is running with 402/595 saved records; WebVoyager 8B stopped at 560/595 because the next native-judge reservation would exceed its $30 cap (charged/reserved total: $29.580893). The stopped WebVoyager 8B terminal audit is pending; its partial coverage is not a completed score. No new API budget is approved. The [approved optimized continuation](#molmoweb-optimized-completion-20261011) preserves every committed outcome and the separate caps totaling 85.5 additional H200-hours.
+**All six N1 controls are verified complete (2,090 records); the full N5 suite remains incomplete.** Both Online-Mind2Web and both DeepShop N5 cohorts are independently verified (900 N5 records). At the October 12 publication snapshot, WebVoyager 4B is running with 402/595 saved records; WebVoyager 8B stopped at 560/595 because the next native-judge reservation would exceed its $30 cap (charged/reserved total: $29.580893). The [stopped WebVoyager 8B partial cohort is independently audited](#molmoweb-wv8-partial-budget-stop-20261012); its coverage remains incomplete. No new API budget is approved. The [approved optimized continuation](#molmoweb-optimized-completion-20261011) preserves every committed outcome and the separate caps totaling 85.5 additional H200-hours.
+
+<a id="molmoweb-wv8-partial-budget-stop-20261012"></a>
+<details>
+<summary>WebVoyager 8B: audited partial result, 560/595 N5 records; native-judge budget stop</summary>
+
+**This is an incomplete cohort.** The 35 missing N5 tasks are neither failures nor successes and are not imputed. Positive paired intervals below describe the observed subset; task completion, collection order, sequential collection and mixed runtime phases limit inference about all 595 requested tasks. The first two rows are descriptive arm rates with different task sets; only the last two rows are paired comparisons.
+
+| Task subset | N1 tasks | N1 successes | N1 success | N5 tasks | N5 successes | N5 success | Paired N5 − N1, pp | Paired 95% interval, pp |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| All observed in each arm | 595 | 264 | 44.37% | 560 | 293 | 52.32% | — | — |
+| Filtered separately in each arm | 463 | 254 | 54.86% | 431 | 279 | 64.73% | — | — |
+| Observed in both arms | 560 | 250 | 44.64% | 560 | 293 | 52.32% | +7.68 | [+4.46, +11.07] |
+| Retained in both arms | 424 | 240 | 56.60% | 424 | 277 | 65.33% | +8.73 | [+4.72, +12.74] |
+
+The same frozen 10,000-resample paired bootstrap (seed 20261010) and access/infra filter apply. The filter excludes ten N1 and fourteen N5 successes; it changes the task mix and does not estimate counterfactual Browserbase performance. All 15 committed N5 wall timeouts remain unjudged raw failures. Native judging covers 595 N1 and 545 N5 episodes; no AgentTrek score is defined for this benchmark.
+
+The next native-judge reservation requires **$0.483840**, exceeding the **$0.419107** left under the **$30** cap after **$29.580893** charged/reserved. Continuation is blocked under the existing cap despite 25,864 extension seconds remaining; neither time nor API allowance transfers between conditions. No new budget is approved.
+
+Independent review verifies all 1,155 committed N1/N5 records, 188,249 artifact files, 11,668 physical API receipts and 77,496 all-attempt ledger rows. Two uncommitted slots retain 125 native draws and 24 settled selector requests. The lifetime ledger also retains both uncertain selector reservations. The audit verifies scoped owned teardown with a physical process scan; it does not certify unrelated processes. All attempts and committed outcomes remain preserved. [Aggregate metrics, accounting and partial-audit hashes](arm_results/molmoweb_n1_controls_20261010.json). The four completed N5 cohorts still total 900 verified records; this partial cohort does not change that count or complete the suite.
+
+</details>
 
 <details>
 <summary>DeepShop eligibility, preservation, accounting and final audits</summary>
