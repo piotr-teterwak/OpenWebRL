@@ -1,20 +1,34 @@
 # ARM selection head: choosing actions from the actor's own hidden states
 
+**Goal: pick among the actor's five candidate actions without a second model.** Piotr SelectionARM runs a separate 4B selector over the screenshot and all candidates. The selection head reads the hidden states the actor already computes while generating.
+
+<a id="selection-head-architecture"></a>
+
+![Piotr SelectionARM runs a separate 4B selector over the screenshot and all five candidates; the selection head is a small MLP on hidden states captured while the actor generates](arm_results/methods/selection_head_overview.svg)
+
+- **Full episodes (Online-Mind2Web, 300 tasks):**
+  - The head reaches **37.7%** against **40.0%** for Piotr ARM (−2.3 pp [−7.3, +2.7], not significant) and 33.0% for the SFT actor alone.
+  - It uses **36% less compute per step** than Piotr ARM (0.060 vs 0.094 PFLOP), because the selector adds about 375 tokens per episode against 58,000.
+  - Luna (API) is level with Piotr at 41.3% ([live loop](#selection-head-om2w-20261011)).
+- **Latency on identical hardware (one H200 per configuration):**
+  - The head's own scoring takes 0.02 s.
+  - In the current implementation the whole decision is still slower than Piotr ARM via sglang (7.5 vs 6.7 s), because capture adds overhead to the actor's generation.
+  - A fix is being measured ([latency](#selection-head-latency-20261012)).
+- **Branching states with held-out outcomes:**
+  - No teacher-trained selector clearly beats a uniform pick.
+  - Choosing by observed outcomes does: +5.32 pp [+3.09, +7.62] ([details](#selection-head-outcomes-20261010)).
+  - Among students trained on about 120 states, only **lookahead-labelled** ones move above uniform (+2.4 to +3.0 pp, intervals touching zero) ([label types](#selection-head-label-types-20261011)).
+
+<details>
+<summary>Earlier summary: teacher agreement, outcome data and adaptation</summary>
+
 **No selector trained on teacher labels reliably picks actions that succeed more often than a uniform pick. Choosing by observed continuation outcomes does.** On 138 branching states with eight SFT continuation draws per action (120 task groups), each selector's chosen action is scored on held-out draws. Choosing the action that succeeded most often on five draws reaches **36.99%** against **31.67%** for a uniform pick: **+5.32 pp [+3.09, +7.62]**. Piotr SelectionARM reaches 34.15% (+2.48 pp [−0.14, +5.21]). Every actor-based selector lies between 31.34% and 33.70%, from −0.33 to +2.03 pp relative to uniform, and none differs from uniform at the 95% level.
 
 **Agreement with teachers does not track action quality.** The Kev-style decision pass on the actor's weights, trained to step 600, matches held-out GPT-5.5 choices best of any actor-based selector: 67.1%, versus 65.4% for the frozen-feature head. On the original 124 states it matches an independent teacher (Luna before execution) on 66.1% of judgments, versus 73.2% for Piotr ARM. Its chosen actions succeed on 32.79% of held-out draws, +1.12 pp [−1.38, +3.75] over uniform.
 
 **Supervising the selector with outcomes needs more states than exist now.** 188 states have eight draws for all five actions: 9,720 outcomes in 151 task groups, 14× fewer states than the 2,692 teacher-labelled training states ([data comparison](#selection-head-outcome-data-20261010)). A pre-registered five-fold [adaptation pilot](#selection-head-outcome-adaptation-20261010) on 138 of these states overfits: it fits training folds but does not beat uniform on held-out tasks. Ridge probes, a combined teacher-plus-outcome loss and selector combinations also find [no held-out gain](#selection-head-early-signal-20261010). Confirming a 3 pp selector difference needs about 200 states with eight draws, and confirming Piotr's ~2.5 pp gain over uniform about 300.
 
-The question is whether selection can be built into the actor ([integration option 3](ARM_INTEGRATION_PLAN.md)). Today's best-of-N pipeline samples five candidates from the actor, then runs a separate 4B selector over the screenshot and all candidates. A head that reads the hidden states the actor computes while generating would need no second model.
-
-**In full Online-Mind2Web episodes, Luna is the only new selector that beats the SFT actor alone.** On 300 tasks, Luna reaches 41.3% (+8.3 pp [+3.3, +13.7]), level with Piotr ARM at 40.0%. The Kev-style pass (37.7%) and the frozen head (37.0%) sit between the SFT actor and Piotr ARM; neither difference is significant. The action-type prior is worse than one sample (27.0%). **A frozen head that reuses the actor's KV cache cuts system compute by 36% per step relative to Piotr ARM** (0.060 versus 0.094 PFLOP). Its features come from the actor's own generation pass, so the selector adds 375 tokens per episode against Piotr's 58,000. It reaches 37.7%, 2.3 pp [−7.3, +2.7] below Piotr ARM, not significant. Wall-clock time per step is not lower in this implementation ([live-loop results](#selection-head-om2w-20261011), [plot](#selection-head-om2w-plot)).
-
-<a id="selection-head-architecture"></a>
-
-![Selection head inside the actor: (A) at inference the frozen SFT actor samples five candidates and a small head scores them from the actor's hidden states, read directly or through a top-layer scoring adapter; (B) training stage 1 fits the head on cached frozen features, stage 2 trains LoRA on the top eight layers plus the head with the prompt encoded by the unadapted actor](arm_results/methods/selection_head_workflows.svg)
-
-[PNG](arm_results/methods/selection_head_workflows.png) / [SVG](arm_results/methods/selection_head_workflows.svg); rendered by `scripts/render_selection_head_figure.py`.
+</details>
 
 <a id="selection-head-om2w-20261011"></a>
 
@@ -131,6 +145,29 @@ The question is whether selection can be built into the actor ([integration opti
 - **Evidence:** [aggregate](arm_results/rl_integration/selectors-om2w-20261011.json).
 
 </details>
+
+<a id="selection-head-latency-20261012"></a>
+
+## Latency on identical hardware
+
+**Each configuration runs on one H200, with any separate selector on the same GPU.**
+- **Setup:** the same 96 saved states pass through the controllers' own selection code, with 8 decisions in flight. No browser is involved.
+- **Measures:** decision time, which is candidate generation plus selection.
+
+![Decision latency per configuration on one H200: mean (dot) and median to 90th percentile (line); selector share in parentheses](arm_results/rl_integration/latency_same_hardware.png)
+
+- **CUDA graphs:** they halve the actor's single-sample latency (4.33 → 2.45 s). The live runs above had them off, so every method will be re-run with them on.
+- **Five candidates:** they cost about 2.4× a single sample even with prefix caching (5.86 s with no selector model).
+- **Piotr ARM served by sglang:** it picks the same candidate as the saved offline picks on 123 of 124 states and cuts its selection time from 1.44 s to 0.48 s. This is the version used from now on.
+- **The selection head:**
+  - Its scoring takes 0.02 s, but its decisions take 7.54 s.
+  - Most of the overhead came from a follow-up request per candidate that resent the screenshot to compute the end token's state. Capture requests now feed that token during generation instead; this fix is being measured.
+  - The capture hooks alone cost about 6% of generation time.
+  - Parity with CUDA graphs on: 38 of 40 picks match the reference, and feature cosine is at least 0.9994.
+- **Kev-style:** its separate pass shares the GPU with the actor and is slowest (8.74 s).
+- **Luna:** it is API-bound and not included.
+
+[PNG](arm_results/rl_integration/latency_same_hardware.png) / [SVG](arm_results/rl_integration/latency_same_hardware.svg); code `scripts/bench_selector_latency.py`, `scripts/serve_arm_sglang.py`.
 
 <a id="selection-head-evaluations"></a>
 
@@ -510,6 +547,22 @@ Jobs `354654` (primary) and `354696` (breakdown; identical folds, seeds and pick
 | 1000 states | 13,227 | 33.24% | +1.58 [−0.88, +4.21] | 61.9% |
 | 2692 states | 35,916 | 34.24% | +2.57 [+0.21, +5.09] | 64.5% |
 
+**Lookahead labels are the only ones that move a small student above uniform.**
+- **Setup:** the same student and recipe, trained on the original 124 branching states, with Luna labels of each kind.
+- **Scoring:** 5-fold task-grouped CV on all 124 states, and a transfer test that trains on all 124 states and scores 87 new ones.
+- **"Labelled states":** the training states that have that label type. States without labels are skipped in training; scoring always uses every state.
+
+| Training labels | Labelled states | 5-fold CV, − uniform, pp [95%] | Train 124 → test 87 new, − uniform, pp [95%] |
+| --- | ---: | --- | --- |
+| **Luna, 3-step lookahead, answers hidden** | **48** | **+2.37 [−0.08, +4.97]** | **+2.99 [−0.56, +6.54]** |
+| Luna after execution, draw-0 evidence | 119 | −0.42 [−3.49, +2.65] | −0.75 [−3.95, +2.34] |
+| Luna after execution, evidence from draws 0–2 | 121 | −0.52 [−3.60, +2.49] | +0.26 [−2.72, +3.15] |
+| Luna before execution | 124 | −1.71 [−4.82, +1.31] | −0.46 [−3.44, +2.67] |
+| Sol before execution | 124 | +0.17 [−2.96, +3.27] | +0.26 [−2.76, +3.31] |
+
+- **Why only 48:** the lookahead study covered 211 states, of which 51 are among the original 124; 3 of those failed the draw-0 rollout alignment check.
+- **Next:** train on all lookahead-labelled states, the 194 from that study plus 121 fresh Piotr-matched states.
+
 Agreement and outcome success rise together with teacher data: the head needs about 1,000–2,700 teacher states to clear uniform, roughly 10–25× the outcome-labelled states available per fold. The one-panel-per-state 110-state result is a single comparison among several; the same states with all their panels do not reproduce it. Pre- versus post-action labels and teacher strength are compared in [ARM_FORMULATIONS.md](ARM_FORMULATIONS.md#teacher-labels-211-20261011).
 
 <a id="selection-head-sweep"></a>
@@ -611,6 +664,8 @@ The probe was still rising at step 600. Training loss stopped falling after step
 
 <details>
 <summary>Method: features, head and data</summary>
+
+![Selection head inside the actor: (A) at inference the frozen SFT actor samples five candidates and a small head scores them from the actor's hidden states, read directly or through a top-layer scoring adapter; (B) training stage 1 fits the head on cached frozen features, stage 2 trains LoRA on the top eight layers plus the head with the prompt encoded by the unadapted actor](arm_results/methods/selection_head_workflows.svg)
 
 - **Features.** Frozen OpenWebRL-4B-SFT, bf16. For each candidate: the mean of reasoning-token states, the mean of action-token states and the end-token state, at layers 9/18/27/36; plus the prompt's last-token state. At serving these are by-products of generation. Offline, they are recomputed from the actor's exact tokens after a cached prompt prefix.
 - **Head.** Fixed per-dimension standardization fitted on training features, then a projection to 512 dimensions. The joint variant adds a two-layer transformer over the state and five candidates without position embeddings, so candidate order cannot matter. The one-at-a-time variant replaces it with an MLP per candidate.
