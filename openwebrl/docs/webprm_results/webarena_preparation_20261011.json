@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "status": "reddit_final_allocation_pending_priority_four_requests_pending_approval",
-  "date_utc": "2026-10-12T02:40:06.799440+00:00",
+  "status": "reddit_partial_closed_allocation_cap_exhausted_four_requests_pending_approval",
+  "date_utc": "2026-10-12T05:30:10.661612+00:00",
   "benchmark_order": [
     "WebArena-Lite",
     "Online-Mind2Web"
   ],
   "benchmark_task_evaluations": 11,
   "new_compute_allocations": 23,
-  "paid_api_calls": 1745,
+  "paid_api_calls": 1781,
   "cohort": {
     "released_tasks": 165,
     "single_site_tasks": 155,
@@ -61,7 +61,7 @@
     "identity_note": "Registry config and all uncompressed layer identities match original Drive archive metadata; original Drive tar itself remains incomplete after quota rejection."
   },
   "remaining_gates": [
-    "Supervise queued third/final Reddit allocation 356127 through startup and useful progress on the 180 unclaimed cells, within the original cumulative time, spending and storage caps. Preserve all ten previous claims; two have saved watchdog failure records but no terminal verdict or independent audit yet.",
+    "The queue-admission repair is independently reviewed offline; live recovery remains unvalidated. All 12 current attempts are independently audited. A further Reddit allocation needs an explicit exception to the consumed three-allocation cap; unused time and spending alone do not authorize submission. Preserve all 12 claims and 178 unclaimed fixed cells.",
     "Obtain approval for the reviewed four-request bundle: Shopping/GitLab additional transfers, Map append-only recovery with three bounded pre-response TLS reconnects, and CMS hosting validation.",
     "Acquire and validate Shopping, CMS, GitLab and Map startup/authentication/reset and native helpers; third-party original-state equivalence remains unverified.",
     "Obtain exact execution budgets for the remaining 1,360 fixed cells; complete audits before reporting Table 5 rates. Exact historical paper task membership remains unresolved."
@@ -861,9 +861,9 @@
     }
   },
   "cumulative_accounting_only": {
-    "paid_calls": 1745,
-    "charged_usd": 5.4988207,
-    "charged_usd_exact": "5.49882070",
+    "paid_calls": 1781,
+    "charged_usd": 5.6700614,
+    "charged_usd_exact": "5.67006140",
     "historical_diagnostics": {
       "paid_calls": 1074,
       "charged_usd": 0.7626917,
@@ -874,7 +874,15 @@
       "local_dispatches": 472,
       "charged_usd": "4.73612900"
     },
-    "scope": "Accounting only across separate approvals. Historical diagnostic outcomes remain separate from the fixed primary cohort; no unused-budget transfers."
+    "scope": "Accounting only across separate approvals. Historical diagnostic outcomes remain separate from the fixed primary cohort; no unused-budget transfers.",
+    "full_cohort_all_allocations": {
+      "paid_calls": 707,
+      "local_dispatches": 489,
+      "charged_usd": "4.90736970",
+      "scheduler_seconds": 2966,
+      "allocations": 3,
+      "scope": "All fixed-primary campaign attempts, including startup, failed and interrupted work; no budget reset."
+    }
   },
   "prospective_native_helpers": {
     "status": "offline_contracts_verified_not_live_deployment_validation",
@@ -897,10 +905,10 @@
     "website_readiness_verified": false
   },
   "full_cohort_preparation": {
-    "status": "reddit_final_allocation_pending_priority_four_requests_pending_approval",
+    "status": "reddit_partial_closed_allocation_cap_exhausted_four_requests_pending_approval",
     "planned_tasks": 155,
     "planned_episodes": 1550,
-    "primary_episodes_started": 10,
+    "primary_episodes_started": 12,
     "original_live_validated_domains": [
       "reddit"
     ],
@@ -930,7 +938,7 @@
       "state_disposal": {
         "protocol": "audited_new_campaign_state_disposal_v1",
         "tests_passed": 11,
-        "production_states_disposed": 2,
+        "production_states_disposed": 6,
         "requirements": "Fresh private claim; approved prospective policy; complete durable evidence and independent audit; actual worker/service/broker closure."
       },
       "map_hosting_preparation": "Archive inventory, private configuration, original service topology and bounded local relays; original startup/database/reset unverified.",
@@ -942,7 +950,7 @@
         "financial_auditor_tests": 15,
         "ephemeral_state_tests": 11,
         "independent_review_findings_closed": 6,
-        "live_full_cohort_episodes_audited": 2,
+        "live_full_cohort_episodes_audited": 12,
         "scope": "Frozen task, protocol, implementation, reset, every saved action, native evaluator replay, financial prefix and closure consistency. Does not independently establish historical process death, website truth or judge accuracy."
       },
       "campaign_controller": {
@@ -1207,7 +1215,7 @@
       "submitted_cpus": 8,
       "started_utc": "2026-10-12T01:37:00+00:00",
       "elapsed_seconds": 2614,
-      "recovery_state": "third_final_allocation_pending_priority",
+      "recovery_state": "third_final_allocation_closed_partial_allocation_cap_exhausted",
       "successor_job_id": "356127"
     },
     "approved_five_job_bundle": {
@@ -1457,7 +1465,7 @@
       "original_state_equivalence_verified": false,
       "independent_audit_sha256": "c7c501fb4a620ea4799fea6178df023dfb9801e3bf84fbad8fd464ed32d9b327"
     },
-    "primary_episodes_completed": 8,
+    "primary_episodes_completed": 12,
     "primary_startup_snapshot": {
       "observed_utc": "2026-10-12T01:44:08.616847+00:00",
       "job_id": "356022",
@@ -1481,9 +1489,9 @@
       },
       "global_verified_complete": false
     },
-    "primary_episodes_audited": 8,
-    "primary_effective_successes": 0,
-    "primary_native_positive_verdicts": 5,
+    "primary_episodes_audited": 12,
+    "primary_effective_successes": 2,
+    "primary_native_positive_verdicts": 7,
     "primary_audit_erratum": {
       "protocol": "table5_empty_dispatch_audit_erratum_v1",
       "affected_cells": 4,
@@ -1649,81 +1657,87 @@
       "prefix_receipt_sha256": "3d2ffb10660d10c2c14726a8943d708436b29dca45ca76629db6fc0968fe10c3",
       "additional_transfer_or_resume_approved": false
     },
-    "primary_cells_claimed": 10,
-    "primary_valid_episodes": 6,
-    "primary_invalid_saved_results": 2,
+    "primary_cells_claimed": 12,
+    "primary_valid_episodes": 8,
+    "primary_invalid_saved_results": 4,
     "primary_interrupted_missing_results": 0,
-    "primary_interrupted_audit_pending": 2,
-    "primary_unclaimed_reddit_cells": 180,
-    "primary_result_count_semantics": "Eight independently audited result records (six valid, two native-wrapper-invalid), plus two interrupted immutable claims with saved watchdog failure records, absent terminal verdicts and pending independent audits. The latter have no controller-level closure, audit inputs or normalized independent records yet and are excluded from the eight-record normalized cohort. No primary claim may be resampled. Native positives count only the six valid audited results; all effective successes are zero.",
+    "primary_interrupted_audit_pending": 0,
+    "primary_unclaimed_reddit_cells": 178,
+    "primary_result_count_semantics": "All 12 immutable primary claims have independent terminal-disposition audits: eight valid, two native-wrapper-invalid and two interrupted-invalid. Invalid normalized records retain null native/effective verdicts. Seven native positive verdicts and two effective positive verdicts occur among the eight valid results. No primary is resampled; rates remain withheld because 178 Reddit and 1360 other-domain planned cells are unclaimed.",
     "primary_current_snapshot": {
-      "observed_utc": "2026-10-12T02:40:06.799440+00:00",
+      "observed_utc": "2026-10-12T05:30:10.661612+00:00",
       "job_id": "356127",
-      "scheduler_state": "PENDING",
-      "operational_state": "queued_third_final_allocation_after_storage_scan_repair",
-      "primary_cells_claimed": 10,
-      "primary_workers_started": 10,
-      "primary_outcomes_recorded": 10,
+      "scheduler_state": "COMPLETED",
+      "operational_state": "resource_admission_closed_partial_allocation_cap_exhausted",
+      "primary_cells_claimed": 12,
+      "primary_workers_started": 12,
+      "primary_outcomes_recorded": 12,
       "primary_interrupted_queue_dispositions": 2,
-      "independent_cell_audits_verified": 8,
-      "valid_terminal_results": 6,
-      "invalid_terminal_results": 2,
+      "independent_cell_audits_verified": 12,
+      "valid_terminal_results": 8,
+      "invalid_terminal_results": 4,
       "interrupted_results_missing": 0,
-      "interrupted_audit_pending": 2,
-      "production_states_disposed": 4,
-      "paid_dispatches": 671,
-      "local_dispatches": 472,
-      "startup_paid_dispatches": 8,
-      "startup_local_dispatches": 11,
-      "charged_usd": "4.73612900",
+      "interrupted_audit_pending": 0,
+      "production_states_disposed": 6,
+      "paid_dispatches": 707,
+      "local_dispatches": 489,
+      "startup_paid_dispatches": 16,
+      "startup_local_dispatches": 22,
+      "charged_usd": "4.90736970",
       "unsettled_paid_reservations": 0,
       "unfinished_local_dispatches": 1,
-      "budget_prefix_bytes": 1512757,
-      "budget_prefix_sha256": "8e64957e9c6ca487b05d08dead2d93f2fa5f6c1982118fcf6895d0c786670dbe",
-      "broker_prefix_bytes": 1896753,
-      "broker_prefix_sha256": "5f2aadc25e5fe9532709fa9eef9283f8bc437430457c2af06ba7aa00ae157361",
+      "budget_prefix_bytes": 1588328,
+      "budget_prefix_sha256": "6d7f64b82148e73535780761cf93550fa6e4adfdbd3086769467b8d7aac9fb97",
       "journal_chain_verified": true,
       "owned_processes_closed": true,
       "global_verified_complete": false,
-      "stop_accounting_audit_sha256": "55137ce7857da5adbb456f3cb8be34006c5dacc6bc09e4987ec3baf3df4b3ea0",
-      "allocation_elapsed_seconds": 0,
-      "cumulative_elapsed_seconds": 2661,
-      "primary_result_attempt_job_id": "356022",
-      "new_primary_claims_this_allocation": 0,
-      "new_paid_dispatches_this_allocation": 0,
-      "new_local_dispatches_this_allocation": 0,
+      "stop_accounting_audit_sha256": "1dff895e4e319d6ad17851d3958bbc859ba89d865aa852c5ecd2401faa816587",
+      "allocation_elapsed_seconds": 305,
+      "cumulative_elapsed_seconds": 2966,
+      "new_primary_claims_this_allocation": 2,
+      "new_paid_dispatches_this_allocation": 36,
+      "new_local_dispatches_this_allocation": 17,
       "interrupted_saved_failure_records": 2,
       "interrupted_terminal_verdicts_missing": 2,
-      "primary_saved_result_objects": 10,
-      "primary_audited_result_objects": 8,
-      "scheduler_reason": "Priority"
+      "primary_saved_result_objects": 12,
+      "primary_audited_result_objects": 12,
+      "primary_result_attempt_job_ids": [
+        "356022",
+        "356127"
+      ],
+      "queue_reason": "resource_admission_closed",
+      "cohort_complete": false,
+      "new_primary_independent_replay_sha256": "94fd959ee1d2f969251fb46e6b2bc132b7b8b0a05b65c61a4a15af4427abf2c2",
+      "new_primary_independent_replay_scope": "Exact saved audit replay for both task 14 records; evidence and native evaluator consistency, not an independent website-truth observation or general judge-accuracy certificate.",
+      "interruption_audits_activated": true,
+      "interruption_activation_sha256": "64435217a944afe9cac95de315f65569eb27e1d851ffdde4248cea6c5791430e"
     },
     "reddit_operational_recovery": {
-      "status": "third_final_allocation_submitted_registered_released",
+      "status": "third_final_allocation_closed_partial_no_allocations_remaining",
       "successor_submitted": true,
       "new_resource_budget": 0,
       "job_id": "356022",
       "elapsed_seconds": 2614,
       "original_cumulative_seconds": 86400,
-      "remaining_seconds": 83739,
-      "maximum_whole_minute_successor_seconds": 83700,
+      "remaining_seconds": 83434,
+      "maximum_whole_minute_successor_seconds": null,
       "registered_allocations": 3,
       "maximum_allocations": 3,
       "remaining_allocations": 0,
-      "charged_usd": "4.73612900",
-      "remaining_usd": "245.26387100",
-      "paid_dispatches": 671,
-      "local_dispatches": 472,
-      "remaining_paid_dispatches": 20853,
-      "remaining_local_dispatches": 10999,
+      "charged_usd": "4.90736970",
+      "remaining_usd": "245.09263030",
+      "paid_dispatches": 707,
+      "local_dispatches": 489,
+      "remaining_paid_dispatches": 20817,
+      "remaining_local_dispatches": 10982,
       "unknown_paid_reservations": 0,
       "unfinished_local_dispatches_counted": 1,
       "financial_contract_sha256": "8acb61cf53424cecc22646e3ad6bc5c83664d54f8f89180d86c6fcf987bda947",
-      "retained_scratch_apparent_bytes": 336670263878,
+      "retained_scratch_apparent_bytes": 384763249194,
       "scratch_cap_bytes": 549755813888,
       "durable_artifact_cap_bytes": 68719476736,
       "per_retained_state_sizes_verified": false,
-      "immutable_primary_claims": 10,
+      "immutable_primary_claims": 12,
       "primary_resampling_allowed": false,
       "source_repair": {
         "scope": "Restore released TerminalDetector behavior: missing parsed block means continue, and a parsed nonterminal click executes through the native action path. Fix empty-dispatch audit handling prospectively; original primary evidence remains unchanged.",
@@ -1750,10 +1764,10 @@
       "successor_submission_sha256": "978180b20a610f96ead27e00e0d942dba621e26cfba052b36aef3b881be25a1b",
       "successor_release_sha256": "65ee673b113189089d0e244b696b5e5965b4fa31751e0b9ffc62c605c6be1684",
       "running_confirmed": false,
-      "scheduler_state": "PENDING",
-      "useful_primary_progress_confirmed": false,
-      "successor_elapsed_seconds": 0,
-      "cumulative_elapsed_seconds": 2661,
+      "scheduler_state": "COMPLETED",
+      "useful_primary_progress_confirmed": true,
+      "successor_elapsed_seconds": 305,
+      "cumulative_elapsed_seconds": 2966,
       "successor_rounding_unused_seconds": 39,
       "second_attempt_stop_audit_sha256": "55137ce7857da5adbb456f3cb8be34006c5dacc6bc09e4987ec3baf3df4b3ea0",
       "startup_failure": "apparent_size_scan_disappearing_temporary_build_path",
@@ -1774,7 +1788,6 @@
         "last_closed_epoch_sha256": "cea0d0fc3d215540f848c1b39051ad3925c58824ff4adcf230b5a16c53f18bda",
         "new_broker_epoch": false
       },
-      "scheduler_reason": "Priority",
       "successor_approval_sha256": "4f8e7938af28fcfd912806be4f3e8a63dd1820d75b812d32f012d78eaffa345f",
       "third_final_allocation_submitted": true,
       "second_attempt_job_id": "356094",
@@ -1791,6 +1804,55 @@
         "sampled_storage_enforcement": true,
         "hard_peak_quota": false,
         "original_resource_and_financial_caps_unchanged": true
+      },
+      "additional_allocation_authorized": false,
+      "remaining_seconds_do_not_authorize_allocation": true,
+      "third_attempt_closure": {
+        "job_id": "356127",
+        "scheduler_state": "COMPLETED",
+        "elapsed_seconds": 305,
+        "owned_processes_closed": true,
+        "owned_pid_count": 229,
+        "broker_reaped": true,
+        "financial_epoch_closed": true,
+        "unknown_paid_reservations": 0,
+        "financial_overruns": 0,
+        "prior_financial_prefix_unchanged": true,
+        "new_paid_dispatches": 36,
+        "new_local_dispatches": 17,
+        "new_charged_usd": "0.17124070",
+        "new_primary_claims": 2,
+        "new_valid_results": 2,
+        "new_effective_successes": 2,
+        "new_native_positive_verdicts": 2,
+        "new_scratch_apparent_bytes": 48092985316,
+        "cumulative_scratch_apparent_bytes": 384763249194,
+        "durable_campaign_apparent_bytes": 173209452,
+        "queue_reason": "resource_admission_closed",
+        "remaining_reddit_cells": 178,
+        "exact_resource_denial_branch_recorded": false,
+        "global_endpoint_verified_complete": false,
+        "audit_sha256": "1dff895e4e319d6ad17851d3958bbc859ba89d865aa852c5ecd2401faa816587",
+        "new_primary_independent_replay_sha256": "94fd959ee1d2f969251fb46e6b2bc132b7b8b0a05b65c61a4a15af4427abf2c2"
+      },
+      "queue_admission_diagnosis": {
+        "proven": "Queue permanently closes admission on any resource gate false even while active work can release capacity; it drained its two active successful trials and exited.",
+        "possible_trigger": "The conservative storage projection includes both measured live state bytes and the full outstanding state reservation; at the first lane handoff it can exceed the cumulative cap, then fall below after the other lane is disposed. Memory or free-disk transient rejection also remains possible.",
+        "evidence_limit": "The controller did not record which can_start branch returned false; the precise trigger cannot be proven from saved receipts.",
+        "repair_status": "independently_reviewed_offline_not_launched",
+        "planned_repair": "Defer a false admission while work is active, await at least one owned completion without repeated admission polling, then rerun all gates. A false with no active work still closes admission. Preserve all caps and primary claims; add bounded per-decision reasons and pre-start minimum-lane reserve validation.",
+        "repair_validation": {
+          "tests_passed": 52,
+          "independent_frozen_source_tests_passed": 7,
+          "readiness_sha256": "ac61509ed9d52c02fccb74e9f794325b2efa2366bbf8453909baa83eb2a8df91",
+          "independent_review_sha256": "b93620beace6db15c63187be32922dce1f55181b63d7b339f27f25f4b00b26ca",
+          "source_manifest_sha256": "1fcb35e4b586bda1f063d6019eaf982a94ba1193250c1760cc96444296743242",
+          "live_validation": false,
+          "new_allocations": 0,
+          "new_calls": 0,
+          "authorized_to_launch": false,
+          "all_original_caps_and_primary_identities_unchanged": true
+        }
       }
     },
     "pending_four_request_bundle": {
@@ -1956,56 +2018,56 @@
       "request_reference": "pending_four_request_bundle.requests[kind=map]"
     },
     "primary_collector_snapshot": {
-      "snapshot_sha256": "fb1eaf30e552ce556cf32923055474e1afc1a75f1386f2ccfb0d7e44294fc10d",
+      "snapshot_sha256": "26c966caa70f06702583d17cbe10925e1624a56c7de73cc5bab0df9207b71bdd",
       "primary_claim_counts": {
-        "audited_invalid": 2,
-        "audited_records": 8,
-        "audited_valid": 6,
-        "bounded_scope_unclaimed": 180,
-        "claimed": 10,
-        "interrupted_missing_terminal_audit": 2
+        "audited_invalid": 4,
+        "audited_records": 12,
+        "audited_valid": 8,
+        "bounded_scope_unclaimed": 178,
+        "claimed": 12,
+        "interrupted_missing_terminal_audit": 0
       },
       "bounded_scope_counts": {
-        "attempted": 8,
+        "attempted": 12,
         "changed_valid_verdicts": 5,
         "effective_semantic_invalid": 0,
         "effective_semantic_unreviewed": 0,
-        "effective_successes": 0,
-        "invalid": 2,
-        "missing": 182,
+        "effective_successes": 2,
+        "invalid": 4,
+        "missing": 178,
         "native_semantic_invalid": 5,
         "native_semantic_unreviewed": 0,
-        "native_successes_on_valid_episodes": 5,
-        "not_recorded": 182,
+        "native_successes_on_valid_episodes": 7,
+        "not_recorded": 178,
         "planned": 190,
-        "raw_native_positive_verdicts": 5,
+        "raw_native_positive_verdicts": 7,
         "raw_native_positive_verdicts_on_invalid_episodes": 0,
-        "recorded": 8,
+        "recorded": 12,
         "recorded_unattempted": 0,
-        "valid": 6
+        "valid": 8
       },
       "full_table_counts": {
-        "attempted": 8,
+        "attempted": 12,
         "changed_valid_verdicts": 5,
         "effective_semantic_invalid": 0,
         "effective_semantic_unreviewed": 0,
-        "effective_successes": 0,
-        "invalid": 2,
-        "missing": 1542,
+        "effective_successes": 2,
+        "invalid": 4,
+        "missing": 1538,
         "native_semantic_invalid": 5,
         "native_semantic_unreviewed": 0,
-        "native_successes_on_valid_episodes": 5,
-        "not_recorded": 1542,
+        "native_successes_on_valid_episodes": 7,
+        "not_recorded": 1538,
         "planned": 1550,
-        "raw_native_positive_verdicts": 5,
+        "raw_native_positive_verdicts": 7,
         "raw_native_positive_verdicts_on_invalid_episodes": 0,
-        "recorded": 8,
+        "recorded": 12,
         "recorded_unattempted": 0,
-        "valid": 6
+        "valid": 8
       },
       "performance_rates_withheld": true,
-      "replacement_count": 4,
-      "count_semantics": "Analyzer attempted/recorded count 8 covers normalized independently audited records. Durable primary claims count 10 additionally includes two interrupted cells with saved watchdog failure records, absent terminal verdicts and no normalized independent audit yet. Reddit missing 182 means 180 unclaimed plus two interrupted cells missing normalized audits, not missing failure files; full-grid missing 1542 additionally includes 1360 unstarted other-domain cells.",
+      "replacement_count": 6,
+      "count_semantics": "All 12 durable primary claims now have normalized independently audited records: eight valid, two wrapper-invalid and two interrupted-invalid. Native/effective verdicts remain null for all invalid records. Reddit missing 178 means unclaimed cells; full-grid missing 1538 additionally includes 1360 unstarted other-domain cells. No missing independent audits remain among claimed primary attempts.",
       "records": [
         {
           "actor_model": "gpt-4o-2024-05-13",
@@ -2092,6 +2154,20 @@
           "valid": true
         },
         {
+          "actor_model": "gpt-4o-mini-2024-07-18",
+          "audit_sha256": "e82df7a7f10bc5f9471b45b76f9bdfd04d04da5fbeabbf13b2045fa27ec15b40",
+          "audit_verified": true,
+          "domain": "reddit",
+          "effective_semantic_status": "not_applicable",
+          "native_semantic_status": "not_applicable",
+          "native_success": null,
+          "released_task_id": 5,
+          "selector": "piotr_selectionarm",
+          "success": null,
+          "terminal": true,
+          "valid": false
+        },
+        {
           "actor_model": "gpt-4o-2024-05-13",
           "audit_sha256": "c96238df7f830a02328b75ab30823015915465cc619547f4d9696fb45f841d61",
           "audit_verified": true,
@@ -2101,6 +2177,20 @@
           "native_success": null,
           "released_task_id": 5,
           "selector": "piotr_selectionarm",
+          "success": null,
+          "terminal": true,
+          "valid": false
+        },
+        {
+          "actor_model": "gpt-4o-mini-2024-07-18",
+          "audit_sha256": "a0bd62735907ae750082fb0e0c3bd7c9a16cd6c7f31f63b427c469ef74d0bab6",
+          "audit_verified": true,
+          "domain": "reddit",
+          "effective_semantic_status": "not_applicable",
+          "native_semantic_status": "not_applicable",
+          "native_success": null,
+          "released_task_id": 5,
+          "selector": "arbiter7b",
           "success": null,
           "terminal": true,
           "valid": false
@@ -2118,10 +2208,36 @@
           "success": 0,
           "terminal": true,
           "valid": true
+        },
+        {
+          "actor_model": "gpt-4o-2024-05-13",
+          "audit_sha256": "32d77527ff31d47663f99f9d70e63932e032bcaea7dbf78529ed7b2e942c7f54",
+          "audit_verified": true,
+          "domain": "reddit",
+          "effective_semantic_status": "valid",
+          "native_semantic_status": "valid",
+          "native_success": 1,
+          "released_task_id": 14,
+          "selector": "no_search",
+          "success": 1,
+          "terminal": true,
+          "valid": true
+        },
+        {
+          "actor_model": "gpt-4o-mini-2024-07-18",
+          "audit_sha256": "c34040dd556b05d7c2be7016faeabe30f3139295eef771695f073ce6797c4722",
+          "audit_verified": true,
+          "domain": "reddit",
+          "effective_semantic_status": "valid",
+          "native_semantic_status": "valid",
+          "native_success": 1,
+          "released_task_id": 14,
+          "selector": "piotr_selectionarm",
+          "success": 1,
+          "terminal": true,
+          "valid": true
         }
-      ],
-      "readiness_sha256": "31d4d3f3392578a1ebe82a37abd91712d361d5afe61fdf8a876371ada702e1ef",
-      "tests_passed": 38
+      ]
     },
     "primary_interrupted_saved_failure_records": 2,
     "primary_interrupted_missing_terminal_verdicts": 2,
@@ -2138,11 +2254,16 @@
         "watchdog_owned_processes_closed": true,
         "terminal_verdict_present": false,
         "controller_level_closure_present": false,
-        "audit_input_present": false,
-        "normalized_independent_audit_present": false,
-        "independent_audit_pending": true,
+        "normalized_independent_audit_present": true,
+        "independent_audit_pending": false,
         "result_sha256": "434ce514484e96aaa51c0265e52d83bfba67e1a7d6215f17b22187252477e90e",
-        "watchdog_sha256": "7515c7a5fa46622ec94aff886ebb1415e9c3b806622576394db978953632d254"
+        "watchdog_sha256": "7515c7a5fa46622ec94aff886ebb1415e9c3b806622576394db978953632d254",
+        "original_audit_input_present": false,
+        "supplemental_audit_input_present": true,
+        "success_field_semantics": "Original watchdog failure placeholder, not a native/effective judge verdict; normalized audited verdicts remain null.",
+        "normalized_native_success": null,
+        "normalized_effective_success": null,
+        "independent_audit_sha256": "a0bd62735907ae750082fb0e0c3bd7c9a16cd6c7f31f63b427c469ef74d0bab6"
       },
       {
         "actor_model": "gpt-4o-mini-2024-07-18",
@@ -2156,13 +2277,68 @@
         "watchdog_owned_processes_closed": true,
         "terminal_verdict_present": false,
         "controller_level_closure_present": false,
-        "audit_input_present": false,
-        "normalized_independent_audit_present": false,
-        "independent_audit_pending": true,
+        "normalized_independent_audit_present": true,
+        "independent_audit_pending": false,
         "result_sha256": "e38f62bae00cf101270de926b3d1d3f6e65132e9ea91fb38c34687b513fe449d",
-        "watchdog_sha256": "e8388e7060683fbc9b8ab9bc9cebe011f8f8b4828b629f658b27c86545c6c522"
+        "watchdog_sha256": "e8388e7060683fbc9b8ab9bc9cebe011f8f8b4828b629f658b27c86545c6c522",
+        "original_audit_input_present": false,
+        "supplemental_audit_input_present": true,
+        "success_field_semantics": "Original watchdog failure placeholder, not a native/effective judge verdict; normalized audited verdicts remain null.",
+        "normalized_native_success": null,
+        "normalized_effective_success": null,
+        "independent_audit_sha256": "e82df7a7f10bc5f9471b45b76f9bdfd04d04da5fbeabbf13b2045fa27ec15b40"
       }
-    ]
+    ],
+    "primary_episode_completion_semantics": "All 12 claims have audited terminal dispositions. This includes four invalid attempts, two of which were interrupted without native or effective terminal verdicts; it does not mean all attempts completed normal evaluation.",
+    "interruption_audit": {
+      "status": "independently_replayed_activated",
+      "audited_invalid_attempts": 2,
+      "tests_passed": 58,
+      "readiness_sha256": "4a85488ffd78d15d74466b356ac09bc4907944c9c9b0fc7279c24f207409cbd5",
+      "activation_sha256": "64435217a944afe9cac95de315f65569eb27e1d851ffdde4248cea6c5791430e",
+      "auditor_sha256": "3e5c55851f007138113d1980df9c901b5c5e57e7987a5a6d61e7a54e9b2c585c",
+      "collector_sha256": "f42efe908e80ee2725e9cd4c12ba48ad5cfd1bfe6ab04123bbf0263b9ed94489",
+      "financial_auditor_sha256": "52c1b7b2a54d87e20f67da404ac43ccff9e60691479ea6e9cb9634e4b581e891",
+      "source_manifest_sha256": "8184303587be8573cc783d6943ff8ec5fec390d004d18132235976366951ab25",
+      "original_primary_bytes_changed": false,
+      "model_calls": 0,
+      "new_allocations": 0,
+      "state_disposals": 0,
+      "refunds": 0,
+      "native_verdicts_present": false,
+      "effective_verdicts_present": false,
+      "normalized_invalid_verdicts": null,
+      "historical_unfinished_local_dispatch_retained": true,
+      "scope": "Audit saved interrupted failures as invalid attempts; raw/effective verdicts stay absent. No rerun, refund, broker terminal event or disposal created.",
+      "records": [
+        {
+          "actor_model": "gpt-4o-mini-2024-07-18",
+          "selector": "arbiter7b",
+          "audit_sha256": "a0bd62735907ae750082fb0e0c3bd7c9a16cd6c7f31f63b427c469ef74d0bab6",
+          "pointer_sha256": "f9a6ac334f2813c4523f9bc4c3c11c96afb6b8715e0d09f63426c5841f8081e2",
+          "valid": false,
+          "native_success": null,
+          "success": null
+        },
+        {
+          "actor_model": "gpt-4o-mini-2024-07-18",
+          "selector": "piotr_selectionarm",
+          "audit_sha256": "e82df7a7f10bc5f9471b45b76f9bdfd04d04da5fbeabbf13b2045fa27ec15b40",
+          "pointer_sha256": "82dcb05f7be64921c18249464230118633ef50027f20cdfb30048d909f7fffa0",
+          "valid": false,
+          "native_success": null,
+          "success": null
+        }
+      ]
+    },
+    "supervision": {
+      "active_jobs": 0,
+      "watcher_active": false,
+      "status": "stopped_no_registered_authorized_work",
+      "finished_no_registered_work": true,
+      "global_verified_complete": false,
+      "restart_required_for_new_approved_jobs": true
+    }
   },
   "author_trajectory_release_check": {
     "date_utc": "2026-10-11",
@@ -2170,5 +2346,5 @@
     "advertised_trajectories": 72,
     "complete_historical_table5_membership_established": false
   },
-  "new_compute_allocations_semantics": "16 historical allocations plus five originally submitted next-stage allocations and two Reddit operational successors. All three Reddit allocations share the same original budget; submitted, queued and consumed time are distinct."
+  "new_compute_allocations_semantics": "16 historical allocations plus five originally submitted next-stage allocations and two Reddit operational successors. All three Reddit allocations are terminal and share the original cumulative budget; the three-allocation cap is exhausted."
 }
