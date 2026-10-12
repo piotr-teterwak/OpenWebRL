@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "status": "cms_candidate_verified_other_four_jobs_queued",
-  "date_utc": "2026-10-11",
+  "status": "reddit_and_map_running_first_two_primary_audits_verified_transfer_exceptions_pending",
+  "date_utc": "2026-10-12T02:05:11.968912+00:00",
   "benchmark_order": [
     "WebArena-Lite",
     "Online-Mind2Web"
@@ -447,7 +447,7 @@
     "current_proposal_sha256": "fa01e7eb3f0fa4339fa336e8a47f1c457903fb79706d2e723a73ca2df60ea956",
     "local_requests_charged_before_recovery": 38
   },
-  "benchmark_task_evaluations_semantics": "Eleven attempted cells across three distinct diagnostic cohorts: original five mechanically invalid; corrected five mechanically valid but semantic false positives; guarded no-search one valid failure. No full-cohort primary cell has run; no outcome pooling.",
+  "benchmark_task_evaluations_semantics": "Eleven historical diagnostic cells remain separate. Full-cohort primary progress is recorded under full_cohort_preparation; no outcome pooling.",
   "pilot_fixed_cells": {
     "planned": 5,
     "attempted": 5,
@@ -886,10 +886,10 @@
     "website_readiness_verified": false
   },
   "full_cohort_preparation": {
-    "status": "reddit_primary_running_three_acquisitions_queued_cms_acquired",
+    "status": "reddit_and_map_running_first_two_primary_audits_verified_transfer_exceptions_pending",
     "planned_tasks": 155,
     "planned_episodes": 1550,
-    "primary_episodes_started": 2,
+    "primary_episodes_started": 4,
     "original_live_validated_domains": [
       "reddit"
     ],
@@ -919,7 +919,7 @@
       "state_disposal": {
         "protocol": "audited_new_campaign_state_disposal_v1",
         "tests_passed": 11,
-        "production_states_disposed": 0,
+        "production_states_disposed": 2,
         "requirements": "Fresh private claim; approved prospective policy; complete durable evidence and independent audit; actual worker/service/broker closure."
       },
       "map_hosting_preparation": "Archive inventory, private configuration, original service topology and bounded local relays; original startup/database/reset unverified.",
@@ -931,7 +931,7 @@
         "financial_auditor_tests": 15,
         "ephemeral_state_tests": 11,
         "independent_review_findings_closed": 6,
-        "live_full_cohort_episodes_audited": 0,
+        "live_full_cohort_episodes_audited": 2,
         "scope": "Frozen task, protocol, implementation, reset, every saved action, native evaluator replay, financial prefix and closure consistency. Does not independently establish historical process death, website truth or judge accuracy."
       },
       "campaign_controller": {
@@ -1011,11 +1011,15 @@
         },
         "approved": true,
         "submitted": true,
-        "status": "approved_submitted_queued",
+        "status": "failed_closed_independently_audited",
         "original_equivalence_verified": false,
         "acquisition_launched": true,
-        "transfer_started": false,
-        "job_id": "356007"
+        "transfer_started": true,
+        "job_id": "356007",
+        "elapsed_seconds": 37,
+        "cumulative_charged_bytes": 1146213879,
+        "additional_transfer_approved": false,
+        "failure": "atomic_ledger_rename_storage_scan_race"
       },
       "gitlab": {
         "name": "gitlab-thirdparty-oci-acquisition-v1",
@@ -1050,11 +1054,15 @@
         },
         "approved": true,
         "submitted": true,
-        "status": "approved_submitted_queued",
+        "status": "failed_closed_independently_audited",
         "original_equivalence_verified": false,
         "acquisition_launched": true,
-        "transfer_started": false,
-        "job_id": "356010"
+        "transfer_started": true,
+        "job_id": "356010",
+        "elapsed_seconds": 42,
+        "cumulative_charged_bytes": 1192051429,
+        "additional_transfer_approved": false,
+        "failure": "atomic_ledger_rename_storage_scan_race"
       },
       "map_backend": {
         "name": "map-original-backend-acquisition-v1",
@@ -1089,10 +1097,10 @@
         },
         "approved": true,
         "submitted": true,
-        "status": "approved_submitted_queued",
+        "status": "running",
         "original_equivalence_verified": false,
         "acquisition_launched": true,
-        "transfer_started": false,
+        "transfer_started": true,
         "job_id": "356008"
       },
       "shopping_gitlab_metadata": {
@@ -1425,7 +1433,7 @@
       "original_state_equivalence_verified": false,
       "independent_audit_sha256": "c7c501fb4a620ea4799fea6178df023dfb9801e3bf84fbad8fd464ed32d9b327"
     },
-    "primary_episodes_completed": 0,
+    "primary_episodes_completed": 2,
     "primary_startup_snapshot": {
       "observed_utc": "2026-10-12T01:44:08.616847+00:00",
       "job_id": "356022",
@@ -1448,6 +1456,230 @@
         "native_fuzzy_preflight-receipt.json": "28340e4f4bba43d32248327a51f12c1b2ad5e2b4ba259da0d1d4086139140f83"
       },
       "global_verified_complete": false
+    },
+    "primary_episodes_audited": 2,
+    "primary_effective_successes": 0,
+    "primary_native_positive_verdicts": 2,
+    "primary_current_snapshot": {
+      "observed_utc": "2026-10-12T02:05:11.968912+00:00",
+      "job_id": "356022",
+      "scheduler_state": "RUNNING",
+      "primary_workers_started": 4,
+      "primary_outcomes_recorded": 2,
+      "independent_cell_audits_verified": 2,
+      "production_states_disposed": 2,
+      "paid_dispatches": 429,
+      "local_dispatches": 329,
+      "startup_paid_dispatches": 8,
+      "startup_local_dispatches": 11,
+      "settled_usd": "3.46737925",
+      "unsettled_reservations": 1,
+      "reserved_usd": "0.00814170",
+      "charged_usd": "3.47552095",
+      "journal_prefix_bytes": 985544,
+      "journal_prefix_sha256": "8004ba50408f99f853ae1c0bf42b141ecce74af2cfb12eab8a06d983e86ad5fb",
+      "journal_chain_verified": true,
+      "global_verified_complete": false
+    },
+    "primary_audit_erratum": {
+      "protocol": "table5_empty_dispatch_audit_erratum_v1",
+      "affected_cells": 1,
+      "reconstructed_empty_dispatch_errors": 2,
+      "original_rejection_preserved": true,
+      "results_unchanged": true,
+      "new_model_calls": 0,
+      "supplement_sha256": "abee57ca15dadcda75542abd78c5de95f94a833649d63869893fd280ba4d5064",
+      "original_rejection_sha256": "2e67bcc89586a588d8bd5629773c5f89a81d50fde364bbae8bebd4624b9e288c",
+      "original_frozen_auditor_sha256": "02622744b726cb582219f149df3cd7689cdae4eff13dce5b85e048be0817b59d",
+      "implementation_sha256": "c1b46c5e4e058ea36f1c990730a5ed6d0fca9a7481daff619005b0f0071c67db",
+      "corrected_auditor_sha256": "c68a87879a910014b29f60267e6203c5392638226acd8a50dec210bea24f56da"
+    },
+    "pending_transfer_exceptions": {
+      "status": "pending_exact_additional_transfer_exception",
+      "approved": false,
+      "submitted": false,
+      "readiness_sha256": "84d2f4aa950326125c6c2f59e5a7e203058d1128dd7fba799f603d9279a8349c",
+      "tests": {
+        "scanner_fix_parent_reviewed": 37,
+        "thirdparty_integration": 14,
+        "transfer_recovery_helper": 10
+      },
+      "sites": [
+        {
+          "site": "shopping",
+          "proposal_sha256": "30ec937c4fcaa66389199ae48663ffccea260a4162d45f8b8785687784fa2b23",
+          "prior_allocation_seconds": 37,
+          "requested_allocation_seconds": 7140,
+          "cumulative_prior_network_accounting": {
+            "prior_charged_bytes": 1146213879,
+            "prior_metadata_bytes": 41962,
+            "prior_responses": 86
+          },
+          "prior_scratch_reserved_bytes": 4194304,
+          "new_scratch_available_bytes": 532676608,
+          "no_further_successor": true
+        },
+        {
+          "site": "gitlab",
+          "proposal_sha256": "1080ae609e745951db364853e62fd689c559fdf2a5fc8988e1449e728104deb2",
+          "prior_allocation_seconds": 42,
+          "requested_allocation_seconds": 7140,
+          "cumulative_prior_network_accounting": {
+            "prior_charged_bytes": 1192051429,
+            "prior_metadata_bytes": 25397,
+            "prior_responses": 55
+          },
+          "prior_scratch_reserved_bytes": 4194304,
+          "new_scratch_available_bytes": 532676608,
+          "no_further_successor": true
+        }
+      ]
+    },
+    "pending_three_request_bundle": {
+      "status": "pending_explicit_user_approval",
+      "approved": false,
+      "submitted": false,
+      "bundle_file_sha256": "590fd80162c2d1296e3ba2ecefeceed35129d9c26c7650797c1938bd08155a55",
+      "requests": [
+        {
+          "kind": "shopping",
+          "proposal_sha256": "30ec937c4fcaa66389199ae48663ffccea260a4162d45f8b8785687784fa2b23",
+          "request": {
+            "cpus": 2,
+            "memory_gib": 8,
+            "gpus": 0,
+            "api_usd": 0,
+            "requested_seconds": 7140,
+            "additional_allocations": 1,
+            "original_cumulative_seconds": 7200,
+            "prior_seconds": 37,
+            "additional_transfer_campaigns": 1,
+            "cumulative_transfer_campaigns": 2,
+            "no_further_successor": true,
+            "limits": {
+              "closure_reserve_seconds": 120,
+              "download_charged_bytes": 70000000000,
+              "expanded_raw_layer_bytes": 137438953472,
+              "initial_persistent_free_bytes": 77309411328,
+              "initial_temporary_free_bytes": 1073741824,
+              "max_http_responses": 4036,
+              "max_redirects_per_range": 3,
+              "metadata_received_bytes": 16777216,
+              "network_connections": 1,
+              "receipt_reserve_bytes": 16777216,
+              "response_header_bytes_per_request": 65536,
+              "retained_bytes": 77309411328,
+              "temporary_bytes": 536870912
+            },
+            "prior_network_accounting": {
+              "prior_charged_bytes": 1146213879,
+              "prior_metadata_bytes": 41962,
+              "prior_responses": 86
+            },
+            "prior_scratch_reserved_bytes": 4194304,
+            "third_party_source_original_state_unverified": true
+          }
+        },
+        {
+          "kind": "gitlab",
+          "proposal_sha256": "1080ae609e745951db364853e62fd689c559fdf2a5fc8988e1449e728104deb2",
+          "request": {
+            "cpus": 2,
+            "memory_gib": 8,
+            "gpus": 0,
+            "api_usd": 0,
+            "requested_seconds": 7140,
+            "additional_allocations": 1,
+            "original_cumulative_seconds": 7200,
+            "prior_seconds": 42,
+            "additional_transfer_campaigns": 1,
+            "cumulative_transfer_campaigns": 2,
+            "no_further_successor": true,
+            "limits": {
+              "closure_reserve_seconds": 120,
+              "download_charged_bytes": 80000000000,
+              "expanded_raw_layer_bytes": 206158430208,
+              "initial_persistent_free_bytes": 85899345920,
+              "initial_temporary_free_bytes": 1073741824,
+              "max_http_responses": 4644,
+              "max_redirects_per_range": 3,
+              "metadata_received_bytes": 16777216,
+              "network_connections": 1,
+              "receipt_reserve_bytes": 16777216,
+              "response_header_bytes_per_request": 65536,
+              "retained_bytes": 85899345920,
+              "temporary_bytes": 536870912
+            },
+            "prior_network_accounting": {
+              "prior_charged_bytes": 1192051429,
+              "prior_metadata_bytes": 25397,
+              "prior_responses": 55
+            },
+            "prior_scratch_reserved_bytes": 4194304,
+            "third_party_source_original_state_unverified": true
+          }
+        },
+        {
+          "kind": "cms_hosting_validation",
+          "proposal_sha256": "b0fe94c47a63466cb0e4536af902a6f324c54eff551f9372f4ada2f9571c18b6",
+          "request": {
+            "resources": {
+              "account": "zixianma",
+              "cpus": 4,
+              "gpus": 0,
+              "max_allocations": 2,
+              "memory_gib": 16,
+              "nodes": 1,
+              "partition": "gpu-h200",
+              "qos": "normal",
+              "total_seconds": 7200
+            },
+            "limits": {
+              "api_usd": 0,
+              "closure_seconds": 120,
+              "download_bytes": 0,
+              "model_calls": 0,
+              "retained_bytes": 2147483648,
+              "runtime_reserve_bytes": 8589934592,
+              "scratch_bytes": 51539607552
+            },
+            "new_cumulative_compute_seconds": 7200,
+            "third_party_source_original_state_unverified": true,
+            "scope": "Owned startup, native login/evaluator controls, one synthetic product mutation, independent fresh DB/media/session reset and process closure; no benchmark episodes."
+          }
+        }
+      ]
+    },
+    "pending_cms_hosting_validation": {
+      "status": "reviewed_pending_exact_approval",
+      "proposal_sha256": "b0fe94c47a63466cb0e4536af902a6f324c54eff551f9372f4ada2f9571c18b6",
+      "readiness_sha256": "7ba61bca0458c2a734324a9f25948cf0238f5638811b6314275452eeda1978a7",
+      "resources": {
+        "account": "zixianma",
+        "cpus": 4,
+        "gpus": 0,
+        "max_allocations": 2,
+        "memory_gib": 16,
+        "nodes": 1,
+        "partition": "gpu-h200",
+        "qos": "normal",
+        "total_seconds": 7200
+      },
+      "limits": {
+        "api_usd": 0,
+        "closure_seconds": 120,
+        "download_bytes": 0,
+        "model_calls": 0,
+        "retained_bytes": 2147483648,
+        "runtime_reserve_bytes": 8589934592,
+        "scratch_bytes": 51539607552
+      },
+      "tests_passed": 31,
+      "live_adapter_enabled": false,
+      "actual_image_extractions": 0,
+      "actual_services": 0,
+      "actual_browsers": 0,
+      "original_state_equivalence_verified": false
     }
   },
   "author_trajectory_release_check": {

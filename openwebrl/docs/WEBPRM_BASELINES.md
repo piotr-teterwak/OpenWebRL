@@ -3,10 +3,27 @@
 <a id="table5-plan-20261010"></a>
 ## WebArbiter Table 5 plus Piotr SelectionARM
 
-**The fixed Table 5 reconstruction has started: two of 1,550 planned episodes are running, with none completed at the October 12, 01:44 UTC check.** The approved Reddit job covers 190 cells; all three local critics and eight guarded judge controls passed startup checks. Each active episode has its own fresh original Reddit state. CMS candidate acquisition is verified complete; Map, Shopping and GitLab acquisitions remain queued. The other 1,360 episodes still require validated deployments and execution budgets. [Results and accounting](webprm_results/webarena_preparation_20261011.json).
+**Two of 1,550 fixed primary episodes are complete and independently audited; both have guarded scores of zero.** At the October 12, 02:04 UTC check, two further Reddit episodes and the Map backend download are running. The approved Reddit campaign covers 190 cells. The other 1,360 cells still require validated deployments and execution budgets; Table 5 is incomplete and no success-rate comparison is reported. [Results and accounting](webprm_results/webarena_preparation_20261011.json).
+
+| Completed primary cell | Task | Valid | Native positive verdicts | Guarded successes |
+| --- | ---: | ---: | ---: | ---: |
+| GPT-4o + WebArbiter-7B | 5 | 1 | 1 | 0 |
+| GPT-4o-mini + GPT-4o-mini selection | 5 | 1 | 1 | 0 |
+
+Both episodes reached the 30-turn limit and returned `N/A`; the prespecified non-answer guard changes each native score from 1 to 0. These two outcomes establish neither a selector ranking nor a cohort rate. Fresh-state cleanup is verified for both. Shopping and GitLab acquisition stopped on a file-accounting race; the repair is tested, but each original one-transfer allowance is spent. CMS acquisition is verified; its reviewed hosting check awaits exact resource approval.
+
+<details>
+<summary>Primary audit erratum and first-two accounting</summary>
+
+The GPT-4o/WebArbiter episode passed the original auditor. The GPT-4o-mini/GPT-selection episode exposed a schema error: two rejected actions record an empty native-dispatch object, which the auditor mistakenly treated as executed actions. A separate, source-bound supplemental audit reconstructs both original bounds errors and reruns all remaining identity, reset, verdict, financial and closure checks. Independent reruns agree. The original rejection, trajectories, actions, raw/effective verdicts and frozen running implementation remain unchanged; no episode or model request was repeated. Normalized audit records, including the explicit replacement pointer, govern analysis; the older mechanical outcome summaries do not independently certify an audit.
+
+The two completed episodes used 300 paid and 120 local requests. Startup used eight paid judge controls and 11 local requests, separately from primary results. Running cells consume the same cumulative caps. The [preparation artifact](webprm_results/webarena_preparation_20261011.json) records the timestamped journal prefix, live charges, erratum hashes and independently verified state-disposal counts.
+
+</details>
 
 <a id="reddit-guarded-validation-20261011"></a>
-### Guarded no-search validation
+<details>
+<summary>Preserved guarded no-search diagnostic</summary>
 
 | Check | Cases | Passed | Failed |
 | --- | ---: | ---: | ---: |
@@ -17,6 +34,8 @@
 All 30 actor actions dispatched without a reported execution exception. That does not establish useful navigation: the actor made 28 repeated clicks at y=727 in a 720-pixel-high viewport. The released visibility filter admitted the partly visible target, and all dispatches matched the pinned native code; no adapter coordinate divergence was found. The episode reached its 30-turn limit and returned `N/A`; the saved native judge score is 1, while the separately recorded guarded score is 0. The eight judge controls produced six native positives and four guarded positives, correcting two non-answer false positives. Earlier cohorts and raw verdicts remain unchanged.
 
 The separate CPU allocation used **371 seconds, 98 paid calls and USD 0.08072970**, with zero GPUs or local model calls. The scripted browser preflight and process-closure checks passed. All three Map frontend archives also downloaded and matched their published checksums; Map hosting is not yet validated. Original CMS acquisition hit the Drive quota. The separately approved third-party candidate has now been acquired and independently verified; hosting remains unvalidated.
+
+</details>
 
 <a id="reddit-pilot-20261011"></a>
 <details>
@@ -72,7 +91,7 @@ The completed Map frontend acquisition used **378 of 1,800 approved seconds**, t
 ### Remaining comparison plan
 
 1. Supervise the running fixed 190-cell Reddit comparison, covering both actors and all five selectors independently of the remaining sites. Preserve the completed diagnostic cohorts and raw verdicts; fixed primary attempts cannot be replaced based on their outcomes.
-2. Acquire and validate Shopping, CMS, GitLab and Map deployments independently, recording verified original identities separately from third-party candidates. Map frontend acquisition is complete; backend acquisition and hosting remain pending. The three native helper adapters passed 21 offline tests exercising all 13 released single-site helper task configurations, plus 30 existing evaluator tests. This proves evaluator contracts on fixtures, not live website/reset readiness. Each acquisition or hosting job needs its exact resource/attempt approval.
+2. Acquire and validate Shopping, CMS, GitLab and Map deployments independently, recording verified original identities separately from third-party candidates. Map frontend acquisition is complete and backend acquisition is running; hosting remains unvalidated. The three native helper adapters passed 21 offline tests exercising all 13 released single-site helper task configurations, plus 30 existing evaluator tests. This proves evaluator contracts on fixtures, not live website/reset readiness. Each acquisition or hosting job needs its exact resource/attempt approval.
 3. Obtain the exact execution budget for the frozen reconstruction cohort. The primary cohort has 155 released single-site tasks: 45 Shopping, 35 CMS, 19 Reddit, 30 GitLab and 26 Map. Five selectors and two actors give 1,550 planned episodes. Keep the ten multi-site tasks separate. Among the proposed 155 tasks, 39 use fuzzy grading and 13 use deployment-specific helpers; across all 165, those counts are 40 and 14.
 4. Report per-domain success and the unweighted domain mean, planned/attempted/valid/success counts, invalid reasons, paired gains, uncertainty and inference cost. Overall success uses the fixed planned denominator; valid-only and common-valid comparisons are secondary. Incomplete or semantically unreliable cohorts do not supply performance claims.
 5. Then run Online-Mind2Web with the same selector identities, its own frozen live-browser protocol and approved resources. Historical OM2W diagnostics below cannot populate the new matched comparison.
@@ -80,21 +99,21 @@ The completed Map frontend acquisition used **378 of 1,800 approved seconds**, t
 <details>
 <summary>Execution readiness and remaining live gates</summary>
 
-The fixed-grid generator, concurrent episode queue and full-table analyzer are implemented and tested offline. The controller snapshot fixes all 1,550 cells, both actor routes and the common seed, turn limit and replacement-judge settings. Its frozen implementation passed 267 tests and ten source/protocol/task identity audits spanning every actor-selector combination; the subsequent bounded Reddit package passed 278 tests. Durable claims prevent a completed or interrupted primary attempt from being silently replaced. The analyzer keeps native and effective scores separate, computes the equal-domain mean separately from pooled success, and withholds primary rates for incomplete or unaudited cohorts. Execution is approved for the 190 Reddit cells; **two primary episodes are running and none has completed** at this check.
+The fixed-grid generator, concurrent episode queue and full-table analyzer are implemented and tested offline. The controller snapshot fixes all 1,550 cells, both actor routes and the common seed, turn limit and replacement-judge settings. Its frozen implementation passed 267 tests and ten source/protocol/task identity audits spanning every actor-selector combination; the subsequent bounded Reddit package passed 278 tests. Durable claims prevent a completed or interrupted primary attempt from being silently replaced. The analyzer keeps native and effective scores separate, computes the equal-domain mean separately from pooled success, and withholds primary rates for incomplete or unaudited cohorts. Execution is approved for the 190 Reddit cells; **two primary episodes are complete and audited, with two more running** at this check.
 
 | Deployment | Released single-site tasks | Live readiness | Remaining gate |
 | --- | ---: | --- | --- |
-| Reddit | 19 | Original startup, authentication and fresh reset validated; two primary workers running | First complete audited outcomes, production cleanup and sustained throughput |
-| Shopping | 45 | Not validated; original Drive quota exhausted | Usable image source, startup, authentication, reset and helper checks |
+| Reddit | 19 | Original startup, authentication and reset validated; two outcomes audited and fresh states disposed | Remaining 188 fixed primary outcomes and final campaign audit |
+| Shopping | 45 | Third-party acquisition failed; file-accounting race repaired | Explicit additional-transfer exception, acquisition, startup and reset |
 | CMS | 35 | Third-party candidate acquisition verified; hosting unvalidated | Identity assessment, owned service startup, authentication and reset |
-| GitLab | 30 | Not validated; original Drive quota exhausted | Usable image source, startup, authentication, reset and helper checks |
+| GitLab | 30 | Third-party acquisition failed; same repair prepared | Explicit additional-transfer exception, acquisition, startup and reset |
 | Map | 26 | Three frontend archives verified; hosting not validated | Backend acquisition, database identity, owned services and native checks |
 
 The prospective concurrent model-request broker now enforces shared cumulative dispatch and spending caps across allocation attempts, with unknown reservations retained and no automatic refunds. Its read-only financial auditor checks each episode against a fixed journal prefix while allowing unrelated concurrent requests. The independent episode auditor binds task, protocol, source, reset, action history and closure evidence before producing a table record. All six findings from its independent review were corrected; 45 combined episode-audit, financial-audit and temporary-state tests passed.
 
-The evaluator transcript saves bounded page/helper inputs and replays the pinned scoring computation offline. Reddit and GitLab helpers are recomputed from saved observations; Shopping replay verifies the recorded helper return boundary, not its underlying REST query. A separate disposal helper permits only newly claimed temporary states to be discarded after complete durable evidence, an independent audit and process closure. These offline checks establish evidence consistency, not judge accuracy or independent historical process observations. Two live workers are advancing concurrently; completed episode audits, production cleanup and sustained resource use remain unverified.
+The evaluator transcript saves bounded page/helper inputs and replays the pinned scoring computation offline. Reddit and GitLab helpers are recomputed from saved observations; Shopping replay verifies the recorded helper return boundary, not its underlying REST query. A separate disposal helper permits only newly claimed temporary states to be discarded after complete durable evidence, an independent audit and process closure. These offline checks establish evidence consistency, not judge accuracy or independent historical process observations. Two live workers continue concurrently. The first two completed episodes have independent audits and verified cleanup; campaign completion and sustained throughput remain unverified.
 
-The approved CPU validation and Map frontend jobs completed; the original CMS transfers closed without archive data. The user approved all five next-stage requests below. CMS candidate acquisition is verified complete, Reddit is running, and the other three acquisitions are queued. Shopping and GitLab also returned explicit original-Drive quota errors in bounded metadata checks. Their pinned third-party candidates, like CMS, have no verified original-state equivalence. Downloading them does not authorize hosting or establish benchmark readiness.
+The approved CPU validation and Map frontend jobs completed; the original CMS transfers closed without archive data. The user approved all five next-stage requests below. CMS candidate acquisition is verified complete. Reddit and Map are running; Shopping and GitLab failed and need the explicit transfer exceptions described below. Shopping and GitLab also returned explicit original-Drive quota errors in bounded metadata checks. Their pinned third-party candidates, like CMS, have no verified original-state equivalence. Downloading them does not authorize hosting or establish benchmark readiness.
 
 </details>
 
@@ -102,11 +121,11 @@ The approved CPU validation and Map frontend jobs completed; the original CMS tr
 <details>
 <summary>Approved and submitted: Reddit comparison and four independent acquisitions</summary>
 
-The fixed Reddit request covers **19 tasks × five selectors × two actors = 190 primary cells**, retaining the same task and protocol identities within the 1,550-cell reconstruction. Its final frozen implementation passed **278 tests and ten identity audits**. Independent review verified cumulative recovery accounting, the three-allocation cap and cancellation if submission receipts cannot be written. Startup used 11 local model requests and eight paid judge controls; all passed under the disclosed guard, which changed two native positives to effective negatives. These synthetic controls are excluded from primary results. The first two primary workers are advancing in separate original states. Sustained throughput and completion within the requested cap remain unverified. The other 1,360 cells remain gated on their deployments and separate execution budgets.
+The fixed Reddit request covers **19 tasks × five selectors × two actors = 190 primary cells**, retaining the same task and protocol identities within the 1,550-cell reconstruction. Its final frozen implementation passed **278 tests and ten identity audits**. Independent review verified cumulative recovery accounting, the three-allocation cap and cancellation if submission receipts cannot be written. Startup used 11 local model requests and eight paid judge controls; all passed under the disclosed guard, which changed two native positives to effective negatives. These synthetic controls are excluded from primary results. The first two primary workers completed; the next two use separate fresh original states. Sustained throughput and completion within the requested cap remain unverified. The other 1,360 cells remain gated on their deployments and separate execution budgets.
 
 | Request | GPUs | CPUs | RAM (GiB) | Cumulative scheduler time | Maximum allocations | API cap (USD) |
 | --- | ---: | ---: | ---: | --- | ---: | ---: |
-| Reddit: 190 fixed cells | 1 H200 | 16 | 240 | 24 h | 3 | 250 |
+| Reddit: 190 fixed cells | 1 H200 | 8 submitted | 240 | 24 h | 3 | 250 |
 | Map backend acquisition | 0 | 2 | 8 | 4 h | 3 | 0 |
 | CMS third-party acquisition | 0 | 2 | 8 | 3,578 s remaining from original 3,600 s | 2 additional | 0 |
 | Shopping third-party acquisition | 0 | 2 | 8 | 2 h | 3 | 0 |
@@ -123,7 +142,36 @@ Reddit has two concurrent episode lanes, caps of **21,524 paid and 11,471 local 
 
 All acquisitions have zero GPU/model/API calls, one network connection each and no automatic network retries or transfer resume. CMS includes its prior 22 scheduler seconds and 1,326,678 charged bytes; its temporary envelope reserves 4 MiB for prior artifacts. Shopping and GitLab include their respective 495,171 and 478,598 metadata charges. Each request preserves its own caps. CMS, Shopping and GitLab require explicit acceptance of third-party sources with unverified original-state equivalence. Map follows the original dataset recipe with pinned current image blobs; historical image equivalence and runtime compatibility remain unverified. These four jobs download and verify data only; hosting is a later gate.
 
-The reviewed bundle is recorded in the [sanitized preparation artifact](webprm_results/webarena_preparation_20261011.json), including proposal digests and exact limits. Bundle file SHA-256: `e53d165ad01a9a69c777c9de9f28d4e9f76d0514df203aa8708fdcdd3004ebde`. The user approved the complete bundle. Submitted jobs are Reddit **356022**, Shopping **356007**, Map **356008**, CMS **356009** and GitLab **356010**; all were pending at the launch check; CMS subsequently completed as audited above. Slurm rejected the original Reddit request before allocating a job because it permits at most eight CPUs per GPU. The submitted request reduces CPUs from 16 to **8**, preserving one H200, 240 GiB RAM, 24 cumulative hours and every API, storage, scientific and attempt cap. This resource reduction passed 22 focused checks, ten identity audits and a scheduler test-only check; all Python implementation files remain byte-identical. The rejection consumed no allocation time. Queue estimates are not guaranteed start times.
+The reviewed bundle is recorded in the [sanitized preparation artifact](webprm_results/webarena_preparation_20261011.json), including proposal digests and exact limits. Bundle file SHA-256: `e53d165ad01a9a69c777c9de9f28d4e9f76d0514df203aa8708fdcdd3004ebde`. The user approved the complete bundle. Submitted jobs are Reddit **356022**, Shopping **356007**, Map **356008**, CMS **356009** and GitLab **356010**; CMS subsequently completed; Reddit and Map are running, and Shopping/GitLab failed as recorded below. Slurm rejected the original Reddit request before allocating a job because it permits at most eight CPUs per GPU. The submitted request reduces CPUs from 16 to **8**, preserving one H200, 240 GiB RAM, 24 cumulative hours and every API, storage, scientific and attempt cap. This resource reduction passed 22 focused checks, ten identity audits and a scheduler test-only check; all Python implementation files remain byte-identical. The rejection consumed no allocation time. Queue estimates are not guaranteed start times.
+
+</details>
+
+<a id="table5-transfer-recovery-20261012"></a>
+<details>
+<summary>Shopping/GitLab failure, tested repair and pending transfer exceptions</summary>
+
+Shopping job 356007 failed after 37 seconds and GitLab job 356010 after 42 seconds. Each owner listed an atomic ledger temporary file just before its writer renamed it, then failed when the storage scan tried to inspect the vanished name. Both owned process trees closed. The new scanner recognizes only this bounded receipt-rename case, conservatively charges a 4 MiB reserve, and still rejects missing payloads or unsafe destinations. Deterministic frozen-code replays reproduce the error; the patch and cumulative-ledger controls pass. The live Map package is unchanged.
+
+| Acquisition | Consumed seconds | Requested successor seconds | Charged HTTP bytes preserved | Original charged-byte cap |
+| --- | ---: | ---: | ---: | ---: |
+| Shopping | 37 | 7,140 | 1,146,213,879 | 70,000,000,000 |
+| GitLab | 42 | 7,140 | 1,192,051,429 | 80,000,000,000 |
+
+Each reviewed successor requests **one additional fresh transfer and one allocation, two CPUs, 8 GiB RAM, zero GPU/API calls**, within its original 7,200 cumulative seconds and unchanged byte/storage caps. Failed partials and unknown reservations stay preserved and charged; the replacement starts from byte zero without resuming them. Each original 512 MiB temporary envelope reserves 4 MiB for prior state. Retained caps remain 72 GiB for Shopping and 80 GiB for GitLab. No further successor is authorized by these proposals, including after a pre-transfer startup failure.
+
+These are pending requests, not submissions. The original approvals explicitly permitted one transfer campaign; unused time and bytes do not grant a second campaign. Shopping proposal SHA-256: `30ec937c4fcaa66389199ae48663ffccea260a4162d45f8b8785687784fa2b23`; GitLab: `1080ae609e745951db364853e62fd689c559fdf2a5fc8988e1449e728104deb2`. Both preserve their previously disclosed third-party source identities; original-state equivalence and hosting remain unverified.
+
+</details>
+
+<a id="table5-cms-hosting-request-20261012"></a>
+<details>
+<summary>Reviewed CMS hosting-validation request: pending approval</summary>
+
+The prepared CMS stage requests **four CPUs, 16 GiB RAM, zero GPUs, two cumulative hours across at most two allocations**, with zero model/API calls or new downloads, 48 GiB cumulative apparent scratch and 2 GiB durable evidence. It uses the acquired third-party candidate, whose original-state equivalence remains unverified. The controller owns image materialization, services, browser checks, a single synthetic product mutation and an independent fresh-state reset; it preserves the imported database and bypasses the image initializer. This does not authorize benchmark episodes.
+
+All 31 frozen tests pass under a private-file umask, including positive/negative controls through the pinned native evaluator and detached-process closure. A generated-config permission error caught during the prior freeze was corrected before any live allocation. The imported image has not yet been extracted or hosted; actual startup, authentication, native checks, database/media/session reset and independent closure audit remain live gates. Scratch is measured by apparent bytes with sampled enforcement, not a kernel peak quota.
+
+Proposal SHA-256: `b0fe94c47a63466cb0e4536af902a6f324c54eff551f9372f4ada2f9571c18b6`. The consolidated pending request also includes the two transfer exceptions above; it leaves the running Reddit and Map jobs unchanged. Its exact limits and readiness digests are in the [preparation artifact](webprm_results/webarena_preparation_20261011.json).
 
 </details>
 
@@ -136,7 +184,7 @@ The target remains the four published conditions plus **Piotr's released Selecti
 | --- | ---: | ---: | --- |
 | No trajectory search | 23.48 | 31.90 | Not run |
 | GPT-4o-mini selection | 24.47 | 33.03 | Reddit primary execution started |
-| WebShepherd-8B | 34.34 | 40.65 | Not run |
+| WebShepherd-8B | 34.34 | 40.65 | Reddit primary execution started |
 | WebArbiter-7B | 40.52 | 47.01 | Reddit primary execution started |
 | Piotr SelectionARM | — | — | Not run |
 
