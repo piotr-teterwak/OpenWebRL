@@ -1,6 +1,7 @@
 # OpenWebRL project documentation
 
 [WebPRM baselines: all 12 attempts audited, two guarded successes; Reddit allocation cap exhausted](WEBPRM_BASELINES.md#table5-plan-20261010).
+[WebPRM agent handoff: verified results, repairs, approval limits and next actions](WEBPRM_HANDOFF.md).
 
 [Faster reward improvement: five fresh iteration0→10 action-credit pilots, pending native GPU validation, controlled comparisons and recent evidence](RL_LEARNING_EFFICIENCY.md#action-credit-implementation-20261011).
 
