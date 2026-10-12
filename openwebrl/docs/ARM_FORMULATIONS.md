@@ -9,6 +9,7 @@
 | Does selecting with 24 continuations beat selecting with eight? | 14 | +3.52, select with 24 − select with eight | [−0.12, +7.35] | Inconclusive on the same fresh, valid-only holdout |
 | Do teacher-trained selectors pick better actions than uniform? | 138 | Piotr ARM +2.48; outcome-selected on five draws +5.32 | [−0.14, +5.21]; [+3.09, +7.62] | Only outcome selection is clearly above uniform ([details](#selection-head-20261009)) |
 | Do execution evidence or a stronger teacher improve picks? | 194 | Sol after − before −0.31; Luna after − before +0.15; after: Sol − Luna +0.41 | [−2.40, +1.68]; [−1.86, +2.10]; [−1.17, +1.89] | No measurable gain from either; all teachers ≈ +3 pp over uniform ([2×2](#teacher-labels-211-20261011)) |
+| Does multi-step lookahead help? | 194 | Luna lookahead (answers hidden) − immediate +1.98 | [+0.08, +3.98] | Modest gain; reaches the outcome reference; showing final answers hurts ([details](#lookahead-labels-20261011)) |
 
 The first interval resamples states; the others resample task groups. All are exploratory, pointwise intervals. **Students trained on branching outcomes or on matched pre- and post-action labels have so far stayed at uniform** ([student results](#teacher-labels-211-20261011)). Selectors trained on teacher choices (Piotr ARM and the [actor-based selectors](#selection-head-20261009)) do not clearly beat a uniform pick on held-out draws of 138 eight-draw states, while selecting by outcomes on five draws does: +5.32 pp [+3.09, +7.62].
 
@@ -422,6 +423,30 @@ These diagnostics use saved data only (`scripts/analyze_post_action_value.py`). 
   - The teachers judge apparent progress. The outcome depends on whether this particular continuation policy can finish from the new page, and one post-action screen does not reveal that.
 
 </details>
+
+<a id="lookahead-labels-20261011"></a>
+
+### Does multi-step lookahead help where immediate evidence did not?
+
+**Yes, modestly: showing the fixed actor's next three steps improves Luna's picks over immediate evidence, and only when its final answers are hidden.** For each candidate, Luna additionally sees the SFT actor's next three actions in draw 0, each with the screenshot it produced. In arm A, an episode that ended within those steps is marked only as ended, without the final answer. In arm B, the final answer is shown; in 192 of 970 candidate continuations the actor submits one within three steps. No arm sees a judge verdict or reward, and scoring uses draws 3–7 only. All 194 states have complete draw-0 evidence, and every comparison is paired on them.
+
+| Luna, 194 states | Success, draws 3–7 | − Uniform, pp [95%] |
+| --- | ---: | --- |
+| Lookahead, final answers hidden | 40.77% | +5.02 [+2.73, +7.40] |
+| Lookahead, final answers shown | 39.28% | +3.53 [+1.34, +5.83] |
+| Immediate result only (draw 0) | 38.79% | +3.04 [+0.82, +5.34] |
+| Before execution (same states) | 38.64% | — |
+
+| Paired comparison, 194 states | Difference, pp [95%] |
+| --- | --- |
+| Lookahead (answers hidden) − immediate result | +1.98 [+0.08, +3.98] |
+| Lookahead (answers hidden) − before execution | +2.14 [−0.53, +4.92] |
+| Answers shown − answers hidden | −1.49 [−2.64, −0.42] |
+
+- **Lookahead reaches the outcome reference.** On these 194 states, picking the best action on three observed outcomes scores 41.03%. The answers-hidden lookahead scores 40.77%, from one draw of intermediate steps.
+- **Seeing the answer hurts.** One plausible reading is that Luna rewards confident or plausible answers that the success judge does not accept. This was not tested.
+- **These are exploratory, pointwise intervals** among several comparisons. The lookahead-versus-immediate gain is the only one with an interval above zero, and it was not prespecified as the primary test.
+- **Accounting.** Job `355930` made 1,552 GPT-6 Luna calls at high effort, all valid, for USD 10.48 against an approved USD 35 / 1,700-call cap (`scripts/run_branch_lookahead_labels.py`).
 
 **Can these labels supervise a pre-action student?** Not at this scale. The [actor-feature head](ARM_SELECTION_HEAD.md#selection-head-label-types-20261011) trained from scratch on each label type stays at uniform:
 
