@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "status": "corrected_reddit_mechanics_completed_judge_semantics_failed_followups_closed",
+  "status": "guarded_no_search_diagnostic_and_map_frontend_verified_cms_quota_blocked_full_cohort_pending",
   "date_utc": "2026-10-11",
   "benchmark_order": [
     "WebArena-Lite",
     "Online-Mind2Web"
   ],
-  "benchmark_task_evaluations": 10,
-  "new_compute_allocations": 12,
-  "paid_api_calls": 976,
+  "benchmark_task_evaluations": 11,
+  "new_compute_allocations": 16,
+  "paid_api_calls": 1074,
   "cohort": {
     "released_tasks": 165,
     "single_site_tasks": 155,
@@ -447,7 +447,7 @@
     "current_proposal_sha256": "fa01e7eb3f0fa4339fa336e8a47f1c457903fb79706d2e723a73ca2df60ea956",
     "local_requests_charged_before_recovery": 38
   },
-  "benchmark_task_evaluations_semantics": "Ten attempted cells across two distinct five-cell Reddit pilots: original zero mechanically valid native verdicts, corrected five mechanically valid verdicts but five semantic false positives. Cohort outcomes are never pooled. Followup diagnostic adds no benchmark/browser episode.",
+  "benchmark_task_evaluations_semantics": "Eleven attempted cells across three distinct diagnostic cohorts: original five mechanically invalid; corrected five mechanically valid but semantic false positives; guarded no-search one valid failure. No full-cohort primary cell has run; no outcome pooling.",
   "pilot_fixed_cells": {
     "planned": 5,
     "attempted": 5,
@@ -615,10 +615,9 @@
   },
   "post_pilot_followups": {
     "cms_acquisition": {
-      "status": "failed_before_download",
-      "scheduler_elapsed_seconds": 9,
-      "attempts_used": 2,
-      "attempts_cap": 2,
+      "status": "closed_original_drive_quota_exceeded_no_archive",
+      "scheduler_elapsed_seconds": 22,
+      "attempts_used": 4,
       "cpus": 2,
       "memory_gib": 8,
       "approved_seconds": 3600,
@@ -627,10 +626,9 @@
       "charged_http_bytes_cap": 10000000000,
       "retained_bytes_cap": 12884901888,
       "temporary_bytes_cap": 536870912,
-      "http_calls": 0,
+      "http_calls": 5,
       "api_calls": 0,
-      "failure": "Original allocation clock exhausted or exceeds cumulative cap",
-      "cause_status": "Second saved scheduler snapshot reports end-start=3543 seconds for a 3540-second request. Clamp deadline to min(scheduler end,start+approved limit); first failure timezone causality remains unproven.",
+      "failure": "Confirmation-aware GET returned explicit Drive public download quota error",
       "automatic_resubmission_authorized": false,
       "clock_fix_implemented": true,
       "clock_fix_validation": "54 offline tests passed, including replay of actual second failed scheduler record",
@@ -648,7 +646,7 @@
         "scheduler_elapsed_seconds": 5
       },
       "startup_recovery": {
-        "status": "prepared_pending_exact_attempt_cap_approval",
+        "status": "approved_failed_on_confirmation_html",
         "proposal_sha256": "07b951987e548072058a3e319c2a83ff119cef8847d9692c03594a3078c51c18",
         "maximum_additional_startups": 3,
         "original_cumulative_seconds": 3600,
@@ -657,8 +655,47 @@
         "first_requested_seconds": 3540,
         "maximum_transfer_attempts": 1,
         "automatic_resubmission": false,
-        "subsequent_start_requires_tested_source_fix": true
-      }
+        "subsequent_start_requires_tested_source_fix": true,
+        "approved": true,
+        "submitted": true,
+        "job_id": "355870",
+        "scheduler_elapsed_seconds": 6,
+        "charged_network_bytes": 133549,
+        "archive_bytes": 0,
+        "transfer_claim_spent": true
+      },
+      "remaining_original_seconds": 3578,
+      "charged_network_bytes_before_metadata": 334674,
+      "archive_bytes": 0,
+      "additional_transfer_authorized": false,
+      "attempts_cap_semantics": "Historical per-proposal attempt caps remain in archived approvals; both actual network-campaign claims are spent.",
+      "confirmation_successor": {
+        "status": "approved_closed_drive_quota_exceeded",
+        "job_id": "355928",
+        "proposal_sha256": "71d3b960147154e7f75976383e40557af53a153b2e0c0df4a3f38d4b1974b39c",
+        "scheduler_elapsed_seconds": 7,
+        "charged_network_bytes": 201125,
+        "archive_bytes": 0,
+        "transfer_claim_spent": true,
+        "offline_tests_passed": 65
+      },
+      "third_party_metadata_assessment": {
+        "status": "candidate_pinned_original_equivalence_unverified",
+        "metadata_requests": 13,
+        "metadata_body_bytes": 74500,
+        "metadata_charged_bytes": 992004,
+        "cumulative_charged_network_bytes": 1326678,
+        "compressed_layer_bytes": 2156742179,
+        "config_bytes": 22078,
+        "layer_count": 31,
+        "manifest_sha256": "428cdedfc10996d7f5378299cff541c93c187d1243643e31d439a66c0156147d",
+        "config_sha256": "d0709482086f0e4931771795ae2b1e4b13fb9237c22328c8df0d074763465ad4",
+        "author_source_disclaimer": "https://github.com/web-arena-x/webarena/issues/231#issuecomment-3583249074",
+        "original_identity_verified": false,
+        "acquisition_launched": false
+      },
+      "historical_original_attempts_cap": 2,
+      "historical_clock_failure_diagnosis": "Second saved scheduler snapshot reports end-start=3543 seconds for a 3540-second request. Clamp deadline to min(scheduler end,start+approved limit); first failure timezone causality remains unproven."
     },
     "prompt_and_judge_diagnostic": {
       "status": "completed",
@@ -694,7 +731,7 @@
       "new_controller_and_proposal_prepared": true
     },
     "map_frontend_acquisition": {
-      "status": "prepared_pending_exact_resource_approval",
+      "status": "content_and_scheduler_closure_verified",
       "proposal_sha256": "7f9db5cc99610be719d447ee2c399d67c446e7486ac7f805ea689305a3ffb70a",
       "cpus": 2,
       "memory_gib": 4,
@@ -710,10 +747,44 @@
       "files": 3,
       "published_metadata_source": "https://zenodo.org/records/12636845",
       "offline_tests_passed": 12,
-      "hosting_verified": false
+      "hosting_verified": false,
+      "approved": true,
+      "submitted": true,
+      "job_id": "355875",
+      "scheduler_elapsed_seconds": 378,
+      "charged_download_bytes": 1232126272,
+      "retained_logical_bytes_before_final_audit": 1232004900,
+      "temporary_and_cache_logical_bytes": 0,
+      "independent_rehashes": 3,
+      "extraction_performed": false,
+      "remaining_owned_children": [],
+      "verified_files": [
+        {
+          "filename": "openstreetmap-website-db.tar.gz",
+          "bytes": 104093527,
+          "md5": "a93ef4f0560d55234099a73137d5266d",
+          "sha256": "c3890152c6ed5d6637d7fd6347cc8cdf777320e28d51e7ea91dea4ca38cb44b2",
+          "published_md5_verified": true
+        },
+        {
+          "filename": "openstreetmap-website-web.tar.gz",
+          "bytes": 634664156,
+          "md5": "d3564d63255077ac7dcc05e5d42b5c00",
+          "sha256": "3946b86a8e693caa42bec3e2350c08dae69626cd096cc7bab3e9f097f451b422",
+          "published_md5_verified": true
+        },
+        {
+          "filename": "openstreetmap-website.tar.gz",
+          "bytes": 493171981,
+          "md5": "2f4423c7d4982246825fec3bd03ce9de",
+          "sha256": "57078dbadf3eb97887c18d577e8d63b26b8b4f2e642369f46d1c80b4c37d6f44",
+          "published_md5_verified": true
+        }
+      ],
+      "independent_final_audit_sha256": "91a157119400d0e4551f5d8316c774d66ed616dbc68e0867e849b83060be2531"
     },
     "cpu_no_search_browser_validation": {
-      "status": "frozen_pending_exact_approval",
+      "status": "independently_verified_complete_diagnostic",
       "proposal_sha256": "1efd512ce928e1aff25298eb292123314c6c848c8d82689767f546541a4e30e6",
       "cpus": 8,
       "memory_gib": 16,
@@ -727,16 +798,72 @@
       "main_tests_passed": 163,
       "final_controller_tests_passed": 30,
       "frozen_sources": 49,
-      "primary_episodes": 0,
+      "primary_episodes": 1,
       "evaluator_protocol": "native_with_explicit_na_abstention_guard_v1",
       "no_search_prompt_version": "single_blocks_envelope_v2",
-      "raw_native_verdicts_preserved": true
+      "raw_native_verdicts_preserved": true,
+      "approved": true,
+      "submitted": true,
+      "job_id": "355868",
+      "scheduler_elapsed_seconds": 371,
+      "paid_requests": 98,
+      "api_charged_usd": 0.0807297,
+      "unsettled_calls": 0,
+      "local_calls": 0,
+      "results": {
+        "actor_turns": 30,
+        "attempted": 1,
+        "effective_score": 0,
+        "exact_one_candidate_turns": 30,
+        "execution_errors": 0,
+        "guard_amendments": 1,
+        "native_dispatch_replays_passed": 30,
+        "performance_estimate": false,
+        "raw_native_score": 1,
+        "successes": 0,
+        "terminal_answer": "N/A",
+        "terminal_origin": "released_viewer_normal_turn_limit",
+        "valid": 1
+      },
+      "controls": {
+        "effective_fuzzy_positive_count": 4,
+        "fuzzy_controls_passed": 8,
+        "na_false_positives_corrected": 2,
+        "normal_final_answer_controls": 2,
+        "raw_fuzzy_positive_count": 6,
+        "synthetic_browser_passed": true,
+        "synthetic_fuzzy_controls": 8
+      },
+      "source_files_verified_unchanged": 49,
+      "all_registered_controllers_closed": true,
+      "broker_reaped": true,
+      "final_apparent_scratch_bytes": 96184042107,
+      "independent_audit_sha256": "6969c64c59acc00381679c10a7366a8240bf7edef0f499caa29f178284c8dc02",
+      "behavior": {
+        "repeated_click_count": 28,
+        "center_y": 727,
+        "viewport_height": 720,
+        "native_filter_ratio": 16.0,
+        "correct_area_fraction_counterfactual": 0.0625,
+        "native_filter_threshold": 0.6,
+        "source_parity_verified": true,
+        "interpretation": "Released viewport filtering admitted a one-pixel overlap; the raw target center was outside the viewport. Exact dispatch matched pinned native code. No adapter coordinate divergence or counterfactual success is established."
+      },
+      "independent_audit_artifact_hashes": {
+        "browser_controls": "4289c46d0a019f1710e7a3bfad10517995320f485064ab8b25bf2eb7ec44645b",
+        "budget": "91e33c5c8a9679e9729ba1cd48912e38f319fca0d0617d9df792a2fea4fa57f5",
+        "fuzzy_controls": "ee25be91d5d5573b6ef9c186874ce2c104cf1e59019fa4202fac8e6925734dcd",
+        "native_verdict": "442baffd0d65e59f51bc034582e2a34d11f291ba257837f03ca5bb658eb81a91",
+        "result": "5449e22b595aa34081f4ed33b581774669ea5a6d207db1328af57999173edc3a",
+        "rollout": "88a403a44fb14cbe3bff180a7d2a0b1a966e964bb0554e0e106c97747c971e60",
+        "trajectory": "db9ca17a4f11e6ef3bc43870a83d94eeef6db5939e6866031ca8e0610c8be5b0"
+      }
     }
   },
   "cumulative_accounting_only": {
-    "paid_calls": 976,
-    "charged_usd": 0.681962,
-    "scope": "Original pilot 389 calls/USD 0.27544590; corrected pilot 571/USD 0.39634990; separate diagnostic 16/USD 0.01016620. No outcome pooling or transfer of unused approvals."
+    "paid_calls": 1074,
+    "charged_usd": 0.7626917,
+    "scope": "Original pilot389/USD0.27544590; corrected pilot571/USD0.39634990; prompt diagnostic16/USD0.01016620; guarded no-search98/USD0.08072970. Accounting only; no outcome pooling or unused-budget transfers."
   },
   "prospective_native_helpers": {
     "status": "offline_contracts_verified_not_live_deployment_validation",
@@ -834,7 +961,7 @@
       "allocations": 0
     },
     "pending_three_job_bundle": {
-      "status": "awaiting_exact_user_resource_approval",
+      "status": "approved_all_jobs_terminal",
       "includes": [
         "reddit-no-search-guarded-v4-cpu-v1",
         "cms-original-acquisition-startup-recovery-v1",
@@ -842,7 +969,14 @@
       ],
       "api_usd_cap": 2,
       "full_evaluation_included": false,
-      "shopping_gitlab_map_backend_included": false
+      "shopping_gitlab_map_backend_included": false,
+      "approved": true,
+      "closed_jobs": [
+        "355868",
+        "355870",
+        "355875"
+      ],
+      "cms_separately_approved_successor_closed": "355928"
     },
     "source_sha256": {
       "scripts/prepare_webprm_table5_campaign.py": "ff778402acffe8dd172f725594e9777a20be5af25b5a3cf4efc58b4c84e69431",
