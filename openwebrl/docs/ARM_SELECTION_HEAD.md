@@ -8,11 +8,96 @@
 
 The question is whether selection can be built into the actor ([integration option 3](ARM_INTEGRATION_PLAN.md)). Today's best-of-N pipeline samples five candidates from the actor, then runs a separate 4B selector over the screenshot and all candidates. A head that reads the hidden states the actor computes while generating would need no second model.
 
+**In full Online-Mind2Web episodes, Luna is the only new selector that beats the SFT actor alone.** On 300 tasks, Luna reaches 41.3% (+8.3 pp [+3.3, +13.7]), level with Piotr ARM at 40.0%. The Kev-style pass (37.7%) and the frozen head (37.0%) sit between the SFT actor and Piotr ARM; neither difference is significant. The action-type prior is worse than one sample (27.0%). Sampling five candidates multiplies actor compute by about 5.5×; the actor-based selectors add 18% on top, against 6.6% for Piotr ARM ([live-loop results](#selection-head-om2w-20261011)).
+
 <a id="selection-head-architecture"></a>
 
 ![Selection head inside the actor: (A) at inference the frozen SFT actor samples five candidates and a small head scores them from the actor's hidden states, read directly or through a top-layer scoring adapter; (B) training stage 1 fits the head on cached frozen features, stage 2 trains LoRA on the top eight layers plus the head with the prompt encoded by the unadapted actor](arm_results/methods/selection_head_workflows.svg)
 
 [PNG](arm_results/methods/selection_head_workflows.png) / [SVG](arm_results/methods/selection_head_workflows.svg); rendered by `scripts/render_selection_head_figure.py`.
+
+<a id="selection-head-om2w-20261011"></a>
+
+## Full episodes on Online-Mind2Web: selectors in the live loop
+
+**In the live loop on Online-Mind2Web, the actor-based selectors land between the SFT actor and Piotr ARM, and neither result is significant.** Each condition ran the 300 Online-Mind2Web tasks (one episode per task). Every condition except SFT alone samples five candidates from the SFT actor at each step and executes the selector's pick. These are the tasks of the October 7 controls under the identical protocol, and they are paired by task with those controls. The protocol is T=0.7, top-p 0.9, 1,024 tokens, 30 steps, seed 45 and the o4-mini/AgentTrek judge. Invalid episodes count as failures.
+
+| Condition | Selector | Successes | Valid | Success | Δ vs SFT alone, pp [95% CI] | Δ vs Piotr ARM, pp [95% CI] |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| SFT alone (Oct 7 control) | — | 99 | 271 | 33.0% | — | −7.0 [−11.7, −2.3] |
+| Piotr ARM (Oct 7 control) | separate 4B SelectionARM | 120 | 261 | 40.0% | +7.0 [+2.3, +11.7] | — |
+| Luna | `gpt-6-luna`, medium effort, API | 124 | 265 | 41.3% | **+8.3 [+3.3, +13.7]** | +1.3 [−3.7, +6.0] |
+| Kev-style, step 600 | LoRA pass over the actor | 113 | 265 | 37.7% | +4.7 [−0.3, +9.7] | −2.3 [−7.3, +2.7] |
+| Frozen-feature head | actor hidden states + pointwise head | 111 | 264 | 37.0% | +4.0 [−1.0, +9.0] | −3.0 [−8.0, +2.0] |
+| Action-type prior | fitted on branching outcomes; no model | 81 | 264 | 27.0% | **−6.0 [−10.7, −1.7]** | −13.0 [−18.0, −8.0] |
+
+- **Luna** is the only selector besides Piotr ARM whose gain over SFT alone excludes zero. Its difference from Piotr ARM is not significant.
+- **Kev-style and the frozen head** sit about 4–5 pp above SFT alone and 2–3 pp below Piotr ARM. Neither interval excludes zero. This matches the branching-state result: both were close to uniform there, slightly below Piotr.
+- **The action-type prior** is significantly worse than sampling one action. Its episodes are also longer: 18.3 steps versus 14.8.
+
+**Comparability.** The new conditions were collected four days after the controls, so website drift is not controlled. Across three earlier full-300 runs, the SFT actor scored 98–100/300; the run-to-run spread is small next to these differences, but it does not cover drift. Intervals are task bootstraps: 10,000 samples, seed 42.
+
+**Whole-system cost per episode** (actor plus selector; FLOP proxy = 2 × 4.44B parameters × processed tokens):
+
+| Condition | Steps | Actor requests | Actor tokens (k) | Selector tokens (k) | Actor PFLOP | Selector PFLOP | Selector share of FLOPs | API $ | Episode seconds | Seconds per step | Selector seconds per step |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| SFT alone | 14.8 | 14.9 | 148 | 0 | 1.32 | 0 | 0% | 0 | 147 | 9.9 | 0 |
+| Piotr ARM | 15.2 | 76.6 | 814 | 58 | 7.22 | 0.51 | 6.6% | 0 | 193 | 12.7 | 0.52 |
+| Luna | 13.9 | 69.8 | 718 | 73 | 6.38 | external | — | 0.0084 | 224 | 16.1 | 3.48 |
+| Kev-style | 15.1 | 75.9 | 815 | 184 | 7.23 | 1.63 | 18.4% | 0 | 235 | 15.5 | 0.97 |
+| Frozen head | 15.6 | 78.4 | 826 | 187 | 7.33 | 1.66 | 18.4% | 0 | 217 | 13.9 | 0.54 |
+| Action prior | 18.3 | 91.8 | 978 | 0 | 8.68 | 0 | 0% | 0 | 230 | 12.6 | 0 |
+
+- **Sampling five candidates dominates the cost.** It multiplies the actor's work by about 5.5× (1.3 → 7.2 PFLOP per episode), whichever selector is used.
+- **The actor-based selectors cost more than Piotr ARM.** They re-encode the full-resolution prompt, screenshots and all five candidates on every step, about 187k tokens per episode. Piotr ARM reads downscaled images and costs about 58k tokens. These selectors run as a separate pass over the actor's weights. A head that reuses the actor's own KV cache would remove most of this cost; that integration was not built.
+- **Luna** costs $0.0084 per episode in API fees, about $0.0006 per decision. It also adds the most latency, 3.5 seconds per step.
+- **Total selector cost does not track gains.** The prior adds no selector compute, but its longer episodes raise the actor's cost more than any selector does.
+
+<details>
+<summary>Method, verification, accounting and caveats</summary>
+
+- **Conditions.**
+  - Each condition used one 2026-10-11 frozen source copy that changes only the selector (`source-diff.json` in the study directory).
+  - Luna ran from a second copy, `source-luna-r2`. It adds retries for transient provider errors and stops the controller if the shared selector halts.
+  - The scalar selectors run as a sidecar on a second GPU, `scripts/serve_actor_selector.py`. Before serving, the sidecar re-scores six saved branching states and refuses to start unless every pick matches the offline pick.
+  - The prior uses `action_type_prior.json`, with ties broken by candidate order.
+- **Pairing.**
+  - The controls come from `selectionarm-piotr-sameday30-20261007`: actor0 is SFT alone and arm is Piotr ARM.
+  - The task file is byte-identical, verified by SHA-256.
+  - The protocol differs only in selector fields and cohort labels.
+  - Candidate seeds follow the same rule, but trajectories diverge with the browser.
+- **Verification** (`analysis/analyze.py`, read-only):
+  - All 1,800 records are present, each with a matching artifact hash. Each condition has exactly 300 tasks under a single protocol hash.
+  - Selector fallbacks are zero, and every logged decision has five candidates and no fallback.
+  - Scalar picks equal the argmax of the logged scores.
+  - The decision count equals the selector-call count: 4,691 head, 4,544 Kev-style, 4,179 Luna and 5,500 prior decisions.
+- **Recoveries, with episodes moved aside and not deleted:**
+  - Concurrent sidecar requests returned errors until scoring was serialized with a lock; the affected head episodes were rerun.
+  - A one-GPU resource check blocked the Luna and prior startups; it was fixed.
+  - A single provider 503 halted the shared Luna ledger, and the episode loop then continued without a selector. The 195 affected Luna episodes were rerun under `source-luna-r2`.
+- **Accounting.**
+  - All shards finished within their 10,800-second caps, counting every attempt.
+  - GPU-hours over all attempts, per 300 episodes:
+
+    | Condition | GPUs | GPU-hours |
+    | --- | ---: | ---: |
+    | Frozen head | 2 | 5.21 |
+    | Kev-style | 2 | 5.75 |
+    | Luna | 1 | 3.00 |
+    | Prior | 1 | 2.60 |
+
+    The controls ran both modes in shared 2-GPU shards, so their GPU-hours cannot be split by mode.
+  - The Luna ledger shows 4,426 calls and $3.21 in total. That includes the discarded halted episodes; the 300 counted episodes cost $2.52.
+- **Metric definitions.**
+  - Tokens are the processed input plus output tokens recorded per episode, image tokens included.
+  - The FLOP proxy ignores attention, prefix caching across the five candidate requests, and the split between the vision encoder and the language model. For the actor-based selectors, the sidecar's own estimate counts vision on image patches and agrees within 6%.
+  - Luna's FLOPs are unknown because it is an external model.
+  - Seconds per step are wall-clock elapsed time divided by browser steps.
+  - Actor request seconds are summed over the five parallel requests, so they can exceed wall time.
+  - Latency depends on each shard's concurrent load, which differed between conditions and from the controls.
+- **Evidence:** [aggregate](arm_results/rl_integration/selectors-om2w-20261011.json).
+
+</details>
 
 <a id="selection-head-evaluations"></a>
 

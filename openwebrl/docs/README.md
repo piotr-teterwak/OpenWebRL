@@ -65,7 +65,7 @@ for the work you are doing, then follow its contents to dated experiment records
 | --- | --- |
 | [ARM_SUMMARY.md](ARM_SUMMARY.md) | Concise methods and headline results; presentation figures for the three stages and RL variants; static/interactive plots; collapsed WebVoyager results |
 | [ARM_FORMULATIONS.md](ARM_FORMULATIONS.md) | Branching experiment map; matched pre/post evidence, held-out outcome selection, continuation scaling, teacher-trained heads and planned student controls |
-| [ARM_SELECTION_HEAD.md](ARM_SELECTION_HEAD.md) | Selecting actions inside the actor: frozen-feature heads, top-layer adapters and a Kev-style full pass versus Piotr ARM and outcome selection; held-out continuation success on 138 eight-draw states, teacher agreement, outcome-data sufficiency, figures |
+| [ARM_SELECTION_HEAD.md](ARM_SELECTION_HEAD.md) | Selecting actions inside the actor: frozen-feature heads, top-layer adapters and a Kev-style full pass versus Piotr ARM and outcome selection; full-300 Online-Mind2Web live-loop success and whole-system cost; held-out continuation success on 138 eight-draw states, teacher agreement, outcome-data sufficiency, figures |
 | [ARM_RESULTS.md](ARM_RESULTS.md) | Detailed ARM results and analysis, online-RL coverage/admission audits, C2/1A/joint comparisons, and curves |
 | [ARM_INTEGRATION_PLAN.md](ARM_INTEGRATION_PLAN.md) | ARM model understanding, literature, integration options, and longer-term roadmap |
 | [ARM_INFERENCE.md](ARM_INFERENCE.md) | Inference protocol, judge alignment, and retry policy |
