@@ -7,7 +7,7 @@
 
 [GPT-6.1 Sol N=5: verified OM2W medium 45.67%, high 43.67%; WebVoyager 57.98%; DeepShop 46.00%](ARM_INFERENCE_SCALING.md#sol61-n5-launch-20261009). [Verified matching SFT controls: Sol N5 gains +11.26 pp [+7.39, +15.13] on WebVoyager; DeepShop +3.33 pp [−5.33, +11.33] remains inconclusive](ARM_INFERENCE_SCALING.md#sol61-actor-controls-20261009).
 
-[MolmoWeb 4B DeepShop: verified N5 gain +10.67 pp [2.67, 18.67] across 150 tasks](ARM_INFERENCE_SCALING.md#molmoweb-ds4-full-coverage-20261012). [4B/8B Online-Mind2Web: verified 300-task paired comparisons](ARM_INFERENCE_SCALING.md#molmoweb-sol61-plan-20261010). [Native batching and production RPC audited: exact replay, 2.28×/2.43× actor speedups](ARM_INFERENCE_SCALING.md#molmoweb-native-batching-20261011). [Approved continuation: remaining WebVoyager/DeepShop conditions, unchanged 85.5-H200-hour ceiling](ARM_INFERENCE_SCALING.md#molmoweb-optimized-completion-20261011).
+[MolmoWeb DeepShop: verified 4B gain +10.67 pp; 8B difference −1.33 pp [−9.33, +6.67], no reliable gain; 150 tasks each](ARM_INFERENCE_SCALING.md#molmoweb-ds8-full-coverage-20261012). [4B/8B Online-Mind2Web: verified 300-task paired comparisons](ARM_INFERENCE_SCALING.md#molmoweb-sol61-plan-20261010). [Native batching and production RPC audited: exact replay, 2.28×/2.43× actor speedups](ARM_INFERENCE_SCALING.md#molmoweb-native-batching-20261011). [WebVoyager remains partial: 4B running, 8B blocked by native-judge cap; unchanged 85.5-H200-hour ceiling](ARM_INFERENCE_SCALING.md#molmoweb-optimized-completion-20261011).
 
 
 [Original bonus iteration 90: local OM2W300 verified; counts, validity and historical comparison](RL_EVALUATION.md#arm-original-iter90-results-20261008).
