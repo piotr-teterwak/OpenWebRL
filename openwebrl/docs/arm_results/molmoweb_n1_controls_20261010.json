@@ -1,6 +1,6 @@
 {
   "schema": "molmoweb-n1-control-aggregates-v1",
-  "date": "2026-10-11",
+  "date": "2026-10-12",
   "suite_controls_verified_complete": true,
   "n5_blocked_pending_control_review": false,
   "requested_control_cohorts": 6,
@@ -369,7 +369,7 @@
     "environment": "Local SimpleEnv; different from paper Browserbase/advanced-stealth environment",
     "agenttrek": "Completed EXIT episodes only; task, full native action history and last supplied actor observation; other outcomes remain zero overall",
     "no_pooled_or_best_of_judge_score": true,
-    "remaining_control_cohorts": "None; all six N1 controls are verified complete. N5 continuation remains incomplete."
+    "remaining_control_cohorts": "None; all six N1 controls and the 8B Online-Mind2Web N5 cohort are verified complete. The N5 suite remains incomplete."
   },
   "incomplete_cohorts": [],
   "reviewed_metrics": {
@@ -577,7 +577,7 @@
     "failed_startup_allocation_seconds": 14,
     "failed_startup_attempts_preserved": 4,
     "replacements_within_remaining_stage_caps": true,
-    "reported_status": "Validated native batching continuation: both WebVoyager and both Online-Mind2Web N5 conditions running; both DeepShop N5 conditions await available slots.",
+    "reported_status": "8B Online-Mind2Web N5 verified complete, 300/300. Four N5 jobs active: 4B and 8B WebVoyager, 4B Online-Mind2Web and 4B DeepShop. 8B DeepShop awaits a slot.",
     "verified_complete": false
   },
   "n5_runtime_repair": {
@@ -2217,19 +2217,353 @@
   },
   "optimized_completion_current": {
     "active_n5_job_ids": [
+      "356597",
       "355667",
       "355668",
-      "355670",
-      "355688"
+      "356137"
     ],
     "completed_n1_tail_job_id": "355669",
     "remaining_waiting_n5_conditions": [
-      "4B DeepShop",
       "8B DeepShop"
     ],
     "approved_additional_h200_hours": 85.5,
     "new_API_budget": false,
     "new_browser_budget": false,
-    "suite_verified_complete": false
+    "suite_verified_complete": false,
+    "as_of_date": "2026-10-12",
+    "terminal_n5_job_ids_pending_verification": [],
+    "verified_complete_n5_cohorts": 1,
+    "wv4_provider_recovery": {
+      "prior_job_id": "355688",
+      "replacement_job_id": "356597",
+      "cause": "selector_provider_HTTP503",
+      "preserved_committed_n5_records": 251,
+      "reviewed_uncommitted_interruptions": 2,
+      "prior_extension_seconds": 19699,
+      "replacement_allocation_seconds": 52260,
+      "separate_extension_cap_seconds": 72000,
+      "retained_failed_request_reserved_micro_usd": 180480,
+      "all_scientific_protocols_and_API_browser_generation_caps_unchanged": true,
+      "no_unused_original_seconds_transferred": true
+    },
+    "verified_complete_n5_job_ids": [
+      "355670"
+    ],
+    "verified_complete_n5_records": 300
+  },
+  "n5_completed_cohorts": [
+    {
+      "job": "molmoweb-8b-online_mind2web-paired",
+      "actor": "MolmoWeb-8B-Native",
+      "benchmark": "Online-Mind2Web",
+      "condition": "N5",
+      "slurm_job_id": "355670",
+      "status": "verified_complete",
+      "collection_terminal": true,
+      "requested_tasks": 300,
+      "saved_records": 300,
+      "record_coverage_complete": true,
+      "verified_complete": true,
+      "publication_ready": true,
+      "conditions": {
+        "n1": {
+          "native": {
+            "raw": {
+              "episodes": 300,
+              "successes": 48,
+              "success_rate": 0.16
+            },
+            "access_infra_filtered": {
+              "episodes": 229,
+              "successes": 47,
+              "success_rate": 0.2052401746724891
+            },
+            "excluded": {
+              "episodes": 71,
+              "successes": 1,
+              "success_rate": 0.014084507042253521
+            }
+          },
+          "agenttrek": {
+            "raw": {
+              "episodes": 300,
+              "successes": 76,
+              "success_rate": 0.25333333333333335
+            },
+            "access_infra_filtered": {
+              "episodes": 229,
+              "successes": 74,
+              "success_rate": 0.3231441048034934
+            },
+            "excluded": {
+              "episodes": 71,
+              "successes": 2,
+              "success_rate": 0.028169014084507043
+            }
+          }
+        },
+        "n5": {
+          "native": {
+            "raw": {
+              "episodes": 300,
+              "successes": 61,
+              "success_rate": 0.20333333333333334
+            },
+            "access_infra_filtered": {
+              "episodes": 200,
+              "successes": 56,
+              "success_rate": 0.28
+            },
+            "excluded": {
+              "episodes": 100,
+              "successes": 5,
+              "success_rate": 0.05
+            }
+          },
+          "agenttrek": {
+            "raw": {
+              "episodes": 300,
+              "successes": 105,
+              "success_rate": 0.35
+            },
+            "access_infra_filtered": {
+              "episodes": 200,
+              "successes": 95,
+              "success_rate": 0.475
+            },
+            "excluded": {
+              "episodes": 100,
+              "successes": 10,
+              "success_rate": 0.1
+            }
+          }
+        }
+      },
+      "paired": {
+        "native": {
+          "common_observed": {
+            "episodes": 300,
+            "n1_successes": 48,
+            "n5_successes": 61,
+            "n1_success_rate": 0.16,
+            "n5_success_rate": 0.20333333333333334,
+            "n5_minus_n1": 0.043333333333333335,
+            "paired_task_bootstrap_95ci": [
+              0.0,
+              0.09
+            ],
+            "bootstrap_draws": 10000,
+            "bootstrap_seed": 20261010,
+            "both_success": 30,
+            "n1_only": 18,
+            "n5_only": 31,
+            "both_failure": 221
+          },
+          "common_valid": {
+            "episodes": 193,
+            "n1_successes": 44,
+            "n5_successes": 55,
+            "n1_success_rate": 0.22797927461139897,
+            "n5_success_rate": 0.2849740932642487,
+            "n5_minus_n1": 0.05699481865284974,
+            "paired_task_bootstrap_95ci": [
+              -0.0051813471502590676,
+              0.12435233160621761
+            ],
+            "bootstrap_draws": 10000,
+            "bootstrap_seed": 20261010,
+            "both_success": 28,
+            "n1_only": 16,
+            "n5_only": 27,
+            "both_failure": 122
+          }
+        },
+        "agenttrek": {
+          "common_observed": {
+            "episodes": 300,
+            "n1_successes": 76,
+            "n5_successes": 105,
+            "n1_success_rate": 0.25333333333333335,
+            "n5_success_rate": 0.35,
+            "n5_minus_n1": 0.09666666666666666,
+            "paired_task_bootstrap_95ci": [
+              0.04666666666666667,
+              0.14666666666666667
+            ],
+            "bootstrap_draws": 10000,
+            "bootstrap_seed": 20261010,
+            "both_success": 60,
+            "n1_only": 16,
+            "n5_only": 45,
+            "both_failure": 179
+          },
+          "common_valid": {
+            "episodes": 193,
+            "n1_successes": 69,
+            "n5_successes": 93,
+            "n1_success_rate": 0.35751295336787564,
+            "n5_success_rate": 0.48186528497409326,
+            "n5_minus_n1": 0.12435233160621761,
+            "paired_task_bootstrap_95ci": [
+              0.05699481865284974,
+              0.19170984455958548
+            ],
+            "bootstrap_draws": 10000,
+            "bootstrap_seed": 20261010,
+            "both_success": 58,
+            "n1_only": 11,
+            "n5_only": 35,
+            "both_failure": 89
+          }
+        }
+      },
+      "episode_status": {
+        "n1": {
+          "completed": 289,
+          "completed_invalid": 10,
+          "completed_timeout": 1
+        },
+        "n5": {
+          "completed": 288,
+          "completed_invalid": 10,
+          "completed_timeout": 2
+        }
+      },
+      "judge_eligibility": {
+        "n1": {
+          "native_judged": 289,
+          "agenttrek_judged": 92,
+          "agenttrek_unjudged_valid_without_terminal_exit": 197
+        },
+        "n5": {
+          "native_judged": 288,
+          "agenttrek_judged": 115,
+          "agenttrek_unjudged_valid_without_terminal_exit": 173
+        }
+      },
+      "interpretation": {
+        "native_gain": "Uncertain: raw paired interval reaches zero; interval for tasks retained in both arms crosses zero.",
+        "agenttrek_gain": "Positive paired gain on all tasks and on tasks retained in both arms.",
+        "no_pooled_or_best_of_judge_score": true,
+        "common_valid_definition": "Intersection passing the fixed access/infra filter in N1 and N5; not the separately filtered arm denominators.",
+        "sequential_collection": true,
+        "fixed_filter_excludes_successes": true,
+        "counterfactual_Browserbase_estimate": false,
+        "exploratory_intervals_not_adjusted_for_multiple_comparisons_or_interim_examination": true,
+        "effect_scope": "N5 proposal generation plus Sol medium selection; does not isolate selection from extra proposal compute."
+      },
+      "audit": {
+        "status": "verified_complete",
+        "terminal_audit_sha256": "780f5caa94575785e3bacd40681e33c60d9d140e01e212d5849fc0d86cfefb60",
+        "artifact_audit_sha256": "780f5caa94575785e3bacd40681e33c60d9d140e01e212d5849fc0d86cfefb60",
+        "metrics_aggregate_sha256": "2aaf79b83ef827109805f2362244e009298774c09ba1648b0e295954866e1ffa",
+        "metrics_policy_sha256": "e0902900285480c3e25d483d8b3e6a926e276fbc1aa7938001ae2e8062d3febf",
+        "host_wide_orphan_scan_verified": false,
+        "independent_review_sha256": "4b21297e42bca02c473d7ae2f53a4688d985b5365156733a7590286c5cfa1f3a",
+        "completion_receipt_sha256": "8329be433fc3900df93354de8d92c90f93c46a6a177d4d2cd1254cfb6ac58729",
+        "all_N1_N5_artifact_files_rehashed": 153080,
+        "owned_teardown_verified": true,
+        "physical_postexit_node_scan_performed": false,
+        "teardown_scope": "Controller-owned processes and descendants: awaited worker groups, normal native-server shutdown, released controller lock and terminal allocation/batch/extern steps. Postexit host scan denied by PAM."
+      },
+      "suite_verified_complete": false,
+      "accounting": {
+        "per_condition_compute": {
+          "n1": {
+            "extension_cap_seconds": 0,
+            "extension_seconds": 0,
+            "original_cap_seconds": 32400,
+            "original_seconds": 23950
+          },
+          "n5": {
+            "extension_cap_seconds": 50400,
+            "extension_seconds": 38948,
+            "original_cap_seconds": 32400,
+            "original_seconds": 32187
+          }
+        },
+        "all_N1_N5_attempt_seconds": 95085,
+        "all_N1_N5_attempt_H200_hours": 26.4125,
+        "no_budget_transfer": true,
+        "physical_API_attempts": 22084,
+        "counters": [
+          {
+            "charged_reserved_micro": 481468,
+            "condition": "n1",
+            "count": 92,
+            "kind": "agenttrek_judge"
+          },
+          {
+            "charged_reserved_micro": 0,
+            "condition": "n1",
+            "count": 308,
+            "kind": "browser_attempts_all_attempts"
+          },
+          {
+            "charged_reserved_micro": 0,
+            "condition": "n1",
+            "count": 7276,
+            "kind": "local_sft_generations_all_attempts"
+          },
+          {
+            "charged_reserved_micro": 32163615,
+            "condition": "n1",
+            "count": 7713,
+            "kind": "native_judge"
+          },
+          {
+            "charged_reserved_micro": 0,
+            "condition": "n1",
+            "count": 0,
+            "kind": "selector"
+          },
+          {
+            "charged_reserved_micro": 597809,
+            "condition": "n5",
+            "count": 115,
+            "kind": "agenttrek_judge"
+          },
+          {
+            "charged_reserved_micro": 0,
+            "condition": "n5",
+            "count": 302,
+            "kind": "browser_attempts_all_attempts"
+          },
+          {
+            "charged_reserved_micro": 0,
+            "condition": "n5",
+            "count": 34122,
+            "kind": "local_sft_generations_all_attempts"
+          },
+          {
+            "charged_reserved_micro": 31671153,
+            "condition": "n5",
+            "count": 7341,
+            "kind": "native_judge"
+          },
+          {
+            "charged_reserved_micro": 57646443,
+            "condition": "n5",
+            "count": 6823,
+            "kind": "selector"
+          }
+        ],
+        "all_uncertain_reservations_preserved": true,
+        "uncertain_reservations": [
+          {
+            "condition": "n1",
+            "kind": "native_judge",
+            "reserved_micro_usd": 229012
+          }
+        ],
+        "api_accounting_sha256": "c57b2c80d5e7d50337bd8adc2334afdafbd3909ba83003d6251306cd0e05036d"
+      },
+      "wandb": "https://wandb.ai/zixianma/openwebrl-evals/runs/6f9f212f7cf6461f84b88b61d6edec32"
+    }
+  ],
+  "historical_scope_notes": {
+    "n5_interim_snapshot": "Historical491-record audit at the original compute stop, before the separately approved extension; retain unchanged.",
+    "n5_runtime_repair": "Historical October10 admission-queue repair; committed outcomes and timeouts remain in all later results.",
+    "inference_optimization": "Historical saved-input diagnostic before subsequent production RPC validation and activation; current continuation status is in optimized_completion_current."
   }
 }
