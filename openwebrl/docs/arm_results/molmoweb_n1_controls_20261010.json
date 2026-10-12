@@ -369,7 +369,7 @@
     "environment": "Local SimpleEnv; different from paper Browserbase/advanced-stealth environment",
     "agenttrek": "Completed EXIT episodes only; task, full native action history and last supplied actor observation; other outcomes remain zero overall",
     "no_pooled_or_best_of_judge_score": true,
-    "remaining_control_cohorts": "None; all six N1 controls and the 8B Online-Mind2Web N5 cohort are verified complete. The N5 suite remains incomplete."
+    "remaining_control_cohorts": "None; all six N1 controls and both Online-Mind2Web N5 cohorts are verified complete. The N5 suite remains incomplete."
   },
   "incomplete_cohorts": [],
   "reviewed_metrics": {
@@ -577,7 +577,7 @@
     "failed_startup_allocation_seconds": 14,
     "failed_startup_attempts_preserved": 4,
     "replacements_within_remaining_stage_caps": true,
-    "reported_status": "8B Online-Mind2Web N5 verified complete, 300/300. Four N5 jobs active: 4B and 8B WebVoyager, 4B Online-Mind2Web and 4B DeepShop. 8B DeepShop awaits a slot.",
+    "reported_status": "Both Online-Mind2Web N5 cohorts verified complete, 300/300 each. Four N5 jobs active: 4B and 8B WebVoyager, and 4B and 8B DeepShop.",
     "verified_complete": false
   },
   "n5_runtime_repair": {
@@ -2217,22 +2217,20 @@
   },
   "optimized_completion_current": {
     "active_n5_job_ids": [
+      "356637",
       "356597",
       "355667",
-      "355668",
-      "356137"
+      "356696"
     ],
     "completed_n1_tail_job_id": "355669",
-    "remaining_waiting_n5_conditions": [
-      "8B DeepShop"
-    ],
+    "remaining_waiting_n5_conditions": [],
     "approved_additional_h200_hours": 85.5,
     "new_API_budget": false,
     "new_browser_budget": false,
     "suite_verified_complete": false,
     "as_of_date": "2026-10-12",
     "terminal_n5_job_ids_pending_verification": [],
-    "verified_complete_n5_cohorts": 1,
+    "verified_complete_n5_cohorts": 2,
     "wv4_provider_recovery": {
       "prior_job_id": "355688",
       "replacement_job_id": "356597",
@@ -2247,11 +2245,362 @@
       "no_unused_original_seconds_transferred": true
     },
     "verified_complete_n5_job_ids": [
+      "355668",
       "355670"
     ],
-    "verified_complete_n5_records": 300
+    "verified_complete_n5_records": 600,
+    "ds4_transport_recovery": {
+      "committed_records": 120,
+      "job_id": "356137",
+      "new_budget": false,
+      "no_committed_outcome_retries": true,
+      "remaining_extension_seconds": 6581,
+      "replacement_allocation_seconds": 6540,
+      "replacement_job_id": "356696",
+      "status": "replacement_running_startup_verified",
+      "tests_passed": 70,
+      "cause": "native_HTTP_transport_interruption",
+      "first_panels_verified": 2,
+      "first_native_draws_verified": 10,
+      "first_selector_response_receipts_verified": 2,
+      "preserved_N1_records": 150
+    },
+    "active_n5_conditions": [
+      {
+        "actor": "4B",
+        "benchmark": "WebVoyager",
+        "job_id": "356597",
+        "state": "RUNNING"
+      },
+      {
+        "actor": "8B",
+        "benchmark": "WebVoyager",
+        "job_id": "355667",
+        "state": "RUNNING"
+      },
+      {
+        "actor": "4B",
+        "benchmark": "DeepShop",
+        "job_id": "356696",
+        "state": "RUNNING"
+      },
+      {
+        "actor": "8B",
+        "benchmark": "DeepShop",
+        "job_id": "356637",
+        "state": "RUNNING"
+      }
+    ],
+    "ds8_continuation": {
+      "job_id": "356637",
+      "state": "RUNNING",
+      "startup_verified": true,
+      "first_new_physical_GPT4o_verdict_verified": true
+    }
   },
   "n5_completed_cohorts": [
+    {
+      "job": "molmoweb-4b-online_mind2web-paired",
+      "actor": "MolmoWeb-4B-Native",
+      "benchmark": "Online-Mind2Web",
+      "condition": "N5",
+      "slurm_job_id": "355668",
+      "status": "verified_complete",
+      "collection_terminal": true,
+      "requested_tasks": 300,
+      "saved_records": 300,
+      "record_coverage_complete": true,
+      "verified_complete": true,
+      "publication_ready": true,
+      "conditions": {
+        "n1": {
+          "agenttrek": {
+            "access_infra_filtered": {
+              "episodes": 218,
+              "success_rate": 0.3348623853211009,
+              "successes": 73
+            },
+            "excluded": {
+              "episodes": 82,
+              "success_rate": 0.0975609756097561,
+              "successes": 8
+            },
+            "raw": {
+              "episodes": 300,
+              "success_rate": 0.27,
+              "successes": 81
+            }
+          },
+          "native": {
+            "access_infra_filtered": {
+              "episodes": 218,
+              "success_rate": 0.16972477064220184,
+              "successes": 37
+            },
+            "excluded": {
+              "episodes": 82,
+              "success_rate": 0.012195121951219513,
+              "successes": 1
+            },
+            "raw": {
+              "episodes": 300,
+              "success_rate": 0.12666666666666668,
+              "successes": 38
+            }
+          }
+        },
+        "n5": {
+          "agenttrek": {
+            "access_infra_filtered": {
+              "episodes": 206,
+              "success_rate": 0.46601941747572817,
+              "successes": 96
+            },
+            "excluded": {
+              "episodes": 94,
+              "success_rate": 0.13829787234042554,
+              "successes": 13
+            },
+            "raw": {
+              "episodes": 300,
+              "success_rate": 0.36333333333333334,
+              "successes": 109
+            }
+          },
+          "native": {
+            "access_infra_filtered": {
+              "episodes": 206,
+              "success_rate": 0.3106796116504854,
+              "successes": 64
+            },
+            "excluded": {
+              "episodes": 94,
+              "success_rate": 0.0851063829787234,
+              "successes": 8
+            },
+            "raw": {
+              "episodes": 300,
+              "success_rate": 0.24,
+              "successes": 72
+            }
+          }
+        }
+      },
+      "paired": {
+        "agenttrek": {
+          "common_observed": {
+            "bootstrap_draws": 10000,
+            "bootstrap_seed": 20261010,
+            "both_failure": 175,
+            "both_success": 65,
+            "episodes": 300,
+            "n1_only": 16,
+            "n1_successes": 81,
+            "n5_minus_n1": 0.09333333333333334,
+            "n5_only": 44,
+            "n5_successes": 109,
+            "paired_task_bootstrap_95ci": [
+              0.043333333333333335,
+              0.14333333333333334
+            ],
+            "n1_success_rate": 0.27,
+            "n5_success_rate": 0.36333333333333334
+          },
+          "common_valid": {
+            "bootstrap_draws": 10000,
+            "bootstrap_seed": 20261010,
+            "both_failure": 90,
+            "both_success": 58,
+            "episodes": 189,
+            "n1_only": 9,
+            "n1_successes": 67,
+            "n5_minus_n1": 0.12169312169312169,
+            "n5_only": 32,
+            "n5_successes": 90,
+            "paired_task_bootstrap_95ci": [
+              0.0582010582010582,
+              0.18518518518518517
+            ],
+            "n1_success_rate": 0.3544973544973545,
+            "n5_success_rate": 0.47619047619047616
+          }
+        },
+        "native": {
+          "common_observed": {
+            "bootstrap_draws": 10000,
+            "bootstrap_seed": 20261010,
+            "both_failure": 216,
+            "both_success": 26,
+            "episodes": 300,
+            "n1_only": 12,
+            "n1_successes": 38,
+            "n5_minus_n1": 0.11333333333333333,
+            "n5_only": 46,
+            "n5_successes": 72,
+            "paired_task_bootstrap_95ci": [
+              0.06666666666666667,
+              0.16008333333333213
+            ],
+            "n1_success_rate": 0.12666666666666668,
+            "n5_success_rate": 0.24
+          },
+          "common_valid": {
+            "bootstrap_draws": 10000,
+            "bootstrap_seed": 20261010,
+            "both_failure": 123,
+            "both_success": 25,
+            "episodes": 189,
+            "n1_only": 7,
+            "n1_successes": 32,
+            "n5_minus_n1": 0.14285714285714285,
+            "n5_only": 34,
+            "n5_successes": 59,
+            "paired_task_bootstrap_95ci": [
+              0.07936507936507936,
+              0.20634920634920634
+            ],
+            "n1_success_rate": 0.1693121693121693,
+            "n5_success_rate": 0.31216931216931215
+          }
+        }
+      },
+      "episode_status": {
+        "n1": {
+          "completed": 287,
+          "completed_invalid": 10,
+          "completed_timeout": 3
+        },
+        "n5": {
+          "completed": 287,
+          "completed_invalid": 10,
+          "completed_timeout": 3
+        }
+      },
+      "judge_eligibility": {
+        "n1": {
+          "native_judged": 287,
+          "agenttrek_judged": 105,
+          "agenttrek_unjudged_valid_without_terminal_exit": 182
+        },
+        "n5": {
+          "native_judged": 287,
+          "agenttrek_judged": 117,
+          "agenttrek_unjudged_valid_without_terminal_exit": 170
+        }
+      },
+      "interpretation": {
+        "native_gain": "Positive paired gain on all tasks and on tasks retained in both arms.",
+        "agenttrek_gain": "Positive paired gain on all tasks and on tasks retained in both arms.",
+        "no_pooled_or_best_of_judge_score": true,
+        "common_valid_definition": "Intersection passing the fixed access/infra filter in N1 and N5; not the separately filtered arm denominators.",
+        "sequential_collection": true,
+        "fixed_filter_excludes_successes": true,
+        "counterfactual_Browserbase_estimate": false,
+        "exploratory_intervals_not_adjusted_for_multiple_comparisons_or_interim_examination": true,
+        "effect_scope": "N5 proposal generation plus Sol medium selection; does not isolate selection from extra proposal compute."
+      },
+      "audit": {
+        "status": "verified_complete",
+        "terminal_audit_sha256": "fc6feffd7488f049efec743b93d4a1a334a8dd3f619f0fbc259b88e77bb6aff2",
+        "artifact_audit_sha256": "fc6feffd7488f049efec743b93d4a1a334a8dd3f619f0fbc259b88e77bb6aff2",
+        "metrics_aggregate_sha256": "b6e0b19014caf0a96e8e8b7e959b59def1d37c5c8676d5feb7aa24145621e8a6",
+        "metrics_policy_sha256": "e0902900285480c3e25d483d8b3e6a926e276fbc1aa7938001ae2e8062d3febf",
+        "host_wide_orphan_scan_verified": false,
+        "independent_review_sha256": "52795c03e75e5b938b40961678173916275dfdcdb2bac8c3245f1a81d3d2f5a7",
+        "completion_receipt_sha256": "26ffecf4b53eb002d3bea74fd1d0472b0d2f349fd436aca67c94bf7d169f4745",
+        "all_N1_N5_artifact_files_rehashed": 153368,
+        "owned_teardown_verified": true,
+        "physical_postexit_node_scan_performed": true,
+        "teardown_scope": "Controller-owned processes, descendants and CUDA processes: physical postexit node scan, normal native-server shutdown and terminal allocation/batch/extern steps; unrelated jobs remain outside scope."
+      },
+      "suite_verified_complete": false,
+      "accounting": {
+        "per_condition_compute": {
+          "n1": {
+            "extension_cap_seconds": 0,
+            "extension_seconds": 0,
+            "original_cap_seconds": 21600,
+            "original_seconds": 18452
+          },
+          "n5": {
+            "extension_cap_seconds": 50400,
+            "extension_seconds": 42109,
+            "original_cap_seconds": 21600,
+            "original_seconds": 21342
+          }
+        },
+        "all_N1_N5_attempt_seconds": 81903,
+        "all_N1_N5_attempt_H200_hours": 22.750833333333333,
+        "no_budget_transfer": true,
+        "physical_API_attempts": 21889,
+        "counters": [
+          {
+            "charged_reserved_micro": 559662,
+            "condition": "n1",
+            "count": 105,
+            "kind": "agenttrek_judge"
+          },
+          {
+            "charged_reserved_micro": 0,
+            "condition": "n1",
+            "count": 307,
+            "kind": "browser_attempts_all_attempts"
+          },
+          {
+            "charged_reserved_micro": 0,
+            "condition": "n1",
+            "count": 7015,
+            "kind": "local_sft_generations_all_attempts"
+          },
+          {
+            "charged_reserved_micro": 31156880,
+            "condition": "n1",
+            "count": 7419,
+            "kind": "native_judge"
+          },
+          {
+            "charged_reserved_micro": 0,
+            "condition": "n1",
+            "count": 0,
+            "kind": "selector"
+          },
+          {
+            "charged_reserved_micro": 607198,
+            "condition": "n5",
+            "count": 117,
+            "kind": "agenttrek_judge"
+          },
+          {
+            "charged_reserved_micro": 0,
+            "condition": "n5",
+            "count": 302,
+            "kind": "browser_attempts_all_attempts"
+          },
+          {
+            "charged_reserved_micro": 0,
+            "condition": "n5",
+            "count": 34376,
+            "kind": "local_sft_generations_all_attempts"
+          },
+          {
+            "charged_reserved_micro": 32118408,
+            "condition": "n5",
+            "count": 7374,
+            "kind": "native_judge"
+          },
+          {
+            "charged_reserved_micro": 57997157,
+            "condition": "n5",
+            "count": 6874,
+            "kind": "selector"
+          }
+        ],
+        "all_uncertain_reservations_preserved": true,
+        "uncertain_reservations": [],
+        "api_accounting_sha256": "5048b0c412e444dba8618180c120ec5ef0ede4d2fe0f815765fa13eaae604b93"
+      },
+      "wandb": "https://wandb.ai/zixianma/openwebrl-evals/runs/cc10be82d92c4e4481edf517fa207ec3"
+    },
     {
       "job": "molmoweb-8b-online_mind2web-paired",
       "actor": "MolmoWeb-8B-Native",
