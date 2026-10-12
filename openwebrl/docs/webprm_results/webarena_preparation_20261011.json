@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "approved_reddit190_and_four_acquisitions_queued",
+  "status": "cms_candidate_verified_other_four_jobs_queued",
   "date_utc": "2026-10-11",
   "benchmark_order": [
     "WebArena-Lite",
@@ -886,7 +886,7 @@
     "website_readiness_verified": false
   },
   "full_cohort_preparation": {
-    "status": "approved_reddit190_and_four_acquisitions_queued",
+    "status": "cms_candidate_verified_other_four_jobs_queued",
     "planned_tasks": 155,
     "planned_episodes": 1550,
     "primary_episodes_started": 0,
@@ -1141,11 +1141,13 @@
         },
         "approved": true,
         "submitted": true,
-        "status": "approved_submitted_queued",
+        "status": "independently_verified_acquisition_complete",
         "original_equivalence_verified": false,
         "acquisition_launched": true,
-        "transfer_started": false,
-        "job_id": "356009"
+        "transfer_started": true,
+        "job_id": "356009",
+        "independent_audit_sha256": "c7c501fb4a620ea4799fea6178df023dfb9801e3bf84fbad8fd464ed32d9b327",
+        "hosting_ready": false
       }
     },
     "closed_three_job_bundle": {
@@ -1299,7 +1301,9 @@
           "approved": true,
           "submitted": true,
           "job_id": "356009",
-          "scheduler_state_at_launch_check": "PENDING"
+          "scheduler_state_at_launch_check": "PENDING",
+          "scheduler_state": "COMPLETED",
+          "independently_verified_complete": true
         },
         {
           "name": "shopping-thirdparty-oci-acquisition-v1",
@@ -1390,6 +1394,34 @@
       "approved": true,
       "exact_user_approval": "I approve",
       "approval_receipt_sha256": "8e22b4738dba47d302165194326fdb03120f58088a5f5cfd6ea79defd51bf851"
+    },
+    "cms_thirdparty_completion": {
+      "job_id": "356009",
+      "allocation_elapsed_seconds": 118,
+      "prior_allocation_elapsed_seconds": 22,
+      "cumulative_allocation_elapsed_seconds": 140,
+      "compressed_layers": 31,
+      "compressed_layer_bytes": 2156742179,
+      "independent_full_compressed_sha256_rehashes": 31,
+      "raw_layer_bytes": 9639904768,
+      "raw_diff_id_receipts_reconciled": 31,
+      "independent_raw_stream_rehash": false,
+      "source_files_verified": 18,
+      "charged_http_bytes_this_campaign": 2164415449,
+      "prior_charged_http_bytes": 1326678,
+      "cumulative_charged_http_bytes": 2165742127,
+      "http_responses_this_campaign": 117,
+      "unsettled_reservations": 0,
+      "retained_apparent_bytes_before_this_audit": 2159131891,
+      "retained_cap_bytes": 12884901888,
+      "temporary_storage_evidence": "Frozen owner completed its explicit scratch-cap check before completed.json; terminal node scratch was not independently remeasured and no peak is asserted.",
+      "initial_launcher_reconcile_failed": true,
+      "reconciliation_resolution": "Unchanged strict terminal-accounting function accepted fresh completed scheduler snapshot; original unresolved receipt preserved. Initial failing snapshot was not saved, so a transient scheduler state is an inference.",
+      "model_provider_calls": 0,
+      "browser_calls": 0,
+      "hosting_ready": false,
+      "original_state_equivalence_verified": false,
+      "independent_audit_sha256": "c7c501fb4a620ea4799fea6178df023dfb9801e3bf84fbad8fd464ed32d9b327"
     }
   },
   "author_trajectory_release_check": {

@@ -1,6 +1,6 @@
 # OpenWebRL project documentation
 
-[WebPRM baselines: approved Reddit 190-cell comparison and four site acquisitions queued](WEBPRM_BASELINES.md#table5-plan-20261010).
+[WebPRM baselines: CMS candidate verified; Reddit comparison and other acquisitions queued](WEBPRM_BASELINES.md#table5-plan-20261010).
 
 [Faster reward improvement: five fresh iteration0→10 action-credit pilots, pending native GPU validation, controlled comparisons and recent evidence](RL_LEARNING_EFFICIENCY.md#action-credit-implementation-20261011).
 
