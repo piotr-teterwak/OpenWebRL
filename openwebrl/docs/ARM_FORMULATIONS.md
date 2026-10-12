@@ -9,6 +9,8 @@
 | Does selecting with 24 continuations beat selecting with eight? | 14 | +3.52, select with 24 − select with eight | [−0.12, +7.35] | Inconclusive on the same fresh, valid-only holdout |
 | Do teacher-trained selectors pick better actions than uniform? | 138 | Piotr ARM +2.48; outcome-selected on five draws +5.32 | [−0.14, +5.21]; [+3.09, +7.62] | Only outcome selection is clearly above uniform ([details](#selection-head-20261009)) |
 | Do execution evidence or a stronger teacher improve picks? | 194 | Sol after − before −0.31; Luna after − before +0.15; after: Sol − Luna +0.41 | [−2.40, +1.68]; [−1.86, +2.10]; [−1.17, +1.89] | No measurable gain from either; all teachers ≈ +3 pp over uniform ([2×2](#teacher-labels-211-20261011)) |
+| Does multi-step lookahead help? | 194 | Luna lookahead (answers hidden) − immediate +1.98 | [+0.08, +3.98] | Modest gain; reaches the outcome reference; showing final answers hurts ([details](#lookahead-labels-20261011)) |
+| Does the lookahead gain replicate on fresh Piotr-matched states? (prespecified primary test) | 121 | Luna lookahead (answers hidden) − immediate +4.75 | [+1.58, +8.27] | Yes; lookahead also beats uniform (+4.19) and is within 1 pp of the outcome reference ([stage a](#lookahead-stage-a-20261012)) |
 
 The first interval resamples states; the others resample task groups. All are exploratory, pointwise intervals. **Students trained on branching outcomes or on matched pre- and post-action labels have so far stayed at uniform** ([student results](#teacher-labels-211-20261011)). Selectors trained on teacher choices (Piotr ARM and the [actor-based selectors](#selection-head-20261009)) do not clearly beat a uniform pick on held-out draws of 138 eight-draw states, while selecting by outcomes on five draws does: +5.32 pp [+3.09, +7.62].
 
@@ -422,6 +424,61 @@ These diagnostics use saved data only (`scripts/analyze_post_action_value.py`). 
   - The teachers judge apparent progress. The outcome depends on whether this particular continuation policy can finish from the new page, and one post-action screen does not reveal that.
 
 </details>
+
+<a id="lookahead-labels-20261011"></a>
+
+### Does multi-step lookahead help where immediate evidence did not?
+
+**Yes, modestly: showing the fixed actor's next three steps improves Luna's picks over immediate evidence, and only when its final answers are hidden.** For each candidate, Luna additionally sees the SFT actor's next three actions in draw 0, each with the screenshot it produced. In arm A, an episode that ended within those steps is marked only as ended, without the final answer. In arm B, the final answer is shown; in 192 of 970 candidate continuations the actor submits one within three steps. No arm sees a judge verdict or reward, and scoring uses draws 3–7 only. All 194 states have complete draw-0 evidence, and every comparison is paired on them.
+
+| Luna, 194 states | Success, draws 3–7 | − Uniform, pp [95%] |
+| --- | ---: | --- |
+| Lookahead, final answers hidden | 40.77% | +5.02 [+2.73, +7.40] |
+| Lookahead, final answers shown | 39.28% | +3.53 [+1.34, +5.83] |
+| Immediate result only (draw 0) | 38.79% | +3.04 [+0.82, +5.34] |
+| Before execution (same states) | 38.64% | — |
+
+| Paired comparison, 194 states | Difference, pp [95%] |
+| --- | --- |
+| Lookahead (answers hidden) − immediate result | +1.98 [+0.08, +3.98] |
+| Lookahead (answers hidden) − before execution | +2.14 [−0.53, +4.92] |
+| Answers shown − answers hidden | −1.49 [−2.64, −0.42] |
+
+- **Lookahead reaches the outcome reference.** On these 194 states, picking the best action on three observed outcomes scores 41.03%. The answers-hidden lookahead scores 40.77%, from one draw of intermediate steps.
+- **Seeing the answer hurts.** One plausible reading is that Luna rewards confident or plausible answers that the success judge does not accept. This was not tested.
+- **These are exploratory, pointwise intervals** among several comparisons. The lookahead-versus-immediate gain is the only one with an interval above zero, and it was not prespecified as the primary test.
+- **Accounting.** Job `355930` made 1,552 GPT-6 Luna calls at high effort, all valid, for USD 10.48 against an approved USD 35 / 1,700-call cap (`scripts/run_branch_lookahead_labels.py`).
+
+<a id="lookahead-stage-a-20261012"></a>
+
+#### Replication on fresh Piotr-matched states (stage a)
+
+**The lookahead gain replicates on independent states: lookahead minus immediate result is +4.75 pp [+1.58, +8.27], the prespecified primary test.**
+- **States:** 121 fresh states from the Piotr-matched collection, in 53 task groups. All have draw-0 evidence aligned for all five candidates, plus held-out draws 3–7. None were used in the 194-state study.
+- **Design:** three matched Luna conditions on each state, 4 calls each (3 repeats + 1 shuffled order):
+  - before execution;
+  - immediate result from draw 0;
+  - three-step lookahead from draw 0, final answers hidden.
+- **Scoring:** draws 3–7 only. Intervals resample task groups (10,000 draws).
+
+| Luna, 121 states | Success, draws 3–7 | − Uniform, pp [95%] |
+| --- | ---: | --- |
+| Lookahead, final answers hidden | 38.31% | +4.19 [+1.26, +7.22] |
+| Before execution | 35.00% | +0.88 [−1.20, +2.87] |
+| Immediate result only (draw 0) | 33.55% | −0.56 [−3.15, +1.84] |
+| Uniform | 34.12% | — |
+| Outcome reference: best on draws 0–2 | 39.36% | +5.24 [+1.71, +8.79] |
+
+| Paired comparison, 121 states | Difference, pp [95%] |
+| --- | --- |
+| **Lookahead − immediate result (primary)** | **+4.75 [+1.58, +8.27]** |
+| Lookahead − before execution | +3.31 [+0.32, +6.43] |
+| Immediate result − before execution | −1.45 [−4.05, +1.17] |
+| Outcome reference − lookahead | +1.05 [−1.86, +3.73] |
+
+- **Immediate evidence still does not help.** As on the 194 states, the post-action screen alone leaves Luna at uniform.
+- **Lookahead closes most of the gap to outcome selection** from a single draw of intermediate steps. It is within 1.05 pp of choosing on three observed outcomes.
+- **Accounting.** Job `356327` made 1,452 GPT-6 Luna calls at high effort, all settled, for USD 6.46 against the approved USD 30 / 5,000-call cap. The script is `scripts/run_branch_lookahead_labels.py` with `LOOKAHEAD_CONDITIONS=before,after,lookahead`. The analysis is `selection_outcome_experiments.py stage_a`; evidence: [stage-a JSON](arm_results/rl_integration/lookahead-stage-a-20261012.json).
 
 **Can these labels supervise a pre-action student?** Not at this scale. The [actor-feature head](ARM_SELECTION_HEAD.md#selection-head-label-types-20261011) trained from scratch on each label type stays at uniform:
 

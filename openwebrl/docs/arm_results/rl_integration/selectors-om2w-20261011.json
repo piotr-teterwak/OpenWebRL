@@ -1,0 +1,497 @@
+{
+  "tasks": 300,
+  "conditions": {
+    "actor0": {
+      "successes": 99,
+      "valid": 271,
+      "invalid": 29,
+      "success_rate": 0.33,
+      "valid_only": 0.36531365313653136,
+      "cost": {
+        "episodes": 300,
+        "browser_steps": 4452,
+        "steps_per_episode": 14.84,
+        "actor_requests_per_episode": 14.886666666666667,
+        "actor_input_tokens_per_episode": 143533.92666666667,
+        "actor_output_tokens_per_episode": 4803.85,
+        "selector_calls_per_episode": 0.0,
+        "selector_input_tokens_per_episode": 0.0,
+        "selector_output_tokens_per_episode": 0.0,
+        "system_tokens_per_episode": 148337.77666666667,
+        "actor_pflop_per_episode": 1.3165914604298137,
+        "selector_pflop_per_episode": null,
+        "system_local_pflop_per_episode": 1.3165914604298137,
+        "selector_share_of_local_flops": 0.0,
+        "sidecar_measured_selector_pflop_per_episode": null,
+        "selector_api_usd_total": 0,
+        "selector_api_usd_per_episode": 0.0,
+        "episode_seconds_mean": 146.70182857112027,
+        "seconds_per_step": 9.885567963013496,
+        "actor_client_seconds_per_step": 5.380434987859036,
+        "selector_seconds_per_step": 0.0,
+        "browser_seconds_per_step": 3.531180335306048,
+        "flops_scope": "local"
+      }
+    },
+    "arm": {
+      "successes": 120,
+      "valid": 261,
+      "invalid": 39,
+      "success_rate": 0.4,
+      "valid_only": 0.45977011494252873,
+      "cost": {
+        "episodes": 300,
+        "browser_steps": 4569,
+        "steps_per_episode": 15.23,
+        "actor_requests_per_episode": 76.58333333333333,
+        "actor_input_tokens_per_episode": 787917.7,
+        "actor_output_tokens_per_episode": 25907.35,
+        "selector_calls_per_episode": 15.266666666666667,
+        "selector_input_tokens_per_episode": 57723.346666666665,
+        "selector_output_tokens_per_episode": 131.58333333333334,
+        "system_tokens_per_episode": 871679.98,
+        "actor_pflop_per_episode": 7.223211343672781,
+        "selector_pflop_per_episode": 0.5134990458494669,
+        "system_local_pflop_per_episode": 7.736710389522248,
+        "selector_share_of_local_flops": 0.06637175491858836,
+        "sidecar_measured_selector_pflop_per_episode": null,
+        "selector_api_usd_total": 0,
+        "selector_api_usd_per_episode": 0.0,
+        "episode_seconds_mean": 193.13729662160856,
+        "seconds_per_step": 12.681372069705091,
+        "actor_client_seconds_per_step": 31.021828482844874,
+        "selector_seconds_per_step": 0.5219389855089944,
+        "browser_seconds_per_step": 4.091130537006712,
+        "flops_scope": "local"
+      }
+    },
+    "head5": {
+      "successes": 111,
+      "valid": 264,
+      "invalid": 36,
+      "success_rate": 0.37,
+      "valid_only": 0.42045454545454547,
+      "cost": {
+        "episodes": 300,
+        "browser_steps": 4689,
+        "steps_per_episode": 15.63,
+        "actor_requests_per_episode": 78.36666666666666,
+        "actor_input_tokens_per_episode": 799086.9166666666,
+        "actor_output_tokens_per_episode": 26589.95,
+        "selector_calls_per_episode": 15.636666666666667,
+        "selector_input_tokens_per_episode": 186563.73,
+        "selector_output_tokens_per_episode": 0.0,
+        "system_tokens_per_episode": 1012240.5966666667,
+        "actor_pflop_per_episode": 7.328403702386483,
+        "selector_pflop_per_episode": 1.6558709403868876,
+        "system_local_pflop_per_episode": 8.984274642773372,
+        "selector_share_of_local_flops": 0.1843076938569338,
+        "sidecar_measured_selector_pflop_per_episode": 1.5653202685267182,
+        "selector_api_usd_total": 0,
+        "selector_api_usd_per_episode": 0.0,
+        "episode_seconds_mean": 217.29739153882798,
+        "seconds_per_step": 13.902584231530902,
+        "actor_client_seconds_per_step": 34.51958992888392,
+        "selector_seconds_per_step": 0.536378067191575,
+        "browser_seconds_per_step": 4.257171266182433,
+        "flops_scope": "local"
+      }
+    },
+    "kev5": {
+      "successes": 113,
+      "valid": 265,
+      "invalid": 35,
+      "success_rate": 0.37666666666666665,
+      "valid_only": 0.42641509433962266,
+      "cost": {
+        "episodes": 300,
+        "browser_steps": 4543,
+        "steps_per_episode": 15.143333333333333,
+        "actor_requests_per_episode": 75.9,
+        "actor_input_tokens_per_episode": 788512.6166666667,
+        "actor_output_tokens_per_episode": 26070.756666666668,
+        "selector_calls_per_episode": 15.146666666666667,
+        "selector_input_tokens_per_episode": 183924.78333333333,
+        "selector_output_tokens_per_episode": 0.0,
+        "system_tokens_per_episode": 998508.1566666666,
+        "actor_pflop_per_episode": 7.229941942225265,
+        "selector_pflop_per_episode": 1.6324486219192833,
+        "system_local_pflop_per_episode": 8.862390564144548,
+        "selector_share_of_local_flops": 0.1841995802491308,
+        "sidecar_measured_selector_pflop_per_episode": 1.5417817080794487,
+        "selector_api_usd_total": 0,
+        "selector_api_usd_per_episode": 0.0,
+        "episode_seconds_mean": 235.16428320674692,
+        "seconds_per_step": 15.529228475021808,
+        "actor_client_seconds_per_step": 34.43133600497427,
+        "selector_seconds_per_step": 0.9658115728513913,
+        "browser_seconds_per_step": 4.960197254243645,
+        "flops_scope": "local"
+      }
+    },
+    "luna5": {
+      "successes": 124,
+      "valid": 265,
+      "invalid": 35,
+      "success_rate": 0.41333333333333333,
+      "valid_only": 0.4679245283018868,
+      "cost": {
+        "episodes": 300,
+        "browser_steps": 4176,
+        "steps_per_episode": 13.92,
+        "actor_requests_per_episode": 69.81666666666666,
+        "actor_input_tokens_per_episode": 694815.4,
+        "actor_output_tokens_per_episode": 23642.453333333335,
+        "selector_calls_per_episode": 13.93,
+        "selector_input_tokens_per_episode": 69783.02666666667,
+        "selector_output_tokens_per_episode": 3213.2533333333336,
+        "system_tokens_per_episode": 791454.1333333333,
+        "actor_pflop_per_episode": 6.376767237808824,
+        "selector_pflop_per_episode": null,
+        "system_local_pflop_per_episode": 6.376767237808824,
+        "selector_share_of_local_flops": 0.0,
+        "sidecar_measured_selector_pflop_per_episode": null,
+        "selector_api_usd_total": 2.5177306600000002,
+        "selector_api_usd_per_episode": 0.008392435533333334,
+        "episode_seconds_mean": 224.32329614543667,
+        "seconds_per_step": 16.115179320792866,
+        "actor_client_seconds_per_step": 32.263699721313266,
+        "selector_seconds_per_step": 3.4785605935946107,
+        "browser_seconds_per_step": 4.17985709148733,
+        "flops_scope": "external API selector (Luna) excluded from FLOPs; reported in USD and tokens"
+      }
+    },
+    "prior5": {
+      "successes": 81,
+      "valid": 264,
+      "invalid": 36,
+      "success_rate": 0.27,
+      "valid_only": 0.3068181818181818,
+      "cost": {
+        "episodes": 300,
+        "browser_steps": 5486,
+        "steps_per_episode": 18.286666666666665,
+        "actor_requests_per_episode": 91.81666666666666,
+        "actor_input_tokens_per_episode": 947863.5,
+        "actor_output_tokens_per_episode": 29886.153333333332,
+        "selector_calls_per_episode": 18.333333333333332,
+        "selector_input_tokens_per_episode": 0.0,
+        "selector_output_tokens_per_episode": 0.0,
+        "system_tokens_per_episode": 977749.6533333333,
+        "actor_pflop_per_episode": 8.678145735658372,
+        "selector_pflop_per_episode": null,
+        "system_local_pflop_per_episode": 8.678145735658372,
+        "selector_share_of_local_flops": 0.0,
+        "sidecar_measured_selector_pflop_per_episode": null,
+        "selector_api_usd_total": 0,
+        "selector_api_usd_per_episode": 0.0,
+        "episode_seconds_mean": 229.8704966381689,
+        "seconds_per_step": 12.570388077187507,
+        "actor_client_seconds_per_step": 35.561785171663786,
+        "selector_seconds_per_step": 0.0,
+        "browser_seconds_per_step": 3.9096502661758494,
+        "flops_scope": "local"
+      }
+    }
+  },
+  "decisions_verified": {
+    "head5": 4691,
+    "kev5": 4544,
+    "luna5": 4179,
+    "prior5": 5500
+  },
+  "paired": {
+    "head5_minus_actor0": {
+      "difference": 0.04,
+      "bootstrap95": [
+        -0.01,
+        0.09
+      ],
+      "first_only": 35,
+      "second_only": 23
+    },
+    "head5_minus_arm": {
+      "difference": -0.03,
+      "bootstrap95": [
+        -0.08,
+        0.02
+      ],
+      "first_only": 26,
+      "second_only": 35
+    },
+    "head5_minus_prior5": {
+      "difference": 0.1,
+      "bootstrap95": [
+        0.04666666666666667,
+        0.15333333333333332
+      ],
+      "first_only": 50,
+      "second_only": 20
+    },
+    "kev5_minus_actor0": {
+      "difference": 0.04666666666666667,
+      "bootstrap95": [
+        -0.0033333333333333335,
+        0.09666666666666666
+      ],
+      "first_only": 35,
+      "second_only": 21
+    },
+    "kev5_minus_arm": {
+      "difference": -0.023333333333333334,
+      "bootstrap95": [
+        -0.07333333333333333,
+        0.02666666666666667
+      ],
+      "first_only": 26,
+      "second_only": 33
+    },
+    "kev5_minus_prior5": {
+      "difference": 0.10666666666666667,
+      "bootstrap95": [
+        0.05,
+        0.16333333333333333
+      ],
+      "first_only": 53,
+      "second_only": 21
+    },
+    "luna5_minus_actor0": {
+      "difference": 0.08333333333333333,
+      "bootstrap95": [
+        0.03333333333333333,
+        0.13666666666666666
+      ],
+      "first_only": 43,
+      "second_only": 18
+    },
+    "luna5_minus_arm": {
+      "difference": 0.013333333333333334,
+      "bootstrap95": [
+        -0.03666666666666667,
+        0.06
+      ],
+      "first_only": 30,
+      "second_only": 26
+    },
+    "luna5_minus_prior5": {
+      "difference": 0.14333333333333334,
+      "bootstrap95": [
+        0.09,
+        0.19666666666666666
+      ],
+      "first_only": 57,
+      "second_only": 14
+    },
+    "prior5_minus_actor0": {
+      "difference": -0.06,
+      "bootstrap95": [
+        -0.10666666666666667,
+        -0.016666666666666666
+      ],
+      "first_only": 15,
+      "second_only": 33
+    },
+    "prior5_minus_arm": {
+      "difference": -0.13,
+      "bootstrap95": [
+        -0.18,
+        -0.08
+      ],
+      "first_only": 11,
+      "second_only": 50
+    }
+  },
+  "accounting": {
+    "head5-0": {
+      "attempts": [
+        {
+          "job_id": "356047",
+          "state": "FAILED",
+          "seconds": 103,
+          "gpus": 2
+        },
+        {
+          "job_id": "356072",
+          "state": "COMPLETED",
+          "seconds": 4486,
+          "gpus": 2
+        }
+      ],
+      "seconds": 4589,
+      "cap_seconds": 10800,
+      "gpu_hours": 2.5494444444444446
+    },
+    "head5-1": {
+      "attempts": [
+        {
+          "job_id": "356048",
+          "state": "CANCELLED by 1385309",
+          "seconds": 108,
+          "gpus": 2
+        },
+        {
+          "job_id": "356073",
+          "state": "COMPLETED",
+          "seconds": 4686,
+          "gpus": 2
+        }
+      ],
+      "seconds": 4794,
+      "cap_seconds": 10800,
+      "gpu_hours": 2.6633333333333336
+    },
+    "kev5-0": {
+      "attempts": [
+        {
+          "job_id": "356049",
+          "state": "CANCELLED by 1385309",
+          "seconds": 48,
+          "gpus": 2
+        },
+        {
+          "job_id": "356074",
+          "state": "COMPLETED",
+          "seconds": 5012,
+          "gpus": 2
+        }
+      ],
+      "seconds": 5060,
+      "cap_seconds": 10800,
+      "gpu_hours": 2.811111111111111
+    },
+    "kev5-1": {
+      "attempts": [
+        {
+          "job_id": "356050",
+          "state": "CANCELLED by 1385309",
+          "seconds": 34,
+          "gpus": 2
+        },
+        {
+          "job_id": "356075",
+          "state": "COMPLETED",
+          "seconds": 5262,
+          "gpus": 2
+        }
+      ],
+      "seconds": 5296,
+      "cap_seconds": 10800,
+      "gpu_hours": 2.942222222222222
+    },
+    "luna5-0": {
+      "attempts": [
+        {
+          "job_id": "356051",
+          "state": "FAILED",
+          "seconds": 4,
+          "gpus": 1
+        },
+        {
+          "job_id": "356076",
+          "state": "COMPLETED",
+          "seconds": 2011,
+          "gpus": 1
+        },
+        {
+          "job_id": "356118",
+          "state": "COMPLETED",
+          "seconds": 3559,
+          "gpus": 1
+        }
+      ],
+      "seconds": 5574,
+      "cap_seconds": 10800,
+      "gpu_hours": 1.5483333333333333
+    },
+    "luna5-1": {
+      "attempts": [
+        {
+          "job_id": "356052",
+          "state": "FAILED",
+          "seconds": 4,
+          "gpus": 1
+        },
+        {
+          "job_id": "356077",
+          "state": "COMPLETED",
+          "seconds": 1987,
+          "gpus": 1
+        },
+        {
+          "job_id": "356119",
+          "state": "COMPLETED",
+          "seconds": 3220,
+          "gpus": 1
+        }
+      ],
+      "seconds": 5211,
+      "cap_seconds": 10800,
+      "gpu_hours": 1.4475
+    },
+    "prior5-0": {
+      "attempts": [
+        {
+          "job_id": "356053",
+          "state": "FAILED",
+          "seconds": 4,
+          "gpus": 1
+        },
+        {
+          "job_id": "356078",
+          "state": "COMPLETED",
+          "seconds": 4859,
+          "gpus": 1
+        }
+      ],
+      "seconds": 4863,
+      "cap_seconds": 10800,
+      "gpu_hours": 1.3508333333333333
+    },
+    "prior5-1": {
+      "attempts": [
+        {
+          "job_id": "356054",
+          "state": "FAILED",
+          "seconds": 4,
+          "gpus": 1
+        },
+        {
+          "job_id": "356079",
+          "state": "COMPLETED",
+          "seconds": 4513,
+          "gpus": 1
+        }
+      ],
+      "seconds": 4517,
+      "cap_seconds": 10800,
+      "gpu_hours": 1.2547222222222223
+    }
+  },
+  "luna_ledger": {
+    "config": {
+      "model": "gpt-6-luna",
+      "max_usd": 25.0,
+      "max_calls": 12000,
+      "reasoning_effort": "medium",
+      "max_output_tokens": 2048,
+      "candidates": 5
+    },
+    "calls": 4426,
+    "usd": 3.212088835,
+    "counted_episode_usd": 2.5177306600000002
+  },
+  "flop_params": 4437815808,
+  "bootstrap": {
+    "samples": 10000,
+    "seed": 42,
+    "unit": "task"
+  },
+  "caveats": [
+    "Controls collected 2026-10-07; new conditions 2026-10-11/12: website drift not controlled.",
+    "Run-level SD of SFT alone across three earlier full300 runs is about 0.4 pp (98-100/300).",
+    "Invalid episodes count as failures.",
+    "FLOP proxy = 2 x 4.44B x processed tokens; ignores attention, prefix caching and the vision/LM split.",
+    "Luna FLOPs unknown (external API); reported as tokens and USD.",
+    "Latency depends on concurrent load per shard, which differed across conditions and from the controls."
+  ]
+}

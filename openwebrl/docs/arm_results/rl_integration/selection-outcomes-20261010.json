@@ -3369,6 +3369,14 @@
    },
    "scored": {
     "all": {
+     "Luna lookahead, answers shown": {
+      "states": 194,
+      "success": 39.278
+     },
+     "Luna lookahead, answers hidden": {
+      "states": 194,
+      "success": 40.773
+     },
      "Sol after (draw-0 evidence)": {
       "states": 194,
       "success": 39.201
@@ -3419,6 +3427,14 @@
      }
     },
     "new": {
+     "Luna lookahead, answers shown": {
+      "states": 146,
+      "success": 42.911
+     },
+     "Luna lookahead, answers hidden": {
+      "states": 146,
+      "success": 44.418
+     },
      "Sol after (draw-0 evidence)": {
       "states": 146,
       "success": 41.678
@@ -3469,6 +3485,14 @@
      }
     },
     "historical": {
+     "Luna lookahead, answers shown": {
+      "states": 48,
+      "success": 28.229
+     },
+     "Luna lookahead, answers hidden": {
+      "states": 48,
+      "success": 29.688
+     },
      "Sol after (draw-0 evidence)": {
       "states": 48,
       "success": 31.667
@@ -3521,6 +3545,62 @@
    },
    "paired": {
     "all": {
+     "Luna lookahead, answers hidden - Uniform": {
+      "states": 194,
+      "pp": [
+       5.021,
+       2.729,
+       7.404
+      ]
+     },
+     "Luna lookahead, answers shown - Uniform": {
+      "states": 194,
+      "pp": [
+       3.526,
+       1.338,
+       5.828
+      ]
+     },
+     "Luna lookahead, answers hidden - Luna after (draw-0 evidence)": {
+      "states": 194,
+      "pp": [
+       1.985,
+       0.084,
+       3.984
+      ]
+     },
+     "Luna lookahead, answers hidden - Luna before": {
+      "states": 194,
+      "pp": [
+       2.139,
+       -0.534,
+       4.922
+      ]
+     },
+     "Luna lookahead, answers shown - Luna lookahead, answers hidden": {
+      "states": 194,
+      "pp": [
+       -1.495,
+       -2.644,
+       -0.423
+      ]
+     },
+     "Luna lookahead, answers shown - Luna before": {
+      "states": 194,
+      "pp": [
+       0.644,
+       -1.78,
+       3.144
+      ]
+     },
+     "Outcome reference: best on draws 0-2 - Luna lookahead, answers shown": {
+      "states": 194,
+      "pp": [
+       1.756,
+       -0.693,
+       4.178
+      ]
+     },
      "Sol after (draw-0 evidence) - Uniform": {
       "states": 194,
       "pp": [
@@ -3651,6 +3731,62 @@
      }
     },
     "new": {
+     "Luna lookahead, answers hidden - Uniform": {
+      "states": 146,
+      "pp": [
+       5.432,
+       2.69,
+       8.329
+      ]
+     },
+     "Luna lookahead, answers shown - Uniform": {
+      "states": 146,
+      "pp": [
+       3.925,
+       1.305,
+       6.646
+      ]
+     },
+     "Luna lookahead, answers hidden - Luna after (draw-0 evidence)": {
+      "states": 146,
+      "pp": [
+       3.116,
+       1.167,
+       5.248
+      ]
+     },
+     "Luna lookahead, answers hidden - Luna before": {
+      "states": 146,
+      "pp": [
+       2.671,
+       -0.177,
+       5.5
+      ]
+     },
+     "Luna lookahead, answers shown - Luna lookahead, answers hidden": {
+      "states": 146,
+      "pp": [
+       -1.507,
+       -2.958,
+       -0.229
+      ]
+     },
+     "Luna lookahead, answers shown - Luna before": {
+      "states": 146,
+      "pp": [
+       1.164,
+       -1.533,
+       3.867
+      ]
+     },
+     "Outcome reference: best on draws 0-2 - Luna lookahead, answers shown": {
+      "states": 146,
+      "pp": [
+       1.201,
+       -1.748,
+       4.084
+      ]
+     },
      "Sol after (draw-0 evidence) - Uniform": {
       "states": 146,
       "pp": [
@@ -3781,6 +3917,62 @@
      }
     },
     "historical": {
+     "Luna lookahead, answers hidden - Uniform": {
+      "states": 48,
+      "pp": [
+       3.771,
+       -0.521,
+       8.562
+      ]
+     },
+     "Luna lookahead, answers shown - Uniform": {
+      "states": 48,
+      "pp": [
+       2.312,
+       -1.75,
+       6.854
+      ]
+     },
+     "Luna lookahead, answers hidden - Luna after (draw-0 evidence)": {
+      "states": 48,
+      "pp": [
+       -1.458,
+       -6.146,
+       3.333
+      ]
+     },
+     "Luna lookahead, answers hidden - Luna before": {
+      "states": 48,
+      "pp": [
+       0.521,
+       -5.104,
+       6.667
+      ]
+     },
+     "Luna lookahead, answers shown - Luna lookahead, answers hidden": {
+      "states": 48,
+      "pp": [
+       -1.458,
+       -3.438,
+       0.104
+      ]
+     },
+     "Luna lookahead, answers shown - Luna before": {
+      "states": 48,
+      "pp": [
+       -0.937,
+       -6.146,
+       4.583
+      ]
+     },
+     "Outcome reference: best on draws 0-2 - Luna lookahead, answers shown": {
+      "states": 48,
+      "pp": [
+       3.444,
+       -0.188,
+       7.708
+      ]
+     },
      "Sol after (draw-0 evidence) - Uniform": {
       "states": 48,
       "pp": [
@@ -4130,6 +4322,28 @@
    "caps": {
     "calls": 850,
     "usd": 100.0
+   }
+  },
+  "lookahead": {
+   "job": 355930,
+   "model": "gpt-6-luna",
+   "effort": "high",
+   "steps": 3,
+   "evidence_draw": 0,
+   "states": 194,
+   "arms": {
+    "answers_hidden": {
+     "calls": 776,
+     "charged_usd": 5.24
+    },
+    "answers_shown": {
+     "calls": 776,
+     "charged_usd": 5.24
+    }
+   },
+   "caps": {
+    "calls": 1700,
+    "usd": 35.0
    }
   }
  }

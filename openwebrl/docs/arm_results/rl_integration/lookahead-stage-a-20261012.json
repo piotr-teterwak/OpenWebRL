@@ -1,0 +1,60 @@
+{
+ "states": 121,
+ "task_groups": 53,
+ "judgments": {
+  "Luna before": 484,
+  "Luna immediate result (draw 0)": 484,
+  "Luna lookahead, answers hidden": 483
+ },
+ "success": {
+  "Luna before": 35.0,
+  "Luna immediate result (draw 0)": 33.553719008264466,
+  "Luna lookahead, answers hidden": 38.30578512396695,
+  "Uniform": 34.11570247933884,
+  "Actor's first sample": 34.049586776859506,
+  "Outcome reference: best on draws 0-2": 39.35537190082645,
+  "Hindsight best on draws 3-7 (optimistic)": 52.892561983471076
+ },
+ "paired": {
+  "Luna lookahead, answers hidden - Luna immediate result (draw 0)": [
+   4.75206611570248,
+   1.5789473684210524,
+   8.267326732673267
+  ],
+  "Luna lookahead, answers hidden - Luna before": [
+   3.3057851239669414,
+   0.31531531531531526,
+   6.428571428571428
+  ],
+  "Luna immediate result (draw 0) - Luna before": [
+   -1.4462809917355377,
+   -4.049586776859504,
+   1.1693548387096773
+  ],
+  "Luna lookahead, answers hidden - Uniform": [
+   4.190082644628099,
+   1.2571428571428565,
+   7.217741935483871
+  ],
+  "Luna immediate result (draw 0) - Uniform": [
+   -0.5619834710743804,
+   -3.146551724137931,
+   1.8387096774193548
+  ],
+  "Luna before - Uniform": [
+   0.8842975206611573,
+   -1.2040816326530595,
+   2.866666666666667
+  ],
+  "Outcome reference: best on draws 0-2 - Luna lookahead, answers hidden": [
+   1.0495867768595044,
+   -1.858880778588808,
+   3.7278287461773703
+  ],
+  "Outcome reference: best on draws 0-2 - Uniform": [
+   5.239669421487603,
+   1.7076023391812862,
+   8.788113695090438
+  ]
+ }
+}
