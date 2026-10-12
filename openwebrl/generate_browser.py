@@ -1295,32 +1295,19 @@ def _get_rollout_task_timeout_secs(args: Any) -> float | None:
 
 
 def _should_remove_browser_sample(sample: Sample) -> bool:
-    """Filter out samples caused by infrastructure/system failures from training loss."""
-    reason = str((sample.metadata or {}).get("terminate_reason", "")).lower()
-    status = sample.status
-    # ABORTED denotes an unavailable outcome. Agent protocol/horizon failures
-    # use FAILED/TRUNCATED and remain negative examples.
-    if status == Sample.Status.ABORTED:
-        return True
+    """Filter out samples caused by infrastructure/system failures from training loss.
 
-    timeout_markers = (
-        "rollout_task_timeout",
-        "sglang /generate timed out",
-        "sandbox exec timed out",
-        "not healthy within",
-    )
+    Uses the rule shared with branch collection and MolmoWeb evaluation
+    (openwebrl/outcome_validity.py): browser/env, model-server and wall-clock
+    endings are removed; agent endings (done, step/context limits, format
+    failures) remain examples. An unrecognized ending is removed only if ABORTED.
+    """
+    from openwebrl.outcome_validity import classify_terminate_reason
 
-    sandbox_markers = (
-        "env_step_error",
-        "env_server /reset error",
-        "env_server /step error",
-    )
-
-    if any(marker in reason for marker in timeout_markers):
-        return True
-    if status == Sample.Status.ABORTED and any(marker in reason for marker in sandbox_markers):
-        return True
-    return False
+    outcome = classify_terminate_reason(sample.status, (sample.metadata or {}).get("terminate_reason"))
+    if outcome.ending == "unknown":
+        return sample.status == Sample.Status.ABORTED
+    return not outcome.valid
 
 
 def _mark_remove_sample_if_needed(sample: Sample) -> Sample:
