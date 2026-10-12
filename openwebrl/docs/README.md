@@ -1,5 +1,7 @@
 # OpenWebRL project documentation
 
+[Episode validity unified across RL, branch collection and MolmoWeb: the Sep 10–24 RL runs kept 940 infrastructure failures (1.39%) as reward 0](EPISODE_VALIDITY.md#episode-validity-20261012).
+
 [WebPRM baselines: all 12 attempts audited, two guarded successes; Reddit allocation cap exhausted](WEBPRM_BASELINES.md#table5-plan-20261010).
 [WebPRM agent handoff: verified results, repairs, approval limits and next actions](WEBPRM_HANDOFF.md).
 
