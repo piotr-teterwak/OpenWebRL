@@ -192,13 +192,46 @@
         "browser_seconds_per_step": 3.9096502661758494,
         "flops_scope": "local"
       }
+    },
+    "headkv5": {
+      "successes": 113,
+      "valid": 259,
+      "invalid": 41,
+      "success_rate": 0.37666666666666665,
+      "valid_only": 0.4362934362934363,
+      "cost": {
+        "episodes": 300,
+        "browser_steps": 4657,
+        "steps_per_episode": 15.523333333333333,
+        "actor_requests_per_episode": 77.81666666666666,
+        "actor_input_tokens_per_episode": 788266.7833333333,
+        "actor_output_tokens_per_episode": 26290.81,
+        "selector_calls_per_episode": 15.533333333333333,
+        "selector_input_tokens_per_episode": 297.5233333333333,
+        "selector_output_tokens_per_episode": 77.66666666666667,
+        "system_tokens_per_episode": 814932.7833333333,
+        "actor_pflop_per_episode": 7.229713128442204,
+        "selector_pflop_per_episode": 0.00333004822600704,
+        "system_local_pflop_per_episode": 7.233043176668211,
+        "selector_share_of_local_flops": 0.00046039379894051387,
+        "sidecar_measured_selector_pflop_per_episode": null,
+        "selector_api_usd_total": 0,
+        "selector_api_usd_per_episode": 0.0,
+        "episode_seconds_mean": 245.7244427882554,
+        "seconds_per_step": 15.829360712148727,
+        "actor_client_seconds_per_step": 42.54847076198733,
+        "selector_seconds_per_step": 0.6370469125138509,
+        "browser_seconds_per_step": 4.672869883875655,
+        "flops_scope": "local"
+      }
     }
   },
   "decisions_verified": {
     "head5": 4691,
     "kev5": 4544,
     "luna5": 4179,
-    "prior5": 5500
+    "prior5": 5500,
+    "headkv5": 4660
   },
   "paired": {
     "head5_minus_actor0": {
@@ -299,6 +332,42 @@
       ],
       "first_only": 11,
       "second_only": 50
+    },
+    "headkv5_minus_actor0": {
+      "difference": 0.04666666666666667,
+      "bootstrap95": [
+        -0.006666666666666667,
+        0.1
+      ],
+      "first_only": 42,
+      "second_only": 28
+    },
+    "headkv5_minus_arm": {
+      "difference": -0.023333333333333334,
+      "bootstrap95": [
+        -0.07333333333333333,
+        0.02666666666666667
+      ],
+      "first_only": 27,
+      "second_only": 34
+    },
+    "headkv5_minus_prior5": {
+      "difference": 0.10666666666666667,
+      "bootstrap95": [
+        0.056666666666666664,
+        0.16
+      ],
+      "first_only": 50,
+      "second_only": 18
+    },
+    "headkv5_minus_head5": {
+      "difference": 0.006666666666666667,
+      "bootstrap95": [
+        -0.04666666666666667,
+        0.06
+      ],
+      "first_only": 33,
+      "second_only": 31
     }
   },
   "accounting": {
@@ -465,6 +534,44 @@
       "seconds": 4517,
       "cap_seconds": 10800,
       "gpu_hours": 1.2547222222222223
+    },
+    "headkv5-0": {
+      "attempts": [
+        {
+          "job_id": "356367",
+          "state": "CANCELLED by 1385309",
+          "seconds": 58,
+          "gpus": 1
+        },
+        {
+          "job_id": "356392",
+          "state": "COMPLETED",
+          "seconds": 5272,
+          "gpus": 1
+        }
+      ],
+      "seconds": 5330,
+      "cap_seconds": 10800,
+      "gpu_hours": 1.4805555555555556
+    },
+    "headkv5-1": {
+      "attempts": [
+        {
+          "job_id": "356368",
+          "state": "CANCELLED by 1385309",
+          "seconds": 58,
+          "gpus": 1
+        },
+        {
+          "job_id": "356393",
+          "state": "COMPLETED",
+          "seconds": 4788,
+          "gpus": 1
+        }
+      ],
+      "seconds": 4846,
+      "cap_seconds": 10800,
+      "gpu_hours": 1.346111111111111
     }
   },
   "luna_ledger": {

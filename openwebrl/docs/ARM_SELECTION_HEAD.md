@@ -8,7 +8,7 @@
 
 The question is whether selection can be built into the actor ([integration option 3](ARM_INTEGRATION_PLAN.md)). Today's best-of-N pipeline samples five candidates from the actor, then runs a separate 4B selector over the screenshot and all candidates. A head that reads the hidden states the actor computes while generating would need no second model.
 
-**In full Online-Mind2Web episodes, Luna is the only new selector that beats the SFT actor alone.** On 300 tasks, Luna reaches 41.3% (+8.3 pp [+3.3, +13.7]), level with Piotr ARM at 40.0%. The Kev-style pass (37.7%) and the frozen head (37.0%) sit between the SFT actor and Piotr ARM; neither difference is significant. The action-type prior is worse than one sample (27.0%). Piotr ARM's separate 4B selector is 36% of its system's compute. Reading the frozen head's features from the actor's own generation pass would remove that, about 36% fewer FLOPs per step than Piotr ARM, at a 3.0 pp [−8.0, +2.0] success difference; this integration is projected, not yet built ([live-loop results](#selection-head-om2w-20261011)).
+**In full Online-Mind2Web episodes, Luna is the only new selector that beats the SFT actor alone.** On 300 tasks, Luna reaches 41.3% (+8.3 pp [+3.3, +13.7]), level with Piotr ARM at 40.0%. The Kev-style pass (37.7%) and the frozen head (37.0%) sit between the SFT actor and Piotr ARM; neither difference is significant. The action-type prior is worse than one sample (27.0%). **A frozen head that reuses the actor's KV cache cuts system compute by 36% per step relative to Piotr ARM** (0.060 versus 0.094 PFLOP). Its features come from the actor's own generation pass, so the selector adds 375 tokens per episode against Piotr's 58,000. It reaches 37.7%, 2.3 pp [−7.3, +2.7] below Piotr ARM, not significant. Wall-clock time per step is not lower in this implementation ([live-loop results](#selection-head-om2w-20261011), [plot](#selection-head-om2w-plot)).
 
 <a id="selection-head-architecture"></a>
 
@@ -28,11 +28,16 @@ The question is whether selection can be built into the actor ([integration opti
 | Piotr ARM (Oct 7 control) | separate 4B SelectionARM | 120 | 261 | 40.0% | +7.0 [+2.3, +11.7] | — |
 | Luna | `gpt-6-luna`, medium effort, API | 124 | 265 | 41.3% | **+8.3 [+3.3, +13.7]** | +1.3 [−3.7, +6.0] |
 | Kev-style, step 600 | LoRA pass over the actor | 113 | 265 | 37.7% | +4.7 [−0.3, +9.7] | −2.3 [−7.3, +2.7] |
-| Frozen-feature head | actor hidden states + pointwise head | 111 | 264 | 37.0% | +4.0 [−1.0, +9.0] | −3.0 [−8.0, +2.0] |
+| Frozen-feature head, separate pass | actor hidden states + pointwise head (sidecar) | 111 | 264 | 37.0% | +4.0 [−1.0, +9.0] | −3.0 [−8.0, +2.0] |
+| **Frozen-feature head, reuses actor KV cache** | same head; features captured inside the actor server | 113 | 259 | 37.7% | +4.7 [−0.7, +10.0] | −2.3 [−7.3, +2.7] |
 | Action-type prior | fitted on branching outcomes; no model | 81 | 264 | 27.0% | **−6.0 [−10.7, −1.7]** | −13.0 [−18.0, −8.0] |
 
 - **Luna** is the only selector besides Piotr ARM whose gain over SFT alone excludes zero. Its difference from Piotr ARM is not significant.
 - **Kev-style and the frozen head** sit about 4–5 pp above SFT alone and 2–3 pp below Piotr ARM. Neither interval excludes zero. This matches the branching-state result: both were close to uniform there, slightly below Piotr.
+- **The two frozen-head runs agree.** The cache-reusing run differs from the sidecar run by +0.7 pp [−4.7, +6.0].
+  - The sidecar run, and all branch-state scoring of the actor-based selectors, built candidate features from ids ending `<|im_end|>\n`. A second `<|im_end|>` was appended to these, whereas training candidates end at one `<|im_end|>`.
+  - The cache-reusing run uses the server's own ids, which match training. Fixed in `4a311a4`.
+  - At this sample size the mismatch did not visibly cost success.
 - **The action-type prior** is significantly worse than sampling one action. Its episodes are also longer: 18.3 steps versus 14.8.
 
 **Comparability.** The new conditions were collected four days after the controls, so website drift is not controlled. Across three earlier full-300 runs, the SFT actor scored 98–100/300; the run-to-run spread is small next to these differences, but it does not cover drift. Intervals are task bootstraps: 10,000 samples, seed 42.
@@ -49,16 +54,28 @@ The question is whether selection can be built into the actor ([integration opti
 | Luna | 13.9 | 71.2 | 23.6 | 73 | 0.84 | external | ≥0.84 | — | ≥0.061 | 0.0084 | 224 | 16.1 | 3.48 |
 | Kev-style (sidecar) | 15.1 | 78.4 | 26.1 | 184 | 0.93 | 1.63 | 2.56 | 64% | 0.169 | 0 | 235 | 15.5 | 0.97 |
 | Frozen head (sidecar, as run) | 15.6 | 78.9 | 26.6 | 187 | 0.94 | 1.66 | 2.59 | 64% | 0.166 | 0 | 217 | 13.9 | 0.54 |
-| Frozen head, cache-reusing (projected) | 15.6 | 78.9 | 26.6 | ≈0 | 0.94 | ≈0 | 0.94 | ≈0% | 0.060 | 0 | — | — | — |
+| **Frozen head, reuses actor KV cache** | 15.5 | 78.5 | 26.3 | 0.4 | 0.93 | 0.003 | 0.93 | 0.4% | 0.060 | 0 | 246 | 15.8 | 0.64 |
 | Action prior | 18.3 | 88.5 | 29.9 | 0 | 1.05 | 0 | 1.05 | 0% | 0.058 | 0 | 230 | 12.6 | 0 |
 
 - **Piotr ARM's separate selector is 36% of the system's compute.** With the prefix cache, five candidates cost the actor about 3.4× SFT alone (0.27 → 0.91 PFLOP), and Piotr's 4B selector then adds 0.51 PFLOP.
-- **A head that reuses the actor's KV cache would cut the system's compute by about 36% relative to Piotr ARM: 0.060 versus 0.094 PFLOP per step.**
-  - The frozen head reads the actor's own hidden states at layers 18, 27 and 36. Those hidden states cover the prompt's last token and each candidate's tokens, which the actor already computes while generating, so it adds only the head itself.
-  - In this run it was served as a sidecar that re-encodes the full-resolution prompt and candidates, which made it the most expensive selector (2.59 PFLOP). The projected row assumes features are taken from the generation pass; that has not been built or measured.
-  - The success cost is 3.0 pp [−8.0, +2.0] below Piotr ARM, not significant.
+- **Reusing the actor's KV cache removes the selector's compute: 0.060 versus 0.094 PFLOP per step, 36% less than Piotr ARM.**
+  - The frozen head reads the actor's hidden states at layers 18, 27 and 36 for the prompt's last token and each candidate's tokens. sglang forward hooks capture them while the actor generates.
+  - A follow-up request per candidate computes only its final token, which generation never feeds back. That is 375 tokens per episode in total.
+  - The sidecar version of the same head re-encoded everything and was the most expensive selector (2.59 PFLOP per episode).
+  - It also runs on one GPU instead of two: 2.83 GPU-hours for 300 episodes, against 5.21 for the sidecar head.
+- **Wall-clock latency did not improve.**
+  - Seconds per step were 15.8, against 12.7 for Piotr ARM.
+  - The actor's own requests were slower: 42.5 versus 31.0 summed request-seconds per step.
+  - The parity test attributes about 6% of generation time to the hooks and 17% including follow-ups. The rest reflects different shard load and collection days.
+  - The follow-ups add 0.64 s per step, mostly image preprocessing for the repeated prompt.
 - **Kev-style cannot reuse the cache.** Its LoRA changes those layers, so it needs its own pass.
 - **Luna** costs $0.0084 per episode in API fees, about $0.0006 per decision. It adds the most latency, 3.5 seconds per step, and its compute is unknown.
+
+<a id="selection-head-om2w-plot"></a>
+
+![Online-Mind2Web full300 success versus whole-system compute per episode (left) and wall-clock seconds per step (right), one point per selector with Wilson 95% intervals](arm_results/rl_integration/perf_vs_flops.png)
+
+[PNG](arm_results/rl_integration/perf_vs_flops.png) / [SVG](arm_results/rl_integration/perf_vs_flops.svg). Compute is cache-aware: 2 × 4.44B × tokens actually computed. Luna's own compute is external and not included.
 
 <details>
 <summary>Method, verification, accounting and caveats</summary>
@@ -68,6 +85,12 @@ The question is whether selection can be built into the actor ([integration opti
   - Luna ran from a second copy, `source-luna-r2`. It adds retries for transient provider errors and stops the controller if the shared selector halts.
   - The scalar selectors run as a sidecar on a second GPU, `scripts/serve_actor_selector.py`. Before serving, the sidecar re-scores six saved branching states and refuses to start unless every pick matches the offline pick.
   - The prior uses `action_type_prior.json`, with ties broken by candidate order.
+  - The KV-cache head (`headkv5`) ran from `source-headkv`:
+    - `openwebrl/actor_head_capture.py` hooks decoder layers 17, 26 and 35, giving hidden-state indices 18, 27 and 36.
+    - It caches capture requests' generated tokens in the radix cache.
+    - It exports each candidate's states when the request finishes. `openwebrl/actor_head_scoring.py` pools them and applies the head on CPU.
+    - Parity against the Hugging Face reference on 40 saved states (`scripts/test_actor_head_capture.py`): picks agree on 37/40, all disagreements near-ties (score difference ≤0.58); feature cosine is at least 0.9993.
+    - The first launch was cancelled after 58 s: the controller's in-place `<|im_end|>\n` normalization failed the id check. Its 4 records are kept under `excluded-defect-records`.
 - **Pairing.**
   - The controls come from `selectionarm-piotr-sameday30-20261007`: actor0 is SFT alone and arm is Piotr ARM.
   - The task file is byte-identical, verified by SHA-256.
