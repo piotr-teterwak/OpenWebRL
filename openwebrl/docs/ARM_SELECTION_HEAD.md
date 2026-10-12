@@ -2,9 +2,7 @@
 
 **Goal: pick among the actor's five candidate actions without a second model.** Piotr SelectionARM runs a separate 4B selector over the screenshot and all candidates. The selection head reads the hidden states the actor already computes while generating.
 
-<a id="selection-head-architecture"></a>
-
-![Piotr SelectionARM runs a separate 4B selector over the screenshot and all five candidates; the selection head is a small MLP on hidden states captured while the actor generates](arm_results/methods/selection_head_overview.svg)
+## Headline results
 
 - **Full episodes (Online-Mind2Web, 300 tasks):**
   - The head reaches **37.7%** against **40.0%** for Piotr ARM (−2.3 pp [−7.3, +2.7], not significant) and 33.0% for the SFT actor alone.
@@ -18,6 +16,23 @@
   - No teacher-trained selector clearly beats a uniform pick.
   - Choosing by observed outcomes does: +5.32 pp [+3.09, +7.62] ([details](#selection-head-outcomes-20261010)).
   - Among students trained on about 120 states, only **lookahead-labelled** ones move above uniform (+2.4 to +3.0 pp, intervals touching zero) ([label types](#selection-head-label-types-20261011)).
+
+<a id="selection-head-om2w-plot"></a>
+
+![Online-Mind2Web, 300 tasks: task success versus whole-system compute per episode (left) and versus seconds per decision on identical hardware (right), one point per method with Wilson 95% intervals](arm_results/rl_integration/perf_vs_flops.png)
+
+Left: tokens actually computed by actor and selector (prefix-cache hits excluded). Right: decision latency measured on one H200 per method ([latency](#selection-head-latency-20261012)). Success comes from the live runs, which had CUDA graphs off; all methods will be re-run on the same hardware three times.
+
+<a id="selection-head-architecture"></a>
+
+## How the selection head works
+
+![Piotr SelectionARM runs a separate 4B selector over the screenshot and all five candidates; the selection head is a small MLP on hidden states captured while the actor generates](arm_results/methods/selection_head_overview.svg)
+
+![Selection head: (A) at inference the frozen actor samples five candidates, their hidden states at layers 18/27/36 are captured during generation and a small head scores them; (B) in training the frozen actor encodes teacher-labelled panels once and only the head is trained](arm_results/methods/selection_head_method.svg)
+
+- **Inference.** The frozen SFT actor samples five candidates. While it generates, forward hooks inside its sglang server capture the residual stream at layers 18, 27 and 36. The head pools these per candidate (reasoning mean, action mean, end token) together with the prompt's last token, and scores each candidate with a small MLP. The highest-scoring candidate is executed.
+- **Training.** The frozen actor encodes the Piotr release's GPT-5.5-labelled panels once (2,692 training states), and only the head is trained, with soft cross-entropy on the teacher's choice. The actor's weights never change. A detailed figure, including the top-layer adapter variant, is in the method section.
 
 <details>
 <summary>Earlier summary: teacher agreement, outcome data and adaptation</summary>
@@ -85,12 +100,6 @@
 - **Kev-style cannot reuse the cache.** Its LoRA changes those layers, so it needs its own pass.
 - **Luna** costs $0.0084 per episode in API fees, about $0.0006 per decision. It adds the most latency, 3.5 seconds per step, and its compute is unknown.
 
-<a id="selection-head-om2w-plot"></a>
-
-![Online-Mind2Web full300 success versus whole-system compute per episode (left) and wall-clock seconds per step (right), one point per selector with Wilson 95% intervals](arm_results/rl_integration/perf_vs_flops.png)
-
-[PNG](arm_results/rl_integration/perf_vs_flops.png) / [SVG](arm_results/rl_integration/perf_vs_flops.svg). Compute is cache-aware: 2 × 4.44B × tokens actually computed. Luna's own compute is external and not included.
-
 <details>
 <summary>Method, verification, accounting and caveats</summary>
 
@@ -154,7 +163,16 @@
 - **Setup:** the same 96 saved states pass through the controllers' own selection code, with 8 decisions in flight. No browser is involved.
 - **Measures:** decision time, which is candidate generation plus selection.
 
-![Decision latency per configuration on one H200: mean (dot) and median to 90th percentile (line); selector share in parentheses](arm_results/rl_integration/latency_same_hardware.png)
+| Configuration (one H200 each) | Mean decision (s) | p90 (s) | Selector part (s) |
+| --- | ---: | ---: | ---: |
+| SFT 4B, 1 sample, CUDA graphs off (live-run protocol) | 4.33 | 5.88 | — |
+| SFT 4B, 1 sample | 2.45 | 3.62 | — |
+| SFT 8B, 1 sample | 3.18 | 4.62 | — |
+| 5 samples + action prior (no model) | 5.86 | 8.35 | ≈0 |
+| 5 samples + Piotr ARM via sglang | 6.74 | 9.99 | 0.48 |
+| 5 samples + Piotr ARM, original HF server | 7.41 | 10.22 | 1.44 |
+| 5 samples + selection head (reuses actor KV cache) | 7.54 | 10.33 | 0.02 |
+| 5 samples + Kev-style pass | 8.74 | 13.03 | 1.29 |
 
 - **CUDA graphs:** they halve the actor's single-sample latency (4.33 → 2.45 s). The live runs above had them off, so every method will be re-run with them on.
 - **Five candidates:** they cost about 2.4× a single sample even with prefix caching (5.86 s with no selector model).
@@ -167,7 +185,7 @@
 - **Kev-style:** its separate pass shares the GPU with the actor and is slowest (8.74 s).
 - **Luna:** it is API-bound and not included.
 
-[PNG](arm_results/rl_integration/latency_same_hardware.png) / [SVG](arm_results/rl_integration/latency_same_hardware.svg); code `scripts/bench_selector_latency.py`, `scripts/serve_arm_sglang.py`.
+Code: `scripts/bench_selector_latency.py`, `scripts/serve_arm_sglang.py`.
 
 <a id="selection-head-evaluations"></a>
 
