@@ -886,10 +886,10 @@
     "website_readiness_verified": false
   },
   "full_cohort_preparation": {
-    "status": "cms_candidate_verified_other_four_jobs_queued",
+    "status": "reddit_primary_running_three_acquisitions_queued_cms_acquired",
     "planned_tasks": 155,
     "planned_episodes": 1550,
-    "primary_episodes_started": 0,
+    "primary_episodes_started": 2,
     "original_live_validated_domains": [
       "reddit"
     ],
@@ -1179,8 +1179,9 @@
       "launched": true,
       "changes": "Enforce durable artifact-byte cap, complete ordered allocation history, three-attempt limit and safe held-job cancellation. Scientific task/protocol identities unchanged.",
       "job_id": "356022",
-      "scheduler_state": "PENDING",
-      "submitted_cpus": 8
+      "scheduler_state": "RUNNING",
+      "submitted_cpus": 8,
+      "started_utc": "2026-10-12T01:37:00+00:00"
     },
     "approved_five_job_bundle": {
       "status": "approved_all_five_submitted",
@@ -1227,7 +1228,8 @@
             "prior_rejected_submission_allocated_jobs": 0,
             "prior_rejection_elapsed_seconds": 0,
             "python_implementation_unchanged": true
-          }
+          },
+          "scheduler_state": "RUNNING"
         },
         {
           "name": "map-original-backend-acquisition-v1",
@@ -1422,6 +1424,30 @@
       "hosting_ready": false,
       "original_state_equivalence_verified": false,
       "independent_audit_sha256": "c7c501fb4a620ea4799fea6178df023dfb9801e3bf84fbad8fd464ed32d9b327"
+    },
+    "primary_episodes_completed": 0,
+    "primary_startup_snapshot": {
+      "observed_utc": "2026-10-12T01:44:08.616847+00:00",
+      "job_id": "356022",
+      "scheduler_state": "RUNNING",
+      "primary_cells_claimed": 2,
+      "primary_workers_started": 2,
+      "primary_outcomes_recorded": 0,
+      "independent_cell_audits_verified": 0,
+      "production_states_disposed": 0,
+      "paid_dispatches": 101,
+      "local_dispatches": 51,
+      "startup_paid_dispatches": 8,
+      "startup_local_dispatches": 11,
+      "settled_usd": "0.58304370",
+      "unsettled_reservations": 2,
+      "journal_prefix_bytes": 210497,
+      "journal_prefix_sha256": "5897bccfa4b243ca9f08d09bffd68308aeeebd10d920a6ba54d01a19dfd05483",
+      "preflight_receipt_sha256": {
+        "local_preflight-receipt.json": "f183835bf09bbfcecdba9d9f18a97b6bcf91939af321fd9ad0dd498d60b9f7f8",
+        "native_fuzzy_preflight-receipt.json": "28340e4f4bba43d32248327a51f12c1b2ad5e2b4ba259da0d1d4086139140f83"
+      },
+      "global_verified_complete": false
     }
   },
   "author_trajectory_release_check": {

@@ -3,7 +3,7 @@
 <a id="table5-plan-20261010"></a>
 ## WebArbiter Table 5 plus Piotr SelectionARM
 
-**The revised no-search validation completed 30 parsed action turns and correctly recorded one failed task. Table 5 remains incomplete: zero of 1,550 full-cohort episodes have run.** The clarified action envelope fixed the previous formatting failures, and the disclosed non-answer guard prevented another false-positive success. This validates the narrow repairs on one Reddit task, not general judge accuracy or selector performance. The approved 190-cell Reddit comparison, Map, Shopping and GitLab acquisitions are queued; CMS third-party acquisition is verified complete. [Results and accounting](webprm_results/webarena_preparation_20261011.json).
+**The fixed Table 5 reconstruction has started: two of 1,550 planned episodes are running, with none completed at the October 12, 01:44 UTC check.** The approved Reddit job covers 190 cells; all three local critics and eight guarded judge controls passed startup checks. Each active episode has its own fresh original Reddit state. CMS candidate acquisition is verified complete; Map, Shopping and GitLab acquisitions remain queued. The other 1,360 episodes still require validated deployments and execution budgets. [Results and accounting](webprm_results/webarena_preparation_20261011.json).
 
 <a id="reddit-guarded-validation-20261011"></a>
 ### Guarded no-search validation
@@ -71,7 +71,7 @@ The completed Map frontend acquisition used **378 of 1,800 approved seconds**, t
 
 ### Remaining comparison plan
 
-1. Supervise the queued fixed 190-cell Reddit comparison, covering both actors and all five selectors independently of the remaining sites. Preserve the completed diagnostic cohorts and raw verdicts; fixed primary attempts cannot be replaced based on their outcomes.
+1. Supervise the running fixed 190-cell Reddit comparison, covering both actors and all five selectors independently of the remaining sites. Preserve the completed diagnostic cohorts and raw verdicts; fixed primary attempts cannot be replaced based on their outcomes.
 2. Acquire and validate Shopping, CMS, GitLab and Map deployments independently, recording verified original identities separately from third-party candidates. Map frontend acquisition is complete; backend acquisition and hosting remain pending. The three native helper adapters passed 21 offline tests exercising all 13 released single-site helper task configurations, plus 30 existing evaluator tests. This proves evaluator contracts on fixtures, not live website/reset readiness. Each acquisition or hosting job needs its exact resource/attempt approval.
 3. Obtain the exact execution budget for the frozen reconstruction cohort. The primary cohort has 155 released single-site tasks: 45 Shopping, 35 CMS, 19 Reddit, 30 GitLab and 26 Map. Five selectors and two actors give 1,550 planned episodes. Keep the ten multi-site tasks separate. Among the proposed 155 tasks, 39 use fuzzy grading and 13 use deployment-specific helpers; across all 165, those counts are 40 and 14.
 4. Report per-domain success and the unweighted domain mean, planned/attempted/valid/success counts, invalid reasons, paired gains, uncertainty and inference cost. Overall success uses the fixed planned denominator; valid-only and common-valid comparisons are secondary. Incomplete or semantically unreliable cohorts do not supply performance claims.
@@ -80,21 +80,21 @@ The completed Map frontend acquisition used **378 of 1,800 approved seconds**, t
 <details>
 <summary>Execution readiness and remaining live gates</summary>
 
-The fixed-grid generator, concurrent episode queue and full-table analyzer are implemented and tested offline. The prospective controller snapshot fixes all 1,550 cells, both actor routes and the common seed, turn limit and replacement-judge settings; its resource request remains unassigned. Its frozen implementation passed 267 tests and ten source/protocol/task identity audits spanning every actor-selector combination. Durable claims prevent a completed or interrupted primary attempt from being silently replaced. The analyzer keeps native and effective scores separate, computes the equal-domain mean separately from pooled success, and withholds primary rates for incomplete or unaudited cohorts. These are preparation results; **zero of the 1,550 full-cohort episodes have run**.
+The fixed-grid generator, concurrent episode queue and full-table analyzer are implemented and tested offline. The controller snapshot fixes all 1,550 cells, both actor routes and the common seed, turn limit and replacement-judge settings. Its frozen implementation passed 267 tests and ten source/protocol/task identity audits spanning every actor-selector combination; the subsequent bounded Reddit package passed 278 tests. Durable claims prevent a completed or interrupted primary attempt from being silently replaced. The analyzer keeps native and effective scores separate, computes the equal-domain mean separately from pooled success, and withholds primary rates for incomplete or unaudited cohorts. Execution is approved for the 190 Reddit cells; **two primary episodes are running and none has completed** at this check.
 
 | Deployment | Released single-site tasks | Live readiness | Remaining gate |
 | --- | ---: | --- | --- |
-| Reddit | 19 | Original startup, authentication, fresh reset and narrow no-search/judge repairs validated | Queued allocation startup and live concurrent reset/resource checks |
+| Reddit | 19 | Original startup, authentication and fresh reset validated; two primary workers running | First complete audited outcomes, production cleanup and sustained throughput |
 | Shopping | 45 | Not validated; original Drive quota exhausted | Usable image source, startup, authentication, reset and helper checks |
-| CMS | 35 | Not validated | Original Drive quota exhausted; disclosed candidate acquisition, identity assessment and hosting |
+| CMS | 35 | Third-party candidate acquisition verified; hosting unvalidated | Identity assessment, owned service startup, authentication and reset |
 | GitLab | 30 | Not validated; original Drive quota exhausted | Usable image source, startup, authentication, reset and helper checks |
 | Map | 26 | Three frontend archives verified; hosting not validated | Backend acquisition, database identity, owned services and native checks |
 
 The prospective concurrent model-request broker now enforces shared cumulative dispatch and spending caps across allocation attempts, with unknown reservations retained and no automatic refunds. Its read-only financial auditor checks each episode against a fixed journal prefix while allowing unrelated concurrent requests. The independent episode auditor binds task, protocol, source, reset, action history and closure evidence before producing a table record. All six findings from its independent review were corrected; 45 combined episode-audit, financial-audit and temporary-state tests passed.
 
-The evaluator transcript saves bounded page/helper inputs and replays the pinned scoring computation offline. Reddit and GitLab helpers are recomputed from saved observations; Shopping replay verifies the recorded helper return boundary, not its underlying REST query. A separate disposal helper permits only newly claimed temporary states to be discarded after complete durable evidence, an independent audit and process closure. These offline checks establish evidence consistency, not judge accuracy or independent historical process observations. Live concurrency, resource use and production cleanup remain unverified.
+The evaluator transcript saves bounded page/helper inputs and replays the pinned scoring computation offline. Reddit and GitLab helpers are recomputed from saved observations; Shopping replay verifies the recorded helper return boundary, not its underlying REST query. A separate disposal helper permits only newly claimed temporary states to be discarded after complete durable evidence, an independent audit and process closure. These offline checks establish evidence consistency, not judge accuracy or independent historical process observations. Two live workers are advancing concurrently; completed episode audits, production cleanup and sustained resource use remain unverified.
 
-The approved CPU validation and Map frontend jobs completed; both CMS transfers closed without archive data. The user approved all five next-stage requests below. CMS acquisition is verified complete; the other four jobs are queued. No full-cohort episode has started. Shopping and GitLab also returned explicit original-Drive quota errors in bounded metadata checks. Their pinned third-party candidates, like CMS, have no verified original-state equivalence. Downloading them does not authorize hosting or establish benchmark readiness.
+The approved CPU validation and Map frontend jobs completed; the original CMS transfers closed without archive data. The user approved all five next-stage requests below. CMS candidate acquisition is verified complete, Reddit is running, and the other three acquisitions are queued. Shopping and GitLab also returned explicit original-Drive quota errors in bounded metadata checks. Their pinned third-party candidates, like CMS, have no verified original-state equivalence. Downloading them does not authorize hosting or establish benchmark readiness.
 
 </details>
 
@@ -102,7 +102,7 @@ The approved CPU validation and Map frontend jobs completed; both CMS transfers 
 <details>
 <summary>Approved and submitted: Reddit comparison and four independent acquisitions</summary>
 
-The fixed Reddit request covers **19 tasks × five selectors × two actors = 190 primary cells**, retaining the same task and protocol identities within the 1,550-cell reconstruction. Its final frozen implementation passed **278 tests and ten identity audits**. Independent review verified cumulative recovery accounting, the three-allocation cap and cancellation if submission receipts cannot be written. Live throughput and completion within the requested cap remain unverified. The other 1,360 cells remain gated on their deployments and separate execution budgets.
+The fixed Reddit request covers **19 tasks × five selectors × two actors = 190 primary cells**, retaining the same task and protocol identities within the 1,550-cell reconstruction. Its final frozen implementation passed **278 tests and ten identity audits**. Independent review verified cumulative recovery accounting, the three-allocation cap and cancellation if submission receipts cannot be written. Startup used 11 local model requests and eight paid judge controls; all passed under the disclosed guard, which changed two native positives to effective negatives. These synthetic controls are excluded from primary results. The first two primary workers are advancing in separate original states. Sustained throughput and completion within the requested cap remain unverified. The other 1,360 cells remain gated on their deployments and separate execution budgets.
 
 | Request | GPUs | CPUs | RAM (GiB) | Cumulative scheduler time | Maximum allocations | API cap (USD) |
 | --- | ---: | ---: | ---: | --- | ---: | ---: |
@@ -135,9 +135,9 @@ The target remains the four published conditions plus **Piotr's released Selecti
 | Selector | Paper GPT-4o-mini mean success (%) | Paper GPT-4o mean success (%) | Full rerun status |
 | --- | ---: | ---: | --- |
 | No trajectory search | 23.48 | 31.90 | Not run |
-| GPT-4o-mini selection | 24.47 | 33.03 | Not run |
+| GPT-4o-mini selection | 24.47 | 33.03 | Reddit primary execution started |
 | WebShepherd-8B | 34.34 | 40.65 | Not run |
-| WebArbiter-7B | 40.52 | 47.01 | Not run |
+| WebArbiter-7B | 40.52 | 47.01 | Reddit primary execution started |
 | Piotr SelectionARM | — | — | Not run |
 
 Paper values are references from [WebArbiter v2, Table 5](https://arxiv.org/html/2601.21872v2#S5.T5), not reproduced measurements. They are unweighted means over Shopping, CMS, Reddit, GitLab and Map. The paper imports its no-search and Shepherd rows from earlier work; their implied denominators differ from its contemporaneous rows. Exact historical task membership and all inference settings remain unresolved, so this implementation is a disclosed reconstruction.
