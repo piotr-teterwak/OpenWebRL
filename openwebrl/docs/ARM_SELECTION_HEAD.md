@@ -636,9 +636,9 @@ Two earlier runs used a 100-state probe, about ±2 points of chance movement, an
 
 ## Kev-inspired variants: comparing candidates inside the actor
 
-![Five selector designs compared: Piotr SelectionARM, the one-at-a-time actor-feature head, the joint top-layer variant, a Kev-style decision pass on the actor and Kev; rows give weights, inputs, which candidates can attend to each other, order effects, readout, added cost and status](arm_results/methods/selection_designs_compared.svg)
+![Four actor-side selector designs as layer stacks. Selection head: reads layers 18/27/36 of the actor's own generation pass with a small MLP, no extra compute. Joint top layers: reuses layers 1–28 and re-runs layers 29–36 with LoRA once over all candidates plus a <decide> token. Kev-style pass: a second full LoRA pass over prompt, screenshot, candidates and <decide>. Kev: a separate model over a text page. Rows give extra compute, whether candidates see each other, what is trained and results](arm_results/methods/selection_designs_layers.png)
 
-[PNG](arm_results/methods/selection_designs_compared.png) / [SVG](arm_results/methods/selection_designs_compared.svg); rendered by `scripts/render_selection_designs_figure.py`.
+[PNG](arm_results/methods/selection_designs_layers.png) / [SVG](arm_results/methods/selection_designs_layers.svg); rendered by `scripts/render_selection_designs_v2.py`. Blue: the actor's own generation pass, reused. Hatched orange: extra computation with LoRA-trained weights. Gray: a separate model. Piotr SelectionARM, a separate 4B selector, is compared in the [overview](#selection-head-architecture).
 
 Kev ([jaredpalmer/kev](https://github.com/jaredpalmer/kev), an open reproduction of TypeSafe's Jev) packs a state, a question and its options into one sequence. A `<decide>` token reads every option, and a pointer scores q(`<decide>`) · k(option end). Neither the one-at-a-time head nor the top-8 adapter lets candidates interact. Two variants borrow Kev's mechanisms; both keep candidate order irrelevant by giving every candidate the same position ids, which is possible because the actor is attention-only.
 
