@@ -2055,19 +2055,19 @@ collection and deploys one policy sample per turn.
 <a id="arm-results-dashboard--headline-results"></a>
 ### Headline results
 
-| Track | Policy | Candidates at evaluation | Overall success | Valid-only success | Change from track control |
-| --- | --- | ---: | ---: | ---: | ---: |
-| Test-time scaling, all 300 | Frozen OpenWebRL-4B-SFT | 1 | 90/300 = **30.0%** | 90/267 = **33.7%** | control |
-| Test-time scaling, all 300 | ScalarRM best of 5 | 5 | 114/300 = **38.0%** | 114/251 = **45.4%** | **+8.0 pp overall** |
-| Test-time scaling, all 300 | SelectionARM best of 5 | 5 | 128/300 = **42.7%** | 128/256 = **50.0%** | **+12.7 pp overall** |
-| Test-time scaling, all 300, Sep 13 | GPT-5.6 Sol best of 5 | 5 | 132/300 = **44.0%** | 132/256 = **51.6%** | **+14.0 pp overall** vs historical frozen actor |
-| Filtered SFT, fresh holdout 200 | Original C2 update 500 | 1 | 62/200 = **31.0%** | 62/179 = **34.6%** | control |
-| Filtered SFT, fresh holdout 200 | 1A endpoint update 263 | 1 | 67/200 = **33.5%** | 67/177 = **37.9%** | **+2.5 pp overall** |
-| Filtered SFT, combined all 300 | Original C2 update 500 | 1 | 95/300 = **31.7%** | 95/258 = **36.8%** | control |
-| Filtered SFT, combined all 300 | 1A endpoint update 263 | 1 | 100/300 = **33.3%** | 100/256 = **39.1%** | **+1.7 pp overall** |
-| Preference distillation, fixed 100 | Calibrated endpoint update 131 | 1 | 31/100 = **31.0%** | 31/86 = **36.0%** | +5.0 pp vs historical fixed-100 base; −2.0 pp vs C2/1A |
-| Joint C2 + Piotr, fresh all 300 | SFT endpoint update 174 | 1 | 102/300 = **34.0%** | 102/270 = **37.8%** | +4.0 pp vs historical starting actor |
-| Joint C2 + Piotr, fresh all 300 | DPO-only endpoint update 174 | 1 | 104/300 = **34.7%** | 104/254 = **40.9%** | +0.7 pp vs joint SFT; +4.7 pp vs historical starting actor |
+| Track | Policy | Candidates at evaluation | Overall successes / tasks | Overall success | Valid successes / valid tasks | Valid-only success | Change from track control |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
+| Test-time scaling, all 300 | Frozen OpenWebRL-4B-SFT | 1 | 90 / 300 | **30.0%** | 90 / 267 | **33.7%** | control |
+| Test-time scaling, all 300 | ScalarRM best of 5 | 5 | 114 / 300 | **38.0%** | 114 / 251 | **45.4%** | **+8.0 pp overall** |
+| Test-time scaling, all 300 | SelectionARM best of 5 | 5 | 128 / 300 | **42.7%** | 128 / 256 | **50.0%** | **+12.7 pp overall** |
+| Test-time scaling, all 300, Sep 13 | GPT-5.6 Sol best of 5 | 5 | 132 / 300 | **44.0%** | 132 / 256 | **51.6%** | **+14.0 pp overall** vs historical frozen actor |
+| Filtered SFT, fresh holdout 200 | Original C2 update 500 | 1 | 62 / 200 | **31.0%** | 62 / 179 | **34.6%** | control |
+| Filtered SFT, fresh holdout 200 | 1A endpoint update 263 | 1 | 67 / 200 | **33.5%** | 67 / 177 | **37.9%** | **+2.5 pp overall** |
+| Filtered SFT, combined all 300 | Original C2 update 500 | 1 | 95 / 300 | **31.7%** | 95 / 258 | **36.8%** | control |
+| Filtered SFT, combined all 300 | 1A endpoint update 263 | 1 | 100 / 300 | **33.3%** | 100 / 256 | **39.1%** | **+1.7 pp overall** |
+| Preference distillation, fixed 100 | Calibrated endpoint update 131 | 1 | 31 / 100 | **31.0%** | 31 / 86 | **36.0%** | +5.0 pp vs historical fixed-100 base; −2.0 pp vs C2/1A |
+| Joint C2 + Piotr, fresh all 300 | SFT endpoint update 174 | 1 | 102 / 300 | **34.0%** | 102 / 270 | **37.8%** | +4.0 pp overall vs starting actor |
+| Joint C2 + Piotr, fresh all 300 | DPO-only endpoint update 174 | 1 | 104 / 300 | **34.7%** | 104 / 254 | **40.9%** | +4.7 pp overall vs starting actor |
 
 On the 247 tasks valid for both the frozen actor and SelectionARM,
 SelectionARM gained 16.6 percentage points, with 57 SelectionARM-only successes
