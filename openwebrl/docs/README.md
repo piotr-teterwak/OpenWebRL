@@ -11,6 +11,8 @@
 
 [MolmoWeb DeepShop: verified 4B gain +10.67 pp; 8B difference −1.33 pp [−9.33, +6.67], no reliable gain; 150 tasks each](ARM_INFERENCE_SCALING.md#molmoweb-ds8-full-coverage-20261012). [4B/8B Online-Mind2Web: verified 300-task paired comparisons](ARM_INFERENCE_SCALING.md#molmoweb-sol61-plan-20261010). [Native batching and production RPC audited: exact replay, 2.28×/2.43× actor speedups](ARM_INFERENCE_SCALING.md#molmoweb-native-batching-20261011). [WebVoyager remains partial: 4B running, 8B blocked by native-judge cap; unchanged 85.5-H200-hour ceiling](ARM_INFERENCE_SCALING.md#molmoweb-optimized-completion-20261011).
 
+[MolmoWeb valid-only rates recomputed with the shared outcome classifier: six native cohorts, common-valid pairs and separate Online-Mind2Web AgentTrek figures](ARM_INFERENCE_SCALING.md#molmoweb-unified-validity-20261012).
+
 
 [Original bonus iteration 90: local OM2W300 verified; counts, validity and historical comparison](RL_EVALUATION.md#arm-original-iter90-results-20261008).
 

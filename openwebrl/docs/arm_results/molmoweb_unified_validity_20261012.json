@@ -1,0 +1,959 @@
+{
+  "schema": "molmoweb-unified-validity-metrics-v1",
+  "snapshot_utc": "2026-10-13T03:00:44.171066+00:00",
+  "definition": "Episode validity uses openwebrl.outcome_validity.classify_molmoweb. Native and AgentTrek remain separate. AgentTrek protocol-defined UNJUDGED_ZERO outcomes remain zero scores in valid-only denominators; judged-only rates are a separate diagnostic. Common-valid paired rates use the same valid task IDs in both arms.",
+  "classifier": "openwebrl/outcome_validity.py",
+  "classifier_sha256": "4046dbe9394c698f0367916d2a5f99d57295def4822da56cf3e8ca059b96c18b",
+  "coverage": {
+    "n1_target_total": 2090,
+    "n5_target_total": 2090,
+    "n1_observed_total": 2090,
+    "n5_observed_total": 2071,
+    "partial_cohorts": [
+      "molmoweb-4b-webvoyager-paired"
+    ]
+  },
+  "cohorts": [
+    {
+      "model": "4B",
+      "task_group": "WebVoyager",
+      "target_records_per_condition": 595,
+      "source_records_sha256": "204d8ea55943e5ace2dcaf3eedcacf255d76e76b8178a7b9ac3bf2904d6c1568",
+      "conditions": {
+        "n1": {
+          "wandb_run": "https://wandb.ai/zixianma/openwebrl-evals/runs/007f4d8cd1bd49c9891f1aee4b16cf17",
+          "committed_records": 595,
+          "missing_records": 0,
+          "coverage_complete": true,
+          "unified_valid_records": 595,
+          "validity_endings": {
+            "done": 595
+          },
+          "native": {
+            "raw": {
+              "successes": 268,
+              "denominator": 595,
+              "rate": 0.4504201680672269
+            },
+            "valid_only": {
+              "successes": 268,
+              "denominator": 595,
+              "rate": 0.4504201680672269
+            },
+            "valid_records_missing_verdict": 0
+          },
+          "agenttrek": {
+            "raw": {
+              "successes": 0,
+              "denominator": 595,
+              "rate": 0.0
+            },
+            "valid_only": {
+              "successes": 0,
+              "denominator": 0,
+              "rate": null
+            },
+            "valid_records_missing_verdict": 595
+          }
+        },
+        "n5": {
+          "wandb_run": "https://wandb.ai/zixianma/openwebrl-evals/runs/82e3d3aca2264d4195971b1dbb698486",
+          "committed_records": 576,
+          "missing_records": 19,
+          "coverage_complete": false,
+          "unified_valid_records": 561,
+          "validity_endings": {
+            "done": 561,
+            "wall_timeout": 15
+          },
+          "native": {
+            "raw": {
+              "successes": 303,
+              "denominator": 576,
+              "rate": 0.5260416666666666
+            },
+            "valid_only": {
+              "successes": 303,
+              "denominator": 561,
+              "rate": 0.5401069518716578
+            },
+            "valid_records_missing_verdict": 0
+          },
+          "agenttrek": {
+            "raw": {
+              "successes": 0,
+              "denominator": 576,
+              "rate": 0.0
+            },
+            "valid_only": {
+              "successes": 0,
+              "denominator": 0,
+              "rate": null
+            },
+            "valid_records_missing_verdict": 561
+          }
+        }
+      },
+      "paired": {
+        "common_task_ids": 576,
+        "common_valid_task_ids": 561,
+        "judges": {
+          "native": {
+            "common_task_and_judged": {
+              "tasks": 561,
+              "n1": {
+                "successes": 259,
+                "denominator": 561,
+                "rate": 0.46167557932263814
+              },
+              "n5": {
+                "successes": 303,
+                "denominator": 561,
+                "rate": 0.5401069518716578
+              },
+              "n5_minus_n1": 0.07843137254901966
+            },
+            "common_valid_and_judged": {
+              "tasks": 561,
+              "n1": {
+                "successes": 259,
+                "denominator": 561,
+                "rate": 0.46167557932263814
+              },
+              "n5": {
+                "successes": 303,
+                "denominator": 561,
+                "rate": 0.5401069518716578
+              },
+              "n5_minus_n1": 0.07843137254901966
+            }
+          },
+          "agenttrek": {
+            "common_task_and_judged": {
+              "tasks": 0,
+              "n1": {
+                "successes": 0,
+                "denominator": 0,
+                "rate": null
+              },
+              "n5": {
+                "successes": 0,
+                "denominator": 0,
+                "rate": null
+              },
+              "n5_minus_n1": null
+            },
+            "common_valid_and_judged": {
+              "tasks": 0,
+              "n1": {
+                "successes": 0,
+                "denominator": 0,
+                "rate": null
+              },
+              "n5": {
+                "successes": 0,
+                "denominator": 0,
+                "rate": null
+              },
+              "n5_minus_n1": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "model": "4B",
+      "task_group": "DeepShop",
+      "target_records_per_condition": 150,
+      "source_records_sha256": "f651026df4491aa2337cae74a11f2f906712a8af4af1c6c50ff48027088ca936",
+      "conditions": {
+        "n1": {
+          "wandb_run": "https://wandb.ai/zixianma/openwebrl-evals/runs/7096821e0e834b30ab696da1556ef05a",
+          "committed_records": 150,
+          "missing_records": 0,
+          "coverage_complete": true,
+          "unified_valid_records": 150,
+          "validity_endings": {
+            "done": 150
+          },
+          "native": {
+            "raw": {
+              "successes": 43,
+              "denominator": 150,
+              "rate": 0.2866666666666667
+            },
+            "valid_only": {
+              "successes": 43,
+              "denominator": 150,
+              "rate": 0.2866666666666667
+            },
+            "valid_records_missing_verdict": 0
+          },
+          "agenttrek": {
+            "raw": {
+              "successes": 0,
+              "denominator": 150,
+              "rate": 0.0
+            },
+            "valid_only": {
+              "successes": 0,
+              "denominator": 0,
+              "rate": null
+            },
+            "valid_records_missing_verdict": 150
+          }
+        },
+        "n5": {
+          "wandb_run": "https://wandb.ai/zixianma/openwebrl-evals/runs/2ac5fb56ba574b3ba3f459521b683f02",
+          "committed_records": 150,
+          "missing_records": 0,
+          "coverage_complete": true,
+          "unified_valid_records": 134,
+          "validity_endings": {
+            "done": 134,
+            "wall_timeout": 16
+          },
+          "native": {
+            "raw": {
+              "successes": 59,
+              "denominator": 150,
+              "rate": 0.3933333333333333
+            },
+            "valid_only": {
+              "successes": 59,
+              "denominator": 134,
+              "rate": 0.44029850746268656
+            },
+            "valid_records_missing_verdict": 0
+          },
+          "agenttrek": {
+            "raw": {
+              "successes": 0,
+              "denominator": 150,
+              "rate": 0.0
+            },
+            "valid_only": {
+              "successes": 0,
+              "denominator": 0,
+              "rate": null
+            },
+            "valid_records_missing_verdict": 134
+          }
+        }
+      },
+      "paired": {
+        "common_task_ids": 150,
+        "common_valid_task_ids": 134,
+        "judges": {
+          "native": {
+            "common_task_and_judged": {
+              "tasks": 134,
+              "n1": {
+                "successes": 37,
+                "denominator": 134,
+                "rate": 0.27611940298507465
+              },
+              "n5": {
+                "successes": 59,
+                "denominator": 134,
+                "rate": 0.44029850746268656
+              },
+              "n5_minus_n1": 0.16417910447761191
+            },
+            "common_valid_and_judged": {
+              "tasks": 134,
+              "n1": {
+                "successes": 37,
+                "denominator": 134,
+                "rate": 0.27611940298507465
+              },
+              "n5": {
+                "successes": 59,
+                "denominator": 134,
+                "rate": 0.44029850746268656
+              },
+              "n5_minus_n1": 0.16417910447761191
+            }
+          },
+          "agenttrek": {
+            "common_task_and_judged": {
+              "tasks": 0,
+              "n1": {
+                "successes": 0,
+                "denominator": 0,
+                "rate": null
+              },
+              "n5": {
+                "successes": 0,
+                "denominator": 0,
+                "rate": null
+              },
+              "n5_minus_n1": null
+            },
+            "common_valid_and_judged": {
+              "tasks": 0,
+              "n1": {
+                "successes": 0,
+                "denominator": 0,
+                "rate": null
+              },
+              "n5": {
+                "successes": 0,
+                "denominator": 0,
+                "rate": null
+              },
+              "n5_minus_n1": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "model": "4B",
+      "task_group": "Online-Mind2Web",
+      "target_records_per_condition": 300,
+      "source_records_sha256": "659b963e5baa56376bdebd5489a18e151cc1efe933b382dcf06b97d63c7c16ed",
+      "conditions": {
+        "n1": {
+          "wandb_run": "https://wandb.ai/zixianma/openwebrl-evals/runs/da89a7c667e34365a09d3c380dc90d4e",
+          "committed_records": 300,
+          "missing_records": 0,
+          "coverage_complete": true,
+          "unified_valid_records": 287,
+          "validity_endings": {
+            "done": 287,
+            "browser_env": 10,
+            "wall_timeout": 3
+          },
+          "native": {
+            "raw": {
+              "successes": 38,
+              "denominator": 300,
+              "rate": 0.12666666666666668
+            },
+            "valid_only": {
+              "successes": 38,
+              "denominator": 287,
+              "rate": 0.13240418118466898
+            },
+            "valid_records_missing_verdict": 0
+          },
+          "agenttrek": {
+            "raw": {
+              "successes": 81,
+              "denominator": 300,
+              "rate": 0.27
+            },
+            "valid_only": {
+              "successes": 81,
+              "denominator": 287,
+              "rate": 0.28222996515679444
+            },
+            "valid_records_missing_verdict": 0,
+            "judged_only": {
+              "successes": 81,
+              "denominator": 105,
+              "rate": 0.7714285714285715
+            },
+            "valid_records_unjudged_protocol_zero": 182
+          }
+        },
+        "n5": {
+          "wandb_run": "https://wandb.ai/zixianma/openwebrl-evals/runs/cc10be82d92c4e4481edf517fa207ec3",
+          "committed_records": 300,
+          "missing_records": 0,
+          "coverage_complete": true,
+          "unified_valid_records": 287,
+          "validity_endings": {
+            "done": 287,
+            "browser_env": 10,
+            "wall_timeout": 3
+          },
+          "native": {
+            "raw": {
+              "successes": 72,
+              "denominator": 300,
+              "rate": 0.24
+            },
+            "valid_only": {
+              "successes": 72,
+              "denominator": 287,
+              "rate": 0.2508710801393728
+            },
+            "valid_records_missing_verdict": 0
+          },
+          "agenttrek": {
+            "raw": {
+              "successes": 109,
+              "denominator": 300,
+              "rate": 0.36333333333333334
+            },
+            "valid_only": {
+              "successes": 109,
+              "denominator": 287,
+              "rate": 0.3797909407665505
+            },
+            "valid_records_missing_verdict": 0,
+            "judged_only": {
+              "successes": 109,
+              "denominator": 117,
+              "rate": 0.9316239316239316
+            },
+            "valid_records_unjudged_protocol_zero": 170
+          }
+        }
+      },
+      "paired": {
+        "common_task_ids": 300,
+        "common_valid_task_ids": 285,
+        "judges": {
+          "native": {
+            "common_task_and_judged": {
+              "tasks": 285,
+              "n1": {
+                "successes": 38,
+                "denominator": 285,
+                "rate": 0.13333333333333333
+              },
+              "n5": {
+                "successes": 72,
+                "denominator": 285,
+                "rate": 0.25263157894736843
+              },
+              "n5_minus_n1": 0.1192982456140351
+            },
+            "common_valid_and_judged": {
+              "tasks": 285,
+              "n1": {
+                "successes": 38,
+                "denominator": 285,
+                "rate": 0.13333333333333333
+              },
+              "n5": {
+                "successes": 72,
+                "denominator": 285,
+                "rate": 0.25263157894736843
+              },
+              "n5_minus_n1": 0.1192982456140351
+            }
+          },
+          "agenttrek": {
+            "common_task_and_judged": {
+              "tasks": 78,
+              "n1": {
+                "successes": 67,
+                "denominator": 78,
+                "rate": 0.8589743589743589
+              },
+              "n5": {
+                "successes": 73,
+                "denominator": 78,
+                "rate": 0.9358974358974359
+              },
+              "n5_minus_n1": 0.07692307692307698
+            },
+            "common_valid_and_judged": {
+              "tasks": 78,
+              "n1": {
+                "successes": 67,
+                "denominator": 78,
+                "rate": 0.8589743589743589
+              },
+              "n5": {
+                "successes": 73,
+                "denominator": 78,
+                "rate": 0.9358974358974359
+              },
+              "n5_minus_n1": 0.07692307692307698
+            },
+            "common_valid_protocol_scored": {
+              "tasks": 285,
+              "n1": {
+                "successes": 81,
+                "denominator": 285,
+                "rate": 0.28421052631578947
+              },
+              "n5": {
+                "successes": 109,
+                "denominator": 285,
+                "rate": 0.3824561403508772
+              },
+              "n5_minus_n1": 0.09824561403508772
+            }
+          }
+        }
+      }
+    },
+    {
+      "model": "8B",
+      "task_group": "WebVoyager",
+      "target_records_per_condition": 595,
+      "source_records_sha256": "833052d08c5da4ff0e2784875550c76c308f81848dd434e6b6aac3886649ac83",
+      "conditions": {
+        "n1": {
+          "wandb_run": "https://wandb.ai/zixianma/openwebrl-evals/runs/e8780ff9ffb94d6d8bb9d6d9f16e2933",
+          "committed_records": 595,
+          "missing_records": 0,
+          "coverage_complete": true,
+          "unified_valid_records": 595,
+          "validity_endings": {
+            "done": 595
+          },
+          "native": {
+            "raw": {
+              "successes": 264,
+              "denominator": 595,
+              "rate": 0.4436974789915966
+            },
+            "valid_only": {
+              "successes": 264,
+              "denominator": 595,
+              "rate": 0.4436974789915966
+            },
+            "valid_records_missing_verdict": 0
+          },
+          "agenttrek": {
+            "raw": {
+              "successes": 0,
+              "denominator": 595,
+              "rate": 0.0
+            },
+            "valid_only": {
+              "successes": 0,
+              "denominator": 0,
+              "rate": null
+            },
+            "valid_records_missing_verdict": 595
+          }
+        },
+        "n5": {
+          "wandb_run": "https://wandb.ai/zixianma/openwebrl-evals/runs/09835cc5a9ea435ebb45dca149d59fe9",
+          "committed_records": 595,
+          "missing_records": 0,
+          "coverage_complete": true,
+          "unified_valid_records": 580,
+          "validity_endings": {
+            "done": 580,
+            "wall_timeout": 15
+          },
+          "native": {
+            "raw": {
+              "successes": 309,
+              "denominator": 595,
+              "rate": 0.519327731092437
+            },
+            "valid_only": {
+              "successes": 309,
+              "denominator": 580,
+              "rate": 0.5327586206896552
+            },
+            "valid_records_missing_verdict": 0
+          },
+          "agenttrek": {
+            "raw": {
+              "successes": 0,
+              "denominator": 595,
+              "rate": 0.0
+            },
+            "valid_only": {
+              "successes": 0,
+              "denominator": 0,
+              "rate": null
+            },
+            "valid_records_missing_verdict": 580
+          }
+        }
+      },
+      "paired": {
+        "common_task_ids": 595,
+        "common_valid_task_ids": 580,
+        "judges": {
+          "native": {
+            "common_task_and_judged": {
+              "tasks": 580,
+              "n1": {
+                "successes": 264,
+                "denominator": 580,
+                "rate": 0.45517241379310347
+              },
+              "n5": {
+                "successes": 309,
+                "denominator": 580,
+                "rate": 0.5327586206896552
+              },
+              "n5_minus_n1": 0.07758620689655171
+            },
+            "common_valid_and_judged": {
+              "tasks": 580,
+              "n1": {
+                "successes": 264,
+                "denominator": 580,
+                "rate": 0.45517241379310347
+              },
+              "n5": {
+                "successes": 309,
+                "denominator": 580,
+                "rate": 0.5327586206896552
+              },
+              "n5_minus_n1": 0.07758620689655171
+            }
+          },
+          "agenttrek": {
+            "common_task_and_judged": {
+              "tasks": 0,
+              "n1": {
+                "successes": 0,
+                "denominator": 0,
+                "rate": null
+              },
+              "n5": {
+                "successes": 0,
+                "denominator": 0,
+                "rate": null
+              },
+              "n5_minus_n1": null
+            },
+            "common_valid_and_judged": {
+              "tasks": 0,
+              "n1": {
+                "successes": 0,
+                "denominator": 0,
+                "rate": null
+              },
+              "n5": {
+                "successes": 0,
+                "denominator": 0,
+                "rate": null
+              },
+              "n5_minus_n1": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "model": "8B",
+      "task_group": "DeepShop",
+      "target_records_per_condition": 150,
+      "source_records_sha256": "c1b82824659c8cf490524858211e5e4d9dd76802a387ecf9a05c1d08f1bc1edf",
+      "conditions": {
+        "n1": {
+          "wandb_run": "https://wandb.ai/zixianma/openwebrl-evals/runs/bc9c971cddac4c0fbaa31661e2591eb0",
+          "committed_records": 150,
+          "missing_records": 0,
+          "coverage_complete": true,
+          "unified_valid_records": 149,
+          "validity_endings": {
+            "done": 149,
+            "wall_timeout": 1
+          },
+          "native": {
+            "raw": {
+              "successes": 45,
+              "denominator": 150,
+              "rate": 0.3
+            },
+            "valid_only": {
+              "successes": 45,
+              "denominator": 149,
+              "rate": 0.30201342281879195
+            },
+            "valid_records_missing_verdict": 0
+          },
+          "agenttrek": {
+            "raw": {
+              "successes": 0,
+              "denominator": 150,
+              "rate": 0.0
+            },
+            "valid_only": {
+              "successes": 0,
+              "denominator": 0,
+              "rate": null
+            },
+            "valid_records_missing_verdict": 149
+          }
+        },
+        "n5": {
+          "wandb_run": "https://wandb.ai/zixianma/openwebrl-evals/runs/d1c53254096a44a19abfe46c1aaee9ec",
+          "committed_records": 150,
+          "missing_records": 0,
+          "coverage_complete": true,
+          "unified_valid_records": 135,
+          "validity_endings": {
+            "done": 135,
+            "wall_timeout": 15
+          },
+          "native": {
+            "raw": {
+              "successes": 43,
+              "denominator": 150,
+              "rate": 0.2866666666666667
+            },
+            "valid_only": {
+              "successes": 43,
+              "denominator": 135,
+              "rate": 0.31851851851851853
+            },
+            "valid_records_missing_verdict": 0
+          },
+          "agenttrek": {
+            "raw": {
+              "successes": 0,
+              "denominator": 150,
+              "rate": 0.0
+            },
+            "valid_only": {
+              "successes": 0,
+              "denominator": 0,
+              "rate": null
+            },
+            "valid_records_missing_verdict": 135
+          }
+        }
+      },
+      "paired": {
+        "common_task_ids": 150,
+        "common_valid_task_ids": 135,
+        "judges": {
+          "native": {
+            "common_task_and_judged": {
+              "tasks": 135,
+              "n1": {
+                "successes": 41,
+                "denominator": 135,
+                "rate": 0.3037037037037037
+              },
+              "n5": {
+                "successes": 43,
+                "denominator": 135,
+                "rate": 0.31851851851851853
+              },
+              "n5_minus_n1": 0.014814814814814836
+            },
+            "common_valid_and_judged": {
+              "tasks": 135,
+              "n1": {
+                "successes": 41,
+                "denominator": 135,
+                "rate": 0.3037037037037037
+              },
+              "n5": {
+                "successes": 43,
+                "denominator": 135,
+                "rate": 0.31851851851851853
+              },
+              "n5_minus_n1": 0.014814814814814836
+            }
+          },
+          "agenttrek": {
+            "common_task_and_judged": {
+              "tasks": 0,
+              "n1": {
+                "successes": 0,
+                "denominator": 0,
+                "rate": null
+              },
+              "n5": {
+                "successes": 0,
+                "denominator": 0,
+                "rate": null
+              },
+              "n5_minus_n1": null
+            },
+            "common_valid_and_judged": {
+              "tasks": 0,
+              "n1": {
+                "successes": 0,
+                "denominator": 0,
+                "rate": null
+              },
+              "n5": {
+                "successes": 0,
+                "denominator": 0,
+                "rate": null
+              },
+              "n5_minus_n1": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "model": "8B",
+      "task_group": "Online-Mind2Web",
+      "target_records_per_condition": 300,
+      "source_records_sha256": "2afdc53f70fe46594da9471540ec2d4fb172e97c5fbcdf72f025e33ec8380bc6",
+      "conditions": {
+        "n1": {
+          "wandb_run": "https://wandb.ai/zixianma/openwebrl-evals/runs/861583d7b358498abf6a5db526d6cd3d",
+          "committed_records": 300,
+          "missing_records": 0,
+          "coverage_complete": true,
+          "unified_valid_records": 289,
+          "validity_endings": {
+            "done": 289,
+            "browser_env": 10,
+            "wall_timeout": 1
+          },
+          "native": {
+            "raw": {
+              "successes": 48,
+              "denominator": 300,
+              "rate": 0.16
+            },
+            "valid_only": {
+              "successes": 48,
+              "denominator": 289,
+              "rate": 0.16608996539792387
+            },
+            "valid_records_missing_verdict": 0
+          },
+          "agenttrek": {
+            "raw": {
+              "successes": 76,
+              "denominator": 300,
+              "rate": 0.25333333333333335
+            },
+            "valid_only": {
+              "successes": 76,
+              "denominator": 289,
+              "rate": 0.2629757785467128
+            },
+            "valid_records_missing_verdict": 0,
+            "judged_only": {
+              "successes": 76,
+              "denominator": 92,
+              "rate": 0.8260869565217391
+            },
+            "valid_records_unjudged_protocol_zero": 197
+          }
+        },
+        "n5": {
+          "wandb_run": "https://wandb.ai/zixianma/openwebrl-evals/runs/6f9f212f7cf6461f84b88b61d6edec32",
+          "committed_records": 300,
+          "missing_records": 0,
+          "coverage_complete": true,
+          "unified_valid_records": 288,
+          "validity_endings": {
+            "done": 288,
+            "browser_env": 10,
+            "wall_timeout": 2
+          },
+          "native": {
+            "raw": {
+              "successes": 61,
+              "denominator": 300,
+              "rate": 0.20333333333333334
+            },
+            "valid_only": {
+              "successes": 61,
+              "denominator": 288,
+              "rate": 0.21180555555555555
+            },
+            "valid_records_missing_verdict": 0
+          },
+          "agenttrek": {
+            "raw": {
+              "successes": 105,
+              "denominator": 300,
+              "rate": 0.35
+            },
+            "valid_only": {
+              "successes": 105,
+              "denominator": 288,
+              "rate": 0.3645833333333333
+            },
+            "valid_records_missing_verdict": 0,
+            "judged_only": {
+              "successes": 105,
+              "denominator": 115,
+              "rate": 0.9130434782608695
+            },
+            "valid_records_unjudged_protocol_zero": 173
+          }
+        }
+      },
+      "paired": {
+        "common_task_ids": 300,
+        "common_valid_task_ids": 287,
+        "judges": {
+          "native": {
+            "common_task_and_judged": {
+              "tasks": 287,
+              "n1": {
+                "successes": 48,
+                "denominator": 287,
+                "rate": 0.1672473867595819
+              },
+              "n5": {
+                "successes": 60,
+                "denominator": 287,
+                "rate": 0.20905923344947736
+              },
+              "n5_minus_n1": 0.04181184668989546
+            },
+            "common_valid_and_judged": {
+              "tasks": 287,
+              "n1": {
+                "successes": 48,
+                "denominator": 287,
+                "rate": 0.1672473867595819
+              },
+              "n5": {
+                "successes": 60,
+                "denominator": 287,
+                "rate": 0.20905923344947736
+              },
+              "n5_minus_n1": 0.04181184668989546
+            }
+          },
+          "agenttrek": {
+            "common_task_and_judged": {
+              "tasks": 71,
+              "n1": {
+                "successes": 62,
+                "denominator": 71,
+                "rate": 0.8732394366197183
+              },
+              "n5": {
+                "successes": 64,
+                "denominator": 71,
+                "rate": 0.9014084507042254
+              },
+              "n5_minus_n1": 0.028169014084507116
+            },
+            "common_valid_and_judged": {
+              "tasks": 71,
+              "n1": {
+                "successes": 62,
+                "denominator": 71,
+                "rate": 0.8732394366197183
+              },
+              "n5": {
+                "successes": 64,
+                "denominator": 71,
+                "rate": 0.9014084507042254
+              },
+              "n5_minus_n1": 0.028169014084507116
+            },
+            "common_valid_protocol_scored": {
+              "tasks": 287,
+              "n1": {
+                "successes": 76,
+                "denominator": 287,
+                "rate": 0.26480836236933797
+              },
+              "n5": {
+                "successes": 104,
+                "denominator": 287,
+                "rate": 0.3623693379790941
+              },
+              "n5_minus_n1": 0.0975609756097561
+            }
+          }
+        }
+      }
+    }
+  ]
+}

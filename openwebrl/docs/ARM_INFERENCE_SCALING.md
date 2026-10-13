@@ -548,6 +548,39 @@ On Online-Mind2Web, AgentTrek assigns unjudged zero to valid episodes without a 
 
 </details>
 
+<a id="molmoweb-unified-validity-20261012"></a>
+### MolmoWeb valid-only rates with the shared outcome classifier
+
+**The valid-only denominator now uses `openwebrl/outcome_validity.py` for every committed MolmoWeb episode.** The classifier treats agent-caused endings (including ordinary task failure and format failure) as valid outcomes, while browser/model infrastructure failures, wall timeouts, missing judge verdicts and unknown endings are invalid. Success is the condition's canonical saved judge verdict; Native MolmoWeb and AgentTrek remain separate.
+
+Snapshot: **2026-10-12 20:00 PDT**. N1 has all 2,090 records; N5 has 2,071/2,090, with the 4B WebVoyager cohort partial at **576/595 records, 561 valid**. Missing tasks are not imputed. Counts and percentages have separate columns.
+
+| Model | Benchmark | N1 successes | N1 valid | N1 valid-only | N5 successes | N5 valid | N5 valid-only |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 4B | WebVoyager | 268 | 595 | 45.04% | 303 | 561 | 54.01% |
+| 4B | DeepShop | 43 | 150 | 28.67% | 59 | 134 | 44.03% |
+| 4B | Online-Mind2Web, native | 38 | 287 | 13.24% | 72 | 287 | 25.09% |
+| 4B | Online-Mind2Web, AgentTrek | 81 | 287 | 28.22% | 109 | 287 | 37.98% |
+| 8B | WebVoyager | 264 | 595 | 44.37% | 309 | 580 | 53.28% |
+| 8B | DeepShop | 45 | 149 | 30.20% | 43 | 135 | 31.85% |
+| 8B | Online-Mind2Web, native | 48 | 289 | 16.61% | 61 | 288 | 21.18% |
+| 8B | Online-Mind2Web, AgentTrek | 76 | 289 | 26.30% | 105 | 288 | 36.46% |
+
+Paired common-valid rows require the same task ID to be valid in both N1 and N5, with a canonical verdict or the protocol-defined AgentTrek zero score. They make the denominator comparable between arms; they are not the separately filtered access/infra rates above.
+
+| Model | Benchmark / judge | Common-valid tasks | N1 successes | N1 rate | N5 successes | N5 rate | N5 − N1, pp |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 4B | WebVoyager, native | 561 | 259 | 46.17% | 303 | 54.01% | +7.84 |
+| 4B | DeepShop, native | 134 | 37 | 27.61% | 59 | 44.03% | +16.42 |
+| 4B | Online-Mind2Web, native | 285 | 38 | 13.33% | 72 | 25.26% | +11.93 |
+| 8B | WebVoyager, native | 580 | 264 | 45.52% | 309 | 53.28% | +7.76 |
+| 8B | DeepShop, native | 135 | 41 | 30.37% | 43 | 31.85% | +1.48 |
+| 8B | Online-Mind2Web, native | 287 | 48 | 16.72% | 60 | 20.91% | +4.18 |
+| 4B | Online-Mind2Web, AgentTrek | 285 | 81 | 28.42% | 109 | 38.25% | +9.82 |
+| 8B | Online-Mind2Web, AgentTrek | 287 | 76 | 26.48% | 104 | 36.24% | +9.76 |
+
+AgentTrek judges only episodes satisfying its terminal-action eligibility rule. Valid episodes without a terminal `[EXIT]` receive the protocol-defined `UNJUDGED_ZERO` score and remain in the valid-only denominator. Judged-only subset rates are retained as diagnostics in the JSON; they are not benchmark valid-only rates. These point estimates are descriptive and do not remove sequential collection or website-time effects. They supersede earlier MolmoWeb valid-only figures only; raw and access/infra-filtered figures retain their own definitions. [Machine-readable counts, paired rates, W&B run links and classifier hash](arm_results/molmoweb_unified_validity_20261012.json) · [Shared validity definition](EPISODE_VALIDITY.md#episode-validity-20261012).
+
 <details>
 <summary>Online-Mind2Web judge disagreement, audits and accounting</summary>
 
