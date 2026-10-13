@@ -4,23 +4,40 @@
 
 ## Headline results
 
-- **Full episodes (Online-Mind2Web, 300 tasks):**
-  - The head reaches **37.7%** against **40.0%** for Piotr ARM (−2.3 pp [−7.3, +2.7], not significant) and 33.0% for the SFT actor alone.
-  - It uses **36% less compute per step** than Piotr ARM (0.060 vs 0.094 PFLOP), because the selector adds about 375 tokens per episode against 58,000.
-  - Luna (API) is level with Piotr at 41.3% ([live loop](#selection-head-om2w-20261011)).
-- **Latency on identical hardware (one H200 per configuration):**
-  - A decision with the head takes **6.07 s**, **10% faster than Piotr ARM** (6.76 s, even served by sglang). It is within 3% of five samples with no selector at all (5.89 s).
-  - The head's own scoring takes 0.01 s ([latency](#selection-head-latency-20261012)).
-- **Branching states with held-out outcomes:**
-  - No teacher-trained selector clearly beats a uniform pick.
-  - Choosing by observed outcomes does: +5.32 pp [+3.09, +7.62] ([details](#selection-head-outcomes-20261010)).
-  - Among students trained on about 120 states, only **lookahead-labelled** ones move above uniform (+2.4 to +3.0 pp, intervals touching zero) ([label types](#selection-head-label-types-20261011)).
+**On identical hardware, the selection head matches Piotr SelectionARM's success with 36% less compute and 11% lower latency per decision.**
+- **Setup:** Online-Mind2Web, 300 tasks, three independent repetitions per method.
+- **Hardware:** every method ran on one H200, with CUDA graphs on and any separate selector on the same GPU.
+
+| Method | Success, mean of 3 × 300 | − SFT 4B, pp [95% CI] | − Piotr ARM, pp [95% CI] | PFLOP per decision | Seconds per decision |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| **Selection head (ours)** | **38.4%** | **+4.8 [+1.4, +8.2]** | **−1.0 [−4.0, +2.1]** | **0.060** | **6.72** |
+| Piotr SelectionARM | 39.4% | +5.8 [+2.6, +9.0] | — | 0.094 | 7.56 |
+| Kev-style pass | 39.7% | +6.0 [+2.8, +9.2] | +0.2 [−2.8, +3.2] | 0.175 | 16.60 |
+| Luna (API) | 40.9% | +7.2 [+4.1, +10.3] | +1.4 [−1.8, +4.6] | ≥0.058 + API | 9.78 |
+| SFT 8B, 1 sample | 34.6% | +0.9 [−2.4, +4.2] | −4.9 [−8.6, −1.3] | 0.036 | 3.20 |
+| SFT 4B, 1 sample | 33.7% | — | −5.8 [−9.0, −2.6] | 0.019 | 2.44 |
+| Action-type prior | 28.9% | −4.8 [−8.1, −1.6] | −10.6 [−13.9, −7.3] | 0.057 | 7.15 |
+
+- **Every learned selector beats a single sample by 5–7 pp, and none clearly beats another.** The head's −1.0 pp against Piotr ARM is well inside its interval.
+- **Scaling the actor does not substitute for selection.** SFT 8B, with one sample, is level with SFT 4B at twice the compute.
+- **Cost.**
+  - The head's decisions cost 64% of Piotr's compute: only the actor's work, since its selector adds under 1%.
+  - It is the fastest five-candidate method, 0.4 s behind five samples with no selector.
+  - The slow selectors slow down further under live load: Kev-style's decisions take 16.6 s live against 8.7 s offline.
+- **Branching states with held-out outcomes.**
+  - No teacher-trained selector clearly beats a uniform pick, while choosing by observed outcomes does: +5.32 pp [+3.09, +7.62] ([details](#selection-head-outcomes-20261010)).
+  - Among small students, only **lookahead-labelled** ones move above uniform (+2.4 to +3.0 pp) ([label types](#selection-head-label-types-20261011)).
 
 <a id="selection-head-om2w-plot"></a>
 
-![Online-Mind2Web, 300 tasks: task success versus whole-system compute per episode (left) and versus seconds per decision on identical hardware (right), one point per method with Wilson 95% intervals](arm_results/rl_integration/perf_vs_flops.png)
+![Online-Mind2Web on identical hardware: mean task success over three repetitions versus compute per decision (left) and versus live seconds per decision (right), one point per method with 95% task-bootstrap intervals](arm_results/rl_integration/perf_vs_cost_samehw.png)
 
-Left: tokens actually computed by actor and selector (prefix-cache hits excluded). Right: decision latency measured on one H200 per method ([latency](#selection-head-latency-20261012)). Success comes from the live runs, which had CUDA graphs off; all methods will be re-run on the same hardware three times.
+- **Bars.** They show each method's own 95% task-bootstrap interval (about ±4.5 pp), which is wide because tasks vary so much in difficulty. The paired differences in the table compare methods on the same tasks and are tighter.
+- **Luna (hollow).** Its point shows the actor's compute only.
+- **Intervals.** They resample tasks and keep each task's three repetitions together.
+- **Repetitions and protocol.** The run-to-run SD across repetitions is 0.5–2.4 pp. Invalid episodes count as failures.
+- **Timing.** The methods of a repetition were collected over about six hours as GPUs freed up, not at the same moment.
+- **Details and evidence:** [same-hardware runs](#selection-head-samehw-20261012), [aggregate](arm_results/rl_integration/selectors-samehw-20261012.json).
 
 <a id="selection-head-architecture"></a>
 
@@ -43,6 +60,45 @@ Left: tokens actually computed by actor and selector (prefix-cache hits excluded
 **Supervising the selector with outcomes needs more states than exist now.** 188 states have eight draws for all five actions: 9,720 outcomes in 151 task groups, 14× fewer states than the 2,692 teacher-labelled training states ([data comparison](#selection-head-outcome-data-20261010)). A pre-registered five-fold [adaptation pilot](#selection-head-outcome-adaptation-20261010) on 138 of these states overfits: it fits training folds but does not beat uniform on held-out tasks. Ridge probes, a combined teacher-plus-outcome loss and selector combinations also find [no held-out gain](#selection-head-early-signal-20261010). Confirming a 3 pp selector difference needs about 200 states with eight draws, and confirming Piotr's ~2.5 pp gain over uniform about 300.
 
 </details>
+
+<a id="selection-head-samehw-20261012"></a>
+
+## Same-hardware runs: three repetitions of seven methods
+
+**The headline table and figure come from these runs.**
+- **Tasks:** each method ran the 300 Online-Mind2Web tasks three times, with seeds 45, 46 and 47 (server seeds 4500, 4600 and 4700).
+- **Hardware:** every method used one H200, 8 CPUs and 120 GiB, and the actor served with CUDA graphs.
+- **Selectors:** each separate selector shared the actor's GPU, so Piotr ARM was served through sglang and the Kev-style pass ran as a sidecar.
+- **Unchanged:** the actor, prompts, decoding (T 0.7, top-p 0.9, 1,024 tokens, 30 steps) and the o4-mini/AgentTrek judge are the same as in the earlier runs.
+- **Pilot first:** a 50-task pilot of all seven methods passed its startup gates before the repetitions launched.
+
+| Method | Repetition 1 | Repetition 2 | Repetition 3 | SD | Steps per episode | Prefix-cache hit | Selection seconds per decision |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| SFT 4B, 1 sample | 34.3% | 33.7% | 33.0% | 0.7 | 15.2 | 82% | — |
+| SFT 8B, 1 sample | 35.7% | 33.7% | 34.3% | 1.0 | 14.5 | 82% | — |
+| Action-type prior | 29.3% | 28.3% | 29.0% | 0.5 | 18.1 | 91% | 0.00 |
+| Piotr SelectionARM | 40.0% | 40.3% | 38.0% | 1.3 | 15.3 | 90% | 0.43 |
+| Selection head (ours) | 39.7% | 36.3% | 39.3% | 1.8 | 15.4 | 90% | 0.02 |
+| Kev-style pass | 39.7% | 38.3% | 41.0% | 1.3 | 15.3 | 88% | 4.19 |
+| Luna (API) | 39.7% | 43.7% | 39.3% | 2.4 | 14.6 | 90% | 4.22 |
+
+
+<details>
+<summary>Verification, recoveries and accounting</summary>
+
+- **Verification** (`analysis/analyze.py` in the study directory): every method and repetition has all 300 tasks with matching artifact hashes and no selector fallbacks.
+- **Startup race (Piotr ARM).** One shard (repetition 2 shard 0) failed at start-up because Piotr's sglang selector and the actor started together and the selector's memory check lost the race.
+  - The three Piotr shards that had not yet started re-ran on `source-r2`, which starts the selector and waits for it before the actor.
+  - All earlier attempts are recorded.
+- **Time-limit extension (Kev-style).** Repetition 1 Kev-style shard 1 hit its 3-hour limit after 102 of 150 tasks. It finished the remaining 48 tasks in a user-approved one-hour extension on `source-r3`, using 12,951 of 14,400 seconds in total.
+- **Scheduling.** Five shards had their approval step killed on the login node and were resubmitted while still pending. A priority change on 28 pending shards removed the scheduler's submit-time boost, so they were cancelled and resubmitted before starting. No time was used by either.
+- **Luna:** within its USD 15 / 15,000-call cap.
+- **Compute proxy:** 2 × parameters × tokens actually computed, using 4.44B parameters for the 4B actor and 8.77B for the 8B. It ignores attention cost and the split between the vision encoder and the language model.
+
+</details>
+
+<details>
+<summary>Earlier live runs (single repetition, CUDA graphs off, separate GPU per selector)</summary>
 
 <a id="selection-head-om2w-20261011"></a>
 
@@ -151,6 +207,8 @@ Left: tokens actually computed by actor and selector (prefix-cache hits excluded
   - Actor request seconds are summed over the five parallel requests, so they can exceed wall time.
   - Latency depends on each shard's concurrent load, which differed between conditions and from the controls.
 - **Evidence:** [aggregate](arm_results/rl_integration/selectors-om2w-20261011.json).
+
+</details>
 
 </details>
 

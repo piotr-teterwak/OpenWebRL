@@ -1,0 +1,460 @@
+{
+ "tasks": 300,
+ "repetitions": 3,
+ "complete": true,
+ "methods": {
+  "sft4b1": {
+   "success_by_repetition": [
+    0.3433333333333333,
+    0.33666666666666667,
+    0.33
+   ],
+   "success_mean": 0.33666666666666667,
+   "success_sd": 0.006666666666666654,
+   "successes": [
+    103,
+    101,
+    99
+   ],
+   "valid": [
+    272,
+    275,
+    264
+   ],
+   "tasks_recorded": [
+    300,
+    300,
+    300
+   ],
+   "complete": [
+    true,
+    true,
+    true
+   ],
+   "actor_pflop_per_episode": 0.28100447918695426,
+   "selector_pflop_per_episode": 0.0,
+   "system_pflop_per_episode": 0.28100447918695426,
+   "system_pflop_per_step": 0.01847903195004083,
+   "steps_per_episode": 15.206666666666667,
+   "prefix_cache_hit": 0.8186207222042102,
+   "seconds_per_step": 7.20174399662922,
+   "decision_seconds_mean": 2.440491386798867,
+   "decision_seconds_p50": 2.273165096063167,
+   "decision_seconds_p90": 3.3962321057915688,
+   "selection_seconds_mean": 1.1251327556701714e-05,
+   "selector_usd_per_episode": 0.0,
+   "success_mean_task_bootstrap95": [
+    0.29333333333333345,
+    0.3800000000000001
+   ]
+  },
+  "sft8b1": {
+   "success_by_repetition": [
+    0.3566666666666667,
+    0.33666666666666667,
+    0.3433333333333333
+   ],
+   "success_mean": 0.34555555555555556,
+   "success_sd": 0.010183501544346323,
+   "successes": [
+    107,
+    101,
+    103
+   ],
+   "valid": [
+    275,
+    276,
+    266
+   ],
+   "tasks_recorded": [
+    300,
+    300,
+    300
+   ],
+   "complete": [
+    true,
+    true,
+    true
+   ],
+   "actor_pflop_per_episode": 0.5205742710690838,
+   "selector_pflop_per_episode": 0.0,
+   "system_pflop_per_episode": 0.5205742710690838,
+   "system_pflop_per_step": 0.035852222525418996,
+   "steps_per_episode": 14.52,
+   "prefix_cache_hit": 0.8152577424675095,
+   "seconds_per_step": 7.8936579774829445,
+   "decision_seconds_mean": 3.2040651572675043,
+   "decision_seconds_p50": 2.9738662648014724,
+   "decision_seconds_p90": 4.586272294167429,
+   "selection_seconds_mean": 9.904969054944965e-06,
+   "selector_usd_per_episode": 0.0,
+   "success_mean_task_bootstrap95": [
+    0.30000000000000004,
+    0.39111111111111124
+   ]
+  },
+  "prior5": {
+   "success_by_repetition": [
+    0.29333333333333333,
+    0.2833333333333333,
+    0.29
+   ],
+   "success_mean": 0.28888888888888886,
+   "success_sd": 0.005091750772173158,
+   "successes": [
+    88,
+    85,
+    87
+   ],
+   "valid": [
+    258,
+    264,
+    261
+   ],
+   "tasks_recorded": [
+    300,
+    300,
+    300
+   ],
+   "complete": [
+    true,
+    true,
+    true
+   ],
+   "actor_pflop_per_episode": 1.039944324657541,
+   "selector_pflop_per_episode": 0.0,
+   "system_pflop_per_episode": 1.039944324657541,
+   "system_pflop_per_step": 0.057409672587363486,
+   "steps_per_episode": 18.114444444444445,
+   "prefix_cache_hit": 0.909162327900926,
+   "seconds_per_step": 12.433601063809967,
+   "decision_seconds_mean": 7.1494241979829765,
+   "decision_seconds_p50": 6.84704137314111,
+   "decision_seconds_p90": 10.487186131998897,
+   "selection_seconds_mean": 4.523235502663309e-05,
+   "selector_usd_per_episode": 0.0,
+   "success_mean_task_bootstrap95": [
+    0.24666666666666676,
+    0.331111111111111
+   ]
+  },
+  "piotr5": {
+   "success_by_repetition": [
+    0.4,
+    0.4033333333333333,
+    0.38
+   ],
+   "success_mean": 0.39444444444444443,
+   "success_sd": 0.012619796324000607,
+   "successes": [
+    120,
+    121,
+    114
+   ],
+   "valid": [
+    260,
+    262,
+    269
+   ],
+   "tasks_recorded": [
+    300,
+    300,
+    300
+   ],
+   "complete": [
+    true,
+    true,
+    true
+   ],
+   "actor_pflop_per_episode": 0.9301533631382084,
+   "selector_pflop_per_episode": 0.5124832593964543,
+   "system_pflop_per_episode": 1.4426366225346627,
+   "system_pflop_per_step": 0.09399644974163443,
+   "steps_per_episode": 15.347777777777777,
+   "prefix_cache_hit": 0.8988650991579353,
+   "seconds_per_step": 13.44871639312381,
+   "decision_seconds_mean": 7.562884092238211,
+   "decision_seconds_p50": 7.314408326987177,
+   "decision_seconds_p90": 10.817512075882405,
+   "selection_seconds_mean": 0.4264205511060065,
+   "selector_usd_per_episode": 0.0,
+   "success_mean_task_bootstrap95": [
+    0.34777777777777774,
+    0.4411111111111111
+   ]
+  },
+  "headkv5": {
+   "success_by_repetition": [
+    0.39666666666666667,
+    0.36333333333333334,
+    0.3933333333333333
+   ],
+   "success_mean": 0.3844444444444444,
+   "success_sd": 0.018358568490953665,
+   "successes": [
+    119,
+    109,
+    118
+   ],
+   "valid": [
+    270,
+    261,
+    264
+   ],
+   "tasks_recorded": [
+    300,
+    300,
+    300
+   ],
+   "complete": [
+    true,
+    true,
+    true
+   ],
+   "actor_pflop_per_episode": 0.9238169313857911,
+   "selector_pflop_per_episode": 0.00068614549479424,
+   "system_pflop_per_episode": 0.9245030768805854,
+   "system_pflop_per_step": 0.05985129975489331,
+   "steps_per_episode": 15.446666666666667,
+   "prefix_cache_hit": 0.9005599410866448,
+   "seconds_per_step": 13.013139902697697,
+   "decision_seconds_mean": 6.72086810078196,
+   "decision_seconds_p50": 6.455004500690848,
+   "decision_seconds_p90": 9.847267522942275,
+   "selection_seconds_mean": 0.015961222824160314,
+   "selector_usd_per_episode": 0.0,
+   "success_mean_task_bootstrap95": [
+    0.3388888888888889,
+    0.4300000000000001
+   ]
+  },
+  "kev5": {
+   "success_by_repetition": [
+    0.39666666666666667,
+    0.38333333333333336,
+    0.41
+   ],
+   "success_mean": 0.39666666666666667,
+   "success_sd": 0.013333333333333308,
+   "successes": [
+    119,
+    115,
+    123
+   ],
+   "valid": [
+    249,
+    262,
+    262
+   ],
+   "tasks_recorded": [
+    300,
+    300,
+    300
+   ],
+   "complete": [
+    true,
+    true,
+    true
+   ],
+   "actor_pflop_per_episode": 1.0714535269448704,
+   "selector_pflop_per_episode": 1.6181841801530674,
+   "system_pflop_per_episode": 2.689637707097938,
+   "system_pflop_per_step": 0.17522069753081027,
+   "steps_per_episode": 15.35,
+   "prefix_cache_hit": 0.8790145930855967,
+   "seconds_per_step": 23.03460006085543,
+   "decision_seconds_mean": 16.60043112303967,
+   "decision_seconds_p50": 12.987574237864465,
+   "decision_seconds_p90": 27.589960366953164,
+   "selection_seconds_mean": 4.192803070879259,
+   "selector_usd_per_episode": 0.0,
+   "success_mean_task_bootstrap95": [
+    0.3500000000000002,
+    0.4422222222222224
+   ]
+  },
+  "luna5": {
+   "success_by_repetition": [
+    0.39666666666666667,
+    0.43666666666666665,
+    0.3933333333333333
+   ],
+   "success_mean": 0.40888888888888886,
+   "success_sd": 0.024113927126900782,
+   "successes": [
+    119,
+    131,
+    118
+   ],
+   "valid": [
+    265,
+    261,
+    264
+   ],
+   "tasks_recorded": [
+    300,
+    300,
+    300
+   ],
+   "complete": [
+    true,
+    true,
+    true
+   ],
+   "actor_pflop_per_episode": 0.8477714762957551,
+   "selector_pflop_per_episode": 0.0,
+   "system_pflop_per_episode": 0.8477714762957551,
+   "system_pflop_per_step": 0.0581019135444852,
+   "steps_per_episode": 14.591111111111111,
+   "prefix_cache_hit": 0.9026089604441458,
+   "seconds_per_step": 15.309154099554522,
+   "decision_seconds_mean": 9.779222783444446,
+   "decision_seconds_p50": 9.305634912103415,
+   "decision_seconds_p90": 14.083979425020516,
+   "selection_seconds_mean": 4.215686134935495,
+   "selector_usd_per_episode": 0.008610713566666667,
+   "success_mean_task_bootstrap95": [
+    0.361111111111111,
+    0.45666666666666655
+   ]
+  }
+ },
+ "paired": {
+  "sft4b1_minus_piotr5": {
+   "difference": -0.05777777777777779,
+   "bootstrap95": [
+    -0.09000000000000005,
+    -0.02555555555555555
+   ]
+  },
+  "sft4b1_minus_prior5": {
+   "difference": 0.047777777777777794,
+   "bootstrap95": [
+    0.01555555555555556,
+    0.08111111111111108
+   ]
+  },
+  "sft8b1_minus_sft4b1": {
+   "difference": 0.008888888888888889,
+   "bootstrap95": [
+    -0.024444444444444446,
+    0.04222222222222222
+   ]
+  },
+  "sft8b1_minus_piotr5": {
+   "difference": -0.04888888888888887,
+   "bootstrap95": [
+    -0.08555555555555551,
+    -0.013333333333333329
+   ]
+  },
+  "sft8b1_minus_prior5": {
+   "difference": 0.05666666666666669,
+   "bootstrap95": [
+    0.01999999999999999,
+    0.09333333333333331
+   ]
+  },
+  "prior5_minus_sft4b1": {
+   "difference": -0.047777777777777794,
+   "bootstrap95": [
+    -0.08111111111111108,
+    -0.01555555555555556
+   ]
+  },
+  "prior5_minus_piotr5": {
+   "difference": -0.10555555555555554,
+   "bootstrap95": [
+    -0.13888888888888884,
+    -0.07333333333333332
+   ]
+  },
+  "piotr5_minus_sft4b1": {
+   "difference": 0.05777777777777779,
+   "bootstrap95": [
+    0.02555555555555555,
+    0.09000000000000005
+   ]
+  },
+  "piotr5_minus_prior5": {
+   "difference": 0.10555555555555554,
+   "bootstrap95": [
+    0.07333333333333332,
+    0.13888888888888884
+   ]
+  },
+  "headkv5_minus_sft4b1": {
+   "difference": 0.047777777777777766,
+   "bootstrap95": [
+    0.014444444444444437,
+    0.0822222222222222
+   ]
+  },
+  "headkv5_minus_piotr5": {
+   "difference": -0.009999999999999986,
+   "bootstrap95": [
+    -0.040000000000000015,
+    0.021111111111111098
+   ]
+  },
+  "headkv5_minus_prior5": {
+   "difference": 0.09555555555555556,
+   "bootstrap95": [
+    0.0622222222222222,
+    0.12999999999999995
+   ]
+  },
+  "kev5_minus_sft4b1": {
+   "difference": 0.05999999999999999,
+   "bootstrap95": [
+    0.027777777777777773,
+    0.09222222222222219
+   ]
+  },
+  "kev5_minus_piotr5": {
+   "difference": 0.0022222222222222227,
+   "bootstrap95": [
+    -0.027777777777777762,
+    0.03222222222222222
+   ]
+  },
+  "kev5_minus_prior5": {
+   "difference": 0.1077777777777778,
+   "bootstrap95": [
+    0.07666666666666667,
+    0.13888888888888895
+   ]
+  },
+  "luna5_minus_sft4b1": {
+   "difference": 0.0722222222222222,
+   "bootstrap95": [
+    0.041111111111111105,
+    0.10333333333333335
+   ]
+  },
+  "luna5_minus_piotr5": {
+   "difference": 0.014444444444444449,
+   "bootstrap95": [
+    -0.017777777777777774,
+    0.04555555555555556
+   ]
+  },
+  "luna5_minus_prior5": {
+   "difference": 0.12000000000000002,
+   "bootstrap95": [
+    0.08666666666666663,
+    0.15444444444444447
+   ]
+  }
+ },
+ "params": {
+  "4b": 4437815808,
+  "8b": 8767170292
+ },
+ "caveats": [
+  "Methods of a repetition were collected over ~6 h as GPUs freed, not simultaneously; website drift within a repetition is possible.",
+  "Compute proxy = 2 x parameters x tokens computed; ignores attention cost and the vision/LM split; Luna own compute external.",
+  "Invalid episodes count as failures.",
+  "Piotr shards rep2/0, rep3/0, rep3/1 ran on source-r2 (selector started before the actor)."
+ ]
+}
