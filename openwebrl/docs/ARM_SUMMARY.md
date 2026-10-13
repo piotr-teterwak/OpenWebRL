@@ -122,13 +122,13 @@ $$
 \mathcal L_{\mathrm{DPO}}=-\log\sigma\!\left(\beta_{\mathrm{DPO}}\left[\log\frac{\pi_\theta(y^+|x)}{\pi_{\rm ref}(y^+|x)}-\log\frac{\pi_\theta(y^-|x)}{\pi_{\rm ref}(y^-|x)}\right]\right).
 $$
 
-| Training recipe | Evaluation | Successes / 300 | Valid-only | Relative headline |
-| --- | --- | ---: | ---: | --- |
-| Starting actor reference | Full 300 | 90 | 33.7% | Baseline |
-| C2 filtered SFT | Combined 300 | 95 | 36.8% | Control for 1A |
-| 1A filtered SFT | Combined 300 | 100 | 39.1% | +1.7 pp vs C2 |
-| Joint C2 + Piotr SFT | Fresh 300 | 102 | 37.8% | +4.0 pp vs starting actor |
-| Joint C2 + Piotr DPO | Fresh 300 | **104** | **40.9%** | +4.7 pp vs starting actor |
+| Training recipe | Evaluation | Overall successes / tasks | Overall success | Valid successes / valid tasks | Valid-only success | Relative headline |
+| --- | --- | ---: | ---: | ---: | ---: | --- |
+| Starting actor reference | Full 300 | 90 / 300 | 30.0% | 90 / 267 | 33.7% | Baseline |
+| C2 filtered SFT | Combined 300 | 95 / 300 | 31.7% | 95 / 258 | 36.8% | Control for 1A |
+| 1A filtered SFT | Combined 300 | 100 / 300 | 33.3% | 100 / 256 | 39.1% | +1.7 pp overall vs C2 |
+| Joint C2 + Piotr SFT | Fresh 300 | 102 / 300 | 34.0% | 102 / 270 | 37.8% | +4.0 pp overall vs starting actor |
+| Joint C2 + Piotr DPO | Fresh 300 | **104 / 300** | **34.7%** | **104 / 254** | **40.9%** | +4.7 pp overall vs starting actor |
 
 - **Starting actor:** unmodified OpenWebRL-SFT policy used as the training and evaluation reference.
 - **C2 filtered SFT:** retain every usable executed ARM-selected turn from a valid successful trajectory; train the chosen reasoning-plus-action response with language-only LoRA (rank 16, alpha 32, dropout 0.05), AdamW at `1e-5`, effective batch 16, cosine decay, 3% warmup, and two epochs.
