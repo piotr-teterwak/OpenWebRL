@@ -109,7 +109,7 @@ later-policy test.
 train the actor offline. SFT minimizes token cross-entropy,
 
 $$
-\mathcal L_{\mathrm{SFT}}=-\sum_t\log \pi_\theta(y_t\mid x,y_{<t}).
+\mathcal{L}_{\text{SFT}} = -\sum_t \log \pi_\theta(y_t \mid x, y_{<t}).
 $$
 
 **Recipe map:** `C2 → 1A` keeps the same8,394 turns but changes **batch16→32 and
@@ -119,7 +119,7 @@ DPO increases its preference over the rejected response**, relative to the
 frozen starting actor:
 
 $$
-\mathcal L_{\mathrm{DPO}}=-\log\sigma\!\left(\beta_{\mathrm{DPO}}\left[\log\frac{\pi_\theta(y^+|x)}{\pi_{\rm ref}(y^+|x)}-\log\frac{\pi_\theta(y^-|x)}{\pi_{\rm ref}(y^-|x)}\right]\right).
+\mathcal{L}_{\text{DPO}} = -\log \sigma\!\left( \beta_{\text{DPO}} \left[ \log\frac{\pi_\theta(y^+ \mid x)}{\pi_{\text{ref}}(y^+ \mid x)} - \log\frac{\pi_\theta(y^- \mid x)}{\pi_{\text{ref}}(y^- \mid x)} \right] \right).
 $$
 
 | Training recipe | Evaluation | Overall successes / tasks | Overall success | Valid successes / valid tasks | Valid-only success | Relative headline |
