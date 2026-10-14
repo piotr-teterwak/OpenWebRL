@@ -1,0 +1,54 @@
+{
+  "status": "prepared_pending_exact_resource_api_approval",
+  "approved": false,
+  "launched": false,
+  "benchmark": "Online-Mind2Web",
+  "tasks": 100,
+  "episodes": 200,
+  "unique_websites": 66,
+  "difficulty_counts": {
+    "hard": 30,
+    "medium": 43,
+    "easy": 27
+  },
+  "first_arm_counts": {
+    "serial_high": 50,
+    "parallel3_low": 50
+  },
+  "arms": {
+    "serial_high": {
+      "serial_effort": "high",
+      "serial_max_output_tokens": 12288
+    },
+    "parallel3_low": {
+      "candidates": 3,
+      "reasoning_effort": "low",
+      "max_output_tokens": 4096,
+      "selector_effort": "medium",
+      "selector_max_output_tokens": 2048
+    }
+  },
+  "resources": {
+    "gpus": 0,
+    "cpus": 16,
+    "memory_gib": 64,
+    "total_seconds": 43200
+  },
+  "limits": {
+    "actor_usd": 500.0,
+    "actor_calls": 15000,
+    "judge_usd": 10.0,
+    "judge_calls": 200,
+    "browser_sessions": 200
+  },
+  "task_file_sha256": "db5d81c1b37f0bd91086913c6d95b9d9b1194f994749566c87e5ccc54851e5ff",
+  "plan_sha256": "36b9aeb935af324a2264828a7225e5725a0bbc37b05bd9dc04f7d9459d058b0e",
+  "mocked_tests_passed": 33,
+  "offline_runtime_import_passed": true,
+  "live_browser_startup_verified": false,
+  "paid_api_calls": 0,
+  "new_browser_sessions": 0,
+  "submitted_jobs": 0,
+  "interpretation": "Approximate3x generated output per proposal in archived calibration; not exact3x reasoning or equal-total-compute",
+  "source_manifest_sha256": "c2f5561cd9fc9e0a659edb60f34020d6d17628f251ed02fe00a5fc7e04189bfe"
+}
