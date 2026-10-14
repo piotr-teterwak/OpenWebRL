@@ -504,29 +504,32 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 
 #### Robustness: how many observed outcomes is lookahead worth?
 
-**The ranking holds at every split. Picking on observed outcomes needs about 3–5 observed draws per action to match K = 3 lookahead.**
-- **Setup:** pooled 736 states; the outcome reference picks on draws 0..n−1, and every condition is scored on draws n..7. Teacher conditions see only draw 0, so the split only changes which draws score them.
-- **Two outcome conventions:** (A) invalid draws count as failures, as in the tables above; (B) valid draws only, keeping a state when every action has a valid draw on both sides of the split.
+**On Piotr-matched tasks, K = 3 lookahead beats the actor's first sample by about 7 pp at every split, and matches an oracle that picks on 3–5 observed outcomes.**
+- **Setup:** the oracle picks the action with the best success on draws 0..n−1. Every condition is scored on draws n..7. Teacher conditions see only draw 0, so the split changes only which draws score them.
+- **States:** Piotr-matched tasks (normalized instruction in the pinned training set; fresh states, not Piotr's archived states), unique model inputs.
+- **Valid draws only:** a state is kept at split n when every action has a valid draw on both sides; 463–484 states, 70–76 tasks.
+- **Bands (first figure):** 95% task-clustered interval of each condition's paired difference from the actor's first sample, drawn around the actor's rate plus that difference. A band clear of the actor line is a significant gain over the actor.
 
-| Pooled, success % | n = 2 | 3 | 4 | 5 | 6 |
+![Success vs observed draws, Piotr-matched tasks, valid draws only, paired bands](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_piotr_absolute_valid_only.png)
+
+![Success vs observed draws, Piotr-matched tasks, valid draws only, lines only](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_piotr_absolute_lines_valid_only.png)
+
+| Success, % | n = 2 | 3 | 4 | 5 | 6 |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| A: Lookahead K = 3 | 35.18 | 35.10 | 35.00 | 35.04 | 34.85 |
-| A: Best on observed draws | 34.50 | 35.06 | 35.72 | 35.84 | 36.70 |
-| A: Uniform | 29.98 | 29.84 | 29.85 | 29.87 | 30.07 |
-| A: states | 736 | 736 | 736 | 736 | 736 |
-| B: Lookahead K = 3 | 38.68 | 38.86 | 38.76 | 38.74 | 39.54 |
-| B: Best on observed draws | 37.48 | 38.16 | 39.01 | 38.72 | 40.16 |
-| B: Uniform | 33.21 | 33.39 | 33.55 | 33.43 | 34.10 |
-| B: states | 631 | 650 | 652 | 652 | 630 |
+| Oracle (observed draws) | 36.1 | 36.8 | 38.0 | 37.8 | 39.4 |
+| Lookahead K = 3 | 37.4 | 37.8 | 37.8 | 37.7 | 38.5 |
+| Lookahead K = 1 | 37.0 | 37.2 | 37.4 | 36.8 | 37.1 |
+| Post-execution | 35.4 | 35.8 | 35.8 | 35.5 | 36.5 |
+| Pre-execution | 34.0 | 34.7 | 34.9 | 34.4 | 35.6 |
+| Uniform | 31.5 | 31.9 | 32.1 | 32.0 | 32.4 |
+| Actor (first sample) | 30.3 | 30.6 | 31.0 | 30.9 | 31.9 |
+| States | 463 | 481 | 484 | 484 | 465 |
+| Tasks | 70 | 76 | 76 | 76 | 72 |
 
-- **Error bars** in the figures are 95% task-clustered intervals on absolute rates. They overlap because rates vary widely between states; paired differences (tables above) are much tighter.
-- **Panel completeness:** all 736 states have all 40 slots recorded, but only 309 have all 40 valid. Most invalid draws are infrastructure failures, not action failures.
-
-![Draw split, invalid draws count as failures](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_invalid_as_failure.png)
-
-![Draw split, valid draws only](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_valid_only.png)
-
-- **Evidence:** [JSON](arm_results/rl_integration/lookahead-draw-split-20261013/curve.json), [computation](arm_results/rl_integration/lookahead-draw-split-20261013/curve.py), [plot](arm_results/rl_integration/lookahead-draw-split-20261013/plot.py).
+- **Absolute rates are low** because 421 of the 559 Piotr-matched labelled states are `fast1k` states, filtered to informative states and concentrated on arXiv and error or blank pages.
+- **K = 2 is omitted:** it was labelled only on the earlier 315 states.
+- **Pending:** rerun on states with all 40 draws valid as more Piotr-matched panels complete; currently 202 such states on 45 tasks.
+- **Evidence:** [JSON](arm_results/rl_integration/lookahead-draw-split-20261013/curve_piotr.json), [computation](arm_results/rl_integration/lookahead-draw-split-20261013/curve.py) (`SUBSET=piotr`), [plot](arm_results/rl_integration/lookahead-draw-split-20261013/plot_piotr_single.py) (`valid_only`). Earlier all-state curves: [JSON](arm_results/rl_integration/lookahead-draw-split-20261013/curve.json).
 
 <details>
 <summary>Earlier format, and the stopped ablation</summary>
