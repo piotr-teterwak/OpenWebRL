@@ -1028,15 +1028,31 @@ All attempts and verdicts are preserved; these scores do not enter current means
 </details>
 
 <a id="sol61-serial-versus-parallel-reasoning-20261013"></a>
-## Planned comparison: Sol reasoning versus three Sol proposals
+## Sol serial versus parallel reasoning: snapshot calibration
 
-**Preparation only; no paid calls or new allocation approved.** Use GPT-6.1 Sol as the actor in both conditions, on the same 300 Online-Mind2Web, 595 WebVoyager and 150 DeepShop tasks (2,090 episodes for one repeat per arm). This supersedes the earlier proposal using the OpenWebRL SFT actor and its GPU/API cost estimate.
+**Calibration verified: 30 saved states, 150 settled requests, $1.2985 usage-derived cost; no browser execution or task-success measurement.** All 90 low-effort actor calls reported zero hidden reasoning tokens. The proposed finite **3× reasoning** comparison is therefore not calibrated. All 120 native actor actions and 30 index-only selections passed schema checks.
 
-| Condition | Actor generation per decision | Selection |
-| --- | --- | --- |
-| Serial reasoning | One Sol proposal, high reasoning effort, 12,288 total generated-token ceiling | Execute its action |
-| Three proposals | Three independent Sol proposals, low reasoning effort, 4,096 total generated tokens each | Sol medium selects one of the three actions; 2,048-token selector ceiling |
+| Component | Requests | Generated tokens, including reasoning | Reported reasoning tokens | Usage-derived USD |
+| --- | ---: | ---: | ---: | ---: |
+| One high-effort Sol actor per state | 30 | 2,502 | 1,675 | 0.4213 |
+| Three low-effort Sol actors per state | 90 | 2,348 | 0 | 0.4738 |
+| Sol medium selector | 30 | 927 | 533 | 0.4034 |
+| Total | 150 | 5,777 | 2,208 | 1.2985 |
 
-The actor output ceilings match at 12,288 tokens per decision. [Sol reasoning effort](https://developers.openai.com/api/docs/models/gpt-6.1-sol) is adaptive; [the output limit includes hidden reasoning and visible output](https://developers.openai.com/api/docs/guides/reasoning). Neither the effort labels nor a 3:1 ceiling guarantees a 3:1 realized reasoning ratio. Report the actual reasoning-token usage separately, and include selector input/output, latency and cost in total expenditure. Sol's private chain of thought is unavailable to the selector; selection receives the common state/history and the three action proposals. Preserve duplicate proposals rather than resampling them.
+The high actor averaged 83.4 generated tokens per proposal, **3.20×** the mean low proposal; its actor output total was 6.56% above all three low proposals combined. Hidden reasoning is different: high averaged 55.83 tokens per state, while low used zero on every request, making the high/low reasoning ratio undefined. The three-low-plus-selector pipeline cost **2.08×** the high-only pipeline in this saved-state sample, under its observed cache pattern. These are received-usage calculations at the frozen model prices, not a provider-invoice audit or a full-trajectory cost estimate.
 
-First prepare a 30-state behavior/cost calibration from saved nonbenchmark training-task states, balanced across decision depths, with exact task-disjointness and source hashes. The proposed calibration ceiling is 120 actor plus 30 selector requests, **150 requests / $20 across all attempts**, with zero new browser sessions, GPU allocations or judge calls. It is not authorized for dispatch. Measure the realized reasoning ratio, parse/truncation rates, proposal diversity and USD; a different effort sweep requires a revised bounded proposal. Full benchmark CPU/browser resources and API caps follow those receipts, before an exact-budget approval request. Hold prompts, state evidence and tool schemas constant; randomize per-task arm order and use native benchmark judges plus the shared validity rule. The primary analysis is paired overall success; report valid-only rates, paired uncertainty and achieved compute/cost separately.
+| Exact distinct actions among three low proposals | States | States (%) |
+| --- | ---: | ---: |
+| 1 | 13 | 43.33 |
+| 2 | 6 | 20.00 |
+| 3 | 11 | 36.67 |
+
+The high actor's exact tool name/arguments were absent from all three low proposals on 16/30 states. Its action matched the selected low action on 13/30; **tool names differed on only 1/30**. Most exact differences concern arguments or coordinates; this does not establish different semantic choices or better actions. No outcome judge or continuation was run.
+
+The frozen sample contains 19 C2 and 11 Piotr training states across 29 normalized task instructions, with ten states each at decision depths 1–3, 4–9 and ≥10. All screenshot and original-prompt hashes passed. Exact normalized instructions were checked against Online-Mind2Web300, WebVoyager595 and DeepShop150; this is not proof of semantic nonoverlap. All four actor requests used identical screenshot/history inputs and source-native tools. Archived SFT histories were supplied as snapshot evidence, without inventing native API call IDs. Teacher labels, future actions and private chain-of-thought text were excluded from requests. The selector received the common state and the three proposed actions, including duplicates.
+
+The actor caps were high/12,288 versus three low/4,096, with medium/2,048 for selection. [Sol reasoning effort](https://developers.openai.com/api/docs/models/gpt-6.1-sol) adapts to each input; [output limits include reasoning and visible tokens](https://developers.openai.com/api/docs/guides/reasoning). These caps did not force longer reasoning. All requests, failures and reservations share the approved $20/150-request pilot ceiling; 150 settled with zero failures or outstanding reservations. The independently checked worker exited successfully. No GPU allocation, browser session or judge call was used.
+
+[Aggregate and audit hashes](arm_results/sol61_serial_parallel_20261013/pilot.json) · [W&B calibration](https://wandb.ai/zixianma/openwebrl-evals/runs/sol61-serial-parallel-pilot-20261013-v1).
+
+**Next proposed calibration:** one medium-effort actor request on each of the same 30 frozen states, reusing the existing high receipts; 30 new physical requests capped at **$5**, zero selector/judge/browser/GPU calls. This amendment is prepared but unapproved and has not run. Its purpose is to establish a nonzero reference before choosing a roughly threefold reasoning setting. No automatic effort sweep or budget transfer is permitted. The full paired 300 Online-Mind2Web / 595 WebVoyager / 150 DeepShop study remains planned (2,090 episodes); its CPU/browser allocation and API budget require a separate exact approval after calibration. The earlier SFT-based GPU/API estimate is superseded.

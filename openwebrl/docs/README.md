@@ -1,5 +1,7 @@
 # OpenWebRL project documentation
 
+[Sol serial/parallel calibration verified: 30 states, $1.30; low effort used zero reasoning, so the 3× reasoning comparison needs calibration](ARM_INFERENCE_SCALING.md#sol61-serial-versus-parallel-reasoning-20261013).
+
 [Shared-rule benchmark validity audit: 5,400 exactly mapped saved episodes checked, no denominator changes; older evidence gaps retained](EPISODE_VALIDITY.md#benchmark-validity-audit-20261013).
 
 [Episode validity unified across RL, branch collection and MolmoWeb: the Sep 10–24 RL runs kept 940 infrastructure failures (1.39%) as reward 0](EPISODE_VALIDITY.md#episode-validity-20261012).

@@ -1,0 +1,291 @@
+{
+  "schema": "sol61-serial-parallel-pilot-aggregate-v1",
+  "model": "gpt-6.1-sol",
+  "scope": "Saved-state cost and behavior diagnostic; no executed-action or benchmark success measurement",
+  "requests": 150,
+  "dispositions": 150,
+  "skipped_zero_request_dispositions_by_role": {},
+  "arm_totals": {
+    "serial_high": {
+      "physical_requests": 30,
+      "generated_output_tokens": 2502,
+      "observed_reasoning_tokens": 1675,
+      "reasoning_usage_missing_requests": 0,
+      "charged_or_reserved_usd": 0.42127829999999994,
+      "usage_lower_usd": 0.4212783,
+      "usage_upper_usd": 0.4212783
+    },
+    "parallel_three_plus_selection": {
+      "physical_requests": 120,
+      "generated_output_tokens": 3275,
+      "observed_reasoning_tokens": 533,
+      "reasoning_usage_missing_requests": 0,
+      "charged_or_reserved_usd": 0.8771855,
+      "usage_lower_usd": 0.8771855,
+      "usage_upper_usd": 0.8771855
+    }
+  },
+  "states_with_any_receipt": 30,
+  "states_with_all_five_request_receipts": 30,
+  "request_count_by_role": {
+    "parallel_low_0": 30,
+    "parallel_low_1": 30,
+    "parallel_low_2": 30,
+    "selector": 30,
+    "serial_high": 30
+  },
+  "failed_calls_by_role": {
+    "parallel_low_0": 0,
+    "parallel_low_1": 0,
+    "parallel_low_2": 0,
+    "selector": 0,
+    "serial_high": 0
+  },
+  "incomplete_responses_by_role": {},
+  "native_model_receipts_by_role": {
+    "parallel_low_0": 30,
+    "parallel_low_1": 30,
+    "parallel_low_2": 30,
+    "selector": 30,
+    "serial_high": 30
+  },
+  "valid_action_or_selection_by_role": {
+    "parallel_low_0": 30,
+    "parallel_low_1": 30,
+    "parallel_low_2": 30,
+    "selector": 30,
+    "serial_high": 30
+  },
+  "action_validation_errors": {},
+  "tokens_by_role": {
+    "parallel_low_0": {
+      "input": 198291,
+      "output": 797,
+      "cached_input": 141281,
+      "reasoning_output": 0,
+      "cache_write_input": 53230
+    },
+    "parallel_low_1": {
+      "input": 198291,
+      "output": 775,
+      "cached_input": 145784,
+      "reasoning_output": 0,
+      "cache_write_input": 48727
+    },
+    "parallel_low_2": {
+      "input": 198291,
+      "output": 776,
+      "cached_input": 142615,
+      "reasoning_output": 0,
+      "cache_write_input": 51896
+    },
+    "selector": {
+      "input": 157680,
+      "output": 927,
+      "cached_input": 0,
+      "reasoning_output": 533,
+      "cache_write_input": 157590
+    },
+    "serial_high": {
+      "input": 198291,
+      "output": 2502,
+      "cached_input": 40658,
+      "reasoning_output": 1675,
+      "cache_write_input": 153853
+    }
+  },
+  "missing_usage_fields": {
+    "parallel_low_0:image_input": 30,
+    "parallel_low_1:image_input": 30,
+    "parallel_low_2:image_input": 30,
+    "selector:image_input": 30,
+    "serial_high:image_input": 30
+  },
+  "cost_by_role": {
+    "parallel_low_0": {
+      "usage_lower_usd": 0.1627331,
+      "usage_upper_usd": 0.1627331,
+      "charged_or_reserved_usd": 0.1627331
+    },
+    "parallel_low_1": {
+      "usage_lower_usd": 0.15170589999999998,
+      "usage_upper_usd": 0.15170589999999998,
+      "charged_or_reserved_usd": 0.15170589999999998
+    },
+    "parallel_low_2": {
+      "usage_lower_usd": 0.1593215,
+      "usage_upper_usd": 0.1593215,
+      "charged_or_reserved_usd": 0.1593215
+    },
+    "selector": {
+      "usage_lower_usd": 0.40342500000000003,
+      "usage_upper_usd": 0.40342500000000003,
+      "charged_or_reserved_usd": 0.40342500000000003
+    },
+    "serial_high": {
+      "usage_lower_usd": 0.4212783,
+      "usage_upper_usd": 0.4212783,
+      "charged_or_reserved_usd": 0.42127829999999994
+    }
+  },
+  "all_attempt_charged_or_reserved_usd": 1.2984638,
+  "approved_caps": {
+    "requests": 150,
+    "usd": 20
+  },
+  "within_request_and_accounted_cost_caps": true,
+  "latency_seconds_by_role": {
+    "parallel_low_0": {
+      "n": 30,
+      "mean": 4.300340457767016,
+      "median": 3.293666038000083,
+      "min": 2.2083829830007744,
+      "max": 12.216660335998313
+    },
+    "parallel_low_1": {
+      "n": 30,
+      "mean": 4.319136510800187,
+      "median": 3.3077731174998917,
+      "min": 2.195826715000294,
+      "max": 10.24253131900332
+    },
+    "parallel_low_2": {
+      "n": 30,
+      "mean": 3.903587018000083,
+      "median": 3.3906164945001365,
+      "min": 2.0212140709991218,
+      "max": 9.35619459100053
+    },
+    "selector": {
+      "n": 30,
+      "mean": 2.8087442258332884,
+      "median": 2.6028676870009804,
+      "min": 1.3155601489997935,
+      "max": 6.075933566000458
+    },
+    "serial_high": {
+      "n": 30,
+      "mean": 4.528000277367149,
+      "median": 4.092691350499081,
+      "min": 2.3457771130015317,
+      "max": 12.468824960997154
+    }
+  },
+  "reasoning_ratio": {
+    "paired_states_with_observed_usage": 30,
+    "zero_low_reasoning_states_ratio_undefined": 30,
+    "high_divided_by_mean_three_low": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "high_divided_by_sum_three_low": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    }
+  },
+  "action_diversity": {
+    "valid_three_action_states": 30,
+    "exact_unique_action_count": {
+      "3": 11,
+      "2": 6,
+      "1": 13
+    },
+    "serial_action_absent_from_three_low": {
+      "n": 30,
+      "count": 16
+    },
+    "selected_low_matches_serial": {
+      "n": 30,
+      "count": 13
+    },
+    "definition": "Exact canonical tool name and JSON argument equality; no semantic equivalence or execution claims"
+  },
+  "limitations": [
+    "Reasoning usage is adaptive; output token caps do not establish a 3x reasoning ratio.",
+    "Unknown usage retains receipt reservation in all-attempt cost. Cache and reasoning tokens are subsets, never added to totals.",
+    "Latency summaries are individual requests; they do not establish end-to-end concurrent browser latency.",
+    "Only aggregate counts emitted; no state identifiers, prompts, actions or reasoning text."
+  ],
+  "verified_complete": true,
+  "verified_scope": "Bounded30-state snapshot calibration only; full benchmark study not launched",
+  "independent_audit_sha256": "7a299c84ff308f8fdb506c10cfec6f68bf36718dcda452c946557e1345229edd",
+  "state_manifest_sha256": "85908606bfb7e3499edf3279bfaea76b0a6e8cc0ee91479ac41b36a040a0dffd",
+  "behavior_diagnostics": {
+    "states": 30,
+    "counts": {
+      "different_tool_high_vs_selected": 1,
+      "high_tool_absent_in_three_low": 1
+    },
+    "high_vs_selected_tool_pairs": [
+      {
+        "high": "scroll",
+        "selected": "scroll",
+        "count": 8
+      },
+      {
+        "high": "done",
+        "selected": "done",
+        "count": 2
+      },
+      {
+        "high": "click",
+        "selected": "click",
+        "count": 12
+      },
+      {
+        "high": "write",
+        "selected": "write",
+        "count": 1
+      },
+      {
+        "high": "press_keys",
+        "selected": "press_keys",
+        "count": 3
+      },
+      {
+        "high": "click",
+        "selected": "goto_url",
+        "count": 1
+      },
+      {
+        "high": "goto_url",
+        "selected": "goto_url",
+        "count": 3
+      }
+    ],
+    "tool_histogram": {
+      "high:scroll": 8,
+      "selected:scroll": 8,
+      "high:done": 2,
+      "selected:done": 2,
+      "high:click": 13,
+      "selected:click": 12,
+      "high:write": 1,
+      "selected:write": 1,
+      "high:press_keys": 3,
+      "selected:press_keys": 3,
+      "selected:goto_url": 4,
+      "high:goto_url": 3
+    }
+  },
+  "wandb_url": "https://wandb.ai/zixianma/openwebrl-evals/runs/sol61-serial-parallel-pilot-20261013-v1",
+  "benchmark_success_measured": false,
+  "new_browser_sessions": 0,
+  "new_gpu_allocations": 0,
+  "judge_calls": 0,
+  "interpretation": "High actor generated3.1968x output perproposal relative to meanlow, but all90lowcalls hadzero reportedhiddenreasoning. This doesnotestablish3x hiddenreasoning or successbenefit.",
+  "followup": {
+    "approved": false,
+    "proposed_additional_actor_requests": 30,
+    "proposed_additional_usd_cap": 5,
+    "effort": "medium",
+    "same_frozen_states": true,
+    "selector_calls": 0
+  }
+}
