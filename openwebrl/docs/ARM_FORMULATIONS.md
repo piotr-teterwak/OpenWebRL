@@ -433,29 +433,35 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 - **Calls per state:** four: three in the canonical candidate order and one in a seeded shuffled order. Luna returns `{"selection": k}`.
 - **Scoring:** each pick is scored on held-out draws 3–7 of the chosen action. Draws 1–7 are never shown, nor is any judge verdict or reward.
 
-| Input | Before execution | Immediate result | Lookahead K (K = 2, 3, 5) | K = 1 + 3 history screenshots |
-| --- | :---: | :---: | :---: | :---: |
-| Task and current screenshot | ✓ | ✓ | ✓ | ✓ |
-| History: last 5 past actor outputs as text, **reasoning included** | ✓ | ✓ | ✓ | ✓ |
-| Screenshots before the last 3 past actions | — | — | — | ✓ |
-| Five candidates' full text, **reasoning included** | ✓ | ✓ | ✓ | ✓ |
-| Immediate result of each candidate (draw 0): post-action screenshot, page observation, tool feedback | — | ✓ | ✓ | ✓ |
-| Next K actor steps after each candidate (draw 0): action text, **reasoning stripped**, ≤1,500 characters, plus the resulting screenshot | — | — | ✓ (K = 2, 3 or 5) | ✓ (K = 1) |
-| Final answer if the episode ended within K steps | — | — | hidden: shown as "[the episode ended here; any final answer is not shown]" | hidden |
-| Images per call (maximum) | 1 | 6 | 16 / 21 / 31 | 14 |
+**Current, consistent "steps" format (rerun in progress).** Reasoning appears only for the candidates being judged. History and future are both represented as abbreviated actions with screenshots.
 
-- **What a lookahead step contains.** Each is an (action, resulting screenshot) pair. The screenshot after an episode's final step is not shown. An earlier arm that showed final answers did worse (−1.49 pp) and is not used.
-- **Reasoning.** It is included for the candidates and the history in every condition, and stripped from lookahead steps in every condition. Lookahead with the actor's reasoning kept is an untested variant.
+| Input | Before execution | Immediate result | Lookahead K = 1, 2, 3, 5 |
+| --- | :---: | :---: | :---: |
+| Task and current screenshot | ✓ | ✓ | ✓ |
+| Five candidates' full text, **reasoning included** | ✓ | ✓ | ✓ |
+| Last 3 past steps: abbreviated action + the screenshot before it | ✓ | ✓ | ✓ |
+| Immediate result of each candidate (draw 0): post-action screenshot, page observation, tool feedback | — | ✓ | ✓ |
+| Next K actor steps after each candidate (draw 0): abbreviated action + the resulting screenshot | — | — | ✓ |
+| Final answer if the episode ended within K steps | — | — | hidden: shown as "[the episode ended here; any final answer is not shown]" |
+| Images per call (maximum) | 4 | 9 | 14 / 19 / 24 / 34 |
 
-| State set | States | Task groups | Conditions run | Status |
-| --- | ---: | ---: | --- | --- |
-| [First lookahead study](#lookahead-labels-20261011): teacher-campaign states with aligned draw-0 rollouts (62 fresh64, 57 fresh64succ, 48 historical, 27 pilot32) | 194 | — | before, immediate (from the 211-state study), K = 3 hidden, K = 3 shown | done |
-| [Stage (a)](#lookahead-stage-a-20261012): fresh states on Piotr's training-split tasks (`piotr-matched-parallel10-v1`) | 121 | 53 | before, immediate, K = 3 hidden | done |
-| Depth and history ablation: the 315 states above | 315 | — | K = 2, K = 5, K = 1 + 3 history screenshots | running (jobs 359595, 359596, 359602; cap USD 40 / 5,000 calls) |
-| Proposed scale-up: `fast1k-20261012` | 713 | — | all six conditions | awaiting the ablation results and approval |
+- **Abbreviated action.** The actor's output after its last `</think>`, which is the tool call, capped at 1,500 characters. The cap guards against unusually long actions such as long typed text; most tool calls are far shorter.
+- **Why the final answer is hidden.** On the 194-state study, showing it made Luna's picks worse: −1.49 pp [−2.64, −0.42] against hiding it.
 
-- **Primary comparison for the ablation:** each new condition minus K = 3 hidden, on the same states, with task-group bootstrap intervals.
-- **Power.** 315 states can detect a 3–4 pp difference between conditions, not a 1 pp difference.
+| Run | States | Conditions | Format | Status |
+| --- | ---: | --- | --- | --- |
+| [First lookahead study](#lookahead-labels-20261011) | 194 | before, immediate, K = 3 (hidden / shown) | earlier: text history with reasoning, 5 steps | done |
+| [Stage (a)](#lookahead-stage-a-20261012), fresh Piotr-matched states | 121 | before, immediate, K = 3 | earlier | done |
+| Consistent-format rerun, the same 194 + 121 = 315 states | 315 | before, immediate, K = 1, 2, 3, 5 | steps | running (jobs 359614–359619; cap USD 60 / 9,000 calls) |
+| Proposed scale-up: `fast1k-20261012` | 713 | to be decided from the rerun | steps | pending |
+
+<details>
+<summary>Earlier format, and the stopped ablation</summary>
+
+- **Earlier format.** The history was the last 5 past actor outputs as text, with their reasoning and no screenshots. Lookahead steps were stripped of reasoning. The 194-state and stage (a) results above use this format.
+- **Stopped ablation.** An ablation in that format (K = 2, K = 5, K = 1 + 3 history screenshots) was stopped after USD 4.85 because history and future were represented inconsistently. It is not reported.
+
+</details>
 
 <a id="lookahead-labels-20261011"></a>
 
