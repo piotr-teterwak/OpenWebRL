@@ -1,6 +1,6 @@
 {
-  "status": "prepared_pending_exact_resource_api_approval",
-  "approved": false,
+  "status": "blocked_scheduler_account_budget",
+  "approved": true,
   "launched": false,
   "benchmark": "Online-Mind2Web",
   "tasks": 100,
@@ -50,5 +50,7 @@
   "new_browser_sessions": 0,
   "submitted_jobs": 0,
   "interpretation": "Approximate3x generated output per proposal in archived calibration; not exact3x reasoning or equal-total-compute",
-  "source_manifest_sha256": "c2f5561cd9fc9e0a659edb60f34020d6d17628f251ed02fe00a5fc7e04189bfe"
+  "source_manifest_sha256": "c2f5561cd9fc9e0a659edb60f34020d6d17628f251ed02fe00a5fc7e04189bfe",
+  "submission_rejections": 1,
+  "blocker": "Cluster account budget policy rejected submission; no allocation created"
 }
