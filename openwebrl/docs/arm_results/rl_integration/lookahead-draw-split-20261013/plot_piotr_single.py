@@ -36,6 +36,9 @@ for kind in ("gain", "absolute", "absolute_lines"):           # absolute_lines: 
             ax.fill_between(ns, [b + x[1] for b, x in zip(base, d)], [b + x[2] for b, x in zip(base, d)],
                             color=color, alpha=.10, lw=0)
     ax.set_xticks(ns); ax.set_xlabel("Observed draws per action"); ax.grid(alpha=.25)
+    if kind == "absolute_lines":                                # whole-number frame, so the 40% gridline shows
+        lo, hi = ax.get_ylim()
+        ax.set_ylim(min(30, int(lo)), max(40, int(hi) + 1))
     ax.set_ylabel("Gain over actor's first sample (pp)" if kind == "gain" else "Success (%)")
     for side in ("top", "right"):
         ax.spines[side].set_visible(False)
