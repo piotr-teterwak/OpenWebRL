@@ -29,6 +29,65 @@ Relabeling every saved episode (2026-10-12, CPU job 357123) leaves branch collec
 
 Source: `/gpfs/scrubbed/zixianma/openwebrl-runtime/outcome-validity-relabel-20261012/relabel-full.json`.
 
+<a id="benchmark-validity-audit-20261013"></a>
+## Benchmark success rates: exact-cohort rerun — October 13
+
+**The shared rule leaves all 5,400 independently mapped, auditable benchmark episodes unchanged.** Original judge verdicts and overall success totals are preserved. The earlier 940-failure correction concerns **training rollouts**, and must not be applied as a numerical adjustment to checkpoint-evaluation tables.
+
+These historical Online-Mind2Web rows were reconstructed from exact saved episode files, not inferred from a matching percentage:
+
+| Experiment / cohort | Tasks | Successes | Native valid | Shared-rule valid | Overall % | Shared-rule valid-only % |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Starting SFT, original dedicated baseline | 300 | 90 | 267 | 267 | 30.00 | 33.71 |
+| ScalarRM, same dedicated collection | 300 | 114 | 251 | 251 | 38.00 | 45.42 |
+| SelectionARM, same dedicated collection | 300 | 128 | 256 | 256 | 42.67 | 50.00 |
+| C2 update 500, fixed 100 + fresh holdout 200 | 300 | 95 | 258 | 258 | 31.67 | 36.82 |
+| 1A endpoint 263, fixed 100 + fresh holdout 200 | 300 | 100 | 256 | 256 | 33.33 | 39.06 |
+| Joint C2 + Piotr SFT, update 174, fresh 300 | 300 | 102 | 270 | 270 | 34.00 | 37.78 |
+| Joint C2 + Piotr DPO, update 174, fresh 300 | 300 | 104 | 254 | 254 | 34.67 | 40.94 |
+
+Valid-only success is **shared-rule-valid successes / shared-rule-valid episodes**. The seven full cohorts above contain 2,100 distinct episode artifacts. The C2/1A fixed-100 and holdout-200 subgroup checks reuse those artifacts and are not additional episodes. Every source result set matches its frozen manifest; the subgroup IDs match `arm_c2_full300_cohorts.json`, and each complete cohort matches the pinned 300-task file. Original native counts must reproduce the documented row before relabeling is accepted. Judge failures are read from saved flags; step/context/format endings remain valid failures under the shared rule. No missing outcome is imputed or rejudged.
+
+[Aggregate counts, exact experiment/source bindings and proof hashes](arm_results/outcome_validity_20261013/benchmark-audit.json).
+
+<details>
+<summary>Eleven additional RL evaluation cohorts: 3,300 saved episodes, unchanged</summary>
+
+| Exact evaluation cohort | Judge / protocol | Tasks | Successes | Native valid | Shared-rule valid | Shared-rule valid-only % |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| Original bonus90, `349508` | Local GPT-4.1, T0 | 300 | 121 | 228 | 228 | 53.07 |
+| Mixed bonus90, `340425` | Local GPT-4.1, T0 | 300 | 122 | 233 | 233 | 52.36 |
+| Mixed reweight90, `340423` | Local GPT-4.1, T0 | 300 | 113 | 227 | 227 | 49.78 |
+| Outcome-only G5/56 groups, iteration60 | Local GPT-4.1, T0 | 300 | 117 | 245 | 245 | 47.76 |
+| Uniform G8, iteration60 | Local GPT-4.1, T0 | 300 | 127 | 234 | 234 | 54.27 |
+| Mixed bonus90, repeat1, `346992` | Stealth o4-mini, T0.6 | 300 | 182 | 299 | 299 | 60.87 |
+| Mixed bonus90, repeat2, `346994` | Stealth o4-mini, T0.6 | 300 | 181 | 294 | 294 | 61.56 |
+| Mixed bonus90, repeat3, `346996` | Stealth o4-mini, T0.6 | 300 | 168 | 297 | 297 | 56.57 |
+| Mixed reweight90, repeat1, `346993` | Stealth o4-mini, T0.6 | 300 | 170 | 298 | 298 | 57.05 |
+| Mixed reweight90, repeat2, `346995` | Stealth o4-mini, T0.6 | 300 | 166 | 295 | 295 | 56.27 |
+| Mixed reweight90, repeat3, `346997` | Stealth o4-mini, T0.6 | 300 | 170 | 298 | 298 | 57.05 |
+
+Task IDs match each exact evaluation manifest. Terminal metadata was read with a restricted, tensor-free ZIP/pickle reader; unapproved pickle globals are rejected. Normalized exports retain original sidecar hashes, the ZIP `data.pkl` member hash and explicit terminal/judge flags. These exports were passed through the same relabel CLI. The differing judges and collection dates remain distinct; a common validity rule does not make their success rates controlled comparisons.
+</details>
+
+<details>
+<summary>Evidence gaps: historical rates retained without a new shared-rule claim</summary>
+
+Eleven mapped cohorts retain verdict sidecars but lack their referenced rollout payloads: local additive90 and Gate B90, plus all nine baseline/additive/Gate B stealth90 repeats. Noncompleted sidecars omit the terminal reason, so their shared-rule denominators cannot be independently reconstructed from those files. Merged original/recovery selections are retained; no retry is substituted for a missing episode. The historical local baseline90 table also lacks an exact saved-cohort mapping in the inspected aggregate. Those numbers remain historical native-validity results. Other checkpoint panels and inference cohorts are outside this targeted audit; they are not implicitly revalidated.
+</details>
+
+<details>
+<summary>Reproduce the audit without scanning training archives</summary>
+
+```bash
+python3 scripts/relabel_outcome_validity.py \
+  --evaluation-manifest /path/to/private-cohort-manifest.json \
+  --out /path/to/recomputed-report.json
+```
+
+This mode requires exact expected task IDs, per-episode artifact hashes and documented native counts. It refuses mismatched or duplicate cohorts and never scans the training archives. Private manifests, per-episode evidence and normalizer receipts stay under runtime `outcome-validity-docs-20261013/sft/` and `evaluations/outcome-validity-docs-20261013/preparation-v1/headline-eval-audit/`. The default relabel mode still audits RL training, branch collection and MolmoWeb. This rerun used saved artifacts only, with no new GPU allocation, browser session or model/judge request.
+</details>
+
 ## Endings
 
 | Ending | Valid | Meaning | RL signal | Branch signal | MolmoWeb signal |

@@ -1026,3 +1026,17 @@ Historical actor-policy receipts are intact; these are not missing-policy runs. 
 All attempts and verdicts are preserved; these scores do not enter current means. [Original tables and plots](https://github.com/zixianma/OpenWebRL/blob/a0a6db4e677c7f1959a53f0498ffc9a18d9c9ca0/openwebrl/docs/ARM_INFERENCE_SCALING.md#actor-selector-experiment-tracker-20261004) · [Actor pipeline audit](arm_results/reasoning_actors_full300_20261005/pipeline-debug.json) · [Judge audit](arm_results/sft_selector_judge_audit_20261006.json).
 
 </details>
+
+<a id="sol61-serial-versus-parallel-reasoning-20261013"></a>
+## Planned comparison: Sol reasoning versus three Sol proposals
+
+**Preparation only; no paid calls or new allocation approved.** Use GPT-6.1 Sol as the actor in both conditions, on the same 300 Online-Mind2Web, 595 WebVoyager and 150 DeepShop tasks (2,090 episodes for one repeat per arm). This supersedes the earlier proposal using the OpenWebRL SFT actor and its GPU/API cost estimate.
+
+| Condition | Actor generation per decision | Selection |
+| --- | --- | --- |
+| Serial reasoning | One Sol proposal, high reasoning effort, 12,288 total generated-token ceiling | Execute its action |
+| Three proposals | Three independent Sol proposals, low reasoning effort, 4,096 total generated tokens each | Sol medium selects one of the three actions; 2,048-token selector ceiling |
+
+The actor output ceilings match at 12,288 tokens per decision. [Sol reasoning effort](https://developers.openai.com/api/docs/models/gpt-6.1-sol) is adaptive; [the output limit includes hidden reasoning and visible output](https://developers.openai.com/api/docs/guides/reasoning). Neither the effort labels nor a 3:1 ceiling guarantees a 3:1 realized reasoning ratio. Report the actual reasoning-token usage separately, and include selector input/output, latency and cost in total expenditure. Sol's private chain of thought is unavailable to the selector; selection receives the common state/history and the three action proposals. Preserve duplicate proposals rather than resampling them.
+
+First prepare a 30-state behavior/cost calibration from saved nonbenchmark training-task states, balanced across decision depths, with exact task-disjointness and source hashes. The proposed calibration ceiling is 120 actor plus 30 selector requests, **150 requests / $20 across all attempts**, with zero new browser sessions, GPU allocations or judge calls. It is not authorized for dispatch. Measure the realized reasoning ratio, parse/truncation rates, proposal diversity and USD; a different effort sweep requires a revised bounded proposal. Full benchmark CPU/browser resources and API caps follow those receipts, before an exact-budget approval request. Hold prompts, state evidence and tool schemas constant; randomize per-task arm order and use native benchmark judges plus the shared validity rule. The primary analysis is paired overall success; report valid-only rates, paired uncertainty and achieved compute/cost separately.

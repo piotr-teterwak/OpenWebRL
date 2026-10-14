@@ -51,6 +51,8 @@ Reward Models setup with the o4-mini/AgentTrek Online-Mind2Web judge.
 | ScalarRM, five candidates | 114 | 251 | 49 | 38.0% | 45.4% |
 | SelectionARM, five candidates | 128 | 256 | 44 | **42.7%** | **50.0%** |
 
+**Shared-validity rerun (October 13):** these exact historical cohorts reproduce their existing valid-only denominators under `outcome_validity.py`; original judge verdicts are unchanged. [Experiment bindings and audit scope](EPISODE_VALIDITY.md#benchmark-validity-audit-20261013).
+
 **Corrected three-arm repetition submitted, 347424/347425:** official SFT alone, SFT + Piotr ARM and SFT + RL-task ARM; target 300 corrected episodes each. The 402 earlier blank-policy episodes stay separate. Policy restoration, all prior compute time and shared judge spending are explicitly tracked; remaining caps are 1h33m and 2h03m at 2 H200 / 16 CPUs / 240 GiB per shard. Completion of all 900 under those remaining caps is not yet established. [Audit and recovery](ARM_INFERENCE.md#arm-historical-harness-audit-20261006).
 
 - **Baseline:** execute one actor sample without an ARM call.
@@ -129,6 +131,8 @@ $$
 | 1A filtered SFT | Combined 300 | 100 / 300 | 33.3% | 100 / 256 | 39.1% | +1.7 pp overall vs C2 |
 | Joint C2 + Piotr SFT | Fresh 300 | 102 / 300 | 34.0% | 102 / 270 | 37.8% | +4.0 pp overall vs starting actor |
 | Joint C2 + Piotr DPO | Fresh 300 | **104 / 300** | **34.7%** | **104 / 254** | **40.9%** | +4.7 pp overall vs starting actor |
+
+**Shared-validity rerun (October 13):** these exact historical cohorts reproduce their existing valid-only denominators under `outcome_validity.py`; original judge verdicts are unchanged. [Experiment bindings and audit scope](EPISODE_VALIDITY.md#benchmark-validity-audit-20261013).
 
 - **Starting actor:** unmodified OpenWebRL-SFT policy used as the training and evaluation reference.
 - **C2 filtered SFT:** retain every usable executed ARM-selected turn from a valid successful trajectory; train the chosen reasoning-plus-action response with language-only LoRA (rank 16, alpha 32, dropout 0.05), AdamW at `1e-5`, effective batch 16, cosine decay, 3% warmup, and two epochs.

@@ -16,6 +16,12 @@
 | RL + Piotr − RL | 300 | +11.33 | [+5.33, +17.33] | [Final audit](ARM_INFERENCE.md#selectionarm-piotr-rlactor30-20261007) |
 | RL gain − existing SFT gain; different collection times | 300 | +4.33 | [−3.00, +11.33] | [Four-outcome comparison](arm_results/selectionarm_piotr_rlactor30_20261007/sft_rl_gain_comparison.json) |
 
+## Shared validity audit · October 13
+
+| Exact scope | Classified distinct episodes | Validity changes | Other historical cohorts with insufficient payload evidence | Source |
+| --- | ---: | ---: | ---: | --- |
+| Original inference, filtered/joint SFT and listed RL evaluations | 5,400 | 0 | 11 | [Exact experiment bindings and limits](EPISODE_VALIDITY.md#benchmark-validity-audit-20261013) |
+
 ## DOM decision models · first 10-task pilot · Browser Use · o4-mini
 
 | Decision model | Text helper | Tasks | Successes | Valid | Invalid | Overall % | Valid-only % | Record |

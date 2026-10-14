@@ -1,0 +1,1415 @@
+{
+  "schema": "documented-benchmark-outcome-validity-audit-v1",
+  "date": "2026-10-13",
+  "classifier_sha256": "4046dbe9394c698f0367916d2a5f99d57295def4822da56cf3e8ca059b96c18b",
+  "classifier_changed": false,
+  "relabel_script_sha256": "048c7cde2f14c13fa1238617e271c524c4e10d5b22d0516abf823fd475bb012d",
+  "unique_saved_episodes_classified": 5400,
+  "validity_changes": 0,
+  "original_judge_verdicts_preserved": true,
+  "sft_and_original_inference": {
+    "c2_fixed100": {
+      "tasks": 100,
+      "native_valid": 79,
+      "native_successes": 33,
+      "unified_valid": 79,
+      "unified_invalid": 21,
+      "unified_valid_successes": 33,
+      "canonical_successes": 33,
+      "overall": 0.33,
+      "valid_only": 0.4177215189873418,
+      "endings": {
+        "done": 55,
+        "step_limit": 23,
+        "unknown": 14,
+        "model_server": 4,
+        "browser_env": 3,
+        "context_limit": 1
+      },
+      "validity_changes": {}
+    },
+    "c2_holdout200": {
+      "tasks": 200,
+      "native_valid": 179,
+      "native_successes": 62,
+      "unified_valid": 179,
+      "unified_invalid": 21,
+      "unified_valid_successes": 62,
+      "canonical_successes": 62,
+      "overall": 0.31,
+      "valid_only": 0.3463687150837989,
+      "endings": {
+        "done": 106,
+        "step_limit": 67,
+        "unknown": 11,
+        "model_server": 5,
+        "context_limit": 4,
+        "format_failure": 2,
+        "browser_env": 5
+      },
+      "validity_changes": {}
+    },
+    "1a_fixed100": {
+      "tasks": 100,
+      "native_valid": 79,
+      "native_successes": 33,
+      "unified_valid": 79,
+      "unified_invalid": 21,
+      "unified_valid_successes": 33,
+      "canonical_successes": 33,
+      "overall": 0.33,
+      "valid_only": 0.4177215189873418,
+      "endings": {
+        "step_limit": 29,
+        "done": 49,
+        "unknown": 12,
+        "model_server": 6,
+        "browser_env": 3,
+        "context_limit": 1
+      },
+      "validity_changes": {}
+    },
+    "1a_holdout200": {
+      "tasks": 200,
+      "native_valid": 177,
+      "native_successes": 67,
+      "unified_valid": 177,
+      "unified_invalid": 23,
+      "unified_valid_successes": 67,
+      "canonical_successes": 67,
+      "overall": 0.335,
+      "valid_only": 0.3785310734463277,
+      "endings": {
+        "done": 117,
+        "unknown": 15,
+        "context_limit": 5,
+        "step_limit": 52,
+        "browser_env": 4,
+        "model_server": 4,
+        "format_failure": 3
+      },
+      "validity_changes": {}
+    },
+    "c2_combined300": {
+      "tasks": 300,
+      "native_valid": 258,
+      "native_successes": 95,
+      "unified_valid": 258,
+      "unified_invalid": 42,
+      "unified_valid_successes": 95,
+      "canonical_successes": 95,
+      "overall": 0.31666666666666665,
+      "valid_only": 0.3682170542635659,
+      "endings": {
+        "done": 161,
+        "step_limit": 90,
+        "unknown": 25,
+        "model_server": 9,
+        "browser_env": 8,
+        "context_limit": 5,
+        "format_failure": 2
+      },
+      "validity_changes": {}
+    },
+    "1a_combined300": {
+      "tasks": 300,
+      "native_valid": 256,
+      "native_successes": 100,
+      "unified_valid": 256,
+      "unified_invalid": 44,
+      "unified_valid_successes": 100,
+      "canonical_successes": 100,
+      "overall": 0.3333333333333333,
+      "valid_only": 0.390625,
+      "endings": {
+        "step_limit": 81,
+        "done": 166,
+        "unknown": 27,
+        "model_server": 10,
+        "browser_env": 7,
+        "context_limit": 6,
+        "format_failure": 3
+      },
+      "validity_changes": {}
+    },
+    "joint_sft300": {
+      "tasks": 300,
+      "native_valid": 270,
+      "native_successes": 102,
+      "unified_valid": 270,
+      "unified_invalid": 30,
+      "unified_valid_successes": 102,
+      "canonical_successes": 102,
+      "overall": 0.34,
+      "valid_only": 0.37777777777777777,
+      "endings": {
+        "done": 166,
+        "unknown": 23,
+        "step_limit": 97,
+        "format_failure": 1,
+        "browser_env": 3,
+        "model_server": 4,
+        "context_limit": 6
+      },
+      "validity_changes": {}
+    },
+    "joint_dpo300": {
+      "tasks": 300,
+      "native_valid": 254,
+      "native_successes": 104,
+      "unified_valid": 254,
+      "unified_invalid": 46,
+      "unified_valid_successes": 104,
+      "canonical_successes": 104,
+      "overall": 0.3466666666666667,
+      "valid_only": 0.4094488188976378,
+      "endings": {
+        "done": 163,
+        "step_limit": 85,
+        "unknown": 23,
+        "context_limit": 5,
+        "browser_env": 6,
+        "model_server": 17,
+        "format_failure": 1
+      },
+      "validity_changes": {}
+    },
+    "starting_sft300": {
+      "tasks": 300,
+      "native_valid": 267,
+      "native_successes": 90,
+      "unified_valid": 267,
+      "unified_invalid": 33,
+      "unified_valid_successes": 90,
+      "canonical_successes": 90,
+      "overall": 0.3,
+      "valid_only": 0.33707865168539325,
+      "endings": {
+        "done": 168,
+        "step_limit": 95,
+        "unknown": 22,
+        "format_failure": 3,
+        "model_server": 6,
+        "browser_env": 5,
+        "context_limit": 1
+      },
+      "validity_changes": {}
+    },
+    "scalar_rm300": {
+      "tasks": 300,
+      "native_valid": 251,
+      "native_successes": 114,
+      "unified_valid": 251,
+      "unified_invalid": 49,
+      "unified_valid_successes": 114,
+      "canonical_successes": 114,
+      "overall": 0.38,
+      "valid_only": 0.4541832669322709,
+      "endings": {
+        "done": 165,
+        "step_limit": 82,
+        "unknown": 28,
+        "context_limit": 4,
+        "model_server": 15,
+        "browser_env": 6
+      },
+      "validity_changes": {}
+    },
+    "selection_arm300": {
+      "tasks": 300,
+      "native_valid": 256,
+      "native_successes": 128,
+      "unified_valid": 256,
+      "unified_invalid": 44,
+      "unified_valid_successes": 128,
+      "canonical_successes": 128,
+      "overall": 0.4266666666666667,
+      "valid_only": 0.5,
+      "endings": {
+        "done": 176,
+        "step_limit": 77,
+        "unknown": 25,
+        "browser_env": 6,
+        "context_limit": 3,
+        "model_server": 13
+      },
+      "validity_changes": {}
+    }
+  },
+  "rl_evaluations": {
+    "local-mixed-bonus90": {
+      "tasks": 300,
+      "native_valid": 233,
+      "native_successes": 122,
+      "unified_valid": 233,
+      "unified_invalid": 67,
+      "unified_valid_successes": 122,
+      "canonical_successes": 122,
+      "overall": 0.4066666666666667,
+      "valid_only": 0.5236051502145923,
+      "endings": {
+        "done": 219,
+        "browser_env": 65,
+        "step_limit": 5,
+        "context_limit": 9,
+        "wall_timeout": 2
+      },
+      "validity_changes": {}
+    },
+    "local-mixed-reweight90": {
+      "tasks": 300,
+      "native_valid": 227,
+      "native_successes": 113,
+      "unified_valid": 227,
+      "unified_invalid": 73,
+      "unified_valid_successes": 113,
+      "canonical_successes": 113,
+      "overall": 0.37666666666666665,
+      "valid_only": 0.4977973568281938,
+      "endings": {
+        "done": 219,
+        "browser_env": 72,
+        "wall_timeout": 1,
+        "format_failure": 1,
+        "context_limit": 7
+      },
+      "validity_changes": {}
+    },
+    "local-original90": {
+      "tasks": 300,
+      "native_valid": 228,
+      "native_successes": 121,
+      "unified_valid": 228,
+      "unified_invalid": 72,
+      "unified_valid_successes": 121,
+      "canonical_successes": 121,
+      "overall": 0.4033333333333333,
+      "valid_only": 0.5307017543859649,
+      "endings": {
+        "done": 220,
+        "browser_env": 70,
+        "step_limit": 6,
+        "context_limit": 2,
+        "wall_timeout": 2
+      },
+      "validity_changes": {}
+    },
+    "local-outcome56-60": {
+      "tasks": 300,
+      "native_valid": 245,
+      "native_successes": 117,
+      "unified_valid": 245,
+      "unified_invalid": 55,
+      "unified_valid_successes": 117,
+      "canonical_successes": 117,
+      "overall": 0.39,
+      "valid_only": 0.4775510204081633,
+      "endings": {
+        "done": 228,
+        "browser_env": 54,
+        "step_limit": 9,
+        "context_limit": 8,
+        "wall_timeout": 1
+      },
+      "validity_changes": {}
+    },
+    "local-uniform8-60": {
+      "tasks": 300,
+      "native_valid": 234,
+      "native_successes": 127,
+      "unified_valid": 234,
+      "unified_invalid": 66,
+      "unified_valid_successes": 127,
+      "canonical_successes": 127,
+      "overall": 0.42333333333333334,
+      "valid_only": 0.5427350427350427,
+      "endings": {
+        "done": 227,
+        "browser_env": 63,
+        "step_limit": 3,
+        "wall_timeout": 3,
+        "context_limit": 4
+      },
+      "validity_changes": {}
+    },
+    "stealth90-o4-t06-mixed-bonus-r1-346992": {
+      "tasks": 300,
+      "native_valid": 299,
+      "native_successes": 182,
+      "unified_valid": 299,
+      "unified_invalid": 1,
+      "unified_valid_successes": 182,
+      "canonical_successes": 182,
+      "overall": 0.6066666666666667,
+      "valid_only": 0.6086956521739131,
+      "endings": {
+        "done": 285,
+        "step_limit": 6,
+        "context_limit": 8,
+        "model_server": 1
+      },
+      "validity_changes": {}
+    },
+    "stealth90-o4-t06-mixed-reweight-r1-346993": {
+      "tasks": 300,
+      "native_valid": 298,
+      "native_successes": 170,
+      "unified_valid": 298,
+      "unified_invalid": 2,
+      "unified_valid_successes": 170,
+      "canonical_successes": 170,
+      "overall": 0.5666666666666667,
+      "valid_only": 0.5704697986577181,
+      "endings": {
+        "done": 291,
+        "context_limit": 4,
+        "model_server": 1,
+        "step_limit": 3,
+        "judge": 1
+      },
+      "validity_changes": {}
+    },
+    "stealth90-o4-t06-mixed-bonus-r2-346994": {
+      "tasks": 300,
+      "native_valid": 294,
+      "native_successes": 181,
+      "unified_valid": 294,
+      "unified_invalid": 6,
+      "unified_valid_successes": 181,
+      "canonical_successes": 181,
+      "overall": 0.6033333333333334,
+      "valid_only": 0.6156462585034014,
+      "endings": {
+        "done": 284,
+        "wall_timeout": 3,
+        "step_limit": 5,
+        "context_limit": 5,
+        "model_server": 3
+      },
+      "validity_changes": {}
+    },
+    "stealth90-o4-t06-mixed-reweight-r2-346995": {
+      "tasks": 300,
+      "native_valid": 295,
+      "native_successes": 166,
+      "unified_valid": 295,
+      "unified_invalid": 5,
+      "unified_valid_successes": 166,
+      "canonical_successes": 166,
+      "overall": 0.5533333333333333,
+      "valid_only": 0.5627118644067797,
+      "endings": {
+        "done": 288,
+        "wall_timeout": 4,
+        "context_limit": 2,
+        "step_limit": 3,
+        "model_server": 1,
+        "format_failure": 2
+      },
+      "validity_changes": {}
+    },
+    "stealth90-o4-t06-mixed-bonus-r3-346996": {
+      "tasks": 300,
+      "native_valid": 297,
+      "native_successes": 168,
+      "unified_valid": 297,
+      "unified_invalid": 3,
+      "unified_valid_successes": 168,
+      "canonical_successes": 168,
+      "overall": 0.56,
+      "valid_only": 0.5656565656565656,
+      "endings": {
+        "done": 283,
+        "step_limit": 6,
+        "wall_timeout": 1,
+        "context_limit": 8,
+        "model_server": 2
+      },
+      "validity_changes": {}
+    },
+    "stealth90-o4-t06-mixed-reweight-r3-346997": {
+      "tasks": 300,
+      "native_valid": 298,
+      "native_successes": 170,
+      "unified_valid": 298,
+      "unified_invalid": 2,
+      "unified_valid_successes": 170,
+      "canonical_successes": 170,
+      "overall": 0.5666666666666667,
+      "valid_only": 0.5704697986577181,
+      "endings": {
+        "done": 296,
+        "model_server": 1,
+        "context_limit": 2,
+        "wall_timeout": 1
+      },
+      "validity_changes": {}
+    }
+  },
+  "explicit_json_bindings": {
+    "c2_fixed100": {
+      "sources": [
+        {
+          "directory": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/c2-full-282782-20260908T075414Z/evaluation/checkpoint-scaling-100/update-000500/online-mind2web",
+          "manifest_sha256": "5321e09b4ed1aec153efd1cd17db77d1ffa66c89f9acafee7ede8b3e844f143c",
+          "task_file_sha256": "8343c23be98d6d63856e9b53ff3884222be099cc0f55ad5edb475176f54317ed",
+          "actor": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/c2-full-282782-20260908T075414Z/evaluation/checkpoint-scaling-100/update-000500/merged-model",
+          "mode": "baseline",
+          "tasks": 100
+        }
+      ],
+      "expected_task_ids_count": 100
+    },
+    "c2_holdout200": {
+      "sources": [
+        {
+          "directory": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/c2-ablation-1a/evaluation/holdout-200-vs-c2/c2-update-000500/online-mind2web",
+          "manifest_sha256": "29db0c1359a2269bbd5d75dd5ac6cc3cc7ac75d7a34c5139a3ef1208fa1392f8",
+          "task_file_sha256": "8343c23be98d6d63856e9b53ff3884222be099cc0f55ad5edb475176f54317ed",
+          "actor": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/c2-full-282782-20260908T075414Z/evaluation/checkpoint-scaling-100/update-000500/merged-model",
+          "mode": "baseline",
+          "tasks": 200
+        }
+      ],
+      "expected_task_ids_count": 200
+    },
+    "1a_fixed100": {
+      "sources": [
+        {
+          "directory": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/c2-ablation-1a/evaluation/checkpoint-scaling-100/endpoint-000263/online-mind2web",
+          "manifest_sha256": "74bf170a919463188ae3cb13bd8b26c1bceb21d0b43bdeee4ddd89a0fda73645",
+          "task_file_sha256": "8343c23be98d6d63856e9b53ff3884222be099cc0f55ad5edb475176f54317ed",
+          "actor": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/c2-ablation-1a/evaluation/checkpoint-scaling-100/endpoint-000263/merged-model",
+          "mode": "baseline",
+          "tasks": 100
+        }
+      ],
+      "expected_task_ids_count": 100
+    },
+    "1a_holdout200": {
+      "sources": [
+        {
+          "directory": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/c2-ablation-1a/evaluation/holdout-200-vs-c2/1a-endpoint-000263/online-mind2web",
+          "manifest_sha256": "836a58b0e9d72508a53901596a2aeb6294cd8505d1a0256812cafae1ad3747bf",
+          "task_file_sha256": "8343c23be98d6d63856e9b53ff3884222be099cc0f55ad5edb475176f54317ed",
+          "actor": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/c2-ablation-1a/evaluation/checkpoint-scaling-100/endpoint-000263/merged-model",
+          "mode": "baseline",
+          "tasks": 200
+        }
+      ],
+      "expected_task_ids_count": 200
+    },
+    "c2_combined300": {
+      "sources": [
+        {
+          "directory": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/c2-full-282782-20260908T075414Z/evaluation/checkpoint-scaling-100/update-000500/online-mind2web",
+          "manifest_sha256": "5321e09b4ed1aec153efd1cd17db77d1ffa66c89f9acafee7ede8b3e844f143c",
+          "task_file_sha256": "8343c23be98d6d63856e9b53ff3884222be099cc0f55ad5edb475176f54317ed",
+          "actor": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/c2-full-282782-20260908T075414Z/evaluation/checkpoint-scaling-100/update-000500/merged-model",
+          "mode": "baseline",
+          "tasks": 100
+        },
+        {
+          "directory": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/c2-ablation-1a/evaluation/holdout-200-vs-c2/c2-update-000500/online-mind2web",
+          "manifest_sha256": "29db0c1359a2269bbd5d75dd5ac6cc3cc7ac75d7a34c5139a3ef1208fa1392f8",
+          "task_file_sha256": "8343c23be98d6d63856e9b53ff3884222be099cc0f55ad5edb475176f54317ed",
+          "actor": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/c2-full-282782-20260908T075414Z/evaluation/checkpoint-scaling-100/update-000500/merged-model",
+          "mode": "baseline",
+          "tasks": 200
+        }
+      ],
+      "expected_task_ids_count": 300
+    },
+    "1a_combined300": {
+      "sources": [
+        {
+          "directory": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/c2-ablation-1a/evaluation/checkpoint-scaling-100/endpoint-000263/online-mind2web",
+          "manifest_sha256": "74bf170a919463188ae3cb13bd8b26c1bceb21d0b43bdeee4ddd89a0fda73645",
+          "task_file_sha256": "8343c23be98d6d63856e9b53ff3884222be099cc0f55ad5edb475176f54317ed",
+          "actor": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/c2-ablation-1a/evaluation/checkpoint-scaling-100/endpoint-000263/merged-model",
+          "mode": "baseline",
+          "tasks": 100
+        },
+        {
+          "directory": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/c2-ablation-1a/evaluation/holdout-200-vs-c2/1a-endpoint-000263/online-mind2web",
+          "manifest_sha256": "836a58b0e9d72508a53901596a2aeb6294cd8505d1a0256812cafae1ad3747bf",
+          "task_file_sha256": "8343c23be98d6d63856e9b53ff3884222be099cc0f55ad5edb475176f54317ed",
+          "actor": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/c2-ablation-1a/evaluation/checkpoint-scaling-100/endpoint-000263/merged-model",
+          "mode": "baseline",
+          "tasks": 200
+        }
+      ],
+      "expected_task_ids_count": 300
+    },
+    "joint_sft300": {
+      "sources": [
+        {
+          "directory": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/joint-v2-sft-2gpu-r2/evaluation/shard-0/online-mind2web",
+          "manifest_sha256": "d41e6a59ea134cfa345562026cd14ae91148bf54c1d1ca02b1f82e52ade2e08d",
+          "task_file_sha256": "8343c23be98d6d63856e9b53ff3884222be099cc0f55ad5edb475176f54317ed",
+          "actor": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/joint-v2-sft-2gpu-r2/evaluation/merged-endpoint",
+          "mode": "baseline",
+          "tasks": 150
+        },
+        {
+          "directory": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/joint-v2-sft-2gpu-r2/evaluation/shard-1/online-mind2web",
+          "manifest_sha256": "2fae2d2b4a810f5f478d8c6b61d3ffcfa1d54c4baa5da2c502a37c194856a291",
+          "task_file_sha256": "8343c23be98d6d63856e9b53ff3884222be099cc0f55ad5edb475176f54317ed",
+          "actor": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/joint-v2-sft-2gpu-r2/evaluation/merged-endpoint",
+          "mode": "baseline",
+          "tasks": 150
+        }
+      ],
+      "expected_task_ids_count": 300
+    },
+    "joint_dpo300": {
+      "sources": [
+        {
+          "directory": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/joint-v2-dpo-2gpu-r2/evaluation/shard-0/online-mind2web",
+          "manifest_sha256": "1c0551a3e01d6e6bae517a2b243f459961c9c88534e600b7a5eb60ae86d70230",
+          "task_file_sha256": "8343c23be98d6d63856e9b53ff3884222be099cc0f55ad5edb475176f54317ed",
+          "actor": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/joint-v2-dpo-2gpu-r2/evaluation/merged-endpoint",
+          "mode": "baseline",
+          "tasks": 150
+        },
+        {
+          "directory": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/joint-v2-dpo-2gpu-r2/evaluation/shard-1/online-mind2web",
+          "manifest_sha256": "9f3166fb9373a8999c027e4aa3e47585357f2a1f0b68eefca1f463ab3a050b23",
+          "task_file_sha256": "8343c23be98d6d63856e9b53ff3884222be099cc0f55ad5edb475176f54317ed",
+          "actor": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/joint-v2-dpo-2gpu-r2/evaluation/merged-endpoint",
+          "mode": "baseline",
+          "tasks": 150
+        }
+      ],
+      "expected_task_ids_count": 300
+    },
+    "starting_sft300": {
+      "sources": [
+        {
+          "directory": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/dedicated-282209-20260908T005547Z/full/baseline",
+          "manifest_sha256": "04defe905dd8210de4347529de7ccabbb895ebc4824d173674be0e880108a239",
+          "task_file_sha256": "8343c23be98d6d63856e9b53ff3884222be099cc0f55ad5edb475176f54317ed",
+          "actor": "/gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT",
+          "mode": "baseline",
+          "tasks": 300
+        }
+      ],
+      "expected_task_ids_count": 300
+    },
+    "scalar_rm300": {
+      "sources": [
+        {
+          "directory": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/dedicated-282209-20260908T005547Z/full/scalar",
+          "manifest_sha256": "87e44d142f725a315007be4e53328bc149cec3adb173ae714afb6cce7874e078",
+          "task_file_sha256": "8343c23be98d6d63856e9b53ff3884222be099cc0f55ad5edb475176f54317ed",
+          "actor": "/gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT",
+          "mode": "scalar",
+          "tasks": 300
+        }
+      ],
+      "expected_task_ids_count": 300
+    },
+    "selection_arm300": {
+      "sources": [
+        {
+          "directory": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/dedicated-282209-20260908T005547Z/full/selection",
+          "manifest_sha256": "867c3348a8df720978e87cf7f42131087370e3e794a3795bc49badfda08a8ad8",
+          "task_file_sha256": "8343c23be98d6d63856e9b53ff3884222be099cc0f55ad5edb475176f54317ed",
+          "actor": "/gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT",
+          "mode": "selection",
+          "tasks": 300
+        }
+      ],
+      "expected_task_ids_count": 300
+    }
+  },
+  "rl_cohort_bindings": [
+    {
+      "cohort": "local-mixed-bonus90",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-mixed-bonus-iter90-340425",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/mixed-bonus-iteration90-audit.json",
+      "public_source_sha256": "f14aed30b86b0bf2b607fa90f1215ac37861763efb0dcca188468b6c38b52ff9",
+      "manifest_sha256": "68b458c301c4a91fc5915c24df778d20b304aad33dd76a98f49dd0ad8150292d",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-mixed-bonus-340425-iter90/runtime/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "arm-mixed-bonus-334493",
+        "wandb_run_id": "arm-mixed-bonus-iter90-340425",
+        "metric_prefix": "eval/online-mind2web-monitor",
+        "protocol": "existing deterministic GPT-4.1 Online-Mind2Web monitor, 300 tasks",
+        "method": null,
+        "repeat": null
+      },
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": true,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 233,
+        "successes": 122,
+        "classified": 300,
+        "unified_valid": 233
+      },
+      "endings": {
+        "done": 219,
+        "browser_env": 65,
+        "step_limit": 5,
+        "context_limit": 9,
+        "wall_timeout": 2
+      },
+      "unresolved": 0,
+      "error_categories": {},
+      "status": "verified"
+    },
+    {
+      "cohort": "local-mixed-reweight90",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-mixed-reweight-iter90-340423",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/mixed-reweight-iteration90-audit.json",
+      "public_source_sha256": "0d089f316974091cc399c5fbb9932db8603c000ff50be69b89ef8d5b90c884c8",
+      "manifest_sha256": "4ecd48a98043732a15e13d9f61d7c169e3851cf65bf205f7a5ab85979122d579",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-mixed-reweight-340423-iter90/runtime/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "arm-mixed-reweight-334494",
+        "wandb_run_id": "arm-mixed-reweight-iter90-340423",
+        "metric_prefix": "eval/online-mind2web-monitor",
+        "protocol": "existing deterministic GPT-4.1 Online-Mind2Web monitor, 300 tasks",
+        "method": null,
+        "repeat": null
+      },
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": true,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 227,
+        "successes": 113,
+        "classified": 300,
+        "unified_valid": 227
+      },
+      "endings": {
+        "done": 219,
+        "browser_env": 72,
+        "wall_timeout": 1,
+        "format_failure": 1,
+        "context_limit": 7
+      },
+      "unresolved": 0,
+      "error_categories": {},
+      "status": "verified"
+    },
+    {
+      "cohort": "local-original90",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-original-iter90-349508",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/original-bonus-iteration90-local-20261008.json",
+      "public_source_sha256": "c15c927729d86fc4428135ee185d978c7af323266d4ea329f27265ae79873cc0",
+      "manifest_sha256": "06c906031bb7a7a55f2c54fe87acd42de582d4371895bdfdb6f000e8fd37ee83",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-turn-bonus-preparation/original90-localbench-20261007/original-continuation/attempts/349508/runtime/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "arm-turn-bonus-fresh-294197",
+        "wandb_run_id": "arm-original-iter90-349508",
+        "metric_prefix": "eval/online-mind2web-monitor",
+        "protocol": "existing deterministic GPT-4.1 Online-Mind2Web monitor, 300 tasks",
+        "method": null,
+        "repeat": null
+      },
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": true,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 228,
+        "successes": 121,
+        "classified": 300,
+        "unified_valid": 228
+      },
+      "endings": {
+        "done": 220,
+        "browser_env": 70,
+        "step_limit": 6,
+        "context_limit": 2,
+        "wall_timeout": 2
+      },
+      "unresolved": 0,
+      "error_categories": {},
+      "status": "verified"
+    },
+    {
+      "cohort": "local-additive90",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-additive-iter90-313408",
+      "public_source": null,
+      "public_source_sha256": null,
+      "manifest_sha256": "49574fcb8a171d5c2e9dac41c2c79b9b1241127617fc76877f8aa8d681464804",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-failure-additive-311962/runtime/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "arm-failure-additive-311962",
+        "wandb_run_id": "qcq7i4ug-eval-after90-313408",
+        "metric_prefix": "eval/online-mind2web-monitor",
+        "protocol": "existing deterministic GPT-4.1 Online-Mind2Web monitor, 300 tasks",
+        "method": null,
+        "repeat": null
+      },
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": true,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 216,
+        "successes": 118
+      },
+      "endings": {},
+      "unresolved": 300,
+      "error_categories": {
+        "FileNotFoundError": 300
+      },
+      "status": "incomplete_evidence"
+    },
+    {
+      "cohort": "local-gate-b90",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-gate-b-iter90-335729",
+      "public_source": null,
+      "public_source_sha256": null,
+      "manifest_sha256": "d4d33e3c1800a8d5d171843e92aade79968dd85d70930b3a63ab0f06420875ae",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-failure-additive-335729-b100-iter90/runtime/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "arm-gate-b-309053",
+        "wandb_run_id": "arm-gate-b-iter90-335729",
+        "metric_prefix": "eval/online-mind2web-monitor",
+        "protocol": "existing deterministic GPT-4.1 Online-Mind2Web monitor, 300 tasks",
+        "method": null,
+        "repeat": null
+      },
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": true,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 234,
+        "successes": 129
+      },
+      "endings": {},
+      "unresolved": 300,
+      "error_categories": {
+        "FileNotFoundError": 300
+      },
+      "status": "incomplete_evidence"
+    },
+    {
+      "cohort": "local-outcome56-60",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/outcome-only-56groups-20261006-iter60",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/outcome56-iteration60-audit.json",
+      "public_source_sha256": "69fa8e4ea93293f83b13f1ca0855228fb3372f8afe39daeb1b0b5d9ca670dad4",
+      "manifest_sha256": "dec7c1231359020335cd564293dcbfcff37dc6dbf48cfc2a6994d178e829f1ae",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/runs/outcome-only-56groups-20261006/iter_0000059",
+        "checkpoint_index": 59,
+        "completed_training_iterations": 60,
+        "parent_training_run": "outcome-only-56groups-20261006",
+        "wandb_run_id": "outcome-only-56groups-20261006-iter60",
+        "metric_prefix": "eval/online-mind2web-monitor",
+        "protocol": "existing deterministic GPT-4.1 Online-Mind2Web monitor, 300 tasks",
+        "method": null,
+        "repeat": null
+      },
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": true,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 245,
+        "successes": 117,
+        "classified": 300,
+        "unified_valid": 245
+      },
+      "endings": {
+        "done": 228,
+        "browser_env": 54,
+        "step_limit": 9,
+        "context_limit": 8,
+        "wall_timeout": 1
+      },
+      "unresolved": 0,
+      "error_categories": {},
+      "status": "verified"
+    },
+    {
+      "cohort": "local-uniform8-60",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/outcome-uniform8-original2102-20261006-iter60",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/uniform8-iteration60-audit.json",
+      "public_source_sha256": "98d157f12fc257d51d490a64c489672b30eca371a9f57d08124e8903002069f7",
+      "manifest_sha256": "f92b56f623c78f79c47bb5f3b2f858b842f2826938ce068e20e84b9a4fdb82e4",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/runs/outcome-uniform8-original2102-20261006/iter_0000059",
+        "checkpoint_index": 59,
+        "completed_training_iterations": 60,
+        "parent_training_run": "outcome-uniform8-original2102-20261006",
+        "wandb_run_id": "outcome-uniform8-original2102-20261006-iter60",
+        "metric_prefix": "eval/online-mind2web-monitor",
+        "protocol": "existing deterministic GPT-4.1 Online-Mind2Web monitor, 300 tasks",
+        "method": null,
+        "repeat": null
+      },
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": true,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 234,
+        "successes": 127,
+        "classified": 300,
+        "unified_valid": 234
+      },
+      "endings": {
+        "done": 227,
+        "browser_env": 63,
+        "step_limit": 3,
+        "wall_timeout": 3,
+        "context_limit": 4
+      },
+      "unresolved": 0,
+      "error_categories": {},
+      "status": "verified"
+    },
+    {
+      "cohort": "stealth-o4-t06-additive-iteration90-audit",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/stealth90-o4-t06-additive-r1-recovery-336972",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/stealth-o4-t06-additive-iteration90-audit.json",
+      "public_source_sha256": "7f25d578ddd84cda1701f92c107bd24cbe438a0ec125496e3bb73a6fa0e08dc6",
+      "manifest_sha256": "55c268a55d0dae71285357da30c70142d62eeec3173f38939f0fa79ee1586152",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-failure-additive-311962/runtime/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "arm-failure-additive-295786",
+        "wandb_run_id": "stealth90-o4-t06-additive-r1-recovery-336972",
+        "metric_prefix": "eval/online-mind2web-benchmark",
+        "protocol": "Actor-only iteration90; Browser Use stealth; o4-mini/AgentTrek; T0.6 p0.95 k20; 4096 tokens; 30 turns; full300",
+        "method": "additive",
+        "repeat": 1
+      },
+      "selection_sha256": "83bf0b303bf495b721fff149a9be371e8f2babbac4d73ae2cd40cafb0bde7095",
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": false,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 286,
+        "successes": 179
+      },
+      "endings": {},
+      "unresolved": 300,
+      "error_categories": {
+        "FileNotFoundError": 300
+      },
+      "status": "incomplete_evidence"
+    },
+    {
+      "cohort": "stealth-o4-t06-additive-iteration90-repeat2-audit",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/stealth90-o4-t06-additive-r2-337130",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/stealth-o4-t06-additive-iteration90-repeat2-audit.json",
+      "public_source_sha256": "3337caf05a6770ff06422a1b941e2c8aed5ea95f4908a0a1bab176c2291bcb36",
+      "manifest_sha256": "56d6ad6017432d3bd83b18a9de7a2dff2722354e1df80eec4d4d33078147e86c",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-failure-additive-311962/runtime/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "arm-failure-additive-295786",
+        "wandb_run_id": "stealth90-o4-t06-additive-r2-337130",
+        "metric_prefix": "eval/online-mind2web-benchmark",
+        "protocol": "Actor-only iteration90; Browser Use stealth; o4-mini/AgentTrek; T0.6 p0.95 k20; 4096 tokens; 30 turns; full300",
+        "method": "additive",
+        "repeat": 2
+      },
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": true,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 286,
+        "successes": 176
+      },
+      "endings": {},
+      "unresolved": 300,
+      "error_categories": {
+        "FileNotFoundError": 300
+      },
+      "status": "incomplete_evidence"
+    },
+    {
+      "cohort": "stealth-o4-t06-additive-iteration90-repeat3-audit",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/stealth90-o4-t06-additive-r3-337133",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/stealth-o4-t06-additive-iteration90-repeat3-audit.json",
+      "public_source_sha256": "0e5fc381acdb24c7e278fc8ea354bfd900a75cc7fd06ed9d0d64effb96a36c42",
+      "manifest_sha256": "af0f68e5f8a0b33c34aec5de59f90c9d62b2ced058096c9c68d33b774186e7fa",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-failure-additive-311962/runtime/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "arm-failure-additive-295786",
+        "wandb_run_id": "stealth90-o4-t06-additive-r3-337133",
+        "metric_prefix": "eval/online-mind2web-benchmark",
+        "protocol": "Actor-only iteration90; Browser Use stealth; o4-mini/AgentTrek; T0.6 p0.95 k20; 4096 tokens; 30 turns; full300",
+        "method": "additive",
+        "repeat": 3
+      },
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": true,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 284,
+        "successes": 171
+      },
+      "endings": {},
+      "unresolved": 300,
+      "error_categories": {
+        "FileNotFoundError": 300
+      },
+      "status": "incomplete_evidence"
+    },
+    {
+      "cohort": "stealth-o4-t06-baseline-iteration90-audit",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/stealth90-o4-t06-baseline-r1-recovery-336971",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/stealth-o4-t06-baseline-iteration90-audit.json",
+      "public_source_sha256": "b9f7c88d367be3b6bef31397e36dbafe2880a138524fa6bf78e1d813e1ec9ac8",
+      "manifest_sha256": "daa545cfe4324607a05eb495e550ae175ea7d6ab6a5ecb954b51ce526399961a",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/runs/openwebrl-4b-reference-294421-20260913T211532/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "qcq7i4ug",
+        "wandb_run_id": "stealth90-o4-t06-baseline-r1-recovery-336971",
+        "metric_prefix": "eval/online-mind2web-benchmark",
+        "protocol": "Actor-only iteration90; Browser Use stealth; o4-mini/AgentTrek; T0.6 p0.95 k20; 4096 tokens; 30 turns; full300",
+        "method": "baseline",
+        "repeat": 1
+      },
+      "selection_sha256": "bd030f521229dfc61969906b72465c098ba26853414d35e3c17275a73169804c",
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": false,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 286,
+        "successes": 163
+      },
+      "endings": {},
+      "unresolved": 300,
+      "error_categories": {
+        "FileNotFoundError": 300
+      },
+      "status": "incomplete_evidence"
+    },
+    {
+      "cohort": "stealth-o4-t06-baseline-iteration90-repeat2-audit",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/stealth90-o4-t06-baseline-r2-337129",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/stealth-o4-t06-baseline-iteration90-repeat2-audit.json",
+      "public_source_sha256": "7990233e2f06795701a2d582d27e561c210d3591cb3d3b311c2e14283fefe090",
+      "manifest_sha256": "88e31c1a756d839833904352d0c1fe29f971b6ae51617935a1130a9eddab59e7",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/runs/openwebrl-4b-reference-294421-20260913T211532/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "qcq7i4ug",
+        "wandb_run_id": "stealth90-o4-t06-baseline-r2-337129",
+        "metric_prefix": "eval/online-mind2web-benchmark",
+        "protocol": "Actor-only iteration90; Browser Use stealth; o4-mini/AgentTrek; T0.6 p0.95 k20; 4096 tokens; 30 turns; full300",
+        "method": "baseline",
+        "repeat": 2
+      },
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": true,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 290,
+        "successes": 173
+      },
+      "endings": {},
+      "unresolved": 300,
+      "error_categories": {
+        "FileNotFoundError": 300
+      },
+      "status": "incomplete_evidence"
+    },
+    {
+      "cohort": "stealth-o4-t06-baseline-iteration90-repeat3-audit",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/stealth90-o4-t06-baseline-r3-337132",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/stealth-o4-t06-baseline-iteration90-repeat3-audit.json",
+      "public_source_sha256": "5379c7449bfac74ff10f7627caf1118403aad45670f827c1e6956458861a43f1",
+      "manifest_sha256": "83cc806a16504f721d0d8ea9ad84a9e71745148ac96978b09d0d433de48d6fc0",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/runs/openwebrl-4b-reference-294421-20260913T211532/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "qcq7i4ug",
+        "wandb_run_id": "stealth90-o4-t06-baseline-r3-337132",
+        "metric_prefix": "eval/online-mind2web-benchmark",
+        "protocol": "Actor-only iteration90; Browser Use stealth; o4-mini/AgentTrek; T0.6 p0.95 k20; 4096 tokens; 30 turns; full300",
+        "method": "baseline",
+        "repeat": 3
+      },
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": true,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 286,
+        "successes": 161
+      },
+      "endings": {},
+      "unresolved": 300,
+      "error_categories": {
+        "FileNotFoundError": 300
+      },
+      "status": "incomplete_evidence"
+    },
+    {
+      "cohort": "stealth-o4-t06-gate-b-iteration90-audit",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/stealth90-o4-t06-gate-b-r1-recovery-336973",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/stealth-o4-t06-gate-b-iteration90-audit.json",
+      "public_source_sha256": "09ff09f722116d9f0bb7f0e22639c1992b87455c61e7bbaf731bf42d3518faaf",
+      "manifest_sha256": "4b442d339ec6a5b198bc208152aa0ce6dfc5be59c910950040e1e4f12f4f933d",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-failure-additive-335729-b100-iter90/runtime/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "arm-gate-b-309053",
+        "wandb_run_id": "stealth90-o4-t06-gate-b-r1-recovery-336973",
+        "metric_prefix": "eval/online-mind2web-benchmark",
+        "protocol": "Actor-only iteration90; Browser Use stealth; o4-mini/AgentTrek; T0.6 p0.95 k20; 4096 tokens; 30 turns; full300",
+        "method": "gate-b",
+        "repeat": 1
+      },
+      "selection_sha256": "3c939bd26a0f68924b8cea07b46f96d3bbe56cb986d1550125a4ca6cd69bf452",
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": false,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 286,
+        "successes": 166
+      },
+      "endings": {},
+      "unresolved": 300,
+      "error_categories": {
+        "FileNotFoundError": 300
+      },
+      "status": "incomplete_evidence"
+    },
+    {
+      "cohort": "stealth-o4-t06-gate-b-iteration90-repeat2-audit",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/stealth90-o4-t06-gate-b-r2-337131",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/stealth-o4-t06-gate-b-iteration90-repeat2-audit.json",
+      "public_source_sha256": "a71fef624a96eecc2abf5fa23a76b71b1d1fdd3c5858e3095187fd4e2e24bb37",
+      "manifest_sha256": "12864a6be8f47120a0d80e5e26aeb2c2ebd5bc7d5182da28e91d066828a6ba8f",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-failure-additive-335729-b100-iter90/runtime/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "arm-gate-b-309053",
+        "wandb_run_id": "stealth90-o4-t06-gate-b-r2-337131",
+        "metric_prefix": "eval/online-mind2web-benchmark",
+        "protocol": "Actor-only iteration90; Browser Use stealth; o4-mini/AgentTrek; T0.6 p0.95 k20; 4096 tokens; 30 turns; full300",
+        "method": "gate-b",
+        "repeat": 2
+      },
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": true,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 288,
+        "successes": 189
+      },
+      "endings": {},
+      "unresolved": 300,
+      "error_categories": {
+        "FileNotFoundError": 300
+      },
+      "status": "incomplete_evidence"
+    },
+    {
+      "cohort": "stealth-o4-t06-gate-b-iteration90-repeat3-audit",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/stealth90-o4-t06-gate-b-r3-337134",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/stealth-o4-t06-gate-b-iteration90-repeat3-audit.json",
+      "public_source_sha256": "7313cbba472089e24590198a69953468e988ffa251013a64a00bbd268bb4d139",
+      "manifest_sha256": "329820bda04bb1780cf3a024b2b76cdc30c0fadf00908d25b21c3d3ac1f53d60",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-failure-additive-335729-b100-iter90/runtime/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "arm-gate-b-309053",
+        "wandb_run_id": "stealth90-o4-t06-gate-b-r3-337134",
+        "metric_prefix": "eval/online-mind2web-benchmark",
+        "protocol": "Actor-only iteration90; Browser Use stealth; o4-mini/AgentTrek; T0.6 p0.95 k20; 4096 tokens; 30 turns; full300",
+        "method": "gate-b",
+        "repeat": 3
+      },
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": true,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 288,
+        "successes": 174
+      },
+      "endings": {},
+      "unresolved": 300,
+      "error_categories": {
+        "FileNotFoundError": 300
+      },
+      "status": "incomplete_evidence"
+    },
+    {
+      "cohort": "stealth90-o4-t06-mixed-bonus-r1-346992",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/stealth90-o4-t06-mixed-bonus-r1-346992",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/mixed-stealth90-three-repeats-20261006.json",
+      "public_source_sha256": "cc10940b56942c7b6ee29b708da8b91b7bd3f1a20f8288fdb59aff881240cf72",
+      "manifest_sha256": "f92a3b188b5c6a8bfaf1b365726cb33fc176058881dbd4b52f2414e93c40e206",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-mixed-bonus-340425-iter90/runtime/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "arm-mixed-bonus-334493",
+        "wandb_run_id": "stealth90-o4-t06-mixed-bonus-r1-346992",
+        "metric_prefix": "eval/online-mind2web-benchmark",
+        "protocol": "Actor-only iteration90; Browser Use stealth; o4-mini/AgentTrek; T0.6 p0.95 k20; 4096 tokens; 30 turns; full300",
+        "method": "mixed-bonus",
+        "repeat": 1
+      },
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": true,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 299,
+        "successes": 182,
+        "classified": 300,
+        "unified_valid": 299
+      },
+      "endings": {
+        "done": 285,
+        "step_limit": 6,
+        "context_limit": 8,
+        "model_server": 1
+      },
+      "unresolved": 0,
+      "error_categories": {},
+      "status": "verified"
+    },
+    {
+      "cohort": "stealth90-o4-t06-mixed-reweight-r1-346993",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/stealth90-o4-t06-mixed-reweight-r1-346993",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/mixed-stealth90-three-repeats-20261006.json",
+      "public_source_sha256": "cc10940b56942c7b6ee29b708da8b91b7bd3f1a20f8288fdb59aff881240cf72",
+      "manifest_sha256": "82111d99a884c678bd55e7591af7f240583629d7ce3ae35ba24d0c2623aafe1a",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-mixed-reweight-340423-iter90/runtime/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "arm-mixed-reweight-334494",
+        "wandb_run_id": "stealth90-o4-t06-mixed-reweight-r1-346993",
+        "metric_prefix": "eval/online-mind2web-benchmark",
+        "protocol": "Actor-only iteration90; Browser Use stealth; o4-mini/AgentTrek; T0.6 p0.95 k20; 4096 tokens; 30 turns; full300",
+        "method": "mixed-reweight",
+        "repeat": 1
+      },
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": true,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 298,
+        "successes": 170,
+        "classified": 300,
+        "unified_valid": 298
+      },
+      "endings": {
+        "done": 291,
+        "context_limit": 4,
+        "model_server": 1,
+        "step_limit": 3,
+        "judge": 1
+      },
+      "unresolved": 0,
+      "error_categories": {},
+      "status": "verified"
+    },
+    {
+      "cohort": "stealth90-o4-t06-mixed-bonus-r2-346994",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/stealth90-o4-t06-mixed-bonus-r2-346994",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/mixed-stealth90-three-repeats-20261006.json",
+      "public_source_sha256": "cc10940b56942c7b6ee29b708da8b91b7bd3f1a20f8288fdb59aff881240cf72",
+      "manifest_sha256": "a9424f0d8b0ceff8ff9aa3822a0bfecf5de305bc08db9d8675b003249485e483",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-mixed-bonus-340425-iter90/runtime/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "arm-mixed-bonus-334493",
+        "wandb_run_id": "stealth90-o4-t06-mixed-bonus-r2-346994",
+        "metric_prefix": "eval/online-mind2web-benchmark",
+        "protocol": "Actor-only iteration90; Browser Use stealth; o4-mini/AgentTrek; T0.6 p0.95 k20; 4096 tokens; 30 turns; full300",
+        "method": "mixed-bonus",
+        "repeat": 2
+      },
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": true,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 294,
+        "successes": 181,
+        "classified": 300,
+        "unified_valid": 294
+      },
+      "endings": {
+        "done": 284,
+        "wall_timeout": 3,
+        "step_limit": 5,
+        "context_limit": 5,
+        "model_server": 3
+      },
+      "unresolved": 0,
+      "error_categories": {},
+      "status": "verified"
+    },
+    {
+      "cohort": "stealth90-o4-t06-mixed-reweight-r2-346995",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/stealth90-o4-t06-mixed-reweight-r2-346995",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/mixed-stealth90-three-repeats-20261006.json",
+      "public_source_sha256": "cc10940b56942c7b6ee29b708da8b91b7bd3f1a20f8288fdb59aff881240cf72",
+      "manifest_sha256": "789e719fb2904477ee8eaad9944a2732c715a46d8fd78bb17be1a2e0f27c97f8",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-mixed-reweight-340423-iter90/runtime/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "arm-mixed-reweight-334494",
+        "wandb_run_id": "stealth90-o4-t06-mixed-reweight-r2-346995",
+        "metric_prefix": "eval/online-mind2web-benchmark",
+        "protocol": "Actor-only iteration90; Browser Use stealth; o4-mini/AgentTrek; T0.6 p0.95 k20; 4096 tokens; 30 turns; full300",
+        "method": "mixed-reweight",
+        "repeat": 2
+      },
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": true,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 295,
+        "successes": 166,
+        "classified": 300,
+        "unified_valid": 295
+      },
+      "endings": {
+        "done": 288,
+        "wall_timeout": 4,
+        "context_limit": 2,
+        "step_limit": 3,
+        "model_server": 1,
+        "format_failure": 2
+      },
+      "unresolved": 0,
+      "error_categories": {},
+      "status": "verified"
+    },
+    {
+      "cohort": "stealth90-o4-t06-mixed-bonus-r3-346996",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/stealth90-o4-t06-mixed-bonus-r3-346996",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/mixed-stealth90-three-repeats-20261006.json",
+      "public_source_sha256": "cc10940b56942c7b6ee29b708da8b91b7bd3f1a20f8288fdb59aff881240cf72",
+      "manifest_sha256": "c0502f3e924d51df417c27761f2945cc63b4b5be3109b942debd5aef273a28d5",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-mixed-bonus-340425-iter90/runtime/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "arm-mixed-bonus-334493",
+        "wandb_run_id": "stealth90-o4-t06-mixed-bonus-r3-346996",
+        "metric_prefix": "eval/online-mind2web-benchmark",
+        "protocol": "Actor-only iteration90; Browser Use stealth; o4-mini/AgentTrek; T0.6 p0.95 k20; 4096 tokens; 30 turns; full300",
+        "method": "mixed-bonus",
+        "repeat": 3
+      },
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": true,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 297,
+        "successes": 168,
+        "classified": 300,
+        "unified_valid": 297
+      },
+      "endings": {
+        "done": 283,
+        "step_limit": 6,
+        "wall_timeout": 1,
+        "context_limit": 8,
+        "model_server": 2
+      },
+      "unresolved": 0,
+      "error_categories": {},
+      "status": "verified"
+    },
+    {
+      "cohort": "stealth90-o4-t06-mixed-reweight-r3-346997",
+      "root": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/stealth90-o4-t06-mixed-reweight-r3-346997",
+      "public_source": "/gpfs/projects/krishna/zixianma/OpenWebRL/openwebrl/docs/arm_results/rl_integration/mixed-stealth90-three-repeats-20261006.json",
+      "public_source_sha256": "cc10940b56942c7b6ee29b708da8b91b7bd3f1a20f8288fdb59aff881240cf72",
+      "manifest_sha256": "acfc7bd6624694b932dcd12992ac76ea992a9108af7c37c1161e1c60b51fcf0e",
+      "identity": {
+        "checkpoint": "/gpfs/scrubbed/zixianma/openwebrl-runtime/evaluations/arm-mixed-reweight-340423-iter90/runtime/iter_0000089",
+        "checkpoint_index": 89,
+        "completed_training_iterations": 90,
+        "parent_training_run": "arm-mixed-reweight-334494",
+        "wandb_run_id": "stealth90-o4-t06-mixed-reweight-r3-346997",
+        "metric_prefix": "eval/online-mind2web-benchmark",
+        "protocol": "Actor-only iteration90; Browser Use stealth; o4-mini/AgentTrek; T0.6 p0.95 k20; 4096 tokens; 30 turns; full300",
+        "method": "mixed-reweight",
+        "repeat": 3
+      },
+      "unique_tasks": 300,
+      "tasks": 300,
+      "exact_manifest_task_ids": true,
+      "task_ids_sha256": "fee7b973188c99e0f109600ed3ae8626ab00a55c621eca93c1b14edb6c84b966",
+      "counts": {
+        "native_valid": 298,
+        "successes": 170,
+        "classified": 300,
+        "unified_valid": 298
+      },
+      "endings": {
+        "done": 296,
+        "model_server": 1,
+        "context_limit": 2,
+        "wall_timeout": 1
+      },
+      "unresolved": 0,
+      "error_categories": {},
+      "status": "verified"
+    }
+  ],
+  "receipts": {
+    "sft_manifest_sha256": "567ec69cb1d6c29e566254d7d84cc2ea7a01ccfc51b338ddd3541b695deb7bad",
+    "sft_cli_report_sha256": "c4a2af118e75ef6eef800293dfbe6c503fbdd2b2310e8b51cc23a53f30324a2a",
+    "rl_manifest_sha256": "9d075484c4cf5f75cd0115ba83a27c833b819072352c7c7efc0804e2ce99fcb9",
+    "rl_cli_report_sha256": "d157274908337c4cbc23fb9f59178139331d07b2ddf3c2c9155c0fabac8286e5",
+    "rl_normalizer_sha256": "88fb001b29cdb8e0116a0f482f298253deddfb2d626e7af86cb2628b02124623",
+    "restricted_metadata_reader_sha256": "61a4dd430b62737e2f90c7f3711161ddd6d8895b74ba681ead47cdee77b35145"
+  },
+  "exclusions": [
+    "11 historical mapped RL evaluation cohorts have insufficient saved payloads; no updated validity denominator claimed",
+    "Historical local baseline90 was not mapped to an exact saved cohort; unchanged",
+    "Other inference cohorts, benchmark families and checkpoint panels are outside this targeted audit; no blanket shared-validity claim"
+  ],
+  "accounting": "CPU-only saved-artifact analysis; no new allocations, browser sessions or model/judge calls",
+  "reproducibility": "scripts/relabel_outcome_validity.py --evaluation-manifest PRIVATE_MANIFEST --out REPORT; private manifests bind exact task IDs, original artifact hashes and documented native counts"
+}

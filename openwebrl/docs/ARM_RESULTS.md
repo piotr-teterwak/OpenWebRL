@@ -2052,6 +2052,8 @@ distillation because best-of-five inference spends extra generation and ARM
 compute on every browser turn, while filtered SFT pays that cost during data
 collection and deploys one policy sample per turn.
 
+**Shared-validity rerun (October 13):** these exact historical cohorts reproduce their existing valid-only denominators under `outcome_validity.py`; original judge verdicts are unchanged. [Experiment bindings and audit scope](EPISODE_VALIDITY.md#benchmark-validity-audit-20261013).
+
 <a id="arm-results-dashboard--headline-results"></a>
 ### Headline results
 
