@@ -433,7 +433,7 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 - **Calls per state:** four: three in the canonical candidate order and one in a seeded shuffled order. Luna returns `{"selection": k}`.
 - **Scoring:** each pick is scored on held-out draws 3–7 of the chosen action. Draws 1–7 are never shown, nor is any judge verdict or reward.
 
-**Current, consistent "steps" format (rerun in progress).** Reasoning appears only for the candidates being judged. History and future are both represented as abbreviated actions with screenshots.
+**Current, consistent "steps" format.** Reasoning appears only for the candidates being judged. History and future are both represented as abbreviated actions with screenshots.
 
 | Input | Before execution | Immediate result | Lookahead K = 1, 2, 3, 5 |
 | --- | :---: | :---: | :---: |
@@ -453,7 +453,7 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 | [First lookahead study](#lookahead-labels-20261011) | 194 | before, immediate, K = 3 (hidden / shown) | earlier: text history with reasoning, 5 steps | done |
 | [Stage (a)](#lookahead-stage-a-20261012), fresh Piotr-matched states | 121 | before, immediate, K = 3 | earlier | done |
 | [Consistent-format rerun](#lookahead-v2-20261013), the same 194 + 121 = 315 states | 315 | before, immediate, K = 1, 2, 3, 5 | steps | done (USD 42.60) |
-| Proposed scale-up: `fast1k-20261012` | 713 | to be decided from the rerun | steps | pending |
+| [Scale-up on `fast1k-20261012`](#lookahead-fast1k-20261013), states whose candidates differ in outcome | 421 | before, immediate, K = 1, 3 | steps | done (USD 35.77) |
 
 <a id="lookahead-v2-20261013"></a>
 
@@ -478,6 +478,27 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 - **The immediate result alone does not beat before-execution,** as in the earlier studies.
 - **Before-execution is now clearly above uniform** (+2.60 pp). The abbreviated history with screenshots may also help the plain teacher, though the earlier stage (a) figure (+0.88) used a different state set.
 - **Evidence:** [JSON](arm_results/rl_integration/lookahead-v2-20261013.json). Analysis: `selection_outcome_experiments.py lookahead_v2`.
+
+<a id="lookahead-fast1k-20261013"></a>
+
+#### Scale-up on fresh states: lookahead stays best, with a smaller margin over the immediate result
+
+**Pooled over 736 states (227 task groups), K = 3 lookahead matches choosing on three observed outcomes and beats both before-execution and the immediate result.** On the 421 new states alone, lookahead is still the best teacher condition, but its margin over the immediate result is no longer significant.
+
+| Condition | New states: success | New: − Uniform, pp [95%] | New: − Immediate, pp [95%] | Pooled: success | Pooled: − Uniform, pp [95%] | Pooled: − K = 3, pp [95%] | Pooled: − Immediate, pp [95%] |
+| --- | ---: | --- | --- | ---: | --- | --- | --- |
+| Before execution | 29.09% | +3.20 [+1.42, +4.84] | — | 32.79% | +2.95 [+1.70, +4.09] | −2.31 [−3.39, −1.09] | — |
+| Immediate result | 30.68% | +4.79 [+1.80, +7.23] | — | 33.27% | +3.43 [+1.39, +5.30] | −1.83 [−3.22, −0.53] | — |
+| Lookahead K = 1 | 31.37% | +5.48 [+2.86, +7.71] | +0.69 [−0.40, +2.03] | 34.63% | +4.78 [+2.98, +6.45] | −0.48 [−1.65, +0.64] | +1.35 [+0.50, +2.33] |
+| **Lookahead K = 3** | **31.78%** | **+5.89 [+3.71, +7.69]** | +1.10 [−0.45, +2.87] | **35.10%** | **+5.26 [+3.69, +6.64]** | — | +1.83 [+0.53, +3.23] |
+| Uniform pick | 25.89% | — | — | 29.84% | — | — | — |
+| Outcome reference: best on draws 0–2 | 31.07% | +5.18 [+3.45, +7.00] | — | 35.06% | +5.22 [+3.95, +6.37] | −0.04 [−1.21, +1.26] | — |
+
+- **States.** `fast1k-20261012` has 722 released states on 88 tasks. 476 are informative: at least one candidate's outcome differs from another's on draws 0–7. 55 of those lack a valid draw-0 attempt for at least one candidate, mostly because the browser service was unreachable during terminal capture (`missing_fresh_terminal_evidence`). Every condition therefore uses the same 421 states on 67 task groups. All picks are scored on held-out draws 3–7, with intervals resampling task groups.
+- **Pooling.** The pool combines these 421 states with the 315 above. The two sets share no states but share 42 tasks; a shared task is one bootstrap cluster. The old 315 were not filtered for informativeness, so uniform success differs between the sets (35.12% versus 25.89%).
+- **Differences from the 315-state rerun.** On the new states the immediate result beats before-execution (+1.59 pp), unlike before (−0.97). Before-execution is clearly the weakest condition in the pool (−2.31 pp against K = 3).
+- **Caveat.** The new states are concentrated: arXiv tasks make up 290 of the 722 released states, and error or blank pages 160.
+- **Evidence:** [JSON](arm_results/rl_integration/lookahead-fast1k-20261013.json) (per-collection and pooled). Analysis: `selection_outcome_experiments.py lookahead_v2 --bases <v2 root> <fast1k root>`. 6,736 Luna calls, USD 35.77, within the approved USD 50 / 9,000 calls.
 
 <details>
 <summary>Earlier format, and the stopped ablation</summary>
