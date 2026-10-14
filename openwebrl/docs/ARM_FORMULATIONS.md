@@ -500,6 +500,34 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 - **Caveat.** The new states are concentrated: arXiv tasks make up 290 of the 722 released states, and error or blank pages 160.
 - **Evidence:** [JSON](arm_results/rl_integration/lookahead-fast1k-20261013.json) (per-collection and pooled). Analysis: `selection_outcome_experiments.py lookahead_v2 --bases <v2 root> <fast1k root>`. 6,736 Luna calls, USD 35.77, within the approved USD 50 / 9,000 calls.
 
+<a id="lookahead-draw-split-20261013"></a>
+
+#### Robustness: how many observed outcomes is lookahead worth?
+
+**The ranking holds at every split. Picking on observed outcomes needs about 3–5 observed draws per action to match K = 3 lookahead.**
+- **Setup:** pooled 736 states; the outcome reference picks on draws 0..n−1, and every condition is scored on draws n..7. Teacher conditions see only draw 0, so the split only changes which draws score them.
+- **Two outcome conventions:** (A) invalid draws count as failures, as in the tables above; (B) valid draws only, keeping a state when every action has a valid draw on both sides of the split.
+
+| Pooled, success % | n = 2 | 3 | 4 | 5 | 6 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| A: Lookahead K = 3 | 35.18 | 35.10 | 35.00 | 35.04 | 34.85 |
+| A: Best on observed draws | 34.50 | 35.06 | 35.72 | 35.84 | 36.70 |
+| A: Uniform | 29.98 | 29.84 | 29.85 | 29.87 | 30.07 |
+| A: states | 736 | 736 | 736 | 736 | 736 |
+| B: Lookahead K = 3 | 38.68 | 38.86 | 38.76 | 38.74 | 39.54 |
+| B: Best on observed draws | 37.48 | 38.16 | 39.01 | 38.72 | 40.16 |
+| B: Uniform | 33.21 | 33.39 | 33.55 | 33.43 | 34.10 |
+| B: states | 631 | 650 | 652 | 652 | 630 |
+
+- **Error bars** in the figures are 95% task-clustered intervals on absolute rates. They overlap because rates vary widely between states; paired differences (tables above) are much tighter.
+- **Panel completeness:** all 736 states have all 40 slots recorded, but only 309 have all 40 valid. Most invalid draws are infrastructure failures, not action failures.
+
+![Draw split, invalid draws count as failures](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_invalid_as_failure.png)
+
+![Draw split, valid draws only](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_valid_only.png)
+
+- **Evidence:** [JSON](arm_results/rl_integration/lookahead-draw-split-20261013/curve.json), [computation](arm_results/rl_integration/lookahead-draw-split-20261013/curve.py), [plot](arm_results/rl_integration/lookahead-draw-split-20261013/plot.py).
+
 <details>
 <summary>Earlier format, and the stopped ablation</summary>
 
