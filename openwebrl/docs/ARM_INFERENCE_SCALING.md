@@ -1053,9 +1053,14 @@ The intended approximate 3× output comparison did not hold live: serial produce
 | Known Sol cost | $9.3194 | $14.4049 |
 | Conservative Sol cost including unknown reservation | $9.5641 | $14.4049 |
 | Judge cost | $0.2516 | $0.3049 |
+| Browser-step attempts | 1,191 | 824 |
+| Mean browser steps per episode | 11.91 | 8.24 |
+| Median browser steps per episode | 6.0 | 3.5 |
 | Mean recorded episode + judge time | 83.71 s | 89.17 s |
 
 Input and output counts exclude one serial HTTP 400 request whose usage is unavailable; its full **$0.244725** reservation remains reserved in the conservative cost bound. Reasoning tokens are a subset of output, and cached/cache-write input tokens are subsets of input: none is added again. The selector contributes 2,262,700 input, 25,558 output and 13,344 reasoning tokens to the parallel column. Recorded episode + judge times sum saved components for all 100 episodes per arm, including invalids, and exclude worker startup; they are not a separately measured end-to-end wall timer. Episode times include early failures and different trajectory lengths; mean accepted-decision model critical paths were 2.86 s serial and 5.73 s parallel, so the episode means are not an equal-work speed comparison.
+
+Browser steps count attempted `env.step(actions)` dispatches, including terminal/done actions and calls that raise; they exclude browser reset and unselected proposals. A dispatch may contain more than one primitive action. On the **18 tasks both arms solved**, mean steps were **13.28 high versus 9.56 three-low-plus-selection** (medians 12 versus 10). This conditional subset is descriptive. Across all episodes, aggregate episode-plus-judge seconds per step were 7.03 versus 10.82; browser execution alone averaged 2.59 versus 2.76 seconds per step. The parallel arm used fewer steps but more model time per decision. These observations help explain similar mean episode latency, without establishing equal-work speed or excluding early-termination effects. [Browser-step aggregate audit](arm_results/sol61_serial_parallel_20261013/browser-step-audit.json).
 
 ![Live output-token comparison](arm_results/sol61_serial_parallel_20261013/output-tokens.png)
 

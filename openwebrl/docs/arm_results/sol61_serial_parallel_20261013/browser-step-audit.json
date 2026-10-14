@@ -1,0 +1,163 @@
+{
+  "schema": "sol61-om2w100-browser-step-audit-v1",
+  "episodes": 200,
+  "definition": "Attempted env.step(actions) calls, incremented before await; includes terminal/done actions and calls that raise. Excludes env.reset and unselected proposals. A step is a tool-dispatch batch, not necessarily one click.",
+  "latency_definition": "Browser step timing sums env.step elapsed time including failures; episode time includes model/browser/other work, judge separately. Ratio of aggregate episode+judge seconds to aggregate steps is descriptive and includes startup/zero-step episodes.",
+  "arms": {
+    "serial_high": {
+      "total_browser_step_attempts": 1191,
+      "mean_steps_per_episode": 11.91,
+      "median_steps_per_episode": 6.0,
+      "min": 0,
+      "max": 30,
+      "zero_step_episodes": 9,
+      "browser_step_seconds_total": 3087.97205391209,
+      "browser_step_seconds_per_attempt": 2.5927557127725356,
+      "recorded_episode_plus_judge_seconds_per_step": 7.028153658648105,
+      "step_histogram": {
+        "0": 9,
+        "1": 16,
+        "2": 15,
+        "3": 5,
+        "4": 3,
+        "5": 1,
+        "6": 2,
+        "8": 5,
+        "9": 1,
+        "10": 2,
+        "11": 2,
+        "12": 2,
+        "13": 1,
+        "15": 1,
+        "16": 1,
+        "18": 1,
+        "19": 2,
+        "21": 1,
+        "22": 1,
+        "23": 1,
+        "24": 1,
+        "25": 2,
+        "26": 1,
+        "30": 24
+      },
+      "subsets": {
+        "valid": {
+          "episodes": 87,
+          "steps": 1170,
+          "mean": 13.448275862068966,
+          "median": 8
+        },
+        "success": {
+          "episodes": 22,
+          "steps": 315,
+          "mean": 14.318181818181818,
+          "median": 12.5
+        },
+        "valid_failure": {
+          "episodes": 65,
+          "steps": 855,
+          "mean": 13.153846153846153,
+          "median": 3
+        },
+        "invalid": {
+          "episodes": 13,
+          "steps": 21,
+          "mean": 1.6153846153846154,
+          "median": 0
+        }
+      }
+    },
+    "parallel3_low": {
+      "total_browser_step_attempts": 824,
+      "mean_steps_per_episode": 8.24,
+      "median_steps_per_episode": 3.5,
+      "min": 0,
+      "max": 30,
+      "zero_step_episodes": 10,
+      "browser_step_seconds_total": 2270.844246680892,
+      "browser_step_seconds_per_attempt": 2.7558789401467134,
+      "recorded_episode_plus_judge_seconds_per_step": 10.82120757701455,
+      "step_histogram": {
+        "0": 10,
+        "1": 19,
+        "2": 16,
+        "3": 5,
+        "4": 4,
+        "5": 3,
+        "6": 1,
+        "7": 5,
+        "8": 1,
+        "9": 3,
+        "10": 1,
+        "11": 3,
+        "12": 4,
+        "13": 1,
+        "14": 4,
+        "17": 3,
+        "18": 1,
+        "19": 2,
+        "20": 1,
+        "22": 1,
+        "23": 1,
+        "24": 1,
+        "25": 1,
+        "30": 9
+      },
+      "subsets": {
+        "valid": {
+          "episodes": 87,
+          "steps": 815,
+          "mean": 9.367816091954023,
+          "median": 5
+        },
+        "success": {
+          "episodes": 33,
+          "steps": 356,
+          "mean": 10.787878787878787,
+          "median": 11
+        },
+        "valid_failure": {
+          "episodes": 54,
+          "steps": 459,
+          "mean": 8.5,
+          "median": 2.0
+        },
+        "invalid": {
+          "episodes": 13,
+          "steps": 9,
+          "mean": 0.6923076923076923,
+          "median": 0
+        }
+      }
+    }
+  },
+  "record_manifest_sha256": "dd471c492dedd524cbfe3f1e22bb9def88a02ccbeb38bafbedfef52d8e2c3149",
+  "paired_subsets": {
+    "both_valid": {
+      "tasks": 83,
+      "arms": {
+        "serial_high": {
+          "mean_steps": 13.433734939759036,
+          "median_steps": 8
+        },
+        "parallel3_low": {
+          "mean_steps": 9.25301204819277,
+          "median_steps": 5
+        }
+      }
+    },
+    "both_success": {
+      "tasks": 18,
+      "arms": {
+        "serial_high": {
+          "mean_steps": 13.277777777777779,
+          "median_steps": 12.0
+        },
+        "parallel3_low": {
+          "mean_steps": 9.555555555555555,
+          "median_steps": 10.0
+        }
+      }
+    }
+  }
+}
