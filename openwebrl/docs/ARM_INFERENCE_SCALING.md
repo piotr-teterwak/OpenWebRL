@@ -1084,6 +1084,16 @@ The independent audit verifies 200 unique planned dispositions, task and frozen-
 
 </details>
 
+
+<a id="sol61-om2w300-extension-20261014"></a>
+### Full-300 extension: remaining 200 paired tasks
+
+The requested scale-up preserves the completed 100-task cohort and runs the **remaining 200 released tasks under both arms**, adding 400 episodes for a final 600-episode / 300-task comparison. It retains the same actor efforts, three-candidate selector, native history transport, 30-step ceiling, browser policy, judge and unified validity rules. Record input/output/reasoning tokens, model and judge cost, browser-step attempts, browser execution time, model critical-path time and episode-plus-judge latency. Existing outcomes, including pilot startup failures, are never selectively rerun or replaced.
+
+Because the first 100 results were inspected before expansion, report both the remaining-200 follow-up and the combined-300 results, with paired uncertainty, overall and valid-only denominators. Collection occurs in two time windows; model/site drift and the repaired startup harness remain comparability limitations. This continues the high-effort-versus-selection comparison; it does not enforce a threefold realized token quota.
+
+**Prepared allocation request; not yet approved or submitted:** one 0-GPU / 16-CPU / 64-GiB allocation, at most 12 hours total across all attempts, 400 lifetime browser sessions, 30,000 Sol requests / $150, and 400 judge requests / $5. Caps are independent of the completed pilot, with no transfer of its unspent balance. Pilot rates suggest roughly $50 additional API cost and about two hours of collection after startup, excluding queue delay; neither is a guarantee. Exact resource/API approval is required before submission. Maintain active repair supervision, preserve every attempt, and independently audit all 400 new dispositions and owned teardown before claiming completion.
+
 <details>
 <summary>Archived snapshot calibration and medium-effort follow-up</summary>
 
