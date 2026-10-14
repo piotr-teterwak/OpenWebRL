@@ -36,7 +36,7 @@ for kind in ("gain", "absolute", "absolute_lines"):           # absolute_lines: 
         if kind != "absolute_lines":
             ax.fill_between(xs, [b + x[1] for b, x in zip(base, d)], [b + x[2] for b, x in zip(base, d)],
                             color=color, alpha=.10, lw=0)
-    ax.set_xticks(sorted(xs)); ax.set_xlabel("Continuations per action used for evaluation\n(the oracle picks on the other 8 − x)")
+    ax.set_xticks(sorted(xs)); ax.set_xlabel("Evaluation continuations per action")
     ax.grid(alpha=.25)
     if kind == "absolute_lines":                                # whole-number frame, so the 40% gridline shows
         lo, hi = ax.get_ylim()
