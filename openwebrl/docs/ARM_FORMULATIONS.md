@@ -452,8 +452,32 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 | --- | ---: | --- | --- | --- |
 | [First lookahead study](#lookahead-labels-20261011) | 194 | before, immediate, K = 3 (hidden / shown) | earlier: text history with reasoning, 5 steps | done |
 | [Stage (a)](#lookahead-stage-a-20261012), fresh Piotr-matched states | 121 | before, immediate, K = 3 | earlier | done |
-| Consistent-format rerun, the same 194 + 121 = 315 states | 315 | before, immediate, K = 1, 2, 3, 5 | steps | running (jobs 359614–359619; cap USD 60 / 9,000 calls) |
+| [Consistent-format rerun](#lookahead-v2-20261013), the same 194 + 121 = 315 states | 315 | before, immediate, K = 1, 2, 3, 5 | steps | done (USD 42.60) |
 | Proposed scale-up: `fast1k-20261012` | 713 | to be decided from the rerun | steps | pending |
+
+<a id="lookahead-v2-20261013"></a>
+
+#### Results in the consistent format: depth plateaus after one step
+
+**On 315 states (202 task groups), every lookahead depth beats immediate evidence, and depth beyond one step adds little.**
+- **Format:** all conditions use the format above. Every pick is scored on held-out draws 3–7.
+- **Intervals:** they resample task groups.
+
+| Condition | Success | − Uniform, pp [95%] | − K = 3, pp [95%] | − Immediate result, pp [95%] |
+| --- | ---: | --- | --- | --- |
+| Before execution | 37.72% | +2.60 [+1.04, +4.23] | −1.81 [−3.79, +0.20] | — |
+| Immediate result | 36.75% | +1.62 [−0.10, +3.38] | −2.79 [−4.54, −1.07] | — |
+| Lookahead K = 1 | 38.98% | +3.86 [+2.03, +5.76] | −0.56 [−1.88, +0.78] | +2.24 [+0.95, +3.53] |
+| Lookahead K = 2 | 38.98% | +3.86 [+1.96, +5.81] | −0.56 [−1.75, +0.59] | +2.24 [+0.68, +3.83] |
+| **Lookahead K = 3** | **39.54%** | **+4.42 [+2.57, +6.28]** | — | +2.79 [+1.07, +4.55] |
+| Lookahead K = 5 | 39.49% | +4.37 [+2.42, +6.32] | −0.05 [−1.40, +1.16] | +2.75 [+0.83, +4.63] |
+| Uniform pick | 35.12% | — | — | — |
+| Outcome reference: best on draws 0–2 | 40.39% | +5.27 [+3.28, +7.22] | +0.85 [−1.01, +2.63] | — |
+
+- **K = 3 is within 0.85 pp of choosing on three observed outcomes.** K = 1 already captures most of the gain at about 60% of K = 3's images.
+- **The immediate result alone does not beat before-execution,** as in the earlier studies.
+- **Before-execution is now clearly above uniform** (+2.60 pp). The abbreviated history with screenshots may also help the plain teacher, though the earlier stage (a) figure (+0.88) used a different state set.
+- **Evidence:** [JSON](arm_results/rl_integration/lookahead-v2-20261013.json). Analysis: `selection_outcome_experiments.py lookahead_v2`.
 
 <details>
 <summary>Earlier format, and the stopped ablation</summary>
