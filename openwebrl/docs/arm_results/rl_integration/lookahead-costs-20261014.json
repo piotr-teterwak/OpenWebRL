@@ -1,0 +1,197 @@
+[
+ {
+  "states": "Earlier 315 states",
+  "condition": "Pre-execution",
+  "root": "lookahead-v2-20261013/before",
+  "calls": 1260,
+  "input_tokens_per_call": 9315,
+  "output_tokens_per_call": 748,
+  "input_usd": 1.47,
+  "output_usd": 0.47,
+  "total_usd": 1.94,
+  "price_usd_per_million": {
+   "input_cache_write": 0.125,
+   "output": 0.5
+  }
+ },
+ {
+  "states": "Earlier 315 states",
+  "condition": "Post-execution",
+  "root": "lookahead-v2-20261013/immediate",
+  "calls": 1260,
+  "input_tokens_per_call": 38027,
+  "output_tokens_per_call": 436,
+  "input_usd": 5.99,
+  "output_usd": 0.27,
+  "total_usd": 6.26,
+  "price_usd_per_million": {
+   "input_cache_write": 0.125,
+   "output": 0.5
+  }
+ },
+ {
+  "states": "Earlier 315 states",
+  "condition": "Lookahead K = 1",
+  "root": "lookahead-v2-20261013/k1",
+  "calls": 1260,
+  "input_tokens_per_call": 43558,
+  "output_tokens_per_call": 639,
+  "input_usd": 6.86,
+  "output_usd": 0.4,
+  "total_usd": 7.26,
+  "price_usd_per_million": {
+   "input_cache_write": 0.125,
+   "output": 0.5
+  }
+ },
+ {
+  "states": "Earlier 315 states",
+  "condition": "Lookahead K = 2",
+  "root": "lookahead-v2-20261013/k2",
+  "calls": 1260,
+  "input_tokens_per_call": 48558,
+  "output_tokens_per_call": 688,
+  "input_usd": 7.65,
+  "output_usd": 0.43,
+  "total_usd": 8.08,
+  "price_usd_per_million": {
+   "input_cache_write": 0.125,
+   "output": 0.5
+  }
+ },
+ {
+  "states": "Earlier 315 states",
+  "condition": "Lookahead K = 3",
+  "root": "lookahead-v2-20261013/k3",
+  "calls": 1262,
+  "input_tokens_per_call": 53136,
+  "output_tokens_per_call": 684,
+  "input_usd": 8.37,
+  "output_usd": 0.43,
+  "total_usd": 8.95,
+  "price_usd_per_million": {
+   "input_cache_write": 0.125,
+   "output": 0.5
+  }
+ },
+ {
+  "states": "Earlier 315 states",
+  "condition": "Lookahead K = 5",
+  "root": "lookahead-v2-20261013/k5",
+  "calls": 1261,
+  "input_tokens_per_call": 61356,
+  "output_tokens_per_call": 697,
+  "input_usd": 9.66,
+  "output_usd": 0.44,
+  "total_usd": 10.11,
+  "price_usd_per_million": {
+   "input_cache_write": 0.125,
+   "output": 0.5
+  }
+ },
+ {
+  "states": "New 421 states",
+  "condition": "Pre-execution",
+  "root": "lookahead-fast1k-20261013/before",
+  "calls": 1684,
+  "input_tokens_per_call": 10322,
+  "output_tokens_per_call": 833,
+  "input_usd": 2.17,
+  "output_usd": 0.7,
+  "total_usd": 2.88,
+  "price_usd_per_million": {
+   "input_cache_write": 0.125,
+   "output": 0.5
+  }
+ },
+ {
+  "states": "New 421 states",
+  "condition": "Post-execution",
+  "root": "lookahead-fast1k-20261013/immediate",
+  "calls": 1684,
+  "input_tokens_per_call": 42089,
+  "output_tokens_per_call": 485,
+  "input_usd": 8.86,
+  "output_usd": 0.41,
+  "total_usd": 9.27,
+  "price_usd_per_million": {
+   "input_cache_write": 0.125,
+   "output": 0.5
+  }
+ },
+ {
+  "states": "New 421 states",
+  "condition": "Lookahead K = 1",
+  "root": "lookahead-fast1k-20261013/k1",
+  "calls": 1684,
+  "input_tokens_per_call": 47860,
+  "output_tokens_per_call": 691,
+  "input_usd": 10.07,
+  "output_usd": 0.58,
+  "total_usd": 10.77,
+  "price_usd_per_million": {
+   "input_cache_write": 0.125,
+   "output": 0.5
+  }
+ },
+ {
+  "states": "New 421 states",
+  "condition": "Lookahead K = 2",
+  "root": "lookahead-fast1k-20261013/k2",
+  "calls": 1684,
+  "input_tokens_per_call": 53131,
+  "output_tokens_per_call": 694,
+  "input_usd": 11.18,
+  "output_usd": 0.58,
+  "total_usd": 11.77,
+  "price_usd_per_million": {
+   "input_cache_write": 0.125,
+   "output": 0.5
+  }
+ },
+ {
+  "states": "New 421 states",
+  "condition": "Lookahead K = 3",
+  "root": "lookahead-fast1k-20261013/k3",
+  "calls": 1684,
+  "input_tokens_per_call": 58087,
+  "output_tokens_per_call": 666,
+  "input_usd": 12.23,
+  "output_usd": 0.56,
+  "total_usd": 12.86,
+  "price_usd_per_million": {
+   "input_cache_write": 0.125,
+   "output": 0.5
+  }
+ },
+ {
+  "states": "New 421 states",
+  "condition": "Pre-execution, no history",
+  "root": "lookahead-fast1k-20261013/before-h0",
+  "calls": 1684,
+  "input_tokens_per_call": 8075,
+  "output_tokens_per_call": 645,
+  "input_usd": 1.7,
+  "output_usd": 0.54,
+  "total_usd": 2.24,
+  "price_usd_per_million": {
+   "input_cache_write": 0.125,
+   "output": 0.5
+  }
+ },
+ {
+  "states": "New 421 states",
+  "condition": "K = 1, no history",
+  "root": "lookahead-fast1k-20261013/k1-h0",
+  "calls": 1684,
+  "input_tokens_per_call": 45607,
+  "output_tokens_per_call": 640,
+  "input_usd": 9.6,
+  "output_usd": 0.54,
+  "total_usd": 10.24,
+  "price_usd_per_million": {
+   "input_cache_write": 0.125,
+   "output": 0.5
+  }
+ }
+]

@@ -448,6 +448,29 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 - **Abbreviated action.** The actor's output after its last `</think>`, which is the tool call, capped at 1,500 characters. The cap guards against unusually long actions such as long typed text; most tool calls are far shorter.
 - **Why the final answer is hidden.** On the 194-state study, showing it made Luna's picks worse: −1.49 pp [−2.64, −0.42] against hiding it.
 
+<a id="lookahead-costs"></a>
+
+**Recorded API cost per run.** Input dominates: about 95% of each run's cost. The immediate result adds about 32,000 input tokens per call (mostly the five candidates' post-action page observations and tool feedback), while each lookahead step adds only about 5,000 (five screenshots and five short actions). K = 3 therefore costs about 20% more than K = 1, not several times more. Removing the 3 past steps saves about 2,000–2,300 input tokens per call.
+
+| States | Condition | Calls | Input tokens / call | Output tokens / call | Input USD | Output USD | Total USD |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Earlier 315 states | Pre-execution | 1,260 | 9,315 | 748 | 1.47 | 0.47 | 1.94 |
+| Earlier 315 states | Post-execution | 1,260 | 38,027 | 436 | 5.99 | 0.27 | 6.26 |
+| Earlier 315 states | Lookahead K = 1 | 1,260 | 43,558 | 639 | 6.86 | 0.40 | 7.26 |
+| Earlier 315 states | Lookahead K = 2 | 1,260 | 48,558 | 688 | 7.65 | 0.43 | 8.08 |
+| Earlier 315 states | Lookahead K = 3 | 1,262 | 53,136 | 684 | 8.37 | 0.43 | 8.95 |
+| Earlier 315 states | Lookahead K = 5 | 1,261 | 61,356 | 697 | 9.66 | 0.44 | 10.11 |
+| New 421 states | Pre-execution | 1,684 | 10,322 | 833 | 2.17 | 0.70 | 2.88 |
+| New 421 states | Post-execution | 1,684 | 42,089 | 485 | 8.86 | 0.41 | 9.27 |
+| New 421 states | Lookahead K = 1 | 1,684 | 47,860 | 691 | 10.07 | 0.58 | 10.77 |
+| New 421 states | Lookahead K = 2 | 1,684 | 53,131 | 694 | 11.18 | 0.58 | 11.77 |
+| New 421 states | Lookahead K = 3 | 1,684 | 58,087 | 666 | 12.23 | 0.56 | 12.86 |
+| New 421 states | Pre-execution, no history | 1,684 | 8,075 | 645 | 1.70 | 0.54 | 2.24 |
+| New 421 states | K = 1, no history | 1,684 | 45,607 | 640 | 9.60 | 0.54 | 10.24 |
+
+- **Sources:** tokens are averaged from each judgment's saved usage report (input includes cache-write tokens), priced at USD 0.125 / 0.50 per million input / output tokens. Total USD is the run ledger's settled charge, including transient retries, so it can exceed input + output by a few cents. [JSON](arm_results/rl_integration/lookahead-costs-20261014.json).
+- **Totals:** USD 102.63 across these 13 completed runs.
+
 | Run | States | Conditions | Format | Status |
 | --- | ---: | --- | --- | --- |
 | [First lookahead study](#lookahead-labels-20261011) | 194 | before, immediate, K = 3 (hidden / shown) | earlier: text history with reasoning, 5 steps | done |
