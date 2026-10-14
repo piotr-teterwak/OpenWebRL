@@ -1032,12 +1032,14 @@ All attempts and verdicts are preserved; these scores do not enter current means
 
 **Calibration verified: 30 saved states, 150 settled requests, $1.2985 usage-derived cost; no browser execution or task-success measurement.** All 90 low-effort actor calls reported zero hidden reasoning tokens. The proposed finite **3× reasoning** comparison is therefore not calibrated. All 120 native actor actions and 30 index-only selections passed schema checks.
 
-| Component | Requests | Generated tokens, including reasoning | Reported reasoning tokens | Usage-derived USD |
-| --- | ---: | ---: | ---: | ---: |
-| One high-effort Sol actor per state | 30 | 2,502 | 1,675 | 0.4213 |
-| Three low-effort Sol actors per state | 90 | 2,348 | 0 | 0.4738 |
-| Sol medium selector | 30 | 927 | 533 | 0.4034 |
-| Total | 150 | 5,777 | 2,208 | 1.2985 |
+| Component | Requests | Input tokens | Generated tokens, including reasoning | Reported reasoning tokens | Usage-derived USD |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| One high-effort Sol actor per state | 30 | 198,291 | 2,502 | 1,675 | 0.4213 |
+| Three low-effort Sol actors per state | 90 | 594,873 | 2,348 | 0 | 0.4738 |
+| Sol medium selector | 30 | 157,680 | 927 | 533 | 0.4034 |
+| Total | 150 | 950,844 | 5,777 | 2,208 | 1.2985 |
+
+Token counts come directly from each Responses API receipt: `usage.input_tokens`, `usage.output_tokens`, and `usage.output_tokens_details.reasoning_tokens`. Reasoning is a subset of output, and cached input is a subset of input; neither is added again. Private reasoning text is not exposed or requested. Output minus reported reasoning is recorded as non-reasoning output, rather than assumed to be exclusively visible prose. The original pilot recorded 470,338 cached input tokens and 465,296 cache-write tokens. Repeated input is counted on every proposal and selector call, with observed cache usage priced separately.
 
 The high actor averaged 83.4 generated tokens per proposal, **3.20×** the mean low proposal; its actor output total was 6.56% above all three low proposals combined. Hidden reasoning is different: high averaged 55.83 tokens per state, while low used zero on every request, making the high/low reasoning ratio undefined. The three-low-plus-selector pipeline cost **2.08×** the high-only pipeline in this saved-state sample, under its observed cache pattern. These are received-usage calculations at the frozen model prices, not a provider-invoice audit or a full-trajectory cost estimate.
 
@@ -1055,4 +1057,6 @@ The actor caps were high/12,288 versus three low/4,096, with medium/2,048 for se
 
 [Aggregate and audit hashes](arm_results/sol61_serial_parallel_20261013/pilot.json) · [W&B calibration](https://wandb.ai/zixianma/openwebrl-evals/runs/sol61-serial-parallel-pilot-20261013-v1).
 
-**Next proposed calibration:** one medium-effort actor request on each of the same 30 frozen states, reusing the existing high receipts; 30 new physical requests capped at **$5**, zero selector/judge/browser/GPU calls. This amendment is prepared but unapproved and has not run. Its purpose is to establish a nonzero reference before choosing a roughly threefold reasoning setting. No automatic effort sweep or budget transfer is permitted. The full paired 300 Online-Mind2Web / 595 WebVoyager / 150 DeepShop study remains planned (2,090 episodes); its CPU/browser allocation and API budget require a separate exact approval after calibration. The earlier SFT-based GPU/API estimate is superseded.
+**Medium-effort follow-up verified (October 14):** the approved 30-call/$5 snapshot-only amendment completed all 30 native actions for **$0.4043**. It used **198,291 input**, **807 output**, and **25 reported reasoning tokens**; 1/30 calls reported positive reasoning. The paired high/medium reasoning ratio was undefined on 29/30 states and 3.56 on the sole positive-medium state; the ratio of cohort totals was 67, driven by zero-heavy usage. This does not establish a stable threefold reasoning comparison. No automatic effort sweep or budget transfer was performed. [Follow-up aggregate and audit hashes](arm_results/sol61_serial_parallel_20261013/medium-probe.json) · [W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/sol61-medium-probe-20261014-v1).
+
+The next live pilot has a deterministic, source-hashed 30-task manifest (ten tasks each Online-Mind2Web, WebVoyager and DeepShop; 60 paired episodes), prepared only. Its effort settings remain uncalibrated, and the paired runner and benchmark judge routes need integration before dispatch. No live pilot allocation or exact API budget has been approved. The full paired 300 Online-Mind2Web / 595 WebVoyager / 150 DeepShop study remains planned (2,090 episodes). The earlier SFT-based GPU/API estimate is superseded.

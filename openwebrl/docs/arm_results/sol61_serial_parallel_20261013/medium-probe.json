@@ -1,0 +1,36 @@
+{
+  "status": "verified_complete",
+  "requests": 30,
+  "valid_native_actions": 30,
+  "tokens": {
+    "input_tokens": 198291,
+    "output_tokens": 807,
+    "reasoning_tokens": 25,
+    "nonreasoning_output_tokens": 782,
+    "cached_input_tokens": 40658,
+    "cache_write_tokens": 153853
+  },
+  "reasoning_positive_states": 1,
+  "reasoning_zero_states": 29,
+  "cost_usd": "0.4043283",
+  "high_divided_by_medium_reasoning": {
+    "defined_states": 1,
+    "undefined_states": 29,
+    "mean": 3.56,
+    "median": 3.56
+  },
+  "high_exact_action_matches": 14,
+  "scope": "Offline archived snapshots only; no executed actions or measured task success",
+  "physical_retries": 0,
+  "audit_summary": {
+    "status": "verified_complete",
+    "request_receipts": 30,
+    "all_sha_and_configuration_checks_passed": true,
+    "usage_recomputed": true,
+    "ledger_reconciled": true,
+    "approval_sha256": "471e636e9aeda9e2bdbc824db2d8fd1c6fc52090474cc283e3fba2077acdcc23",
+    "manifest_sha256": "a701491d722c96c1c069ed941a096d22b0006a11219cf47bb761b3bff313f913",
+    "aggregate_sha256": "524e865767c791c42acf481da348dd72479bae52ed0571b04a16b6a8c43ec52a"
+  },
+  "receipt_hash_count": 30
+}
