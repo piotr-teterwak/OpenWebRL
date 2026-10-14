@@ -453,7 +453,7 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 | [First lookahead study](#lookahead-labels-20261011) | 194 | before, immediate, K = 3 (hidden / shown) | earlier: text history with reasoning, 5 steps | done |
 | [Stage (a)](#lookahead-stage-a-20261012), fresh Piotr-matched states | 121 | before, immediate, K = 3 | earlier | done |
 | [Consistent-format rerun](#lookahead-v2-20261013), the same 194 + 121 = 315 states | 315 | before, immediate, K = 1, 2, 3, 5 | steps | done (USD 42.60) |
-| [Scale-up on `fast1k-20261012`](#lookahead-fast1k-20261013), states whose candidates differ in outcome | 421 | before, immediate, K = 1, 3 | steps | done (USD 35.77) |
+| [Scale-up on `fast1k-20261012`](#lookahead-fast1k-20261013), states whose candidates differ in outcome | 421 | before, immediate, K = 1, 2, 3 | steps | done (USD 35.77 + 11.77 for K = 2) |
 
 <a id="lookahead-v2-20261013"></a>
 
@@ -490,6 +490,7 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 | Before execution | 29.09% | +3.20 [+1.42, +4.84] | — | 32.79% | +2.95 [+1.70, +4.09] | −2.31 [−3.39, −1.09] | — |
 | Immediate result | 30.68% | +4.79 [+1.80, +7.23] | — | 33.27% | +3.43 [+1.39, +5.30] | −1.83 [−3.22, −0.53] | — |
 | Lookahead K = 1 | 31.37% | +5.48 [+2.86, +7.71] | +0.69 [−0.40, +2.03] | 34.63% | +4.78 [+2.98, +6.45] | −0.48 [−1.65, +0.64] | +1.35 [+0.50, +2.33] |
+| Lookahead K = 2 | 30.75% | +4.86 [+2.77, +6.55] | +0.07 [−1.47, +1.83] | 34.27% | +4.43 [+2.87, +5.80] | −0.83 [−1.69, −0.06] | +1.00 [−0.13, +2.19] |
 | **Lookahead K = 3** | **31.78%** | **+5.89 [+3.71, +7.69]** | +1.10 [−0.45, +2.87] | **35.10%** | **+5.26 [+3.69, +6.64]** | — | +1.83 [+0.53, +3.23] |
 | Uniform pick | 25.89% | — | — | 29.84% | — | — | — |
 | Outcome reference: best on draws 0–2 | 31.07% | +5.18 [+3.45, +7.00] | — | 35.06% | +5.22 [+3.95, +6.37] | −0.04 [−1.21, +1.26] | — |
@@ -498,7 +499,7 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 - **Pooling.** The pool combines these 421 states with the 315 above. The two sets share no states but share 42 tasks; a shared task is one bootstrap cluster. The old 315 were not filtered for informativeness, so uniform success differs between the sets (35.12% versus 25.89%).
 - **Differences from the 315-state rerun.** On the new states the immediate result beats before-execution (+1.59 pp), unlike before (−0.97). Before-execution is clearly the weakest condition in the pool (−2.31 pp against K = 3).
 - **Caveat.** The new states are concentrated: arXiv tasks make up 290 of the 722 released states, and error or blank pages 160.
-- **Evidence:** [JSON](arm_results/rl_integration/lookahead-fast1k-20261013.json) (per-collection and pooled). Analysis: `selection_outcome_experiments.py lookahead_v2 --bases <v2 root> <fast1k root>`. 6,736 Luna calls, USD 35.77, within the approved USD 50 / 9,000 calls.
+- **Evidence:** [JSON](arm_results/rl_integration/lookahead-fast1k-20261013.json) (per-collection and pooled). Analysis: `selection_outcome_experiments.py lookahead_v2 --bases <v2 root> <fast1k root>`. 6,736 Luna calls, USD 35.77, within the approved USD 50 / 9,000 calls; K = 2 added later on the same 421 states (1,684 calls, USD 11.77, approved cap USD 15 / 2,000).
 
 <a id="lookahead-draw-split-20261013"></a>
 
@@ -518,6 +519,7 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Oracle (observed draws) | 36.1 | 36.8 | 38.0 | 37.8 | 39.4 |
 | Lookahead K = 3 | 37.4 | 37.8 | 37.8 | 37.7 | 38.5 |
+| Lookahead K = 2 | 36.7 | 36.9 | 36.9 | 36.8 | 37.7 |
 | Lookahead K = 1 | 37.0 | 37.2 | 37.4 | 36.8 | 37.1 |
 | Post-execution | 35.4 | 35.8 | 35.8 | 35.5 | 36.5 |
 | Pre-execution | 34.0 | 34.7 | 34.9 | 34.4 | 35.6 |
@@ -527,7 +529,7 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 | Tasks | 70 | 76 | 76 | 76 | 72 |
 
 - **Absolute rates are low** because 421 of the 559 Piotr-matched labelled states are `fast1k` states, filtered to informative states and concentrated on arXiv and error or blank pages.
-- **K = 2 is omitted:** it was labelled only on the earlier 315 states.
+- **K = 2** sits between K = 1 and K = 3 within noise; depth beyond one step adds little.
 - **Pending:** rerun on states with all 40 draws valid as more Piotr-matched panels complete; currently 202 such states on 45 tasks.
 - **Evidence:** [JSON](arm_results/rl_integration/lookahead-draw-split-20261013/curve_piotr.json), [computation](arm_results/rl_integration/lookahead-draw-split-20261013/curve.py) (`SUBSET=piotr`), [plot](arm_results/rl_integration/lookahead-draw-split-20261013/plot_piotr_single.py) (`valid_only`). Earlier all-state curves: [JSON](arm_results/rl_integration/lookahead-draw-split-20261013/curve.json).
 
