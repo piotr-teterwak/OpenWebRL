@@ -193,5 +193,35 @@
    "input_cache_write": 0.125,
    "output": 0.5
   }
+ },
+ {
+  "states": "New 421 states",
+  "condition": "K = 3, no history",
+  "root": "lookahead-fast1k-20261013/k3-h0",
+  "calls": 1684,
+  "input_tokens_per_call": 55833,
+  "output_tokens_per_call": 624,
+  "input_usd": 11.75,
+  "output_usd": 0.53,
+  "total_usd": 12.28,
+  "price_usd_per_million": {
+   "input_cache_write": 0.125,
+   "output": 0.5
+  }
+ },
+ {
+  "states": "New 421 states",
+  "condition": "K = 3, no tool feedback in lookahead",
+  "root": "lookahead-fast1k-20261013/k3-nofb",
+  "calls": 1684,
+  "input_tokens_per_call": 56667,
+  "output_tokens_per_call": 800,
+  "input_usd": 11.93,
+  "output_usd": 0.67,
+  "total_usd": 12.6,
+  "price_usd_per_million": {
+   "input_cache_write": 0.125,
+   "output": 0.5
+  }
  }
 ]

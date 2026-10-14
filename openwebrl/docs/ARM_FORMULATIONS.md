@@ -467,9 +467,11 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 | New 421 states | Lookahead K = 3 | 1,684 | 58,087 | 666 | 12.23 | 0.56 | 12.86 |
 | New 421 states | Pre-execution, no history | 1,684 | 8,075 | 645 | 1.70 | 0.54 | 2.24 |
 | New 421 states | K = 1, no history | 1,684 | 45,607 | 640 | 9.60 | 0.54 | 10.24 |
+| New 421 states | K = 3, no history | 1,684 | 55,833 | 624 | 11.75 | 0.53 | 12.28 |
+| New 421 states | K = 3, no tool feedback in lookahead | 1,684 | 56,667 | 800 | 11.93 | 0.67 | 12.60 |
 
 - **Sources:** tokens are averaged from each judgment's saved usage report (input includes cache-write tokens), priced at USD 0.125 / 0.50 per million input / output tokens. Total USD is the run ledger's settled charge, including transient retries, so it can exceed input + output by a few cents. [JSON](arm_results/rl_integration/lookahead-costs-20261014.json).
-- **Totals:** USD 102.63 across these 13 completed runs.
+- **Totals:** USD 127.51 across these 15 runs.
 
 | Run | States | Conditions | Format | Status |
 | --- | ---: | --- | --- | --- |
@@ -549,6 +551,23 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 | Oracle observes | draws 0–5 | draws 0–4 | draws 0–3 | draws 0–2 | draws 0–1 |
 | States | 465 | 484 | 484 | 481 | 463 |
 | Tasks | 72 | 76 | 76 | 76 | 70 |
+
+<a id="lookahead-history-feedback-20261014"></a>
+
+#### Ablations: past-step history and lookahead text feedback
+
+**The 3 past steps barely matter (+0.2 to +0.7 pp, not significant). The tool feedback inside lookahead steps adds about +0.5 to +0.7 pp; without it, K = 3's edge over post-execution shrinks to +0.4 to +0.6 pp.**
+
+| Paired difference, pp [95%] | Invalid = failure (421 states, 67 tasks) | Valid draws only (372 states, 58 tasks) |
+| --- | --- | --- |
+| 3 past steps − none, pre-execution | +0.47 [-0.39, +1.36] | +0.74 [-0.09, +1.68] |
+| 3 past steps − none, K = 1 | +0.32 [-0.16, +0.82] | +0.23 [-0.33, +0.78] |
+| 3 past steps − none, K = 3 | +0.33 [-0.13, +0.82] | +0.26 [-0.20, +0.65] |
+| Tool feedback − none, K = 3 | +0.71 [+0.19, +1.56] | +0.48 [-0.04, +1.13] |
+| K = 3 − post-execution | +1.10 [-0.45, +2.87] | +1.05 [-0.78, +3.13] |
+| K = 3 without feedback − post-execution | +0.39 [-1.11, +1.99] | +0.56 [-1.05, +2.40] |
+
+*Same 421 `fast1k` states, held-out draws 3–7, task-clustered intervals. "No history" removes the 3 past steps (action + screenshot); "no feedback" cuts each lookahead step to the actor's tool call, dropping the environment's tool response and observation text, as in the history steps. Earlier lookahead results include that feedback. [JSON](arm_results/rl_integration/lookahead-history-feedback-20261014.json), [code](arm_results/rl_integration/lookahead-history-feedback-20261014.py).*
 
 <details>
 <summary>Earlier format, and the stopped ablation</summary>
