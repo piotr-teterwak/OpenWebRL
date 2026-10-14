@@ -528,15 +528,13 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 
 #### Robustness: how many observed outcomes is lookahead worth?
 
-**On Piotr-matched tasks, K = 3 lookahead beats the actor's first sample by about 7 pp at every split, and matches an oracle that picks on 3–5 observed outcomes (3–5 evaluation continuations).**
-- **Setup:** the x-axis is the number of continuations per action used for evaluation (the last x of draws 0–7). The oracle picks the action with the best success on the other 8 − x draws. Teacher conditions see only draw 0, so for them the split changes only how many draws score them; only the oracle uses the remaining draws.
-- **States:** Piotr-matched tasks (normalized instruction in the pinned training set; fresh states, not Piotr's archived states), unique model inputs.
-- **Valid draws only:** a state is kept at split n when every action has a valid draw on both sides; 463–484 states, 70–76 tasks.
-- **Bands (first figure):** 95% task-clustered interval of each condition's paired difference from the actor's first sample, drawn around the actor's rate plus that difference. A band clear of the actor line is a significant gain over the actor.
+**K = 3 lookahead beats the actor's first sample by about 7 pp at every split and matches an oracle that picks on 3–5 observed outcomes.**
 
-![Success vs observed draws, Piotr-matched tasks, valid draws only, paired bands](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_piotr_absolute_valid_only.png)
+![Success vs evaluation continuations, Piotr-matched tasks, valid draws only, paired bands](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_piotr_absolute_valid_only.png)
 
-![Success vs observed draws, Piotr-matched tasks, valid draws only, lines only](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_piotr_absolute_lines_valid_only.png)
+![Success vs evaluation continuations, Piotr-matched tasks, valid draws only, lines only](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_piotr_absolute_lines_valid_only.png)
+
+*Piotr-matched tasks (fresh states), valid draws only; a state counts when every action has a valid draw on both sides of the split. x = continuations per action used for evaluation; the oracle picks on the other 8 − x draws, and teacher conditions see only draw 0. Bands (first figure): 95% task-clustered interval of the paired difference from the actor's first sample. Rates are low because most states are informative-filtered `fast1k` states. [JSON](arm_results/rl_integration/lookahead-draw-split-20261013/curve_piotr.json), [code](arm_results/rl_integration/lookahead-draw-split-20261013/curve.py), [plot](arm_results/rl_integration/lookahead-draw-split-20261013/plot_piotr_single.py).*
 
 | Success, % | 2 eval | 3 eval | 4 eval | 5 eval | 6 eval |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -551,11 +549,6 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 | Oracle observes | draws 0–5 | draws 0–4 | draws 0–3 | draws 0–2 | draws 0–1 |
 | States | 465 | 484 | 484 | 481 | 463 |
 | Tasks | 72 | 76 | 76 | 76 | 70 |
-
-- **Absolute rates are low** because 421 of the 559 Piotr-matched labelled states are `fast1k` states, filtered to informative states and concentrated on arXiv and error or blank pages.
-- **K = 2** sits between K = 1 and K = 3 within noise; depth beyond one step adds little.
-- **Pending:** rerun on states with all 40 draws valid as more Piotr-matched panels complete; currently 202 such states on 45 tasks.
-- **Evidence:** [JSON](arm_results/rl_integration/lookahead-draw-split-20261013/curve_piotr.json), [computation](arm_results/rl_integration/lookahead-draw-split-20261013/curve.py) (`SUBSET=piotr`), [plot](arm_results/rl_integration/lookahead-draw-split-20261013/plot_piotr_single.py) (`valid_only`). Earlier all-state curves: [JSON](arm_results/rl_integration/lookahead-draw-split-20261013/curve.json).
 
 <details>
 <summary>Earlier format, and the stopped ablation</summary>
