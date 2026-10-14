@@ -15,6 +15,7 @@ D = Path(__file__).resolve().parent
 MODE = sys.argv[1] if len(sys.argv) > 1 else "invalid_as_failure"      # or valid_only
 r = {int(k): v["pooled"] for k, v in json.loads((D / "curve_piotr.json").read_text())[MODE].items()}
 ns = sorted(r)
+xs = [8 - n for n in ns]                                      # continuations used for evaluation
 ACTOR = "Actor first sample"
 actor = [r[n][ACTOR][0] for n in ns]
 suffix = "" if MODE == "invalid_as_failure" else "_valid_only"
@@ -25,17 +26,18 @@ for kind in ("gain", "absolute", "absolute_lines"):           # absolute_lines: 
             continue
         if k == ACTOR:
             y = [0] * len(ns) if kind == "gain" else actor
-            ax.plot(ns, y, color=color, ls=ls, lw=1.8 if kind == "gain" else 2.2, marker=None if kind == "gain" else "o", ms=4,
+            ax.plot(xs, y, color=color, ls=ls, lw=1.8 if kind == "gain" else 2.2, marker=None if kind == "gain" else "o", ms=4,
                     label=label, zorder=3)
             continue
         d = [r[n]["minus_actor"][k] for n in ns]
         base = [0] * len(ns) if kind == "gain" else actor
-        ax.plot(ns, [b + x[0] for b, x in zip(base, d)], color=color, ls=ls, marker="o", ms=4,
+        ax.plot(xs, [b + x[0] for b, x in zip(base, d)], color=color, ls=ls, marker="o", ms=4,
                 lw=1.3 if k == "Uniform" else 2, label=label)
         if kind != "absolute_lines":
-            ax.fill_between(ns, [b + x[1] for b, x in zip(base, d)], [b + x[2] for b, x in zip(base, d)],
+            ax.fill_between(xs, [b + x[1] for b, x in zip(base, d)], [b + x[2] for b, x in zip(base, d)],
                             color=color, alpha=.10, lw=0)
-    ax.set_xticks(ns); ax.set_xlabel("Observed draws per action"); ax.grid(alpha=.25)
+    ax.set_xticks(sorted(xs)); ax.set_xlabel("Continuations per action used for evaluation\n(the oracle picks on the other 8 − x)")
+    ax.grid(alpha=.25)
     if kind == "absolute_lines":                                # whole-number frame, so the 40% gridline shows
         lo, hi = ax.get_ylim()
         ax.set_ylim(min(30, int(lo)), max(40, int(hi) + 1))

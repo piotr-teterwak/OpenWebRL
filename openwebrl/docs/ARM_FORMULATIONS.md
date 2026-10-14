@@ -528,8 +528,8 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 
 #### Robustness: how many observed outcomes is lookahead worth?
 
-**On Piotr-matched tasks, K = 3 lookahead beats the actor's first sample by about 7 pp at every split, and matches an oracle that picks on 3–5 observed outcomes.**
-- **Setup:** the oracle picks the action with the best success on draws 0..n−1. Every condition is scored on draws n..7. Teacher conditions see only draw 0, so the split changes only which draws score them.
+**On Piotr-matched tasks, K = 3 lookahead beats the actor's first sample by about 7 pp at every split, and matches an oracle that picks on 3–5 observed outcomes (3–5 evaluation continuations).**
+- **Setup:** the x-axis is the number of continuations per action used for evaluation (the last x of draws 0–7). The oracle picks the action with the best success on the other 8 − x draws. Teacher conditions see only draw 0, so for them the split changes only how many draws score them; only the oracle uses the remaining draws.
 - **States:** Piotr-matched tasks (normalized instruction in the pinned training set; fresh states, not Piotr's archived states), unique model inputs.
 - **Valid draws only:** a state is kept at split n when every action has a valid draw on both sides; 463–484 states, 70–76 tasks.
 - **Bands (first figure):** 95% task-clustered interval of each condition's paired difference from the actor's first sample, drawn around the actor's rate plus that difference. A band clear of the actor line is a significant gain over the actor.
@@ -538,18 +538,19 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 
 ![Success vs observed draws, Piotr-matched tasks, valid draws only, lines only](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_piotr_absolute_lines_valid_only.png)
 
-| Success, % | n = 2 | 3 | 4 | 5 | 6 |
+| Success, % | 2 eval | 3 eval | 4 eval | 5 eval | 6 eval |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Oracle (observed draws) | 36.1 | 36.8 | 38.0 | 37.8 | 39.4 |
-| Lookahead K = 3 | 37.4 | 37.8 | 37.8 | 37.7 | 38.5 |
-| Lookahead K = 2 | 36.7 | 36.9 | 36.9 | 36.8 | 37.7 |
-| Lookahead K = 1 | 37.0 | 37.2 | 37.4 | 36.8 | 37.1 |
-| Post-execution | 35.4 | 35.8 | 35.8 | 35.5 | 36.5 |
-| Pre-execution | 34.0 | 34.7 | 34.9 | 34.4 | 35.6 |
-| Uniform | 31.5 | 31.9 | 32.1 | 32.0 | 32.4 |
-| Actor (first sample) | 30.3 | 30.6 | 31.0 | 30.9 | 31.9 |
-| States | 463 | 481 | 484 | 484 | 465 |
-| Tasks | 70 | 76 | 76 | 76 | 72 |
+| Oracle (observed draws) | 39.4 | 37.8 | 38.0 | 36.8 | 36.1 |
+| Lookahead K = 3 | 38.5 | 37.7 | 37.8 | 37.8 | 37.4 |
+| Lookahead K = 2 | 37.7 | 36.8 | 36.9 | 36.9 | 36.7 |
+| Lookahead K = 1 | 37.1 | 36.8 | 37.4 | 37.2 | 37.0 |
+| Post-execution | 36.5 | 35.5 | 35.8 | 35.8 | 35.4 |
+| Pre-execution | 35.6 | 34.4 | 34.9 | 34.7 | 34.0 |
+| Uniform | 32.4 | 32.0 | 32.1 | 31.9 | 31.5 |
+| Actor (first sample) | 31.9 | 30.9 | 31.0 | 30.6 | 30.3 |
+| Oracle observes | draws 0–5 | draws 0–4 | draws 0–3 | draws 0–2 | draws 0–1 |
+| States | 465 | 484 | 484 | 481 | 463 |
+| Tasks | 72 | 76 | 76 | 76 | 70 |
 
 - **Absolute rates are low** because 421 of the 559 Piotr-matched labelled states are `fast1k` states, filtered to informative states and concentrated on arXiv and error or blank pages.
 - **K = 2** sits between K = 1 and K = 3 within noise; depth beyond one step adds little.
