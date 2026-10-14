@@ -1,6 +1,6 @@
 # OpenWebRL project documentation
 
-[Sol serial/parallel calibration verified: 30 states, $1.30; low effort used zero reasoning, so the 3× reasoning comparison needs calibration](ARM_INFERENCE_SCALING.md#sol61-serial-versus-parallel-reasoning-20261013).
+[Sol Online-Mind2Web100 verified: three candidates + selection 33/100 versus high effort 22/100; paired gain +11 pp (95% CI +3 to +19); live output ratio 1.07×](ARM_INFERENCE_SCALING.md#sol61-om2w100-20261014).
 
 [Shared-rule benchmark validity audit: 5,400 exactly mapped saved episodes checked, no denominator changes; older evidence gaps retained](EPISODE_VALIDITY.md#benchmark-validity-audit-20261013).
 

@@ -1027,6 +1027,61 @@ All attempts and verdicts are preserved; these scores do not enter current means
 
 </details>
 
+<a id="sol61-om2w100-20261014"></a>
+## Sol on Online-Mind2Web: three candidates plus selection versus high effort
+
+**Three low-effort Sol proposals plus medium-effort Sol selection succeeded on 33/100 tasks, versus 22/100 for one high-effort Sol proposal: +11 percentage points, paired task-bootstrap 95% CI [+3, +19].** All 200 planned episodes are independently verified. This is a high-effort-versus-selection pilot; live usage did **not** reproduce the snapshot calibration’s approximate 3× output-token ratio, and the arms do not match total token usage or cost.
+
+| Condition | Planned episodes | Successes | Overall success | Valid episodes | Invalid episodes | Valid-only success |
+|---|---:|---:|---:|---:|---:|---:|
+| One high-effort Sol proposal | 100 | 22 | 22.00% | 87 | 13 | 25.29% |
+| Three low-effort Sol proposals + medium-effort selection | 100 | 33 | 33.00% | 87 | 13 | 37.93% |
+
+Overall success uses all 100 planned tasks per arm and scores invalid episodes zero. Valid-only rates use each arm’s 87 valid episodes, which are different task subsets. On the **83 tasks valid in both arms**, the paired difference is **+12.05 pp [95% CI +3.61, +21.69]**, a sensitivity analysis conditional on validity. Of all 100 paired tasks, parallel alone succeeded on 15, serial alone on 4, both on 18 and neither on 63. The task-bootstrap intervals do not account for host clustering, website drift, model-alias drift or judge error; this is one episode per task and arm, not repeated-trial success probability.
+
+![Overall success on 100 paired tasks](arm_results/sol61_serial_parallel_20261013/success.png)
+
+The intended approximate 3× output comparison did not hold live: serial produced **38,484 output tokens / 1,191 requests with known usage = 32.31 per proposal**, while the three low actor roles produced **74,747 / 2,475 = 30.20 per proposal** on their respective visited states, a **1.07×** ratio. These are descriptive averages on different trajectories, not matched-state token measurements. Effort and output caps permit adaptive usage; they do not enforce a realized token budget. Selection used three proposals of similar average output length plus an additional selector. This bundles candidate generation and selection: without an N=1-plus-selector control, the gain cannot be attributed solely to candidate diversity or critic reasoning. The selector alone used 13,344 reasoning tokens, versus 6,954 for the serial actor across all known requests.
+
+| All-attempt usage, cost and recorded latency | Serial high | Three low + selection |
+|---|---:|---:|
+| Physical Sol requests | 1,192 | 3,300 |
+| Requests with known usage | 1,191 | 3,300 |
+| Input tokens | 5,205,487 | 12,166,723 |
+| Output tokens, including reasoning | 38,484 | 100,305 |
+| Reasoning tokens, subset of output | 6,954 | 13,863 |
+| Known Sol cost | $9.3194 | $14.4049 |
+| Conservative Sol cost including unknown reservation | $9.5641 | $14.4049 |
+| Judge cost | $0.2516 | $0.3049 |
+| Mean recorded episode + judge time | 83.71 s | 89.17 s |
+
+Input and output counts exclude one serial HTTP 400 request whose usage is unavailable; its full **$0.244725** reservation remains reserved in the conservative cost bound. Reasoning tokens are a subset of output, and cached/cache-write input tokens are subsets of input: none is added again. The selector contributes 2,262,700 input, 25,558 output and 13,344 reasoning tokens to the parallel column. Recorded episode + judge times sum saved components for all 100 episodes per arm, including invalids, and exclude worker startup; they are not a separately measured end-to-end wall timer. Episode times include early failures and different trajectory lengths; mean accepted-decision model critical paths were 2.86 s serial and 5.73 s parallel, so the episode means are not an equal-work speed comparison.
+
+![Live output-token comparison](arm_results/sol61_serial_parallel_20261013/output-tokens.png)
+
+[Paired outcomes](arm_results/sol61_serial_parallel_20261013/paired-outcomes.png) · [Cost and latency](arm_results/sol61_serial_parallel_20261013/cost-latency.png) · [Independent aggregate audit](arm_results/sol61_serial_parallel_20261013/om2w100-final.json) · [W&B final audit](https://wandb.ai/zixianma/openwebrl-evals/runs/sol61-om2w100-audit-20261014-v1).
+
+<details>
+<summary>Frozen protocol, validity and recovery limitations</summary>
+
+The fixed 100-task Online-Mind2Web subset covers 66 hosts and 27 easy / 43 medium / 30 hard tasks, selected before outcomes using the frozen task-hash procedure and task-selection seed `sol61-om2w100-20261014-v1`; paired scheduling uses integer seed 20261014. Arm order is balanced 50/50. Both arms use GPT-6.1 Sol, the same browser policy/tools, native Responses history, one current screenshot, a 1280×720 viewport and a maximum of 30 steps. Serial uses high effort with a 12,288-output-token cap. Parallel generates three independent low-effort proposals with 4,096-output-token caps from identical inputs at each decision; a medium-effort Sol selector with a 2,048-output-token cap chooses a saved action without receiving private reasoning. Only the selected proposal’s native response, including opaque reasoning, enters future actor history. Trajectories are independent across arms, so their later observations naturally diverge. There is no local SFT actor in this comparison.
+
+Completed episodes receive the canonical Online-Mind2Web/AgentTrek o4-mini-2025-04-16 judge using action history and final screenshot. The unchanged unified outcome validator determines validity. Across both arms, terminal labels are 142 done, 32 step-limit, 20 browser-environment, 5 model-server and 1 unknown. All 26 invalid episodes remain saved; there were no selective reruns. The first execution attempt’s 10 dispositions, including 8 invalids before the history-transport repair, remain in the primary results. Consequently the main estimate includes startup harness failures; the common-valid result is a conditional sensitivity check, not a replacement primary analysis. A separate allocation aborted its scheduler-limit guard before starting workers and contributed no episodes.
+
+</details>
+
+<details>
+<summary>All-attempt accounting and independently verified closure</summary>
+
+All 200 physical browser sessions, 4,492 Sol requests and 142 judge requests are preserved. Known API cost is **$24.2808628**; including the one unavailable-usage request’s full reservation gives a conservative **$24.5255878** total. Exact total provider usage remains unknown for that request; the study does not report the reservation as observed spending. All four allocations, including the four-second verification-only allocation, consumed **3,126 seconds** in total. These remain within the approved shared ceilings of 0 GPUs / 16 CPUs / 64 GiB × 12 hours, 200 browser sessions, 15,000 Sol requests / $500 and 200 judge requests / $10. No budget was added or transferred.
+
+The independent audit verifies 200 unique planned dispositions, task and frozen-source bindings, native request/selection/judge receipts, paired outcomes, validity, all-attempt API and scheduler accounting, completed scheduler jobs and owned-process teardown. Worker collection alone was not used as completion evidence. Raw tasks, screenshots, trajectories and request payloads remain private; only aggregates and plots are published. No WebVoyager or DeepShop result is claimed by this pilot.
+
+</details>
+
+<details>
+<summary>Archived snapshot calibration and medium-effort follow-up</summary>
+
 <a id="sol61-serial-versus-parallel-reasoning-20261013"></a>
 ## Sol serial versus parallel reasoning: snapshot calibration
 
@@ -1059,8 +1114,4 @@ The actor caps were high/12,288 versus three low/4,096, with medium/2,048 for se
 
 **Medium-effort follow-up verified (October 14):** the approved 30-call/$5 snapshot-only amendment completed all 30 native actions for **$0.4043**. It used **198,291 input**, **807 output**, and **25 reported reasoning tokens**; 1/30 calls reported positive reasoning. The paired high/medium reasoning ratio was undefined on 29/30 states and 3.56 on the sole positive-medium state; the ratio of cohort totals was 67, driven by zero-heavy usage. This does not establish a stable threefold reasoning comparison. No automatic effort sweep or budget transfer was performed. [Follow-up aggregate and audit hashes](arm_results/sol61_serial_parallel_20261013/medium-probe.json) · [W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/sol61-medium-probe-20261014-v1).
 
-**Online-Mind2Web100 running (200 planned paired episodes): current job 360848.** Following the user’s October 14 direction, freeze 100 tasks by a deterministic hash ordering of all 300 released tasks, without outcome filtering; the cohort contains 66 websites (27 easy, 43 medium, 30 hard). The arms are one high-effort Sol proposal (12,288 output cap) versus three concurrent low-effort Sol proposals (4,096 each), followed by medium-effort Sol index selection (2,048). Each task runs both arms in fresh isolated browsers, with 50 tasks starting in each arm; retain duplicate proposals. Use at most 30 executed decisions per episode. Only the selected native proposal enters future actor history. The selector receives observable history/current screenshot and the three actions, without private reasoning. Both arms use the same actions-only/final-screenshot OM2W/AgentTrek o4-mini judge and unchanged unified validity classifier.
-
-This is an **approximately threefold output-per-proposal comparison calibrated offline**, not a forced token quota or an equal-total-cost comparison. Record actual input, cached/cache-write input, output and reasoning counts; include all three proposals and selection in the parallel arm’s cost and latency. Primary outcome is success over the same 100 tasks per arm, with paired differences and uncertainty; report valid-only success separately with its denominator.
-
-User-approved all-attempt caps (October 14): no GPUs; 16 CPUs/64 GiB for 12 hours total, six concurrent browsers/200 lifetime sessions; 15,000 Sol physical calls/$500 plus 200 judge calls/$10. Caps stop dispatch and do not guarantee completion. No prior budget transfer or automatic unchanged retry. The account submission block cleared and the pilot launched. Attempt 360844 stopped after 93 seconds on an API rejection of an output-only field in replayed reasoning. A targeted request-only projection preserves native outputs/opaque reasoning and removes lifecycle metadata; 37 mocked transport/history/metering tests passed. Attempt 360846 stopped before workers after four seconds because Slurm rounded its requested time above the registered attempt cap. Current attempt 360848 requests 43,080 seconds; all 97 prior seconds remain charged against the original 43,200-second approval. The ten original dispositions remain unchanged and are not retried. Multiple-turn browser execution and successful native reasoning replay are verified; final outcomes, accounting and teardown remain pending. Active repair callbacks are bound at 15-minute cadence, with hourly routine reports and earlier failure/completion alerts. [Prepared protocol and aggregate cohort audit](arm_results/sol61_serial_parallel_20261013/om2w100-preparation.json). The earlier three-benchmark30-task preparation is superseded as the next pilot; broader benchmark evaluation remains future work.
+</details>

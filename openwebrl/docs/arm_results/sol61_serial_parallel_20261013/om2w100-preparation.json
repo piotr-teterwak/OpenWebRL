@@ -1,5 +1,5 @@
 {
-  "status": "running",
+  "status": "verified_complete",
   "approved": true,
   "launched": true,
   "benchmark": "Online-Mind2Web",
@@ -46,33 +46,35 @@
   "mocked_tests_passed": 37,
   "offline_runtime_import_passed": true,
   "live_browser_startup_verified": true,
-  "paid_api_calls": 0,
-  "new_browser_sessions": 0,
-  "submitted_jobs": 3,
-  "interpretation": "Approximate3x generated output per proposal in archived calibration; not exact3x reasoning or equal-total-compute",
+  "submitted_jobs": 4,
+  "interpretation": "High effort versus three low proposals plus selection; actual output per proposal ratio1.07, not3x",
   "source_manifest_sha256": "fa3d07f2ccc6c23d3b115ab73b9d6796eba8e4d1c4625fe1c3c6c46c98b7514e",
   "submission_rejections": 1,
-  "current_job_id": "360848",
+  "current_job_id": null,
   "execution_attempts": [
     {
       "job_id": "360844",
-      "state": "FAILED",
       "elapsed_seconds": 93,
-      "reason": "Output-only status field rejected on native reasoning replay;10dispositions preserved"
+      "state": "FAILED"
     },
     {
       "job_id": "360846",
-      "state": "FAILED",
       "elapsed_seconds": 4,
-      "reason": "Slurm rounded time above registeredattempt cap; controller guard stopped before workers"
+      "state": "FAILED"
     },
     {
       "job_id": "360848",
-      "state": "RUNNING",
-      "requested_seconds": 43080
+      "elapsed_seconds": 3025,
+      "state": "COMPLETED"
+    },
+    {
+      "job_id": "360960",
+      "elapsed_seconds": 4,
+      "state": "COMPLETED"
     }
   ],
   "request_input_transport": "Remove output-only reasoning/function-call status and nullreasoningcontent in request deepcopies; native output evidence immutable",
-  "supervision": "Bound active-agent repair callbacks every15min and changedfailure/completion",
-  "success_results": "Not yet independently verified; no final success claim"
+  "supervision": "Independent audit and owned teardown verified",
+  "success_results": "Independently verified; see om2w100-final.json",
+  "final_result": "om2w100-final.json"
 }

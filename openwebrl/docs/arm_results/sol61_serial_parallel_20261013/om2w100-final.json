@@ -1,0 +1,334 @@
+{
+  "schema": "sol61-om2w100-independent-audit-v1",
+  "status": "verified_complete",
+  "complete": true,
+  "inputs": {
+    "plan_sha256": "a8c71d19c5dbdd44d999fdf22a2e292d74c2c1822b5db08efcd85c980c44f26e",
+    "approval_sha256": "6e8e40d3d499e198bb153e098fad3cc999946039013f4a819a1295f3f7217804",
+    "tasks_sha256": "db5d81c1b37f0bd91086913c6d95b9d9b1194f994749566c87e5ccc54851e5ff",
+    "source_hashes_verified": 265,
+    "validity_sha256": "4046dbe9394c698f0367916d2a5f99d57295def4822da56cf3e8ca059b96c18b"
+  },
+  "physical_episode_attempts": 200,
+  "request_receipts": 4634,
+  "request_receipt_manifest_sha256": "a0ccd4cb6906b274ddb42635e7636d4fa7d8f29423a9d57125ace2f0b763c522",
+  "metrics": {
+    "arms": {
+      "serial_high": {
+        "recorded": 100,
+        "planned": 100,
+        "valid": 87,
+        "invalid": 13,
+        "successes": 22,
+        "overall_success": 0.22,
+        "valid_only_success": 0.25287356321839083
+      },
+      "parallel3_low": {
+        "recorded": 100,
+        "planned": 100,
+        "valid": 87,
+        "invalid": 13,
+        "successes": 33,
+        "overall_success": 0.33,
+        "valid_only_success": 0.3793103448275862
+      }
+    },
+    "paired_tasks": 100,
+    "matched_valid_tasks": 83,
+    "paired_outcomes": {
+      "serial0_parallel0": 63,
+      "serial0_parallel1": 15,
+      "serial1_parallel0": 4,
+      "serial1_parallel1": 18
+    },
+    "parallel_minus_serial": 0.11,
+    "paired_bootstrap_95ci": [
+      0.03,
+      0.19
+    ],
+    "matched_valid_difference": 0.12048192771084337,
+    "matched_valid_bootstrap_95ci": [
+      0.03614457831325301,
+      0.21686746987951808
+    ],
+    "results_provisional": false,
+    "missing_is_not_imputed": true,
+    "overall_denominator_note": "All planned tasks; invalid outcomes score zero. Missing episodes remain pending, not valid failures."
+  },
+  "validity_endings": {
+    "done": 142,
+    "model_server": 5,
+    "browser_env": 20,
+    "step_limit": 32,
+    "unknown": 1
+  },
+  "accounting": {
+    "actor": {
+      "calls": 4492,
+      "unknown_usage_calls": 1,
+      "closed_rejected_unknown_usage_calls": 1,
+      "exact_usage_complete": false,
+      "settled_cost_lower_usd": 23.7243035,
+      "settled_cost_upper_usd": 23.7243035,
+      "unresolved_reservations_usd": 0.244725,
+      "charged_or_reserved_usd": 23.9690285,
+      "ledger_present": true
+    },
+    "judge": {
+      "calls": 142,
+      "unknown_usage_calls": 0,
+      "closed_rejected_unknown_usage_calls": 0,
+      "exact_usage_complete": true,
+      "settled_cost_lower_usd": 0.5565593,
+      "settled_cost_upper_usd": 0.5565593,
+      "unresolved_reservations_usd": 0.0,
+      "charged_or_reserved_usd": 0.5565593,
+      "ledger_present": true
+    },
+    "browser": {
+      "calls": 200,
+      "charged_or_reserved_usd": 200.0
+    }
+  },
+  "usage_by_arm_and_role": {
+    "parallel3_low/judge": {
+      "calls": 78,
+      "input": 185739,
+      "cached_input": 0,
+      "cache_write_input": 0,
+      "output": 22865,
+      "reasoning_output": 15552,
+      "missing_fields": {
+        "cache_write_input": 78
+      },
+      "cost_lower_usd": 0.30491890000000005,
+      "cost_upper_usd": 0.30491890000000005,
+      "latency_seconds": {
+        "count": 78,
+        "mean": 3.6859516918712196,
+        "median": 3.138340049998078,
+        "max": 11.293348548992071
+      }
+    },
+    "parallel3_low/actor_low_0": {
+      "calls": 825,
+      "input": 3301341,
+      "cached_input": 2349568,
+      "cache_write_input": 847823,
+      "output": 24681,
+      "reasoning_output": 173,
+      "missing_fields": {},
+      "cost_lower_usd": 2.809224299999997,
+      "cost_upper_usd": 2.809224299999997,
+      "latency_seconds": {
+        "count": 825,
+        "mean": 2.50796268654451,
+        "median": 2.2933745290065417,
+        "max": 27.639167485001963
+      }
+    },
+    "parallel3_low/actor_low_1": {
+      "calls": 825,
+      "input": 3301341,
+      "cached_input": 2342907,
+      "cache_write_input": 854484,
+      "output": 24959,
+      "reasoning_output": 83,
+      "missing_fields": {},
+      "cost_lower_usd": 2.8279906999999977,
+      "cost_upper_usd": 2.8279906999999977,
+      "latency_seconds": {
+        "count": 825,
+        "mean": 2.495942773057208,
+        "median": 2.2641394550009863,
+        "max": 14.33864773401001
+      }
+    },
+    "parallel3_low/actor_low_2": {
+      "calls": 825,
+      "input": 3301341,
+      "cached_input": 2331610,
+      "cache_write_input": 865781,
+      "output": 25107,
+      "reasoning_output": 263,
+      "missing_fields": {},
+      "cost_lower_usd": 2.8565834999999966,
+      "cost_upper_usd": 2.8565834999999966,
+      "latency_seconds": {
+        "count": 825,
+        "mean": 2.4615900949466707,
+        "median": 2.214141798001947,
+        "max": 11.914656321998336
+      }
+    },
+    "parallel3_low/selector": {
+      "calls": 825,
+      "input": 2262700,
+      "cached_input": 0,
+      "cache_write_input": 2260225,
+      "output": 25558,
+      "reasoning_output": 13344,
+      "missing_fields": {},
+      "cost_lower_usd": 5.911092499999991,
+      "cost_upper_usd": 5.911092499999991,
+      "latency_seconds": {
+        "count": 825,
+        "mean": 2.7891087082025745,
+        "median": 2.5873729860031744,
+        "max": 7.96239173100912
+      }
+    },
+    "serial_high/judge": {
+      "calls": 64,
+      "input": 152032,
+      "cached_input": 0,
+      "cache_write_input": 0,
+      "output": 19183,
+      "reasoning_output": 13248,
+      "missing_fields": {
+        "cache_write_input": 64
+      },
+      "cost_lower_usd": 0.25164040000000004,
+      "cost_upper_usd": 0.25164040000000004,
+      "latency_seconds": {
+        "count": 64,
+        "mean": 3.662995623579036,
+        "median": 3.2889661755034467,
+        "max": 7.589690759006771
+      }
+    },
+    "serial_high/actor_high": {
+      "calls": 1192,
+      "input": 5205487,
+      "cached_input": 1668380,
+      "cache_write_input": 3387041,
+      "output": 38484,
+      "reasoning_output": 6954,
+      "missing_fields": {
+        "usage": 1
+      },
+      "cost_lower_usd": 9.319412500000006,
+      "cost_upper_usd": 9.564137500000008,
+      "latency_seconds": {
+        "count": 1192,
+        "mean": 2.8606455713228653,
+        "median": 2.647243946492381,
+        "max": 18.47242560099403
+      }
+    }
+  },
+  "decisions": {
+    "parallel3_low/accepted": 824,
+    "parallel3_low/failed": 4,
+    "parallel3_low/decisions": 828,
+    "serial_high/accepted": 1191,
+    "serial_high/failed": 2,
+    "serial_high/decisions": 1193
+  },
+  "model_decision_critical_path_seconds": {
+    "parallel3_low": {
+      "count": 824,
+      "mean": 5.731277432132452,
+      "median": 5.356006054505997
+    },
+    "serial_high": {
+      "count": 1191,
+      "mean": 2.8629141478714195,
+      "median": 2.647393265986466
+    }
+  },
+  "interpretation": "Reasoning output and cached/cache-write input are subsets, not added to total tokens; usage aggregates include all physical attempts. Paired bootstrap resamples tasks; matched-valid analysis is sensitivity only.",
+  "supplemental": {
+    "status": "verified_complete",
+    "arms": {
+      "serial_high": {
+        "recorded_episode_plus_judge_seconds": {
+          "n": 100,
+          "mean": 83.70531007449893,
+          "median": 59.507151358000556,
+          "min": 6.408660389002762,
+          "max": 382.0265436579939
+        },
+        "sol_input_tokens": 5205487,
+        "sol_output_tokens": 38484,
+        "sol_reasoning_tokens": 6954,
+        "sol_cached_input_tokens": 1668380,
+        "sol_cache_write_input_tokens": 3387041,
+        "sol_cost_known": 9.319412500000006,
+        "sol_cost_upper": 9.564137500000008,
+        "judge_cost": 0.25164040000000004,
+        "all_api_cost_known": 9.571052900000005,
+        "all_api_cost_upper": 9.815777900000008
+      },
+      "parallel3_low": {
+        "recorded_episode_plus_judge_seconds": {
+          "n": 100,
+          "mean": 89.16675043459989,
+          "median": 59.376196042005176,
+          "min": 6.299714228996891,
+          "max": 394.06835510199016
+        },
+        "sol_input_tokens": 12166723,
+        "sol_output_tokens": 100305,
+        "sol_reasoning_tokens": 13863,
+        "sol_cached_input_tokens": 7024085,
+        "sol_cache_write_input_tokens": 4828313,
+        "sol_cost_known": 14.404890999999981,
+        "sol_cost_upper": 14.404890999999981,
+        "judge_cost": 0.30491890000000005,
+        "all_api_cost_known": 14.709809899999982,
+        "all_api_cost_upper": 14.709809899999982
+      }
+    },
+    "per_proposal_output_comparison": {
+      "serial_known_usage_requests": 1191,
+      "low_known_usage_requests": 2475,
+      "serial_output_mean": 32.31234256926952,
+      "low_output_mean": 30.20080808080808,
+      "serial_divided_by_low": 1.0699164897446327,
+      "scope": "Actual proposals on each arm own visited states; not matched intermediate states. Unknown400usage excluded from mean, retained as fullcostreservation."
+    },
+    "latency_definition": "Perrecord episode_seconds+judge_seconds; includes invalid episodes, excludes allocation/worker startup. APIcriticalpath separate. This is sum of recorded components rather than a newly measured endpointtimer.",
+    "audit_report_sha256": "a7013a4503d06a6be1b94a569952009ea03d262c01da6c4432e0dfad19065ca9"
+  },
+  "independent_audit_sha256": "a7013a4503d06a6be1b94a569952009ea03d262c01da6c4432e0dfad19065ca9",
+  "proof_hashes": {
+    "final-scheduler-receipts.json": "1eb252c9e976858119e5614f813e2fbcd92017890e942df72403e6f25c2f4937",
+    "startup-abort-proofs.json": "d0d64ce539618480250143229ec2b12bd4113e40f95e1c32888af3582a4f83c5",
+    "verification-proofs.json": "40aa7158b138db8db745d22d4f0390a442fb1585a4fc2fe00a0decac8f2449f7",
+    "final-node-cleanup-proof.json": "6723ea8983466256645b7ac0733dd541d4330c22e2e91dad15c21859345b5593",
+    "live-ownership-proof.json": "a4931167705facbc09490b0d719abbf978b1cd39ff37f25c04e5852f9e869c69"
+  },
+  "execution": {
+    "all_attempt_seconds": 3126,
+    "attempts": [
+      {
+        "job_id": "360844",
+        "elapsed_seconds": 93,
+        "state": "FAILED"
+      },
+      {
+        "job_id": "360846",
+        "elapsed_seconds": 4,
+        "state": "FAILED"
+      },
+      {
+        "job_id": "360848",
+        "elapsed_seconds": 3025,
+        "state": "COMPLETED"
+      },
+      {
+        "job_id": "360960",
+        "elapsed_seconds": 4,
+        "state": "COMPLETED"
+      }
+    ],
+    "owned_teardown_verified": true
+  },
+  "plots": {
+    "success.png": "aa4ecee0bb10794b78be5c1040cc03546d6dbcb608456bf6eab0c084c6f8a2db",
+    "output-tokens.png": "b4b012b790ccae7f54169b4ab8863634bef2aee225138312b6a7574dc8f7556f",
+    "paired-outcomes.png": "93a944ea0736b20e53f7e60e44f39f9d73453c43629a9ff21d1eb5a3757e9608",
+    "cost-latency.png": "847d5c05429ec47d1b5da2023a83b05bd81991de77e4a5e1fbf057448f6375d8"
+  }
+}
