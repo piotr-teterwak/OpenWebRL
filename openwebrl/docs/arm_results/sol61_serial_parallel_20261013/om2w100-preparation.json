@@ -1,7 +1,7 @@
 {
-  "status": "blocked_scheduler_account_budget",
+  "status": "running",
   "approved": true,
-  "launched": false,
+  "launched": true,
   "benchmark": "Online-Mind2Web",
   "tasks": 100,
   "episodes": 200,
@@ -42,15 +42,37 @@
     "browser_sessions": 200
   },
   "task_file_sha256": "db5d81c1b37f0bd91086913c6d95b9d9b1194f994749566c87e5ccc54851e5ff",
-  "plan_sha256": "36b9aeb935af324a2264828a7225e5725a0bbc37b05bd9dc04f7d9459d058b0e",
-  "mocked_tests_passed": 33,
+  "plan_sha256": "a8c71d19c5dbdd44d999fdf22a2e292d74c2c1822b5db08efcd85c980c44f26e",
+  "mocked_tests_passed": 37,
   "offline_runtime_import_passed": true,
-  "live_browser_startup_verified": false,
+  "live_browser_startup_verified": true,
   "paid_api_calls": 0,
   "new_browser_sessions": 0,
-  "submitted_jobs": 0,
+  "submitted_jobs": 3,
   "interpretation": "Approximate3x generated output per proposal in archived calibration; not exact3x reasoning or equal-total-compute",
-  "source_manifest_sha256": "c2f5561cd9fc9e0a659edb60f34020d6d17628f251ed02fe00a5fc7e04189bfe",
+  "source_manifest_sha256": "fa3d07f2ccc6c23d3b115ab73b9d6796eba8e4d1c4625fe1c3c6c46c98b7514e",
   "submission_rejections": 1,
-  "blocker": "Cluster account budget policy rejected submission; no allocation created"
+  "current_job_id": "360848",
+  "execution_attempts": [
+    {
+      "job_id": "360844",
+      "state": "FAILED",
+      "elapsed_seconds": 93,
+      "reason": "Output-only status field rejected on native reasoning replay;10dispositions preserved"
+    },
+    {
+      "job_id": "360846",
+      "state": "FAILED",
+      "elapsed_seconds": 4,
+      "reason": "Slurm rounded time above registeredattempt cap; controller guard stopped before workers"
+    },
+    {
+      "job_id": "360848",
+      "state": "RUNNING",
+      "requested_seconds": 43080
+    }
+  ],
+  "request_input_transport": "Remove output-only reasoning/function-call status and nullreasoningcontent in request deepcopies; native output evidence immutable",
+  "supervision": "Bound active-agent repair callbacks every15min and changedfailure/completion",
+  "success_results": "Not yet independently verified; no final success claim"
 }
