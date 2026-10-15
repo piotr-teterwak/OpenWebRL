@@ -554,20 +554,22 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 
 <a id="lookahead-history-feedback-20261014"></a>
 
-#### Ablations: past-step history and lookahead text feedback
+#### Ablations of K = 1 and K = 3: past-step history and lookahead text feedback
 
-**The 3 past steps barely matter (+0.2 to +0.7 pp, not significant). The tool feedback inside lookahead steps adds about +0.5 to +0.7 pp; without it, K = 3's edge over post-execution shrinks to +0.4 to +0.6 pp.**
+**Removing the 3 past steps changes success by less than 1 pp. Removing the tool feedback from lookahead steps costs K = 3 about 0.5–0.7 pp, about half its edge over post-execution.**
 
-| Paired difference, pp [95%] | Invalid = failure (421 states, 67 tasks) | Valid draws only (372 states, 58 tasks) |
-| --- | --- | --- |
-| 3 past steps − none, pre-execution | +0.47 [-0.39, +1.36] | +0.74 [-0.09, +1.68] |
-| 3 past steps − none, K = 1 | +0.32 [-0.16, +0.82] | +0.23 [-0.33, +0.78] |
-| 3 past steps − none, K = 3 | +0.33 [-0.13, +0.82] | +0.26 [-0.20, +0.65] |
-| Tool feedback − none, K = 3 | +0.71 [+0.19, +1.56] | +0.48 [-0.04, +1.13] |
-| K = 3 − post-execution | +1.10 [-0.45, +2.87] | +1.05 [-0.78, +3.13] |
-| K = 3 without feedback − post-execution | +0.39 [-1.11, +1.99] | +0.56 [-1.05, +2.40] |
+| Condition | Invalid = failure (421 states, 67 tasks) | Valid draws only (372 states, 58 tasks) |
+| --- | ---: | ---: |
+| Pre-execution | 29.09% | 32.88% |
+| Pre-execution, no history | 28.62% | 32.13% |
+| Post-execution | 30.68% | 34.96% |
+| **K = 1** | 31.37% | 35.73% |
+| K = 1, no history | 31.05% | 35.51% |
+| **K = 3** | 31.78% | 36.00% |
+| K = 3, no history | 31.45% | 35.75% |
+| K = 3, no tool feedback in lookahead | 31.07% | 35.52% |
 
-*Same 421 `fast1k` states, held-out draws 3–7, task-clustered intervals. "No history" removes the 3 past steps (action + screenshot); "no feedback" cuts each lookahead step to the actor's tool call, dropping the environment's tool response and observation text, as in the history steps. Earlier lookahead results include that feedback. [JSON](arm_results/rl_integration/lookahead-history-feedback-20261014.json), [code](arm_results/rl_integration/lookahead-history-feedback-20261014.py).*
+*Same 421 `fast1k` states, held-out draws 3–7. "No history" removes the 3 past steps (action + screenshot); "no tool feedback" cuts each lookahead step to the actor's tool call, dropping the environment's tool response and observation text, as in the history steps. Earlier lookahead results include that feedback. Paired differences (task-clustered): history − none +0.2 to +0.7 pp, none significant; K = 3 feedback − none +0.71 [+0.19, +1.56] (invalid = failure), +0.48 [−0.04, +1.13] (valid only). [JSON](arm_results/rl_integration/lookahead-history-feedback-20261014.json), [code](arm_results/rl_integration/lookahead-history-feedback-20261014.py).*
 
 <details>
 <summary>Earlier format, and the stopped ablation</summary>
