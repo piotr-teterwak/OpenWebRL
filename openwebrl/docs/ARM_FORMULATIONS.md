@@ -571,6 +571,27 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 
 *Same 421 `fast1k` states, held-out draws 3–7. "No history" removes the 3 past steps (action + screenshot); "no tool feedback" cuts each lookahead step to the actor's tool call, dropping the environment's tool response and observation text, as in the history steps. Earlier lookahead results include that feedback. Paired differences (task-clustered): history − none +0.2 to +0.7 pp, none significant; K = 3 feedback − none +0.71 [+0.19, +1.56] (invalid = failure), +0.48 [−0.04, +1.13] (valid only). [JSON](arm_results/rl_integration/lookahead-history-feedback-20261014.json), [code](arm_results/rl_integration/lookahead-history-feedback-20261014.py).*
 
+<a id="lookahead-why-20261014"></a>
+
+#### Why lookahead labels are better: more consistent, less order-biased, closer to outcomes
+
+**K = 3's advantage comes mostly from steadier, less order-biased judgments rather than from reading off draw 0's outcome.** On the 421 `fast1k` states (67 tasks):
+
+| | Pre-execution | Post-execution | K = 1 | K = 2 | K = 3 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Held-out success of picks (draws 3–7) | 29.09% | 30.68% | 31.37% | 30.75% | 31.78% |
+| Agreement among the 4 calls per state | 0.733 | 0.796 | 0.840 | 0.841 | 0.854 |
+| Picks of the candidate shown first (chance 20%) | 36.9% | 39.2% | 25.1% | 24.7% | 23.1% |
+| Vote share vs held-out success, correlation | 0.123 | 0.171 | 0.186 | 0.164 | 0.196 |
+| Picked candidate's own draw 0 succeeded | 30.3% | 33.7% | 38.2% | 41.2% | 41.8% |
+
+- **Not just draw 0's outcome.** K = 3 picks a candidate whose draw 0 succeeded far more often, but an oracle that knows draw 0's outcome scores only 29.61% on draws 3–7, below K = 3. Seeing early steps generalizes better than one observed outcome.
+- **Where it helps:** arXiv (+4.6 pp over pre-execution [+2.0, +6.7]) and other domains, and decision depths 3–5 (+2.4 over post-execution [+0.4, +5.1]). On error or blank pages (99 states) no condition beats uniform by much and K = 3 is slightly worse than post-execution (−1.9 [−5.4, +2.0]). When all five post-action screenshots look the same (98 states), every condition is near uniform.
+- **Early stopping is not the driver:** K = 3 − post-execution is +0.4 where some draw-0 continuation ended within 3 steps (195 states) and +1.8 where none did.
+- **Disagreements:** K = 3's majority pick differs from post-execution's on 247 states; K = 3 is better on 75, worse on 61, tied on 111.
+
+*Invalid draws count as failures. Intervals are task-clustered. Screenshots count as distinct when their mean absolute difference at 96×54 grayscale exceeds 2/255. [JSON](arm_results/rl_integration/lookahead-why-20261014.json), [code](arm_results/rl_integration/lookahead-why-20261014.py).*
+
 <details>
 <summary>Earlier format, and the stopped ablation</summary>
 
