@@ -448,6 +448,144 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 - **Abbreviated action.** The actor's output after its last `</think>`, which is the tool call, capped at 1,500 characters. The cap guards against unusually long actions such as long typed text; most tool calls are far shorter.
 - **Why the final answer is hidden.** On the 194-state study, showing it made Luna's picks worse: −1.49 pp [−2.64, −0.42] against hiding it.
 
+<a id="lookahead-main-results"></a>
+
+### Lookahead labels: main results
+
+**Looking three steps ahead is what makes Luna's labels better; the input format, history and call order barely matter, and the result holds under a second, stricter outcome judge.** Recommended labeller: **K = 3, screenshots only, no history, 1–2 randomized-order calls per state** (about USD 3.3 per 1,000 states at one call).
+
+**A. Across execution depth and outcome judges** (467 Piotr-task states, 68 tasks; held-out draws 3–7; valid draws only):
+
+| Screenshots only, no history | o4-mini judge | GPT-6 Luna judge |
+| --- | ---: | ---: |
+| Pre-execution | 33.75% | 25.54% |
+| Post-execution | 34.50% | 25.60% |
+| Lookahead K = 1 | 37.11% | 27.81% |
+| **Lookahead K = 3** | 37.81% | 28.75% |
+| Oracle (picks on observed draws 0–2) | 36.63% | 27.86% |
+| Uniform pick | 31.77% | 24.68% |
+| Actor's first sample | 30.41% | 23.75% |
+| K = 3 − post-execution, pp [95%] | +3.31 [+1.76, +5.11] | +3.15 [+1.94, +4.48] |
+| K = 3 − pre-execution, pp [95%] | +4.06 [+2.41, +5.59] | +3.22 [+1.50, +4.85] |
+
+**B. Across input formats** (o4-mini judge; 493 Piotr-task states, 78 tasks; randomized order, 2 calls per state unless noted):
+
+| Input format (o4-mini judge) | Pre-execution | Post-execution | K = 1 | K = 3 |
+| --- | ---: | ---: | ---: | ---: |
+| **Screenshots only**, no history | 34.20% | 34.77% | 37.71% | 38.21% |
+| Text only, no history | 35.27% | 36.11% | 37.02% | 37.62% |
+| Screenshot + text, no history | 34.35% | 35.20% | 37.10% | 37.48% |
+| Screenshot + text, 3 past steps | 34.73% | 35.80% | — | 37.76% |
+| Screenshot + text, 3 past steps, fixed order | 35.16% | 36.03% | — | 38.07% |
+
+**C. Smaller ablations** (run only on the 421 new states; 372 with valid draws):
+
+| Ablation on the new `fast1k` states (o4-mini judge, valid draws only, fixed order) | Success |
+| --- | ---: |
+| K = 3, screenshot + text, 3 past steps (reference) | 36.00% |
+| without tool feedback in lookahead steps | 35.52% |
+| with only the current screenshot | 36.31% |
+| without history | 35.75% |
+
+- **Depth:** K = 3 beats post-execution by about 3 pp under both judges; post-execution adds nothing over pre-execution. K = 1 recovers most of the gain.
+- **Input format:** screenshots only, text only and both are within about 1 pp; screenshots only is cheapest and best at K = 3. History, call order (fixed vs randomized) and the number of calls (1 vs 4) change success by less than 1 pp. The one text component that matters is the tool feedback inside lookahead steps (C).
+- **Judges:** GPT-6 Luna is far stricter than o4-mini (success 37.7% vs 48.5% on the same continuations; κ 0.70), yet K = 3's lead is unchanged.
+- **How many outcomes it is worth:** K = 3 matches an oracle that picks on 3–5 observed outcomes per action ([draw-split figure](#lookahead-draw-split-20261013)).
+- *Details: [representation grid](#lookahead-representation-grid-20261016), [second judge](#lookahead-second-judge-20261016), [randomized order](#lookahead-why-20261014), [history and feedback](#lookahead-history-feedback-20261014), [costs](#lookahead-costs).*
+
+<a id="lookahead-why-20261014"></a>
+
+#### Why lookahead labels are better: real outcome information, not an order-bias fix
+
+**K = 3 adds real information about outcomes. Its judgments are also steadier and less biased toward the first-shown candidate, but a randomized-order test shows the bias is not what holds pre- and post-execution back.** Fixed-order runs on the 421 `fast1k` states (67 tasks):
+
+| | Pre-execution | Post-execution | K = 1 | K = 2 | K = 3 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Held-out success of picks (draws 3–7) | 29.09% | 30.68% | 31.37% | 30.75% | 31.78% |
+| Agreement among the 4 calls per state | 0.733 | 0.796 | 0.840 | 0.841 | 0.854 |
+| Picks of the candidate shown first (chance 20%) | 36.9% | 39.2% | 25.1% | 24.7% | 23.1% |
+| Vote share vs held-out success, correlation | 0.123 | 0.171 | 0.186 | 0.164 | 0.196 |
+| Picked candidate's own draw 0 succeeded | 30.3% | 33.7% | 38.2% | 41.2% | 41.8% |
+
+- **Not just draw 0's outcome.** K = 3 picks a candidate whose draw 0 succeeded far more often, but an oracle that knows draw 0's outcome scores only 29.61% on draws 3–7, below K = 3. Seeing early steps generalizes better than one observed outcome.
+- **Where it helps:** arXiv (+4.6 pp over pre-execution [+2.0, +6.7]) and other domains, and decision depths 3–5 (+2.4 over post-execution [+0.4, +5.1]). On error or blank pages (99 states) no condition beats uniform by much and K = 3 is slightly worse than post-execution (−1.9 [−5.4, +2.0]). When all five post-action screenshots look the same (98 states), every condition is near uniform.
+- **Early stopping is not the driver:** K = 3 − post-execution is +0.4 where some draw-0 continuation ended within 3 steps (195 states) and +1.8 where none did.
+- **Disagreements:** K = 3's majority pick differs from post-execution's on 247 states; K = 3 is better on 75, worse on 61, tied on 111.
+
+**What the lookahead shows.** Where K = 3's and post-execution's majority picks differ (247 states), K = 3 avoids candidates whose continuation loops or fails and favours ones that make visible progress:
+
+| Signal in the candidate's 3-step continuation | K = 3's pick | Post-execution's pick | Held-out success vs state mean, pp |
+| --- | ---: | ---: | ---: |
+| Actor repeats an action | 21.1% | 35.2% | -1.06 |
+| Error or failure reply | 21.1% | 34.8% | -0.61 |
+| Actor stops within 3 steps | 15.4% | 25.1% | +0.34 |
+| Actor goes back | 27.1% | 32.4% | -0.64 |
+| Reaches 2+ new pages | 26.7% | 14.2% | +1.83 |
+| Candidate itself shows no visible navigation | 33.2% | 23.1% | -2.65 |
+
+| Distinct candidate tool calls per state | States | K = 3 − post-execution, pp |
+| --- | ---: | ---: |
+| 1 (all five identical) | 54 | +2.96 |
+| 2 | 77 | +2.86 |
+| 3 | 68 | +3.31 |
+| 4 | 102 | −0.88 |
+| 5 | 120 | −0.42 |
+
+- **Lookahead helps where the candidates' actions look alike.** All of K = 3's lead over post-execution comes from states with 1–3 distinct tool calls among the five candidates. Identical calls give near-identical immediate results, but the candidates differ in reasoning, and the actor's continuation follows that plan: the next steps show which candidate's plan the actor carries through. With 4–5 distinct actions, post-execution evidence already separates the candidates and lookahead adds nothing.
+- **Where it misleads:** apparent progress that does not end in success, or a continuation that stops early with an answer Luna cannot see (final answers are hidden), as when the actor answers from its own knowledge after a blocked site.
+- *421 `fast1k` states, fixed order, held-out draws 3–7, invalid = failure. Signals are text heuristics over the steps Luna saw; Luna returns only its pick, so these are associations, not its stated reasons. Example cases are kept locally because they contain raw trajectories. [JSON](arm_results/rl_integration/lookahead-information-20261015.json), [code](arm_results/rl_integration/lookahead-information-20261015.py).*
+
+**Randomized-order test.** Pre-execution, post-execution, K = 3 and K = 3 current screenshot only were rerun with 2 calls per state, each in its own seeded random candidate order, on all 736 labelled states (5,888 calls, USD 27.87).
+
+| Success on Piotr-task states, valid draws only (493 states, 78 tasks) | Fixed order | Random order | Random − fixed, pp [95%] |
+| --- | ---: | ---: | --- |
+| Pre-execution | 35.16% | 34.73% | −0.43 [−1.43, +0.71] |
+| Post-execution | 36.03% | 35.80% | −0.23 [−1.35, +0.96] |
+| K = 3 | 38.07% | 37.76% | −0.31 [−0.95, +0.40] |
+| K = 3, current screenshot only (372 `fast1k` states) | 36.31% | 35.69% | −0.63 [−1.56, +0.26] |
+
+| Gap, pp [95%] | Fixed order | Random order |
+| --- | --- | --- |
+| K = 3 − pre-execution | +2.91 [+1.50, +4.20] | +3.03 [+1.21, +4.49] |
+| K = 3 − post-execution | +2.04 [+0.27, +4.09] | +1.96 [+0.48, +3.75] |
+
+- **Randomizing order helps no condition, and K = 3 keeps its full lead.** Luna still picks the first-shown candidate 39% (pre-execution) and 44% (post-execution) of the time under random order, versus 26% with K = 3: the position preference reflects uncertainty, not a fixed favourite candidate. A post-hoc position reweighting of the fixed-order votes had suggested pre-execution could catch up (+1.76 pp); the randomized test does not support that.
+- **Uniform 32.33%, actor's first sample 31.22% on these states.** Random order is 0.2–0.9 pp lower than fixed order everywhere (significant only on all 736 states with invalid = failure, for pre-execution and K = 3); unexplained.
+- *Held-out draws 3–7; task-clustered intervals. The 493 states need valid held-out draws only, so the set is slightly larger than the ≈480 of the draw-split figure. [JSON](arm_results/rl_integration/lookahead-random-order-20261015.json), [code](arm_results/rl_integration/lookahead-random-order-20261015.py).*
+
+*Invalid draws count as failures. Intervals are task-clustered. Screenshots count as distinct when their mean absolute difference at 96×54 grayscale exceeds 2/255. [JSON](arm_results/rl_integration/lookahead-why-20261014.json), [code](arm_results/rl_integration/lookahead-why-20261014.py).*
+
+<details>
+<summary>Earlier format, and the stopped ablation</summary>
+
+- **Earlier format.** The history was the last 5 past actor outputs as text, with their reasoning and no screenshots. Lookahead steps were stripped of reasoning. The 194-state and stage (a) results above use this format.
+- **Stopped ablation.** An ablation in that format (K = 2, K = 5, K = 1 + 3 history screenshots) was stopped after USD 4.85 because history and future were represented inconsistently. It is not reported.
+
+</details>
+
+<a id="lookahead-draw-split-20261013"></a>
+
+#### Robustness: how many observed outcomes is lookahead worth?
+
+**With the recommended labeller (screenshots only, no history), K = 3 beats the actor's first sample by about 7 pp at every split and matches an oracle that picks on 3–5 observed outcomes; pre- and post-execution stay well below.**
+
+![Success vs evaluation continuations, screenshot-only no-history conditions, paired bands](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_piotr_absolute_valid_only_s.png)
+
+![Success vs evaluation continuations, screenshot-only no-history conditions, lines only](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_piotr_absolute_lines_valid_only_s.png)
+
+*Piotr-task states (fresh states), valid draws only; a state counts when every action has a valid draw on both sides of the split. Teacher conditions: screenshots only (no page text), no history, 2 randomized-order calls per state. x = continuations per action used for evaluation; the oracle picks on the other 8 − x draws, and teacher conditions see only draw 0. Bands (first figure): 95% task-clustered interval of the paired difference from the actor's first sample. The earlier version with screenshot + text and 3 past steps is in [this JSON](arm_results/rl_integration/lookahead-draw-split-20261013/curve_piotr.json). [JSON](arm_results/rl_integration/lookahead-draw-split-20261013/curve_piotr_s.json), [code](arm_results/rl_integration/lookahead-draw-split-20261013/curve_s.py), [plot](arm_results/rl_integration/lookahead-draw-split-20261013/plot_piotr_single.py).*
+
+| Success, % | 2 eval | 3 eval | 4 eval | 5 eval | 6 eval |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Oracle (observed draws) | 39.4 | 37.8 | 38.0 | 36.8 | 36.1 |
+| Lookahead K = 3 | 39.0 | 37.9 | 38.0 | 38.0 | 37.8 |
+| Lookahead K = 1 | 36.9 | 36.8 | 37.1 | 37.3 | 37.0 |
+| Post-execution | 34.8 | 34.2 | 34.6 | 34.6 | 34.6 |
+| Pre-execution | 34.6 | 33.2 | 33.7 | 33.9 | 33.7 |
+| Uniform | 32.4 | 32.0 | 32.1 | 31.9 | 31.5 |
+| Actor (first sample) | 31.9 | 30.9 | 31.0 | 30.6 | 30.3 |
+| States | 465 | 484 | 484 | 481 | 463 |
+
 <a id="lookahead-costs"></a>
 
 **Recorded API cost per run.** Input dominates: about 95% of each run's cost. The immediate result adds about 32,000 input tokens per call (mostly the five candidates' post-action page observations and tool feedback), while each lookahead step adds only about 5,000 (five screenshots and five short actions). K = 3 therefore costs about 20% more than K = 1, not several times more. Removing the 3 past steps saves about 2,000–2,300 input tokens per call.
@@ -484,6 +622,9 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 | [Stage (a)](#lookahead-stage-a-20261012), fresh Piotr-matched states | 121 | before, immediate, K = 3 | earlier | done |
 | [Consistent-format rerun](#lookahead-v2-20261013), the same 194 + 121 = 315 states | 315 | before, immediate, K = 1, 2, 3, 5 | steps | done (USD 42.60) |
 | [Scale-up on `fast1k-20261012`](#lookahead-fast1k-20261013), states whose candidates differ in outcome | 421 | before, immediate, K = 1, 2, 3 | steps | done (USD 35.77 + 11.77 for K = 2) |
+
+<details>
+<summary>Earlier detailed runs: consistent-format rerun, fast1k scale-up, history and feedback ablations, representation grid, second judge</summary>
 
 <a id="lookahead-v2-20261013"></a>
 
@@ -530,29 +671,6 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 - **Differences from the 315-state rerun.** On the new states the immediate result beats before-execution (+1.59 pp), unlike before (−0.97). Before-execution is clearly the weakest condition in the pool (−2.31 pp against K = 3).
 - **Caveat.** The new states are concentrated: arXiv tasks make up 290 of the 722 released states, and error or blank pages 160.
 - **Evidence:** [JSON](arm_results/rl_integration/lookahead-fast1k-20261013.json) (per-collection and pooled). Analysis: `selection_outcome_experiments.py lookahead_v2 --bases <v2 root> <fast1k root>`. 6,736 Luna calls, USD 35.77, within the approved USD 50 / 9,000 calls; K = 2 added later on the same 421 states (1,684 calls, USD 11.77, approved cap USD 15 / 2,000).
-
-<a id="lookahead-draw-split-20261013"></a>
-
-#### Robustness: how many observed outcomes is lookahead worth?
-
-**With the recommended labeller (screenshots only, no history), K = 3 beats the actor's first sample by about 7 pp at every split and matches an oracle that picks on 3–5 observed outcomes; pre- and post-execution stay well below.**
-
-![Success vs evaluation continuations, screenshot-only no-history conditions, paired bands](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_piotr_absolute_valid_only_s.png)
-
-![Success vs evaluation continuations, screenshot-only no-history conditions, lines only](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_piotr_absolute_lines_valid_only_s.png)
-
-*Piotr-task states (fresh states), valid draws only; a state counts when every action has a valid draw on both sides of the split. Teacher conditions: screenshots only (no page text), no history, 2 randomized-order calls per state. x = continuations per action used for evaluation; the oracle picks on the other 8 − x draws, and teacher conditions see only draw 0. Bands (first figure): 95% task-clustered interval of the paired difference from the actor's first sample. The earlier version with screenshot + text and 3 past steps is in [this JSON](arm_results/rl_integration/lookahead-draw-split-20261013/curve_piotr.json). [JSON](arm_results/rl_integration/lookahead-draw-split-20261013/curve_piotr_s.json), [code](arm_results/rl_integration/lookahead-draw-split-20261013/curve_s.py), [plot](arm_results/rl_integration/lookahead-draw-split-20261013/plot_piotr_single.py).*
-
-| Success, % | 2 eval | 3 eval | 4 eval | 5 eval | 6 eval |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Oracle (observed draws) | 39.4 | 37.8 | 38.0 | 36.8 | 36.1 |
-| Lookahead K = 3 | 39.0 | 37.9 | 38.0 | 38.0 | 37.8 |
-| Lookahead K = 1 | 36.9 | 36.8 | 37.1 | 37.3 | 37.0 |
-| Post-execution | 34.8 | 34.2 | 34.6 | 34.6 | 34.6 |
-| Pre-execution | 34.6 | 33.2 | 33.7 | 33.9 | 33.7 |
-| Uniform | 32.4 | 32.0 | 32.1 | 31.9 | 31.5 |
-| Actor (first sample) | 31.9 | 30.9 | 31.0 | 30.6 | 30.3 |
-| States | 465 | 484 | 484 | 481 | 463 |
 
 <a id="lookahead-history-feedback-20261014"></a>
 
@@ -627,74 +745,6 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 | K=3 - Oracle (draws 0-2) | +1.18 [−0.18, +2.55] | +0.90 [−0.37, +2.25] |
 
 - *467 scored states on 68 tasks (states need a valid held-out draw for every action); valid draws only. Continuations with no extractable answer score 0 without a judge and invalid ones are excluded; both are unchanged. Teacher picks are the randomized screenshot-only no-history runs; the oracle picks on o4-mini draws 0–2. The teacher (Luna, high effort) and second judge (Luna, medium) share a model family. A first 100-state subset (81 scored states, 31 tasks) had suggested the gaps roughly halve under Luna (K = 3 − post-execution +0.96 [−2.48, +4.67]); with all states that was small-sample noise. USD 6.25 in total (1.07 subset + 5.18 remainder, subset verdicts reused). [JSON](arm_results/rl_integration/lookahead-second-judge-all-20261016.json), [code](arm_results/rl_integration/lookahead-second-judge-all-20261016.py), [subset JSON](arm_results/rl_integration/lookahead-second-judge-20261016.json), [re-judge script](../../scripts/rejudge_branch_outcomes.py).*
-
-<a id="lookahead-why-20261014"></a>
-
-#### Why lookahead labels are better: real outcome information, not an order-bias fix
-
-**K = 3 adds real information about outcomes. Its judgments are also steadier and less biased toward the first-shown candidate, but a randomized-order test shows the bias is not what holds pre- and post-execution back.** Fixed-order runs on the 421 `fast1k` states (67 tasks):
-
-| | Pre-execution | Post-execution | K = 1 | K = 2 | K = 3 |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Held-out success of picks (draws 3–7) | 29.09% | 30.68% | 31.37% | 30.75% | 31.78% |
-| Agreement among the 4 calls per state | 0.733 | 0.796 | 0.840 | 0.841 | 0.854 |
-| Picks of the candidate shown first (chance 20%) | 36.9% | 39.2% | 25.1% | 24.7% | 23.1% |
-| Vote share vs held-out success, correlation | 0.123 | 0.171 | 0.186 | 0.164 | 0.196 |
-| Picked candidate's own draw 0 succeeded | 30.3% | 33.7% | 38.2% | 41.2% | 41.8% |
-
-- **Not just draw 0's outcome.** K = 3 picks a candidate whose draw 0 succeeded far more often, but an oracle that knows draw 0's outcome scores only 29.61% on draws 3–7, below K = 3. Seeing early steps generalizes better than one observed outcome.
-- **Where it helps:** arXiv (+4.6 pp over pre-execution [+2.0, +6.7]) and other domains, and decision depths 3–5 (+2.4 over post-execution [+0.4, +5.1]). On error or blank pages (99 states) no condition beats uniform by much and K = 3 is slightly worse than post-execution (−1.9 [−5.4, +2.0]). When all five post-action screenshots look the same (98 states), every condition is near uniform.
-- **Early stopping is not the driver:** K = 3 − post-execution is +0.4 where some draw-0 continuation ended within 3 steps (195 states) and +1.8 where none did.
-- **Disagreements:** K = 3's majority pick differs from post-execution's on 247 states; K = 3 is better on 75, worse on 61, tied on 111.
-
-**What the lookahead shows.** Where K = 3's and post-execution's majority picks differ (247 states), K = 3 avoids candidates whose continuation loops or fails and favours ones that make visible progress:
-
-| Signal in the candidate's 3-step continuation | K = 3's pick | Post-execution's pick | Held-out success vs state mean, pp |
-| --- | ---: | ---: | ---: |
-| Actor repeats an action | 21.1% | 35.2% | -1.06 |
-| Error or failure reply | 21.1% | 34.8% | -0.61 |
-| Actor stops within 3 steps | 15.4% | 25.1% | +0.34 |
-| Actor goes back | 27.1% | 32.4% | -0.64 |
-| Reaches 2+ new pages | 26.7% | 14.2% | +1.83 |
-| Candidate itself shows no visible navigation | 33.2% | 23.1% | -2.65 |
-
-| Distinct candidate tool calls per state | States | K = 3 − post-execution, pp |
-| --- | ---: | ---: |
-| 1 (all five identical) | 54 | +2.96 |
-| 2 | 77 | +2.86 |
-| 3 | 68 | +3.31 |
-| 4 | 102 | −0.88 |
-| 5 | 120 | −0.42 |
-
-- **Lookahead helps where the candidates' actions look alike.** All of K = 3's lead over post-execution comes from states with 1–3 distinct tool calls among the five candidates. Identical calls give near-identical immediate results, but the candidates differ in reasoning, and the actor's continuation follows that plan: the next steps show which candidate's plan the actor carries through. With 4–5 distinct actions, post-execution evidence already separates the candidates and lookahead adds nothing.
-- **Where it misleads:** apparent progress that does not end in success, or a continuation that stops early with an answer Luna cannot see (final answers are hidden), as when the actor answers from its own knowledge after a blocked site.
-- *421 `fast1k` states, fixed order, held-out draws 3–7, invalid = failure. Signals are text heuristics over the steps Luna saw; Luna returns only its pick, so these are associations, not its stated reasons. Example cases are kept locally because they contain raw trajectories. [JSON](arm_results/rl_integration/lookahead-information-20261015.json), [code](arm_results/rl_integration/lookahead-information-20261015.py).*
-
-**Randomized-order test.** Pre-execution, post-execution, K = 3 and K = 3 current screenshot only were rerun with 2 calls per state, each in its own seeded random candidate order, on all 736 labelled states (5,888 calls, USD 27.87).
-
-| Success on Piotr-task states, valid draws only (493 states, 78 tasks) | Fixed order | Random order | Random − fixed, pp [95%] |
-| --- | ---: | ---: | --- |
-| Pre-execution | 35.16% | 34.73% | −0.43 [−1.43, +0.71] |
-| Post-execution | 36.03% | 35.80% | −0.23 [−1.35, +0.96] |
-| K = 3 | 38.07% | 37.76% | −0.31 [−0.95, +0.40] |
-| K = 3, current screenshot only (372 `fast1k` states) | 36.31% | 35.69% | −0.63 [−1.56, +0.26] |
-
-| Gap, pp [95%] | Fixed order | Random order |
-| --- | --- | --- |
-| K = 3 − pre-execution | +2.91 [+1.50, +4.20] | +3.03 [+1.21, +4.49] |
-| K = 3 − post-execution | +2.04 [+0.27, +4.09] | +1.96 [+0.48, +3.75] |
-
-- **Randomizing order helps no condition, and K = 3 keeps its full lead.** Luna still picks the first-shown candidate 39% (pre-execution) and 44% (post-execution) of the time under random order, versus 26% with K = 3: the position preference reflects uncertainty, not a fixed favourite candidate. A post-hoc position reweighting of the fixed-order votes had suggested pre-execution could catch up (+1.76 pp); the randomized test does not support that.
-- **Uniform 32.33%, actor's first sample 31.22% on these states.** Random order is 0.2–0.9 pp lower than fixed order everywhere (significant only on all 736 states with invalid = failure, for pre-execution and K = 3); unexplained.
-- *Held-out draws 3–7; task-clustered intervals. The 493 states need valid held-out draws only, so the set is slightly larger than the ≈480 of the draw-split figure. [JSON](arm_results/rl_integration/lookahead-random-order-20261015.json), [code](arm_results/rl_integration/lookahead-random-order-20261015.py).*
-
-*Invalid draws count as failures. Intervals are task-clustered. Screenshots count as distinct when their mean absolute difference at 96×54 grayscale exceeds 2/255. [JSON](arm_results/rl_integration/lookahead-why-20261014.json), [code](arm_results/rl_integration/lookahead-why-20261014.py).*
-
-<details>
-<summary>Earlier format, and the stopped ablation</summary>
-
-- **Earlier format.** The history was the last 5 past actor outputs as text, with their reasoning and no screenshots. Lookahead steps were stripped of reasoning. The 194-state and stage (a) results above use this format.
-- **Stopped ablation.** An ablation in that format (K = 2, K = 5, K = 1 + 3 history screenshots) was stopped after USD 4.85 because history and future were represented inconsistently. It is not reported.
 
 </details>
 
