@@ -27,7 +27,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from run_branch_sol_labels import REPO, Ledger, read, write  # noqa: E402
-from openwebrl.reward_browser import parse_judge_verdict  # noqa: E402
+from openwebrl.eval.reward_online_mind2web import _parse_verdict as parse_judge_verdict  # noqa: E402  (Status: "success"|"failure")
 
 MODEL, EFFORT = "gpt-6-luna", "medium"
 PRICE = {"input_cache_write": 0.125, "output": 0.5}           # USD per million tokens, as the labelling runs
