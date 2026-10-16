@@ -1,0 +1,122 @@
+{
+  "schema": "cuawright20-partial-closeout-v1",
+  "complete": false,
+  "status": "scientifically_incomplete_pending_browser_amendment",
+  "fixed_tasks": 20,
+  "fixed_episode_dispositions": 40,
+  "judged_valid": 7,
+  "startup_invalid_zero_model_calls": 32,
+  "capture_invalid": 1,
+  "common_valid_task_pairs": 2,
+  "success_counts": {
+    "high": 2,
+    "parallel": 2
+  },
+  "valid_denominators": {
+    "high": 3,
+    "parallel": 4
+  },
+  "comparative_conclusion": null,
+  "interpretation": "Coverage/accounting only; infrastructure attrition and two common-valid pairs do not support a policy-performance conclusion. Original first-attempt dispositions remain intact.",
+  "api": {
+    "sol_calls": 307,
+    "judge_calls": 7,
+    "sol_usd": 3.4234655000000003,
+    "judge_usd": 0.0650397,
+    "unknown_usage_calls": 0
+  },
+  "browser_attempts_by_shard": [
+    12,
+    11,
+    10,
+    10
+  ],
+  "browser_caps_by_shard": [
+    12,
+    12,
+    12,
+    12
+  ],
+  "per_shard_api_caps": {
+    "sol_calls": 1000,
+    "sol_usd": 15,
+    "judge_calls": 10,
+    "judge_usd": 1
+  },
+  "per_shard_compute_caps": {
+    "gpus": 0,
+    "cpus": 4,
+    "memory_gib": 16,
+    "total_seconds_across_all_attempts": 7200
+  },
+  "usage_by_role": {
+    "judge": {
+      "calls": 7,
+      "input": 48875,
+      "output": 2563,
+      "reasoning_output": 1792,
+      "cached_input": 0,
+      "cache_write_input": 0,
+      "cost_usd": 0.0650397
+    },
+    "actor/actor_high": {
+      "calls": 63,
+      "input": 1087564,
+      "output": 10897,
+      "reasoning_output": 567,
+      "cached_input": 941586,
+      "cache_write_input": 145789,
+      "cost_usd": 0.5679791
+    },
+    "actor/actor_low_0": {
+      "calls": 61,
+      "input": 848467,
+      "output": 10182,
+      "reasoning_output": 201,
+      "cached_input": 799467,
+      "cache_write_input": 48817,
+      "cost_usd": 0.3041751999999999
+    },
+    "actor/actor_low_1": {
+      "calls": 61,
+      "input": 848467,
+      "output": 9961,
+      "reasoning_output": 227,
+      "cached_input": 803345,
+      "cache_write_input": 44939,
+      "cost_usd": 0.29265800000000003
+    },
+    "actor/actor_low_2": {
+      "calls": 61,
+      "input": 848467,
+      "output": 10240,
+      "reasoning_output": 257,
+      "cached_input": 801197,
+      "cache_write_input": 47087,
+      "cost_usd": 0.30060319999999996
+    },
+    "actor/selector": {
+      "calls": 61,
+      "input": 780542,
+      "output": 963,
+      "reasoning_output": 103,
+      "cached_input": 0,
+      "cache_write_input": 774672,
+      "cost_usd": 1.9580500000000005
+    }
+  },
+  "owned_teardown_verified": false,
+  "pending": [
+    "Browser-cap amendment remains unapproved.",
+    "Two independent read-only node teardown checks are queued; no final teardown claim."
+  ],
+  "amendment_proposed_browser_caps": [
+    22,
+    13,
+    20,
+    20
+  ],
+  "additional_browser_cap_requested": 27,
+  "frozen_plan_sha256": "ec27d2433e5b27b98921c28349f0ed5c105ca3548520af617c59dad10769e048",
+  "audit_sha256": "8351738f9e3da8468f3f1f286b1f4d9fa4fcb01413a4c0bf28809488782ab18e"
+}

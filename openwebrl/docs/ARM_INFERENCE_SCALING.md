@@ -1169,9 +1169,9 @@ All 4,942 Sol requests and 150 judge requests have settled known usage, with no 
 </details>
 
 <a id="sol61-cuawright30-20261015"></a>
-### CUAWright web harness: 30-decision pilot launched; startup recovery
+### CUAWright web harness: partial collection audited; full comparison incomplete
 
-**Four jobs accepted under the user-authorized `vlm` account; startup recovery active:** 20 frozen OM2W tasks, both high and N3-low-plus-low policies on every task, divided into four independent five-task shards (40 episodes total). Tasks are SHA256-ranked from the original 100-task cohort under a new fixed seed, without outcome-based filtering; first-arm order is balanced 10/10. This is a small new-harness feasibility and paired-policy test, not a full benchmark result.
+**Collection stopped with 7 judged-valid episodes, 32 startup-invalid episodes and one final-capture invalid; the full comparison is incomplete.** All 40 fixed episode dispositions are recorded, but only two tasks have valid outcomes in both arms, so these data do not support a policy-performance conclusion. The user-authorized `vlm` campaign contains 20 frozen OM2W tasks, both high and N3-low-plus-low policies on every task, divided into four independent five-task shards (40 episodes total). Tasks are SHA256-ranked from the original 100-task cohort under a new fixed seed, without outcome-based filtering; first-arm order is balanced 10/10. This is a small new-harness feasibility and paired-policy test, not a full benchmark result.
 
 The actor uses the [pinned CUAWright web terminal harness](https://github.com/microsoft/CUAWright/tree/ff44a0524e0812b69814efcec5e583f0d8cdde0c): persistent Playwright/CDP state, structured page inspection, filesystem notes and screenshots on demand. One selected terminal command may perform several related browser operations. **Thirty model decisions are not thirty browser clicks**: observations, commands and completion consume decisions, while browser CLI batches and selected terminal commands are counted separately. Do not equate these counts with primitive browser operations.
 
@@ -1194,7 +1194,25 @@ All caps remain separate from earlier experiments, with no transfers or unchange
 
 The targeted repair uses short, owned private temporary directories to avoid Chromium Unix-domain socket pathname limits, permits `/dev/null` write-open without opening protected filesystem storage, and launches controller-owned workers directly within the existing batch cgroup. A subsequent two-arm startup check stopped at HTTP CDP discovery errors; it made no model calls. The next repair uses Chromium's exact native websocket endpoint, localhost proxy exclusions and shells with inherited startup hooks removed. A compute-node diagnostic passed native session creation, a browser step and screenshot capture. All seven offline routing/sandbox/30-decision tests still pass. A shared startup halt now stops further task attempts after a startup failure.
 
-**Job 362591 is collecting the eight originally unattempted arms in shard1**, within its remaining original two-hour budget. Its two earlier startup-invalid arms are retained. Live native receipts confirm high versus three-low-plus-low settings, identical candidate inputs, observable-only selection and real selected browser execution; the first post-repair episode also completed terminal judging. This is startup validation, not a comparative result or completion claim. W&B remains in `openwebrl-evals`; a tested persistent callback returns the active repair owner on failures and at 15-minute reviews. All attempts, including three bounded browser diagnostics, remain charged to their own shards.
+**Job 362591 finished the eight originally unattempted arms:** seven received valid judge verdicts; one finished its agent run but failed final screenshot capture and received no judge verdict. That capture-invalid episode is preserved and is not part of the zero-model startup recovery manifest. The independent audit checks the fixed 40-disposition grid, original/recovery source hashes, actual native efforts/output caps, same-input candidates, selected execution, observable-only selection, native verdict/final-image binding, usage and all-attempt limits. It found no audit inconsistencies. Worker completion is not full-study completion. [Partial aggregate](arm_results/cuawright30_paired20_partial_20261015/aggregate.json) · [W&B partial coverage/accounting](https://wandb.ai/zixianma/openwebrl-evals/runs/cuawright30-paired20-partial-audit-20261015-v1).
+
+| Policy | Fixed dispositions | Startup invalid | Capture invalid | Judged valid | Successes |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| One high | 20 | 16 | 1 | 3 | 2 |
+| Three low + low selection | 20 | 16 | 0 | 4 | 2 |
+
+All **307 Sol requests and seven judge requests** have known settled usage: **$3.4234655 Sol + $0.0650397 judge = $3.4885052**. The campaign used **43 browser attempts** (12/11/10/10 by shard), including failed starts and three diagnostics, under the current 48-attempt total. The nine collection/startup/diagnostic allocations consumed 872 seconds altogether, charged separately against each shard's two-hour limit. Subsequent read-only cleanup allocations are also charged; final all-attempt accounting remains pending their termination. All eight worker W&B runs are finished. Independent scans found no owned processes on g007/g016; the remaining g015/g008 checks are queued, so owned teardown is not yet fully verified. The tested active-owner callback remains bound for these checks and future authorized recovery.
+
+![Partial disposition coverage](arm_results/cuawright30_paired20_partial_20261015/partial-coverage.png)
+
+<details>
+<summary>Partial browser/API accounting plots</summary>
+
+![Browser attempts versus current caps](arm_results/cuawright30_paired20_partial_20261015/partial-browser-accounting.png)
+
+![Settled API cost by role](arm_results/cuawright30_paired20_partial_20261015/partial-api-cost.png)
+
+</details>
 
 <details>
 <summary>Pending bounded recovery of all startup-invalid arms</summary>
