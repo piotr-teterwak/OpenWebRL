@@ -1224,7 +1224,7 @@ The original and every mechanical recovery source version are pinned. Current br
 
 BrowserCode at [`b200643f`](https://github.com/browser-use/browsercode/tree/b200643fe0eb93ce5a3aadd4bb21cb6cceb2ed04) is an OpenCode-based agent with an in-process JavaScript/CDP browser tool. Its [execution implementation](https://github.com/browser-use/browsercode/blob/b200643fe0eb93ce5a3aadd4bb21cb6cceb2ed04/packages/bcode-browser/src/browser-execute.ts) keeps the CDP session across calls and returns values/logs/screenshots without a per-call Python subprocess. Reduced tool startup overhead is a plausible latency benefit; no local measurement establishes it yet. CUAWright's smaller terminal/Python loop is easier to adapt for controlled proposal/selection experiments. Both support multi-operation code actions.
 
-CUAWright's published 88.1% OM2W result uses GPT-5.4; BrowserCode's [benchmark runner](https://github.com/browser-use/benchmark) uses different models, task sets and scoring defaults. Those headline scores do not rank these harnesses under our protocol. A controlled comparison would fix the model, tasks, Chrome/backend, judge, 30-decision limit and deadlines, and run high versus three-low-plus-low under each harness. Generate all three proposals without execution, select once, then execute only the chosen code. Record pre-judge latency, tokens/cost, invalids and browser operations. The matched four-condition comparison below is now approved and running; these earlier partial results remain separate.
+CUAWright's published 88.1% OM2W result uses GPT-5.4; BrowserCode's [benchmark runner](https://github.com/browser-use/benchmark) uses different models, task sets and scoring defaults. Those headline scores do not rank these harnesses under our protocol. A controlled comparison would fix the model, tasks, Chrome/backend, judge, 30-decision limit and deadlines, and run high versus three-low-plus-low under each harness. Generate all three proposals without execution, select once, then execute only the chosen code. Record pre-judge latency, tokens/cost, invalids and browser operations. The matched four-condition pilot below is independently verified; these earlier partial results remain separate.
 
 </details>
 
@@ -1236,33 +1236,92 @@ The initial `zixianma` submission was rejected before a job ID was created: the 
 </details>
 
 <a id="sol61-browsercode-cuawright-paired20-prepared"></a>
-### BrowserCode versus CUAWright: matched four-condition pilot running
+<a id="sol61-browsercode-cuawright-paired20-20261016"></a>
+### BrowserCode versus CUAWright: matched 20-task pilot
 
-**Approved and running, October 16.** Four parallel `vlm` jobs are collecting 20 fixed OM2W tasks under four conditions: CUAWright/high, CUAWright/three-low-plus-low selection, BrowserCode/high, and BrowserCode/three-low-plus-low selection. All 80 episodes are fresh; the earlier partial CUAWright outcomes remain historical. Each of four jobs owns the same five tasks under all four conditions, reducing node/time confounding. A cyclic order balances each condition into the first position on five tasks. Two episode workers per job yield at most eight concurrent episode browsers.
+**Verified 80 dispositions; 64 valid and 16 invalid.** BrowserCode reduced mean task latency on the same common-valid tasks by 43.6% under high effort and 21.3% under N3 low + low selection; the N3 latency interval includes zero. The small cohort establishes no success winner: all four paired exact McNemar tests have p ≥ 0.05. N3 costs more under both harnesses; its success differences remain inconclusive. These are native executor/interface comparisons inside a common controlled loop, rather than a full BrowserCode/OpenCode product benchmark.
 
-Both harnesses use the same Sol model, high/12,288 versus three concurrent low/4,096 proposals plus low/2,048 selection, 30 decisions, common Chromium build/flags/1280×1800 viewport, 120-second command bound and 900-second episode deadline. Only a selected proposal may execute; unselected proposals never mutate the browser or future actor history. Task latency excludes initial setup and judging; both are recorded separately. A common raw viewport CDP screenshot supplies terminal evidence without waiting for font readiness. Preserve strict native judge/validity rules, every attempt, tokens/cost, paired task outcomes, browser seconds, owned-process CPU time and peak memory. Harness-specific operation counts remain labeled separately from model decisions.
+| Harness / policy | Planned | Valid | Invalid | Successes | Overall success (%) | Valid-only success (%) | Valid-only Wilson 95% CI (%) |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| CUAWright / high | 20 | 17 | 3 | 7 | 35.0 | 41.2 | [21.6, 64.0] |
+| CUAWright / N3 low + low | 20 | 17 | 3 | 7 | 35.0 | 41.2 | [21.6, 64.0] |
+| BrowserCode / high | 20 | 14 | 6 | 6 | 30.0 | 42.9 | [21.4, 67.4] |
+| BrowserCode / N3 low + low | 20 | 16 | 4 | 7 | 35.0 | 43.8 | [23.1, 66.8] |
 
-BrowserCode uses the pinned native JavaScript/CDP executor at `b200643fe0eb93ce5a3aadd4bb21cb6cceb2ed04` within the common metered proposal/selection loop. This is a controlled executor/interface comparison, not the full OpenCode product with its auxiliary tools. CUAWright retains pinned upstream `ff44a0524e0812b69814efcec5e583f0d8cdde0c` and the reviewed startup/race repairs. The native BrowserCode executor passed offline import, execution, exception-propagation and call-output-isolation checks under filesystem confinement, using a checksum-pinned portable Bun runtime. Eight offline protocol checks passed. The live startup gate then passed both native harnesses on every shard before paid model calls began; its diagnostic browsers and all failed attempts count against the original caps.
+Overall success uses all 20 fixed tasks per condition; invalid outcomes are not relabeled valid failures. Valid-only rates exclude infrastructure/guard failures. There were 12 initial-navigation failures and four conservative input-price-tier guard endings with accumulated image history (three BrowserCode/high and one BrowserCode/N3). Completed native episodes on rendered access-denied pages retain their native judge outcomes under the frozen rule. No tasks or outcomes were replaced.
 
-| Approved ceiling across all attempts | Each of four independent jobs | Campaign total |
-| --- | ---: | ---: |
-| GPUs | 0 | 0 |
-| Concurrent CPUs | 4 | 16 |
-| Concurrent memory (GiB) | 16 | 64 |
-| Allocation time across all attempts (job-hours) | 2 | 8 |
-| Fresh episode slots | 20 | 80 |
-| Browser sessions, including diagnostics/retries | 30 | 120 |
-| Sol calls across all attempts | 1,500 | 6,000 |
-| Sol USD | 20 | 80 |
-| Judge calls across all attempts | 20 | 80 |
-| Judge USD | 1 | 4 |
-| Total API USD | 21 | 84 |
+| Comparison: first → second | Common-valid tasks | Both succeed | First only | Second only | Both fail | Success gain (pp) | Exact p |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| CUAWright: high → N3 | 17 | 7 | 0 | 0 | 10 | +0.0 | 1.000 |
+| BrowserCode: high → N3 | 14 | 5 | 1 | 0 | 8 | -7.1 | 1.000 |
+| High: CUAWright → BrowserCode | 14 | 5 | 0 | 1 | 8 | +7.1 | 1.000 |
+| N3: CUAWright → BrowserCode | 16 | 7 | 0 | 0 | 9 | +0.0 | 1.000 |
 
-Billing account: `vlm`. Current jobs are `363086–363089`, each with 119 minutes after deducting failed startup time. Initial jobs `363030–363033` stopped at a diagnostic JavaScript quoting error before any model calls; they used 8/9/8/8 allocation seconds and one diagnostic browser each. The repair corrected quoting and bound BrowserCode to the exact owned CDP page target. All attempts and sources are retained. The prior campaign's exhausted 75-browser allocation is separate; no balances transfer.
+| Same-task latency comparison | Common-valid tasks | First mean (s) | Second mean (s) | Paired difference, second − first (s), bootstrap 95% CI |
+| --- | ---: | ---: | ---: | --- |
+| CUAWright: high → N3 | 17 | 110.8 | 82.8 | -27.9 [-63.8, +1.0] |
+| BrowserCode: high → N3 | 14 | 42.9 | 54.0 | +11.2 [+0.4, +22.5] |
+| High: CUAWright → BrowserCode | 14 | 76.0 | 42.9 | -33.1 [-65.6, -5.5] |
+| N3: CUAWright → BrowserCode | 16 | 74.1 | 58.3 | -15.7 [-35.1, +1.2] |
 
-The first live independent audit checked 18 recorded dispositions, including 14 valid outcomes, and found no audit errors; this is a startup checkpoint, not a result or completion claim. In-flight request reservations remain charged until native usage settles. Final completion requires all 80 dispositions, native selection/execution provenance, strict validity, paired utility, all-attempt accounting, owned teardown and aggregate plots. A bound active-owner callback runs every 15 minutes and on changed failures; routine user reports are hourly. Worker collection alone is incomplete. Only aggregates and plots may be published.
+Task latency excludes setup, final capture and judging. Bootstrap intervals resample paired tasks 5,000 times with seed 20261016; this exploratory 20-task sample and its common-valid subsets do not establish broader benchmark performance.
 
-[Worker W&B example](https://wandb.ai/zixianma/openwebrl-evals/runs/harness-paired20-20261016-s0-w0); eight worker runs use suffixes `s0-w0` through `s3-w1` in `openwebrl-evals`.
+[Aggregate results and audit hashes](arm_results/harness_paired20_20261016/aggregate.json) · [Audit W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/harness-paired20-audit-20261016).
+
+![Disposition coverage](arm_results/harness_paired20_20261016/coverage.png)
+
+![Matched utility and task latency](arm_results/harness_paired20_20261016/paired-utility-latency.png)
+
+<details>
+<summary>Tokens, cost, sampled resources and complete accounting</summary>
+
+| Harness / policy | Sol calls | Input tokens | Output tokens | Reasoning tokens | Sol cost (USD) | Judge cost (USD) |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| CUAWright / high | 176 | 2,858,022 | 32,477 | 2,605 | 1.4753 | 0.1433 |
+| CUAWright / N3 low + low | 520 | 5,563,768 | 63,849 | 652 | 4.9763 | 0.1359 |
+| BrowserCode / high | 140 | 1,487,190 | 20,204 | 1,708 | 1.0098 | 0.1024 |
+| BrowserCode / N3 low + low | 696 | 6,523,530 | 45,872 | 1,185 | 5.2521 | 0.1172 |
+
+Tokens and receipt-derived API costs include every physical request, including invalid episodes; Sol includes selectors. Input totals include cached reads, and output totals include reported reasoning tokens. Effort labels/output ceilings are not a guaranteed threefold realized reasoning-token difference.
+
+| Harness / policy | Valid episodes | Mean decisions | Mean browser lifetime (s) | Mean observed CPU (s) | Mean sampled peak RSS (MiB) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| CUAWright / high | 17 | 10.4 | 114.9 | 93.0 | 2101 |
+| CUAWright / N3 low + low | 17 | 7.6 | 87.4 | 52.2 | 1963 |
+| BrowserCode / high | 14 | 7.8 | 45.2 | 8.8 | 1684 |
+| BrowserCode / N3 low + low | 16 | 9.6 | 60.8 | 10.3 | 1665 |
+
+Resource means use each condition’s valid episodes, whose task sets differ; use the paired table for matched latency comparisons. CPU/RSS sample the worker and descendants every 250 ms from agent start through final capture; CPU is an observed lower bound and summed RSS can double-count shared pages. Browser lifetime uses the first saved process-closure receipt, excluding subsequent judge time. A model decision or selected code batch can contain multiple browser operations; native CUAWright CLI batches and BrowserCode CDP method counts are different units.
+
+All attempts used **88 browser sessions**, **1596 native request receipts**, **$12.7135 Sol + $0.4989 judge = $13.2123**, and **3,702 allocation seconds**, including failed startup and read-only post-exit verification. Browser lifetime across all attempts and diagnostics was 5,802.1 seconds. No usage reservations remain unresolved.
+
+| Shard | Allocation seconds, all attempts | Browser sessions | Sol calls | Sol cost (USD) | Judge calls | Judge cost (USD) |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 0 | 863 | 22 | 286 | 1.4446 | 16 | 0.1179 |
+| 1 | 1538 | 22 | 675 | 6.8254 | 16 | 0.1446 |
+| 2 | 740 | 22 | 331 | 3.0439 | 16 | 0.1221 |
+| 3 | 561 | 22 | 240 | 1.3996 | 16 | 0.1143 |
+
+Each independent shard retained its original 0 GPU / 4 CPU / 16 GiB × 7,200 seconds total, 30 browsers, 1,500 Sol calls/$20 and 20 judge calls/$1 ceilings. No old balances or inter-shard budgets transferred.
+
+![Native API cost and sampled resources](arm_results/harness_paired20_20261016/cost-resources.png)
+
+</details>
+
+<details>
+<summary>Frozen protocol, source provenance, startup recovery and verification</summary>
+
+Twenty fixed OM2W tasks ran under all four conditions, for 80 fresh episodes. Each of four jobs owned the same five tasks across conditions; cyclic condition order placed every condition first on five tasks. Two episode workers per shard ran concurrently. The previous partial CUAWright pilot remains historical and is not pooled.
+
+Actor: native GPT-6.1 Sol Responses, high/12,288 versus three concurrent low/4,096 proposals plus low/2,048 selection. The three candidates receive identical inputs and never execute before selection. Only the selected native call executes and enters later actor history; the selector sees observable history/proposals without private reasoning. All native responses echo the intended model, effort and default service tier. Both harnesses share Chromium/flags, a 1280×1800 viewport, 30 decisions, a 120-second command bound and a 900-second episode deadline. The common raw final CDP PNG is decoded and bound to the original o4-mini-2025-04-16 AgentTrek judge prompt/parser.
+
+Pinned native sources: CUAWright `ff44a0524e0812b69814efcec5e583f0d8cdde0c`; BrowserCode `b200643fe0eb93ce5a3aadd4bb21cb6cceb2ed04`. BrowserCode’s native `browser_execute`/CDP executor runs inside the common metered research loop, with an exact owned-page binding and a checksum-pinned Bun runtime. This excludes the broader OpenCode agent and auxiliary tools.
+
+Eight offline protocol tests passed. Initial jobs 363030–363033 stopped at a diagnostic JavaScript quoting error before any model call, using 8/9/8/8 seconds and one diagnostic browser each. The corrected, archived implementation passed both native live startup checks on all shards before paid requests. Replacement jobs 363086–363089 kept only the remaining approved time. All failure evidence is retained.
+
+Independent verification checked the frozen grid and sources, native model/effort/usage receipts, proposal inputs, selected-only commands and native call/reply history, decoded final judge images, verdicts, per-shard all-attempt ledgers, terminal W&B synchronization and post-exit owned-process absence on every used node. Aggregate figures were reviewed before completion. Only aggregates and plots are published.
+
+</details>
 
 <a id="sol61-webvoyager-deepshop100-20261015"></a>
 ### WebVoyager100 and DeepShop100: staged parallel extension

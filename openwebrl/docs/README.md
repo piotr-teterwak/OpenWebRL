@@ -1,5 +1,7 @@
 # OpenWebRL project documentation
 
+[BrowserCode versus CUAWright: verified 20-task four-condition pilot, paired success/latency, native tokens/cost and sampled resources](ARM_INFERENCE_SCALING.md#sol61-browsercode-cuawright-paired20-20261016).
+
 [Sol high vs. N=3 low + low selection verified: 25/100 vs. 40/100 successes; +15 pp [8, 23], latency inconclusive, higher API cost](ARM_INFERENCE_SCALING.md#sol61-selector-online100-20261015).
 
 
