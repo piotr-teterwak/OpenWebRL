@@ -51,64 +51,63 @@
   },
   "usage_by_role": {
     "judge": {
-      "calls": 7,
-      "input": 48875,
-      "output": 2563,
-      "reasoning_output": 1792,
-      "cached_input": 0,
-      "cache_write_input": 0,
+      "calls": 7.0,
+      "input": 48875.0,
+      "output": 2563.0,
+      "reasoning_output": 1792.0,
+      "cached_input": 0.0,
+      "cache_write_input": 0.0,
       "cost_usd": 0.0650397
     },
     "actor/actor_high": {
-      "calls": 63,
-      "input": 1087564,
-      "output": 10897,
-      "reasoning_output": 567,
-      "cached_input": 941586,
-      "cache_write_input": 145789,
+      "calls": 63.0,
+      "input": 1087564.0,
+      "output": 10897.0,
+      "reasoning_output": 567.0,
+      "cached_input": 941586.0,
+      "cache_write_input": 145789.0,
       "cost_usd": 0.5679791
     },
     "actor/actor_low_0": {
-      "calls": 61,
-      "input": 848467,
-      "output": 10182,
-      "reasoning_output": 201,
-      "cached_input": 799467,
-      "cache_write_input": 48817,
+      "calls": 61.0,
+      "input": 848467.0,
+      "output": 10182.0,
+      "reasoning_output": 201.0,
+      "cached_input": 799467.0,
+      "cache_write_input": 48817.0,
       "cost_usd": 0.3041751999999999
     },
     "actor/actor_low_1": {
-      "calls": 61,
-      "input": 848467,
-      "output": 9961,
-      "reasoning_output": 227,
-      "cached_input": 803345,
-      "cache_write_input": 44939,
+      "calls": 61.0,
+      "input": 848467.0,
+      "output": 9961.0,
+      "reasoning_output": 227.0,
+      "cached_input": 803345.0,
+      "cache_write_input": 44939.0,
       "cost_usd": 0.29265800000000003
     },
     "actor/actor_low_2": {
-      "calls": 61,
-      "input": 848467,
-      "output": 10240,
-      "reasoning_output": 257,
-      "cached_input": 801197,
-      "cache_write_input": 47087,
+      "calls": 61.0,
+      "input": 848467.0,
+      "output": 10240.0,
+      "reasoning_output": 257.0,
+      "cached_input": 801197.0,
+      "cache_write_input": 47087.0,
       "cost_usd": 0.30060319999999996
     },
     "actor/selector": {
-      "calls": 61,
-      "input": 780542,
-      "output": 963,
-      "reasoning_output": 103,
-      "cached_input": 0,
-      "cache_write_input": 774672,
+      "calls": 61.0,
+      "input": 780542.0,
+      "output": 963.0,
+      "reasoning_output": 103.0,
+      "cached_input": 0.0,
+      "cache_write_input": 774672.0,
       "cost_usd": 1.9580500000000005
     }
   },
-  "owned_teardown_verified": false,
+  "owned_teardown_verified": true,
   "pending": [
-    "Browser-cap amendment remains unapproved.",
-    "Two independent read-only node teardown checks are queued; no final teardown claim."
+    "Browser-cap amendment remains unapproved."
   ],
   "amendment_proposed_browser_caps": [
     22,
@@ -118,5 +117,12 @@
   ],
   "additional_browser_cap_requested": 27,
   "frozen_plan_sha256": "ec27d2433e5b27b98921c28349f0ed5c105ca3548520af617c59dad10769e048",
-  "audit_sha256": "8351738f9e3da8468f3f1f286b1f4d9fa4fcb01413a4c0bf28809488782ab18e"
+  "audit_sha256": "c22294e44a1cebb6a76d8f6353e54d342b1a7cdcd4bc8b7a58357949d5b0f78b",
+  "all_attempt_compute_seconds_by_shard": {
+    "0": 28,
+    "1": 830,
+    "2": 18,
+    "3": 14
+  },
+  "total_all_attempt_allocation_seconds": 890
 }
