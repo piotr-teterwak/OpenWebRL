@@ -1,0 +1,251 @@
+{
+  "schema": "selector-effort-probe-audit-v1",
+  "status": "verified_complete",
+  "complete": true,
+  "physical_requests": 200,
+  "pairs": 100,
+  "tasks": 90,
+  "by_effort": {
+    "low": {
+      "requests": 100,
+      "latency_seconds": {
+        "count": 100,
+        "mean": 2.4335512201307576,
+        "median": 1.7319965370043064,
+        "total": 243.35512201307574,
+        "minimum": 1.3604737269924954,
+        "maximum": 57.96710845900816
+      },
+      "cost_lower_usd": 0.5571475,
+      "cost_upper_usd": 0.5571475,
+      "tokens": {
+        "input": 216343,
+        "output": 1644,
+        "cached_input": 0,
+        "reasoning_output": 228,
+        "cache_write_input": 216043
+      },
+      "token_telemetry_missing": {
+        "cached_input": 0,
+        "reasoning_output": 0,
+        "cache_write_input": 0
+      },
+      "original_index_agreement": 82,
+      "original_action_agreement": 82
+    },
+    "medium": {
+      "requests": 100,
+      "latency_seconds": {
+        "count": 100,
+        "mean": 2.835074652560579,
+        "median": 2.1155719845046406,
+        "total": 283.5074652560579,
+        "minimum": 1.2835604989959393,
+        "maximum": 59.10635417899175
+      },
+      "cost_lower_usd": 0.5666875,
+      "cost_upper_usd": 0.5666875,
+      "tokens": {
+        "input": 216343,
+        "output": 2598,
+        "cached_input": 0,
+        "reasoning_output": 1132,
+        "cache_write_input": 216043
+      },
+      "token_telemetry_missing": {
+        "cached_input": 0,
+        "reasoning_output": 0,
+        "cache_write_input": 0
+      },
+      "original_index_agreement": 84,
+      "original_action_agreement": 84
+    }
+  },
+  "accounting": {
+    "calls": 200,
+    "known_lower_usd": 1.1238350000000001,
+    "known_upper_usd": 1.1238350000000001,
+    "unknown_or_inflight_reserved_usd": 1.6653345369377348e-16,
+    "bounded_upper_usd": 1.1238350000000004,
+    "halted": false,
+    "caps": {
+      "sol_calls": 200,
+      "sol_usd": 5.0,
+      "browsers": 0,
+      "judge_calls": 0,
+      "candidate_calls": 0,
+      "concurrency": 2,
+      "wall_seconds": 3600
+    }
+  },
+  "maximum_observed_concurrency": 2,
+  "request_span_seconds": 264.5491213798523,
+  "duplicate_candidates": {
+    "states_with_any_duplicate": 35,
+    "duplicate_candidate_pairs": 81,
+    "total_states": 100
+  },
+  "scope": "Saved states and fixed candidate triplets only. Agreement is not correctness or task success. No browser executions or new outcome evidence.",
+  "agreement": {
+    "index": 80,
+    "action": 80,
+    "action_agree_despite_index_disagree": 0
+  },
+  "paired_task_cluster_bootstrap": {
+    "paired_index_agreement": {
+      "estimate": 0.8,
+      "ci95": [
+        0.7157894736842105,
+        0.8737864077669902
+      ],
+      "method": "task-cluster bootstrap; resample tasks, retain all sampled states per task",
+      "replicates": 10000,
+      "tasks": 90
+    },
+    "paired_action_agreement": {
+      "estimate": 0.8,
+      "ci95": [
+        0.7157894736842105,
+        0.8737864077669902
+      ],
+      "method": "task-cluster bootstrap; resample tasks, retain all sampled states per task",
+      "replicates": 10000,
+      "tasks": 90
+    },
+    "latency_difference_low_minus_medium": {
+      "estimate": -0.4015234324298217,
+      "ci95": [
+        -2.0582048857631547,
+        1.2804434601529633
+      ],
+      "method": "task-cluster bootstrap; resample tasks, retain all sampled states per task",
+      "replicates": 10000,
+      "tasks": 90
+    },
+    "cost_difference_low_minus_medium": {
+      "estimate": -9.539999999999999e-05,
+      "ci95": [
+        -0.00013080808080808077,
+        -6.479591836734695e-05
+      ],
+      "method": "task-cluster bootstrap; resample tasks, retain all sampled states per task",
+      "replicates": 10000,
+      "tasks": 90
+    },
+    "output_difference_low_minus_medium": {
+      "estimate": -9.54,
+      "ci95": [
+        -13.080808080808081,
+        -6.479591836734694
+      ],
+      "method": "task-cluster bootstrap; resample tasks, retain all sampled states per task",
+      "replicates": 10000,
+      "tasks": 90
+    }
+  },
+  "order_strata": {
+    "low": {
+      "states": 50,
+      "by_effort": {
+        "low": {
+          "latency_seconds": {
+            "count": 50,
+            "mean": 3.0861375967808997,
+            "median": 1.7563332755016745,
+            "total": 154.306879839045,
+            "minimum": 1.3860692960006418,
+            "maximum": 57.96710845900816
+          },
+          "cost_upper_usd": 0.3188625,
+          "tokens": {
+            "input": 124135,
+            "output": 860,
+            "cached_input": 0,
+            "reasoning_output": 150,
+            "cache_write_input": 123985
+          }
+        },
+        "medium": {
+          "latency_seconds": {
+            "count": 50,
+            "mean": 3.4831656626606127,
+            "median": 2.0767104504993767,
+            "total": 174.15828313303064,
+            "minimum": 1.5146971239882987,
+            "maximum": 59.10635417899175
+          },
+          "cost_upper_usd": 0.3228525,
+          "tokens": {
+            "input": 124135,
+            "output": 1259,
+            "cached_input": 0,
+            "reasoning_output": 537,
+            "cache_write_input": 123985
+          }
+        }
+      },
+      "index_agreement": 42,
+      "action_agreement": 42
+    },
+    "medium": {
+      "states": 50,
+      "by_effort": {
+        "low": {
+          "latency_seconds": {
+            "count": 50,
+            "mean": 1.780964843480615,
+            "median": 1.6294393275020411,
+            "total": 89.04824217403075,
+            "minimum": 1.3604737269924954,
+            "maximum": 3.8077943539974513
+          },
+          "cost_upper_usd": 0.238285,
+          "tokens": {
+            "input": 92208,
+            "output": 784,
+            "cached_input": 0,
+            "reasoning_output": 78,
+            "cache_write_input": 92058
+          }
+        },
+        "medium": {
+          "latency_seconds": {
+            "count": 50,
+            "mean": 2.1869836424605453,
+            "median": 2.1518561264965683,
+            "total": 109.34918212302728,
+            "minimum": 1.2835604989959393,
+            "maximum": 3.392361283011269
+          },
+          "cost_upper_usd": 0.243835,
+          "tokens": {
+            "input": 92208,
+            "output": 1339,
+            "cached_input": 0,
+            "reasoning_output": 595,
+            "cache_write_input": 92058
+          }
+        }
+      },
+      "index_agreement": 38,
+      "action_agreement": 38
+    }
+  },
+  "source_proofs_sha256": {
+    "plan_sha256": "3946a40a182c4cf0fe0dd1602b5c78aec67c3006180e9e56f294b38064e5594b",
+    "runner_sha256": "96c9abf997edb72ab19babb22b1c28d11c4b80d93caa342ed0afde4113c79b90",
+    "request_manifest_sha256": "036580f764c1c07fffd29a3c0ab60ad59802abeaa2a8304e82266e9047c266d3",
+    "audited_sources": {
+      "responses_actor_history.py": "2db00e613605ba7f3e596c19ae4acc7f6a797355d96824c12d5b82e34bbb3c8e",
+      "luna_qwen_metrics.py": "62b07fdefda95185df5fddadf6f707e231de94545fa8383fb303a36882385125"
+    }
+  },
+  "price_usd_per_million_tokens": {
+    "luna_input": 2.0,
+    "luna_cached": 0.1,
+    "luna_cache_write": 2.5,
+    "luna_output": 10.0
+  },
+  "sampling": "100 saved decisions from 90 pilot tasks: one deterministically hash-chosen decision per eligible task, then 10 additional hash-chosen decisions; no reward-based selection. Depth1-3:56,4-9:23,10+:21.",
+  "comparison": "Same observable state, screenshot, native selector input and three fixed candidate actions. Only low/medium effort differs. Balanced 50 low-first/50 medium-first; two concurrent independent pairs, serial requests within each pair. Original medium selections are historical references, not contemporary controls."
+}

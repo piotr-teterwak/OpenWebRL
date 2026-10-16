@@ -2,6 +2,8 @@
 
 [Sol Online-Mind2Web100 verified: three candidates + selection 33/100 versus high effort 22/100; paired gain +11 pp (95% CI +3 to +19); live output ratio 1.07×](ARM_INFERENCE_SCALING.md#sol61-om2w100-20261014).
 
+[Saved-state Sol selector test: low effort saves 1.7% cost; median latency 18.1% lower, actions agree 80/100; task success unmeasured](ARM_INFERENCE_SCALING.md#sol61-selector-effort-probe-20261014).
+
 [Shared-rule benchmark validity audit: 5,400 exactly mapped saved episodes checked, no denominator changes; older evidence gaps retained](EPISODE_VALIDITY.md#benchmark-validity-audit-20261013).
 
 [Episode validity unified across RL, branch collection and MolmoWeb: the Sep 10–24 RL runs kept 940 infrastructure failures (1.39%) as reward 0](EPISODE_VALIDITY.md#episode-validity-20261012).

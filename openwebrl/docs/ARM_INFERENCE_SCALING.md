@@ -1085,6 +1085,39 @@ The independent audit verifies 200 unique planned dispositions, task and frozen-
 </details>
 
 
+<a id="sol61-selector-effort-probe-20261014"></a>
+## Low versus medium selection: little cost reduction on saved states
+
+**Low effort reduced selector cost by only 1.7% on 100 paired saved decisions.** Identical input charges accounted for 95.4% of medium-selection cost. Median request latency fell 18.1%, but the paired mean difference was uncertain: low minus medium −0.40 seconds, task-cluster bootstrap 95% CI [−2.06, +1.28]. Both approximately 59-second outliers remain included. These are selector-request measurements, not episode latency or task-success results.
+
+| Metric | Low selection | Fresh medium selection |
+|---|---:|---:|
+| Requests | 100 | 100 |
+| Input tokens | 216,343 | 216,343 |
+| Output tokens, including reasoning | 1,644 | 2,598 |
+| Reported reasoning tokens (output subset) | 228 | 1,132 |
+| API cost, USD | 0.55715 | 0.56669 |
+| Median request latency, seconds | 1.73 | 2.12 |
+| Mean request latency, seconds | 2.43 | 2.84 |
+| Action agreement with original medium selection, count / 100 | 82 | 84 |
+
+The two fresh selectors agreed on **80/100 actions (80.0%; task-cluster bootstrap 95% CI 71.6–87.4%)**. All 20 disagreements selected different actions, rather than different indices for identical candidates. Fresh medium also differed from its historical selection on 16/100 states, so disagreement alone does not establish that low effort is worse. No selected action was executed in this probe; its effect on task success is unmeasured.
+
+**Decision:** retain medium selection for the benchmark comparison. Lower effort saves less than one cent per 100 selections here. Reducing repeated input or validating cache reuse is a more material cost hypothesis to test separately; neither saving nor preserved task success has yet been established for those changes.
+
+[Cost plot](arm_results/sol61_selector_effort_probe_20261014/cost.png) · [Token plot](arm_results/sol61_selector_effort_probe_20261014/tokens.png) · [Latency and agreement plot](arm_results/sol61_selector_effort_probe_20261014/latency-agreement.png) · [Audited aggregate](arm_results/sol61_selector_effort_probe_20261014/aggregate.json) · [W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/sol61-selector-effort-probe-20261014-v1).
+
+<details>
+<summary>Sampling, matched inputs and all-attempt accounting</summary>
+
+The frozen sample contains 100 saved decisions across 90 eligible original-pilot tasks: one deterministically hash-ranked decision per task, followed by ten additional hash-ranked decisions. Sampling did not use rewards or original selector choices. Decision depths are 56 at 1–3, 23 at 4–9, and 21 at 10 or later. The eligible pool contained 824 accepted selector decisions. This sample describes states visited by the original policy, not independently sampled online trajectories.
+
+Each pair reused the exact saved observable state, history, screenshot and three candidate actions. Both fresh requests used `gpt-6.1-sol`, the same strict index schema and 2,048-output-token limit; only reasoning effort changed. Order was balanced across 50 low-first and 50 medium-first pairs. At most two independent pairs were active, with sequential requests inside each pair. Latency is client-observed request time including response handling. Original medium choices are historical references; the fresh medium request is the contemporary control. Duplicate actions were retained in 35 states.
+
+All 200 approved physical calls completed, costing **$1.123835 of the $5 cap**, with no unknown usage, retries, browser sessions, candidate generations or judge calls. No GPU allocation was used. Native receipts, exact request/source hashes, selected-action identities, costs and concurrency were independently audited. Input telemetry reported 216,043 cache-write tokens and zero cache-read tokens per arm; cache-write tokens are a subset of input, not additional token counts. Reported reasoning is a subset of output. Prices and source hashes are frozen in the aggregate. Only aggregate results and plots are published.
+
+</details>
+
 <a id="sol61-om2w300-extension-20261014"></a>
 ### Full-300 extension: remaining 200 paired tasks
 
