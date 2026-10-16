@@ -579,9 +579,9 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 
 <a id="lookahead-why-20261014"></a>
 
-#### Why lookahead labels are better: more consistent, less order-biased, closer to outcomes
+#### Why lookahead labels are better: real outcome information, not an order-bias fix
 
-**K = 3's advantage comes mostly from steadier, less order-biased judgments rather than from reading off draw 0's outcome.** On the 421 `fast1k` states (67 tasks):
+**K = 3 adds real information about outcomes. Its judgments are also steadier and less biased toward the first-shown candidate, but a randomized-order test shows the bias is not what holds pre- and post-execution back.** Fixed-order runs on the 421 `fast1k` states (67 tasks):
 
 | | Pre-execution | Post-execution | K = 1 | K = 2 | K = 3 |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -595,6 +595,24 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 - **Where it helps:** arXiv (+4.6 pp over pre-execution [+2.0, +6.7]) and other domains, and decision depths 3–5 (+2.4 over post-execution [+0.4, +5.1]). On error or blank pages (99 states) no condition beats uniform by much and K = 3 is slightly worse than post-execution (−1.9 [−5.4, +2.0]). When all five post-action screenshots look the same (98 states), every condition is near uniform.
 - **Early stopping is not the driver:** K = 3 − post-execution is +0.4 where some draw-0 continuation ended within 3 steps (195 states) and +1.8 where none did.
 - **Disagreements:** K = 3's majority pick differs from post-execution's on 247 states; K = 3 is better on 75, worse on 61, tied on 111.
+
+**Randomized-order test.** Pre-execution, post-execution, K = 3 and K = 3 current screenshot only were rerun with 2 calls per state, each in its own seeded random candidate order, on all 736 labelled states (5,888 calls, USD 27.87).
+
+| Success on Piotr-task states, valid draws only (493 states, 78 tasks) | Fixed order | Random order | Random − fixed, pp [95%] |
+| --- | ---: | ---: | --- |
+| Pre-execution | 35.16% | 34.73% | −0.43 [−1.43, +0.71] |
+| Post-execution | 36.03% | 35.80% | −0.23 [−1.35, +0.96] |
+| K = 3 | 38.07% | 37.76% | −0.31 [−0.95, +0.40] |
+| K = 3, current screenshot only (372 `fast1k` states) | 36.31% | 35.69% | −0.63 [−1.56, +0.26] |
+
+| Gap, pp [95%] | Fixed order | Random order |
+| --- | --- | --- |
+| K = 3 − pre-execution | +2.91 [+1.50, +4.20] | +3.03 [+1.21, +4.49] |
+| K = 3 − post-execution | +2.04 [+0.27, +4.09] | +1.96 [+0.48, +3.75] |
+
+- **Randomizing order helps no condition, and K = 3 keeps its full lead.** Luna still picks the first-shown candidate 39% (pre-execution) and 44% (post-execution) of the time under random order, versus 26% with K = 3: the position preference reflects uncertainty, not a fixed favourite candidate. A post-hoc position reweighting of the fixed-order votes had suggested pre-execution could catch up (+1.76 pp); the randomized test does not support that.
+- **Uniform 32.33%, actor's first sample 31.22% on these states.** Random order is 0.2–0.9 pp lower than fixed order everywhere (significant only on all 736 states with invalid = failure, for pre-execution and K = 3); unexplained.
+- *Held-out draws 3–7; task-clustered intervals. The 493 states need valid held-out draws only, so the set is slightly larger than the ≈480 of the draw-split figure. [JSON](arm_results/rl_integration/lookahead-random-order-20261015.json), [code](arm_results/rl_integration/lookahead-random-order-20261015.py).*
 
 *Invalid draws count as failures. Intervals are task-clustered. Screenshots count as distinct when their mean absolute difference at 96×54 grayscale exceeds 2/255. [JSON](arm_results/rl_integration/lookahead-why-20261014.json), [code](arm_results/rl_integration/lookahead-why-20261014.py).*
 

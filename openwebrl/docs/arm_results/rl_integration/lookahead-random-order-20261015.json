@@ -1,0 +1,232 @@
+{
+ "pick_rate_by_displayed_position": {
+  "Pre-execution, fixed": [
+   39.2,
+   19.2,
+   14.7,
+   14.6,
+   12.3
+  ],
+  "Pre-execution, random": [
+   38.8,
+   20.0,
+   15.0,
+   12.6,
+   13.6
+  ],
+  "Post-execution, fixed": [
+   42.3,
+   20.5,
+   14.4,
+   13.0,
+   9.9
+  ],
+  "Post-execution, random": [
+   44.2,
+   21.5,
+   14.6,
+   10.5,
+   9.2
+  ],
+  "K=3, fixed": [
+   24.9,
+   21.5,
+   19.4,
+   17.9,
+   16.3
+  ],
+  "K=3, random": [
+   25.5,
+   22.6,
+   18.0,
+   17.0,
+   16.9
+  ],
+  "K=3, current screenshot only, fixed": [
+   25.3,
+   23.2,
+   19.2,
+   18.1,
+   14.3
+  ],
+  "K=3, current screenshot only, random": [
+   25.5,
+   24.0,
+   17.1,
+   16.9,
+   16.4
+  ]
+ },
+ "Piotr tasks, valid draws only": {
+  "Pre-execution": {
+   "states": 493,
+   "tasks": 78,
+   "fixed": 35.16,
+   "random": 34.73,
+   "uniform": 32.33,
+   "actor": 31.22,
+   "random_minus_fixed": [
+    -0.42934415145368515,
+    -1.434788812785388,
+    0.7071759259259256
+   ]
+  },
+  "Post-execution": {
+   "states": 493,
+   "tasks": 78,
+   "fixed": 36.03,
+   "random": 35.8,
+   "uniform": 32.33,
+   "actor": 31.22,
+   "random_minus_fixed": [
+    -0.22819472616632866,
+    -1.3467573221757325,
+    0.9619565217391306
+   ]
+  },
+  "K=3": {
+   "states": 493,
+   "tasks": 78,
+   "fixed": 38.07,
+   "random": 37.76,
+   "uniform": 32.33,
+   "actor": 31.22,
+   "random_minus_fixed": [
+    -0.3093306288032454,
+    -0.9470785440613025,
+    0.3985900216919742
+   ]
+  },
+  "K=3, current screenshot only": {
+   "states": 372,
+   "tasks": 58,
+   "fixed": 36.31,
+   "random": 35.69,
+   "uniform": 29.92,
+   "actor": 28.42,
+   "random_minus_fixed": [
+    -0.6283602150537635,
+    -1.5619817578772803,
+    0.26214128035320095
+   ]
+  },
+  "K=3 - Pre-execution, fixed order": {
+   "states": 493,
+   "diff": [
+    2.909060175794456,
+    1.498440285204991,
+    4.202602952602953
+   ]
+  },
+  "K=3 - Pre-execution, random order": {
+   "states": 493,
+   "diff": [
+    3.029073698444895,
+    1.2134502923976613,
+    4.492424242424242
+   ]
+  },
+  "K=3 - Post-execution, fixed order": {
+   "states": 493,
+   "diff": [
+    2.041920216362407,
+    0.2735901730876602,
+    4.092653508771931
+   ]
+  },
+  "K=3 - Post-execution, random order": {
+   "states": 493,
+   "diff": [
+    1.9607843137254901,
+    0.4844006568144497,
+    3.748912097476066
+   ]
+  }
+ },
+ "all states, invalid = failure": {
+  "Pre-execution": {
+   "states": 736,
+   "tasks": 227,
+   "fixed": 32.79,
+   "random": 31.9,
+   "uniform": 29.84,
+   "actor": 29.38,
+   "random_minus_fixed": [
+    -0.8854166666666666,
+    -1.6992399565689467,
+    -0.07258064516129037
+   ]
+  },
+  "Post-execution": {
+   "states": 736,
+   "tasks": 227,
+   "fixed": 33.27,
+   "random": 32.73,
+   "uniform": 29.84,
+   "actor": 29.38,
+   "random_minus_fixed": [
+    -0.5434782608695652,
+    -1.4305555555555554,
+    0.3400868306801737
+   ]
+  },
+  "K=3": {
+   "states": 736,
+   "tasks": 227,
+   "fixed": 35.1,
+   "random": 34.4,
+   "uniform": 29.84,
+   "actor": 29.38,
+   "random_minus_fixed": [
+    -0.6997282608695651,
+    -1.2290502793296088,
+    -0.19230769230769224
+   ]
+  },
+  "K=3, current screenshot only": {
+   "states": 421,
+   "tasks": 67,
+   "fixed": 31.9,
+   "random": 31.54,
+   "uniform": 25.89,
+   "actor": 23.99,
+   "random_minus_fixed": [
+    -0.3602533650039588,
+    -1.2040332147093713,
+    0.5231143552311438
+   ]
+  },
+  "K=3 - Pre-execution, fixed order": {
+   "states": 736,
+   "diff": [
+    2.314311594202899,
+    1.0731589147286824,
+    3.38006230529595
+   ]
+  },
+  "K=3 - Pre-execution, random order": {
+   "states": 736,
+   "diff": [
+    2.5000000000000004,
+    1.0631741140215718,
+    3.739130434782609
+   ]
+  },
+  "K=3 - Post-execution, fixed order": {
+   "states": 736,
+   "diff": [
+    1.827445652173913,
+    0.49876847290640386,
+    3.185028248587571
+   ]
+  },
+  "K=3 - Post-execution, random order": {
+   "states": 736,
+   "diff": [
+    1.671195652173913,
+    0.43859649122807015,
+    2.9975124378109457
+   ]
+  }
+ }
+}
