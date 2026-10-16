@@ -223,5 +223,20 @@
    "input_cache_write": 0.125,
    "output": 0.5
   }
+ },
+ {
+  "states": "New 421 states",
+  "condition": "K = 3, current screenshot only",
+  "root": "lookahead-fast1k-20261013/k3-img1",
+  "calls": 1684,
+  "input_tokens_per_call": 36461,
+  "output_tokens_per_call": 647,
+  "input_usd": 7.67,
+  "output_usd": 0.54,
+  "total_usd": 8.23,
+  "price_usd_per_million": {
+   "input_cache_write": 0.125,
+   "output": 0.5
+  }
  }
 ]

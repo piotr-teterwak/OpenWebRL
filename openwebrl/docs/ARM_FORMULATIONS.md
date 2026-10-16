@@ -469,9 +469,14 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 | New 421 states | K = 1, no history | 1,684 | 45,607 | 640 | 9.60 | 0.54 | 10.24 |
 | New 421 states | K = 3, no history | 1,684 | 55,833 | 624 | 11.75 | 0.53 | 12.28 |
 | New 421 states | K = 3, no tool feedback in lookahead | 1,684 | 56,667 | 800 | 11.93 | 0.67 | 12.60 |
+| New 421 states | K = 3, current screenshot only | 1,684 | 36,461 | 647 | 7.67 | 0.54 | 8.23 |
 
 - **Sources:** tokens are averaged from each judgment's saved usage report (input includes cache-write tokens), priced at USD 0.125 / 0.50 per million input / output tokens. Total USD is the run ledger's settled charge, including transient retries, so it can exceed input + output by a few cents. [JSON](arm_results/rl_integration/lookahead-costs-20261014.json).
-- **Totals:** USD 127.51 across these 15 runs.
+- **Totals:** USD 135.74 across these 16 runs.
+
+![Success vs Luna cost per labelled state](arm_results/rl_integration/lookahead-success-vs-cost-20261015.png)
+
+*Held-out success with valid draws only (372 of the 421 `fast1k` states, 58 tasks) vs recorded Luna cost per 1,000 labelled states (4 calls each). Hollow markers are ablations of the condition with the same colour. [Plot](arm_results/rl_integration/lookahead-success-vs-cost-20261015.py).*
 
 | Run | States | Conditions | Format | Status |
 | --- | ---: | --- | --- | --- |
@@ -556,7 +561,7 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 
 #### Ablations of K = 1 and K = 3: past-step history and lookahead text feedback
 
-**Removing the 3 past steps changes success by less than 1 pp. Removing the tool feedback from lookahead steps costs K = 3 about 0.5–0.7 pp, about half its edge over post-execution.**
+**Removing the 3 past steps changes success by less than 1 pp. Removing the tool feedback from lookahead steps costs K = 3 about 0.5–0.7 pp, about half its edge over post-execution. Dropping every screenshot except the current one leaves K = 3 unchanged at 36% lower cost: the signal is in the text.**
 
 | Condition | Invalid = failure (421 states, 67 tasks) | Valid draws only (372 states, 58 tasks) |
 | --- | ---: | ---: |
@@ -568,8 +573,9 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 | **K = 3** | 31.78% | 36.00% |
 | K = 3, no history | 31.45% | 35.75% |
 | K = 3, no tool feedback in lookahead | 31.07% | 35.52% |
+| K = 3, current screenshot only | 31.90% | 36.31% |
 
-*Same 421 `fast1k` states, held-out draws 3–7. "No history" removes the 3 past steps (action + screenshot); "no tool feedback" cuts each lookahead step to the actor's tool call, dropping the environment's tool response and observation text, as in the history steps. Earlier lookahead results include that feedback. Paired differences (task-clustered): history − none +0.2 to +0.7 pp, none significant; K = 3 feedback − none +0.71 [+0.19, +1.56] (invalid = failure), +0.48 [−0.04, +1.13] (valid only). [JSON](arm_results/rl_integration/lookahead-history-feedback-20261014.json), [code](arm_results/rl_integration/lookahead-history-feedback-20261014.py).*
+*Same 421 `fast1k` states, held-out draws 3–7. "No history" removes the 3 past steps (action + screenshot); "no tool feedback" cuts each lookahead step to the actor's tool call, dropping the environment's tool response and observation text, as in the history steps. "Current screenshot only" keeps all text (past actions, immediate receipts, lookahead actions with feedback) but no history, immediate-result or lookahead screenshots. Earlier lookahead results include that feedback. Paired differences (task-clustered): history − none +0.2 to +0.7 pp, none significant; K = 3 feedback − none +0.71 [+0.19, +1.56] (invalid = failure), +0.48 [−0.04, +1.13] (valid only). Current screenshot only − K = 3: +0.12 [−0.58, +0.86] (invalid = failure), +0.31 [−0.48, +1.26] (valid only). [JSON](arm_results/rl_integration/lookahead-history-feedback-20261014.json), [code](arm_results/rl_integration/lookahead-history-feedback-20261014.py).*
 
 <a id="lookahead-why-20261014"></a>
 

@@ -14,11 +14,15 @@ from selection_outcome_experiments import cluster_boot, read  # noqa: E402
 V = Path(__file__).resolve().parent
 CONDS = {"before": "Pre-execution, 3 past steps", "before-h0": "Pre-execution, no history",
          "k1": "K=1, 3 past steps", "k1-h0": "K=1, no history", "immediate": "Post-execution, 3 past steps",
-         "k3": "K=3, 3 past steps", "k3-h0": "K=3, no history", "k3-nofb": "K=3, no tool feedback in lookahead"}
+         "k3": "K=3, 3 past steps", "k3-h0": "K=3, no history", "k3-nofb": "K=3, no tool feedback in lookahead",
+         "k2": "K=2, 3 past steps", "k3-img1": "K=3, current screenshot only"}
+CONDS = {c: n for c, n in CONDS.items() if (V / c / "judgments").is_dir() and (V / c / "ledger.json").exists()
+         and json.loads((V / c / "ledger.json").read_text())["settled"] >= 1684}   # finished runs only
 PAIRS = {"history - none: pre-execution": ("before", "before-h0"), "history - none: K=1": ("k1", "k1-h0"),
          "history - none: K=3": ("k3", "k3-h0"), "feedback - none: K=3": ("k3", "k3-nofb"),
          "K=3 no feedback - post-execution": ("k3-nofb", "immediate"), "K=3 - post-execution": ("k3", "immediate"),
-         "K=1 - pre-execution (3 past steps)": ("k1", "before"), "K=1 - pre-execution (no history)": ("k1-h0", "before-h0")}
+         "K=1 - pre-execution (3 past steps)": ("k1", "before"), "K=1 - pre-execution (no history)": ("k1-h0", "before-h0"),
+         "K=3 current screenshot only - K=3": ("k3-img1", "k3"), "K=3 current screenshot only - post-execution": ("k3-img1", "immediate")}
 plan = read(V / "k3" / "plan.json")
 slot = defaultdict(dict)
 for root in {e["root"] for e in plan["states"]}:
@@ -49,10 +53,12 @@ for mode in ("invalid_as_failure", "valid_only"):
         if None in hold:
             continue
         per[s] = {n: float(np.mean([hold[x] for x in picks[c][s]])) for c, n in CONDS.items()}
+        per[s]["Uniform"], per[s]["Actor (first sample)"] = float(np.mean(hold)), float(hold[0])
     st = sorted(per); g = [task[s] for s in st]
     res = {"states": len(st), "tasks": len(set(g)),
-           "success": {n: cluster_boot([per[s][n] for s in st], g) for n in CONDS.values()}}
-    res["paired"] = {name: cluster_boot([per[s][CONDS[a]] - per[s][CONDS[b]] for s in st], g) for name, (a, b) in PAIRS.items()}
+           "success": {n: cluster_boot([per[s][n] for s in st], g) for n in list(CONDS.values()) + ["Uniform", "Actor (first sample)"]}}
+    res["paired"] = {name: cluster_boot([per[s][CONDS[a]] - per[s][CONDS[b]] for s in st], g) for name, (a, b) in PAIRS.items()
+                     if a in CONDS and b in CONDS}
     out[mode] = res
 (V / "history-effect.json").write_text(json.dumps(out, indent=1))
 print(json.dumps(out, indent=1))
