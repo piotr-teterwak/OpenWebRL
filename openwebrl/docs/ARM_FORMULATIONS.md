@@ -535,27 +535,24 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 
 #### Robustness: how many observed outcomes is lookahead worth?
 
-**K = 3 lookahead beats the actor's first sample by about 7 pp at every split and matches an oracle that picks on 3–5 observed outcomes.**
+**With the recommended labeller (screenshots only, no history), K = 3 beats the actor's first sample by about 7 pp at every split and matches an oracle that picks on 3–5 observed outcomes; pre- and post-execution stay well below.**
 
-![Success vs evaluation continuations, Piotr-matched tasks, valid draws only, paired bands](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_piotr_absolute_valid_only.png)
+![Success vs evaluation continuations, screenshot-only no-history conditions, paired bands](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_piotr_absolute_valid_only_s.png)
 
-![Success vs evaluation continuations, Piotr-matched tasks, valid draws only, lines only](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_piotr_absolute_lines_valid_only.png)
+![Success vs evaluation continuations, screenshot-only no-history conditions, lines only](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_piotr_absolute_lines_valid_only_s.png)
 
-*Piotr-matched tasks (fresh states), valid draws only; a state counts when every action has a valid draw on both sides of the split. x = continuations per action used for evaluation; the oracle picks on the other 8 − x draws, and teacher conditions see only draw 0. Bands (first figure): 95% task-clustered interval of the paired difference from the actor's first sample. Rates are low because most states are informative-filtered `fast1k` states. [JSON](arm_results/rl_integration/lookahead-draw-split-20261013/curve_piotr.json), [code](arm_results/rl_integration/lookahead-draw-split-20261013/curve.py), [plot](arm_results/rl_integration/lookahead-draw-split-20261013/plot_piotr_single.py).*
+*Piotr-task states (fresh states), valid draws only; a state counts when every action has a valid draw on both sides of the split. Teacher conditions: screenshots only (no page text), no history, 2 randomized-order calls per state. x = continuations per action used for evaluation; the oracle picks on the other 8 − x draws, and teacher conditions see only draw 0. Bands (first figure): 95% task-clustered interval of the paired difference from the actor's first sample. The earlier version with screenshot + text and 3 past steps is in [this JSON](arm_results/rl_integration/lookahead-draw-split-20261013/curve_piotr.json). [JSON](arm_results/rl_integration/lookahead-draw-split-20261013/curve_piotr_s.json), [code](arm_results/rl_integration/lookahead-draw-split-20261013/curve_s.py), [plot](arm_results/rl_integration/lookahead-draw-split-20261013/plot_piotr_single.py).*
 
 | Success, % | 2 eval | 3 eval | 4 eval | 5 eval | 6 eval |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Oracle (observed draws) | 39.4 | 37.8 | 38.0 | 36.8 | 36.1 |
-| Lookahead K = 3 | 38.5 | 37.7 | 37.8 | 37.8 | 37.4 |
-| Lookahead K = 2 | 37.7 | 36.8 | 36.9 | 36.9 | 36.7 |
-| Lookahead K = 1 | 37.1 | 36.8 | 37.4 | 37.2 | 37.0 |
-| Post-execution | 36.5 | 35.5 | 35.8 | 35.8 | 35.4 |
-| Pre-execution | 35.6 | 34.4 | 34.9 | 34.7 | 34.0 |
+| Lookahead K = 3 | 39.0 | 37.9 | 38.0 | 38.0 | 37.8 |
+| Lookahead K = 1 | 36.9 | 36.8 | 37.1 | 37.3 | 37.0 |
+| Post-execution | 34.8 | 34.2 | 34.6 | 34.6 | 34.6 |
+| Pre-execution | 34.6 | 33.2 | 33.7 | 33.9 | 33.7 |
 | Uniform | 32.4 | 32.0 | 32.1 | 31.9 | 31.5 |
 | Actor (first sample) | 31.9 | 30.9 | 31.0 | 30.6 | 30.3 |
-| Oracle observes | draws 0–5 | draws 0–4 | draws 0–3 | draws 0–2 | draws 0–1 |
 | States | 465 | 484 | 484 | 481 | 463 |
-| Tasks | 72 | 76 | 76 | 76 | 70 |
 
 <a id="lookahead-history-feedback-20261014"></a>
 
@@ -581,7 +578,7 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 
 #### Representation × depth grid without history
 
-**Execution depth matters; representation and history barely do. Screenshot-only K = 3 is the best and among the cheapest conditions.** All 12 cells use the same 736 states, no history, and 2 randomized-order calls per state. Success on the reporting set (Piotr-task states, valid draws only; 493 states, 78 tasks; uniform 32.33%, actor's first sample 31.22%):
+**Execution depth matters; representation and history barely do. Screenshot-only K = 3 is the best and among the cheapest conditions.** **Recommended labeller: K = 3, screenshots only, no history, 1–2 randomized-order calls per state** (about USD 3.3 per 1,000 states at 1 call, roughly a tenth of the original K = 3 with 4 calls, at equal or better accuracy). All 12 cells use the same 736 states, no history, and 2 randomized-order calls per state. Success on the reporting set (Piotr-task states, valid draws only; 493 states, 78 tasks; uniform 32.33%, actor's first sample 31.22%):
 
 | Representation, no history | Pre-execution | Post-execution | K = 1 | K = 3 |
 | --- | ---: | ---: | ---: | ---: |

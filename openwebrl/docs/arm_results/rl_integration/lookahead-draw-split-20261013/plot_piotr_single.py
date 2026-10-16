@@ -13,12 +13,13 @@ from style import STYLE  # noqa: E402
 
 D = Path(__file__).resolve().parent
 MODE = sys.argv[1] if len(sys.argv) > 1 else "invalid_as_failure"      # or valid_only
-r = {int(k): v["pooled"] for k, v in json.loads((D / "curve_piotr.json").read_text())[MODE].items()}
+SRC = sys.argv[2] if len(sys.argv) > 2 else "curve_piotr.json"                  # e.g. curve_piotr_s.json
+r = {int(k): v["pooled"] for k, v in json.loads((D / SRC).read_text())[MODE].items()}
 ns = sorted(r)
 xs = [8 - n for n in ns]                                      # continuations used for evaluation
 ACTOR = "Actor first sample"
 actor = [r[n][ACTOR][0] for n in ns]
-suffix = "" if MODE == "invalid_as_failure" else "_valid_only"
+suffix = ("" if MODE == "invalid_as_failure" else "_valid_only") + ("" if SRC == "curve_piotr.json" else "_" + SRC[len("curve_piotr_"):-5])
 for kind in ("gain", "absolute", "absolute_lines"):           # absolute_lines: no bands
     fig, ax = plt.subplots(figsize=(7.2, 4.3))
     for k, (label, color, ls) in STYLE.items():
