@@ -1,0 +1,156 @@
+{
+  "schema": "cuawright30-recovery-partial-v1",
+  "status": "bounded_recovery_audited_scientifically_incomplete",
+  "complete": false,
+  "independent_accounting_provenance_cleanup_checks_passed": true,
+  "fixed_tasks": 20,
+  "original_dispositions": 40,
+  "original_judged_valid": 7,
+  "recovery_attempts_recorded": 32,
+  "recovery_judged_valid": 15,
+  "effective_dispositions": 40,
+  "effective_judged_valid": 22,
+  "effective_invalid": 18,
+  "effective_metrics": {
+    "serial_high": {
+      "fixed_dispositions": 20,
+      "recorded": 20,
+      "valid": 10,
+      "successes": 5,
+      "coverage": {
+        "startup_invalid": 6,
+        "shared_halt_invalid": 2,
+        "judged_valid": 10,
+        "capture_invalid": 2
+      }
+    },
+    "parallel3_select_low": {
+      "fixed_dispositions": 20,
+      "recorded": 20,
+      "valid": 12,
+      "successes": 3,
+      "coverage": {
+        "shared_halt_invalid": 2,
+        "judged_valid": 12,
+        "startup_invalid": 4,
+        "interruption_or_filesystem_invalid": 2
+      }
+    }
+  },
+  "common_valid_task_pairs": 6,
+  "paired_outcome_counts_high_then_parallel": {
+    "00": 4,
+    "11": 2
+  },
+  "comparative_performance_conclusion": null,
+  "interpretation": "Infrastructure attrition leaves only six common-valid pairs; original and recovery cohorts remain separate. Effective rows use each uniformly pinned recovery attempt. No policy ranking or scientific completion claim.",
+  "all_attempt_browser_counts_by_shard": [
+    22,
+    13,
+    20,
+    20
+  ],
+  "all_attempt_browser_caps_by_shard": [
+    22,
+    13,
+    20,
+    20
+  ],
+  "all_attempt_allocation_seconds_by_shard": [
+    305,
+    845,
+    473,
+    315
+  ],
+  "all_attempt_total_allocation_seconds": 1938,
+  "per_shard_compute_caps": {
+    "gpus": 0,
+    "cpus": 4,
+    "memory_gib": 16,
+    "total_seconds": 7200
+  },
+  "per_shard_api_caps": {
+    "sol_calls": 1000,
+    "sol_usd": 15,
+    "judge_calls": 10,
+    "judge_usd": 1
+  },
+  "api": {
+    "sol_calls": 719.0,
+    "judge_calls": 22.0,
+    "sol_usd": 6.056024599999999,
+    "judge_usd": 0.19008770000000005,
+    "total_usd": 6.246112299999999,
+    "unknown_usage_calls": 0
+  },
+  "usage_by_role": {
+    "judge": {
+      "calls": 22.0,
+      "input": 142951.0,
+      "output": 7464.0,
+      "reasoning_output": 5184.0,
+      "cached_input": 0.0,
+      "cache_write_input": 0.0,
+      "cost_usd": 0.19008770000000005
+    },
+    "actor/actor_low_0": {
+      "calls": 137.0,
+      "input": 1354952.0,
+      "output": 20657.0,
+      "reasoning_output": 372.0,
+      "cached_input": 1255533.0,
+      "cache_write_input": 99008.0,
+      "cost_usd": 0.5804652999999995
+    },
+    "actor/actor_low_1": {
+      "calls": 137.0,
+      "input": 1354952.0,
+      "output": 20783.0,
+      "reasoning_output": 394.0,
+      "cached_input": 1262985.0,
+      "cache_write_input": 91556.0,
+      "cost_usd": 0.5638404999999997
+    },
+    "actor/actor_low_2": {
+      "calls": 137.0,
+      "input": 1354952.0,
+      "output": 20783.0,
+      "reasoning_output": 408.0,
+      "cached_input": 1267916.0,
+      "cache_write_input": 86625.0,
+      "cost_usd": 0.5520060999999998
+    },
+    "actor/selector": {
+      "calls": 136.0,
+      "input": 1192436.0,
+      "output": 2062.0,
+      "reasoning_output": 150.0,
+      "cached_input": 0.0,
+      "cache_write_input": 1177519.0,
+      "cost_usd": 2.9942515000000003
+    },
+    "actor/actor_high": {
+      "calls": 172.0,
+      "input": 2673008.0,
+      "output": 30140.0,
+      "reasoning_output": 1824.0,
+      "cached_input": 2340917.0,
+      "cache_write_input": 331575.0,
+      "cost_usd": 1.3654611999999997
+    }
+  },
+  "owned_teardown_verified": true,
+  "verified_execution_nodes": [
+    "g001",
+    "g007",
+    "g008",
+    "g015",
+    "g016"
+  ],
+  "pending": [
+    "Eighteen effective dispositions remain invalid; all75 browser attempts are consumed. No additional browser attempt is authorized."
+  ],
+  "frozen_plan_sha256": "ec27d2433e5b27b98921c28349f0ed5c105ca3548520af617c59dad10769e048",
+  "audit_sha256": "683f91ceef47d2025befb26703b14e9faa75c3957ee0e2e83d2ca6fe865be24a",
+  "owned_teardown_sha256": "d63d3241bedc75bf96ff4d19fa22e161faededdb3332771cbfb40694354b192e"
+}

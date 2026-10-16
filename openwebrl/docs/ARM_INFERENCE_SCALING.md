@@ -1169,69 +1169,62 @@ All 4,942 Sol requests and 150 judge requests have settled known usage, with no 
 </details>
 
 <a id="sol61-cuawright30-20261015"></a>
-### CUAWright web harness: partial collection audited; full comparison incomplete
+### CUAWright web harness: bounded recovery audited; comparison incomplete
 
-**Recovery is authorized and active; the full comparison remains incomplete.** The original audited cohort has 7 judged-valid episodes, 32 startup-invalid episodes and one final-capture invalid. All 40 fixed episode dispositions are recorded, but only two tasks have valid outcomes in both arms, so these data do not support a policy-performance conclusion. The user-authorized `vlm` campaign contains 20 frozen OM2W tasks, both high and N3-low-plus-low policies on every task, divided into four independent five-task shards (40 episodes total). Tasks are SHA256-ranked from the original 100-task cohort under a new fixed seed, without outcome-based filtering; first-arm order is balanced 10/10. This is a small new-harness feasibility and paired-policy test, not a full benchmark result.
+**The bounded recovery ended with 22 judged-valid outcomes and 18 invalid outcomes across the fixed 40-slot grid.** Only six of the 20 tasks have valid results for both policies; those six contain two joint successes and four joint failures, with no discordant pair. This limited, infrastructure-selected overlap does not establish a policy ranking. The original 40 dispositions and all 32 amended recovery dispositions remain preserved separately. The scientific comparison is incomplete; no completion marker has been issued.
+
+| Policy | Fixed task slots | Effective recorded outcomes | Judged valid | Invalid | Successes among valid outcomes |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| One high | 20 | 20 | 10 | 10 | 5 |
+| Three low + low selection | 20 | 20 | 12 | 8 | 3 |
+
+“Effective” retains the eight originally attempted post-startup episodes and uses the single recorded recovery attempt for each of the 32 frozen zero-model startup-failure targets. Invalid recovery outcomes remain invalid. The original first-attempt cohort had seven judged-valid episodes, 32 startup invalids and one capture invalid. Repeated physical attempts are never erased from accounting. The latest 18 invalids comprise ten startup/navigation failures, four shared-halt interruptions, two final-capture failures, one controller interruption and one transient-filesystem failure. The shared-halt error text says “API budget exhausted”; accounting shows these four were blocked by a peer's startup halt, with dollar/call headroom remaining.
+
+All **719 Sol requests and 22 judge requests** have known settled usage: **$6.0560246 Sol + $0.1900877 judge = $6.2461123**. All **75 amended browser attempts** were consumed (22/13/20/20 by shard), including every failed start and diagnostic. All-attempt allocation time is **1,938 seconds** (305/845/473/315 by shard), within each shard's separate two-hour limit. Each shard retains its original 0 GPU / 4 CPU / 16 GiB profile, 1,000 Sol calls / $15 and 10 judge calls / $1; the user approved only the additional 27 browser slots, with no compute/API extension or transfers. No further browser attempt is authorized under these caps.
+
+The independent audit checks frozen sources and target identities, every original/recovery outcome, native model efforts/output caps, identical proposal inputs, selected execution, judge/final-image binding, and physical receipt/ledger reconciliation. It found no audit inconsistencies. Post-exit complete user-process scans verify owned teardown on all five execution nodes, including absence of all 62 previously recorded process identities. Historical node proofs are reused only when they cover every registered target on that node and postdate its collection jobs. All worker W&B states were independently checked. **This is verified partial coverage/accounting/cleanup, not verified scientific completion.**
+
+[Recovery aggregate and audit hashes](arm_results/cuawright30_paired20_partial_20261015/recovery_aggregate.json) · [Original partial aggregate](arm_results/cuawright30_paired20_partial_20261015/aggregate.json) · [Recovery audit W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/cuawright30-paired20-recovery-audit-20261015-v1).
+
+![Recovery disposition coverage](arm_results/cuawright30_paired20_partial_20261015/recovery-coverage.png)
+
+<details>
+<summary>All-attempt browser and API accounting plots</summary>
+
+![Browser attempts versus amended caps](arm_results/cuawright30_paired20_partial_20261015/recovery-browser-accounting.png)
+
+![All settled API cost by role](arm_results/cuawright30_paired20_partial_20261015/recovery-api-cost.png)
+
+</details>
+
+<details>
+<summary>Fixed comparison protocol</summary>
+
+The user-authorized `vlm` campaign has 20 frozen OM2W tasks, both policies on every task, and four independent five-task shards. Tasks are SHA256-ranked from the original 100-task cohort under a new fixed seed, without outcome-based filtering; first-arm order is balanced 10/10.
 
 The actor uses the [pinned CUAWright web terminal harness](https://github.com/microsoft/CUAWright/tree/ff44a0524e0812b69814efcec5e583f0d8cdde0c): persistent Playwright/CDP state, structured page inspection, filesystem notes and screenshots on demand. One selected terminal command may perform several related browser operations. **Thirty model decisions are not thirty browser clicks**: observations, commands and completion consume decisions, while browser CLI batches and selected terminal commands are counted separately. Do not equate these counts with primitive browser operations.
 
 Both policies retain Sol high/12,288 versus three concurrent low/4,096 proposals plus low/2,048 selection. All three proposals receive identical native history; only the selected proposal executes and enters future actor history. The controller owns local Chromium, initial navigation, final screenshot and the unchanged OM2W/AgentTrek terminal judge. Task timing starts after setup and ends before judging; setup, API tokens/cost and judge use remain separately saved. Raw screenshots use a 1280×1800 viewport and command output is truncated to 24,000 characters. Local CDP, a 30-decision cap, a 120-second command bound, disabled compaction and disabled auxiliary QA/self-reflection calls are explicit adaptations of the upstream configuration, so this is not a reproduction of its reported 100-step scores. Commands and browser writes are confined to the episode workspace; credentials are stripped from generated-command environments.
 
-| Original approved cap | Each of four shards | Campaign total |
-| --- | ---: | ---: |
-| GPUs | 0 | 0 |
-| CPUs while concurrent | 4 | 16 |
-| Memory while concurrent (GiB) | 16 | 64 |
-| Allocation time across attempts (job-hours) | 2 | 8 |
-| Primary episodes | 10 | 40 |
-| Browser sessions, including bounded startup diagnostics | 12 | 48 |
-| Sol requests | 1,000 | 4,000 |
-| Sol USD | 15 | 60 |
-| Judge requests | 10 | 40 |
-| Judge USD | 1 | 4 |
-
-All caps remain separate from earlier experiments, with no transfers or unchanged retries. The user approved the exact four-shard caps and then explicitly directed billing through `vlm`. Jobs **362575–362578** were accepted. The initial launch produced 30 startup-invalid arms without model calls: Chromium trapped before CDP became ready. The fourth shard failed before episode dispatch because `srun` could not create its request socket. These failures remain preserved; scheduler completion of three workers is not scientific completion.
-
-The targeted repair uses short, owned private temporary directories to avoid Chromium Unix-domain socket pathname limits, permits `/dev/null` write-open without opening protected filesystem storage, and launches controller-owned workers directly within the existing batch cgroup. A subsequent two-arm startup check stopped at HTTP CDP discovery errors; it made no model calls. The next repair uses Chromium's exact native websocket endpoint, localhost proxy exclusions and shells with inherited startup hooks removed. A compute-node diagnostic passed native session creation, a browser step and screenshot capture. All seven offline routing/sandbox/30-decision tests still pass. A shared startup halt now stops further task attempts after a startup failure.
-
-**Job 362591 finished the eight originally unattempted arms:** seven received valid judge verdicts; one finished its agent run but failed final screenshot capture and received no judge verdict. That capture-invalid episode is preserved and is not part of the zero-model startup recovery manifest. The independent audit checks the fixed 40-disposition grid, original/recovery source hashes, actual native efforts/output caps, same-input candidates, selected execution, observable-only selection, native verdict/final-image binding, usage and all-attempt limits. It found no audit inconsistencies. Worker completion is not full-study completion. [Partial aggregate](arm_results/cuawright30_paired20_partial_20261015/aggregate.json) · [W&B partial coverage/accounting](https://wandb.ai/zixianma/openwebrl-evals/runs/cuawright30-paired20-partial-audit-20261015-v1).
-
-| Policy | Fixed dispositions | Startup invalid | Capture invalid | Judged valid | Successes |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| One high | 20 | 16 | 1 | 3 | 2 |
-| Three low + low selection | 20 | 16 | 0 | 4 | 2 |
-
-At the independently audited **pre-amendment snapshot**, all **307 Sol requests and seven judge requests** have known settled usage: **$3.4234655 Sol + $0.0650397 judge = $3.4885052**. The campaign used **43 browser attempts** (12/11/10/10 by shard), including failed starts and three diagnostics, under the original 48-attempt total. The nine collection/startup/diagnostic allocations consumed 872 seconds altogether, charged separately against each shard's two-hour limit. Four read-only cleanup allocations consumed another 18 seconds, bringing all-attempt allocation time to **890 seconds** (28/830/18/14 by shard), within each shard's separate two-hour limit. All eight worker W&B runs are finished. Independent post-exit scans on all four execution nodes verified owned teardown, including absence of all 62 previously observed process identities. Receipt hashes, registered allocation/node identities, complete user-process scans and scan timing after collection termination were checked independently. This verifies cleanup of those earlier attempts. Recovery allocations require fresh accounting and post-exit teardown checks. The tested active-owner callback follows the registered recovery attempts.
-
-![Partial disposition coverage](arm_results/cuawright30_paired20_partial_20261015/partial-coverage.png)
+</details>
 
 <details>
-<summary>Partial browser/API accounting plots</summary>
+<summary>Preserved mechanical repair history</summary>
 
-![Browser attempts versus current caps](arm_results/cuawright30_paired20_partial_20261015/partial-browser-accounting.png)
+Initial Chromium starts failed because deep workspace temporary paths exceeded Unix-socket pathname limits. Short owned private temporary directories repaired startup. Direct controller-owned workers avoided an `srun` request-socket failure; native websocket CDP endpoints and localhost proxy exclusions repaired session discovery. The eight originally unattempted arms then produced seven valid verdicts and one capture invalid.
 
-![Settled API cost by role](arm_results/cuawright30_paired20_partial_20261015/partial-api-cost.png)
+The approved 32-target recovery exposed a copied sandbox launcher missing its executable bit; seven zero-model failures remain preserved. Direct launcher/native-CLI preflight now runs before physical dispatch. A race while sorting Chromium's transient cache files was repaired by taking one metadata snapshot and ignoring only files that disappear during enumeration. HTTP/2 navigation errors prompted a transport repair. Native site navigation errors/timeouts remain invalid; later controllers continue unrelated fixed tasks instead of aborting a peer. Systemic startup/configuration failures still halt dispatch. Every replacement skips pinned prior outcomes and deducts all previously consumed allocation time. The final screenshot failures remain invalid, without invented verdicts or selective replacement.
+
+The original and every mechanical recovery source version are pinned. Current browser caps are 22/13/20/20, up from the original 12/12/12/12; compute and API caps are unchanged. Additional physical recovery requires a new explicit cap amendment. The bound active-owner callback remains available for changed failures or new approval; no collection worker remains active.
 
 </details>
 
 <details>
-<summary>Approved bounded startup recovery and mechanical repairs</summary>
+<summary>BrowserCode source comparison: a speed hypothesis, not a measured winner</summary>
 
-The frozen recovery manifest contains exactly **32 startup-invalid arms with zero model requests and no saved candidate actions**. The approved amendment permits one recovery attempt for each target after repair, while preserving every original invalid disposition and keeping the eight untouched arms. Recovery data use a separate lineage. Report the original first-attempt cohort separately from the paired post-repair view; all physical attempts remain included in resource/API accounting. No outcome-based replacement or missing-outcome relabeling is permitted.
+BrowserCode at [`b200643f`](https://github.com/browser-use/browsercode/tree/b200643fe0eb93ce5a3aadd4bb21cb6cceb2ed04) is an OpenCode-based agent with an in-process JavaScript/CDP browser tool. Its [execution implementation](https://github.com/browser-use/browsercode/blob/b200643fe0eb93ce5a3aadd4bb21cb6cceb2ed04/packages/bcode-browser/src/browser-execute.ts) keeps the CDP session across calls and returns values/logs/screenshots without a per-call Python subprocess. Reduced tool startup overhead is a plausible latency benefit; no local measurement establishes it yet. CUAWright's smaller terminal/Python loop is easier to adapt for controlled proposal/selection experiments. Both support multi-operation code actions.
 
-| Browser-attempt cap | Original approved | Approved amended | Increase |
-| --- | ---: | ---: | ---: |
-| Shard0 | 12 | 22 | 10 |
-| Shard1 | 12 | 13 | 1 |
-| Shard2 | 12 | 20 | 8 |
-| Shard3 | 12 | 20 | 8 |
-| Total | 48 | 75 | 27 |
-
-**Approved and submitted:** the extra 27 browser-attempt slots only. Each shard retains its original 0 GPU / 4 CPU / 16 GiB × two hours across all attempts, 1,000 Sol calls / $15 and 10 judge calls / $1. There is no additional compute time or API budget. Every replacement allocation deducts all prior elapsed time; failed physical browser starts remain charged.
-
-The first recovery stopped before model calls because the copied sandbox launcher lacked its executable bit. The launcher now passes a direct-execution/native-CLI preflight without browser or API requests. Subsequent work exposed a race while sorting Chromium's transient cache files; the adapter snapshots file metadata and ignores only files that disappear during enumeration. A native HTTP/2 navigation failure prompted a browser transport repair. Site-specific navigation failures remain invalid; later controllers preserve them and continue unrelated fixed tasks instead of aborting a peer episode. Systemic startup/configuration failures still stop dispatch. Existing recovery results, including interrupted paid episodes, are pinned and skipped; continuation executes only untouched targets, without overwriting or adding attempts beyond the amended browser caps.
-
-These are mechanical repairs with unchanged actor, selector, judge, tasks and 30-decision protocol. Native high/low requests and additional judged outcomes have been observed, but no final recovery performance claim is made while collection is active. Independent provenance, paired validity/utility, all-attempt accounting, fresh owned teardown and aggregate publication audits remain required.
+CUAWright's published 88.1% OM2W result uses GPT-5.4; BrowserCode's [benchmark runner](https://github.com/browser-use/benchmark) uses different models, task sets and scoring defaults. Those headline scores do not rank these harnesses under our protocol. A controlled comparison would fix the model, tasks, Chrome/backend, judge, 30-decision limit and deadlines, and run high versus three-low-plus-low under each harness. Generate all three proposals without execution, select once, then execute only the chosen code. Record pre-judge latency, tokens/cost, invalids and browser operations. This comparison is proposed, not launched or allocated.
 
 </details>
 
