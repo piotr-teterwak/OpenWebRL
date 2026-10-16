@@ -243,7 +243,7 @@ def train(args):
             del rollout_data_ref
             cache_release = evict_file_backed_cache()
             logger.info(
-                "Released consumed multimodal file cache: files=%d bytes=%d",
+                "Removed consumed multimodal mappings: files=%d bytes=%d",
                 cache_release["files"],
                 cache_release["bytes"],
             )
@@ -289,7 +289,7 @@ def train(args):
                     logger.info("Advised completed evaluation recovery-file cache: path=%s bytes=%d", eval_path, advised)
                 cache_release = evict_file_backed_cache()
                 logger.info(
-                    "Advised completed evaluation multimodal cache: files=%d bytes=%d",
+                    "Removed completed evaluation multimodal mappings: files=%d bytes=%d",
                     cache_release["files"],
                     cache_release["bytes"],
                 )
