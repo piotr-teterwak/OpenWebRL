@@ -1,0 +1,89 @@
+{
+ "states": 421,
+ "disagreement_states": 247,
+ "signal_rate_pct_k3_pick_vs_post_pick": {
+  "goes back within 3 steps": [
+   27.1,
+   32.4
+  ],
+  "repeats an action": [
+   21.1,
+   35.2
+  ],
+  "error or failure reply": [
+   21.1,
+   34.8
+  ],
+  "'no visible navigation' reply": [
+   58.7,
+   59.5
+  ],
+  "candidate itself: 'no visible navigation'": [
+   33.2,
+   23.1
+  ],
+  "actor stops within 3 steps": [
+   15.4,
+   25.1
+  ],
+  "reaches 2+ new pages": [
+   26.7,
+   14.2
+  ],
+  "types or searches": [
+   30.8,
+   26.3
+  ],
+  "scrolls only": [
+   1.6,
+   0.8
+  ]
+ },
+ "signal_vs_heldout_success": {
+  "goes back within 3 steps": {
+   "candidates_with": 710,
+   "share_pct": 33.7,
+   "heldout_vs_state_mean_pp": -0.64
+  },
+  "repeats an action": {
+   "candidates_with": 665,
+   "share_pct": 31.6,
+   "heldout_vs_state_mean_pp": -1.06
+  },
+  "error or failure reply": {
+   "candidates_with": 673,
+   "share_pct": 32.0,
+   "heldout_vs_state_mean_pp": -0.61
+  },
+  "'no visible navigation' reply": {
+   "candidates_with": 1243,
+   "share_pct": 59.0,
+   "heldout_vs_state_mean_pp": 0.33
+  },
+  "candidate itself: 'no visible navigation'": {
+   "candidates_with": 712,
+   "share_pct": 33.8,
+   "heldout_vs_state_mean_pp": -2.65
+  },
+  "actor stops within 3 steps": {
+   "candidates_with": 472,
+   "share_pct": 22.4,
+   "heldout_vs_state_mean_pp": 0.34
+  },
+  "reaches 2+ new pages": {
+   "candidates_with": 324,
+   "share_pct": 15.4,
+   "heldout_vs_state_mean_pp": 1.83
+  },
+  "types or searches": {
+   "candidates_with": 560,
+   "share_pct": 26.6,
+   "heldout_vs_state_mean_pp": 0.31
+  },
+  "scrolls only": {
+   "candidates_with": 50,
+   "share_pct": 2.4,
+   "heldout_vs_state_mean_pp": 1.12
+  }
+ }
+}

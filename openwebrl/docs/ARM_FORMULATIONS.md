@@ -596,6 +596,29 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 - **Early stopping is not the driver:** K = 3 − post-execution is +0.4 where some draw-0 continuation ended within 3 steps (195 states) and +1.8 where none did.
 - **Disagreements:** K = 3's majority pick differs from post-execution's on 247 states; K = 3 is better on 75, worse on 61, tied on 111.
 
+**What the lookahead shows.** Where K = 3's and post-execution's majority picks differ (247 states), K = 3 avoids candidates whose continuation loops or fails and favours ones that make visible progress:
+
+| Signal in the candidate's 3-step continuation | K = 3's pick | Post-execution's pick | Held-out success vs state mean, pp |
+| --- | ---: | ---: | ---: |
+| Actor repeats an action | 21.1% | 35.2% | -1.06 |
+| Error or failure reply | 21.1% | 34.8% | -0.61 |
+| Actor stops within 3 steps | 15.4% | 25.1% | +0.34 |
+| Actor goes back | 27.1% | 32.4% | -0.64 |
+| Reaches 2+ new pages | 26.7% | 14.2% | +1.83 |
+| Candidate itself shows no visible navigation | 33.2% | 23.1% | -2.65 |
+
+| Distinct candidate tool calls per state | States | K = 3 − post-execution, pp |
+| --- | ---: | ---: |
+| 1 (all five identical) | 54 | +2.96 |
+| 2 | 77 | +2.86 |
+| 3 | 68 | +3.31 |
+| 4 | 102 | −0.88 |
+| 5 | 120 | −0.42 |
+
+- **Lookahead helps where the candidates' actions look alike.** All of K = 3's lead over post-execution comes from states with 1–3 distinct tool calls among the five candidates. Identical calls give near-identical immediate results, but the candidates differ in reasoning, and the actor's continuation follows that plan: the next steps show which candidate's plan the actor carries through. With 4–5 distinct actions, post-execution evidence already separates the candidates and lookahead adds nothing.
+- **Where it misleads:** apparent progress that does not end in success, or a continuation that stops early with an answer Luna cannot see (final answers are hidden), as when the actor answers from its own knowledge after a blocked site.
+- *421 `fast1k` states, fixed order, held-out draws 3–7, invalid = failure. Signals are text heuristics over the steps Luna saw; Luna returns only its pick, so these are associations, not its stated reasons. Example cases are kept locally because they contain raw trajectories. [JSON](arm_results/rl_integration/lookahead-information-20261015.json), [code](arm_results/rl_integration/lookahead-information-20261015.py).*
+
 **Randomized-order test.** Pre-execution, post-execution, K = 3 and K = 3 current screenshot only were rerun with 2 calls per state, each in its own seeded random candidate order, on all 736 labelled states (5,888 calls, USD 27.87).
 
 | Success on Piotr-task states, valid draws only (493 states, 78 tasks) | Fixed order | Random order | Random − fixed, pp [95%] |
