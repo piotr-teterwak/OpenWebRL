@@ -1168,6 +1168,30 @@ All 4,942 Sol requests and 150 judge requests have settled known usage, with no 
 
 </details>
 
+<a id="sol61-cuawright30-20261015"></a>
+### CUAWright web harness: 30-decision pilot prepared
+
+**Prepared, not approved or submitted:** 20 frozen OM2W tasks, both high and N3-low-plus-low policies on every task, divided into four independent five-task shards (40 episodes total). Tasks are SHA256-ranked from the original 100-task cohort under a new fixed seed, without outcome-based filtering; first-arm order is balanced 10/10. This is a small new-harness feasibility and paired-policy test, not a full benchmark result.
+
+The actor uses the [pinned CUAWright web terminal harness](https://github.com/microsoft/CUAWright/tree/ff44a0524e0812b69814efcec5e583f0d8cdde0c): persistent Playwright/CDP state, structured page inspection, filesystem notes and screenshots on demand. One selected terminal command may perform several related browser operations. **Thirty model decisions are not thirty browser clicks**: observations, commands and completion consume decisions, while browser CLI batches and selected terminal commands are counted separately. Do not equate these counts with primitive browser operations.
+
+Both policies retain Sol high/12,288 versus three concurrent low/4,096 proposals plus low/2,048 selection. All three proposals receive identical native history; only the selected proposal executes and enters future actor history. The controller owns local Chromium, initial navigation, final screenshot and the unchanged OM2W/AgentTrek terminal judge. Task timing starts after setup and ends before judging; setup, API tokens/cost and judge use remain separately saved. Raw screenshots use a 1280×1800 viewport and command output is truncated to 24,000 characters. Local CDP, a 30-decision cap, a 120-second command bound, disabled compaction and disabled auxiliary QA/self-reflection calls are explicit adaptations of the upstream configuration, so this is not a reproduction of its reported 100-step scores. Commands and browser writes are confined to the episode workspace; credentials are stripped from generated-command environments.
+
+| Proposed cap | Each of four shards | Campaign total |
+| --- | ---: | ---: |
+| GPUs | 0 | 0 |
+| CPUs while concurrent | 4 | 16 |
+| Memory while concurrent (GiB) | 16 | 64 |
+| Allocation time across attempts (job-hours) | 2 | 8 |
+| Primary episodes | 10 | 40 |
+| Browser sessions, including bounded startup diagnostics | 12 | 48 |
+| Sol requests | 1,000 | 4,000 |
+| Sol USD | 15 | 60 |
+| Judge requests | 10 | 40 |
+| Judge USD | 1 | 4 |
+
+All caps are separate from completed work; no budget transfers or unchanged retries. Seven offline tests pass candidate isolation/concurrency, native selected-history routing, unknown-usage reservation preservation, workspace write confinement, native observations, the 30-decision stop and disjoint shard manifests. No browser session or model/API request was used in preparation. Compute-node Chromium/CDP startup, native receipts and active continuation must be checked at launch; independent disposition, validity, all-attempt accounting and teardown audits are required before completion. Only aggregates and plots will be public. New allocation/API caps require exact approval under the repository working agreement.
+
 <a id="sol61-webvoyager-deepshop100-20261015"></a>
 ### WebVoyager100 and DeepShop100: staged parallel extension
 
