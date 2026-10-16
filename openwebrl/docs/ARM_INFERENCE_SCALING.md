@@ -1169,9 +1169,9 @@ All 4,942 Sol requests and 150 judge requests have settled known usage, with no 
 </details>
 
 <a id="sol61-cuawright30-20261015"></a>
-### CUAWright web harness: 30-decision pilot prepared
+### CUAWright web harness: 30-decision pilot launched; startup recovery
 
-**Approved; launch blocked by inconsistent scheduler budget enforcement:** 20 frozen OM2W tasks, both high and N3-low-plus-low policies on every task, divided into four independent five-task shards (40 episodes total). Tasks are SHA256-ranked from the original 100-task cohort under a new fixed seed, without outcome-based filtering; first-arm order is balanced 10/10. This is a small new-harness feasibility and paired-policy test, not a full benchmark result.
+**Four jobs accepted under the user-authorized `vlm` account; startup recovery active:** 20 frozen OM2W tasks, both high and N3-low-plus-low policies on every task, divided into four independent five-task shards (40 episodes total). Tasks are SHA256-ranked from the original 100-task cohort under a new fixed seed, without outcome-based filtering; first-arm order is balanced 10/10. This is a small new-harness feasibility and paired-policy test, not a full benchmark result.
 
 The actor uses the [pinned CUAWright web terminal harness](https://github.com/microsoft/CUAWright/tree/ff44a0524e0812b69814efcec5e583f0d8cdde0c): persistent Playwright/CDP state, structured page inspection, filesystem notes and screenshots on demand. One selected terminal command may perform several related browser operations. **Thirty model decisions are not thirty browser clicks**: observations, commands and completion consume decisions, while browser CLI batches and selected terminal commands are counted separately. Do not equate these counts with primitive browser operations.
 
@@ -1190,7 +1190,35 @@ Both policies retain Sol high/12,288 versus three concurrent low/4,096 proposals
 | Judge requests | 10 | 40 |
 | Judge USD | 1 | 4 |
 
-All caps are separate from completed work; no budget transfers or unchanged retries. Seven offline tests pass candidate isolation/concurrency, native selected-history routing, unknown-usage reservation preservation, workspace write confinement, native observations, the 30-decision stop and disjoint shard manifests. No browser session or model/API request was used in preparation. Compute-node Chromium/CDP startup, native receipts and active continuation must be checked at launch; independent disposition, validity, all-attempt accounting and teardown audits are required before completion. Only aggregates and plots will be public. The user approved these exact caps. The first shard submission was rejected before a job ID was created: Slurm reported $402.10 completed plus $603.00 pending against a $1,000 account budget, despite a $0 estimate for this CPU-only request. No jobs, browser sessions or API requests started. The documented query `hyakusage -a zixianma -u zixianma -p` subsequently reports `budget_type=none`, `budget_usd=0.0`, and `enforce=false`; this denotes no configured budget, not a zero-dollar limit. Its usage report also differs from the submission check. A fresh test-only submission still returns the $1,000 rejection. Thus the blocker is an unresolved discrepancy between the documented budget report and the submission handler, not an established legitimate account cap. The four-shard approval remains preserved; no account substitution or enforcement bypass was attempted. There is no active allocation or unattended recovery mechanism for this blocked launch. See the [official budget-query documentation](https://hyak.uw.edu/docs/systems/tillicum/scheduling-jobs/#monitoring-usage-with-hyakusage).
+All caps remain separate from earlier experiments, with no transfers or unchanged retries. The user approved the exact four-shard caps and then explicitly directed billing through `vlm`. Jobs **362575–362578** were accepted. The initial launch produced 30 startup-invalid arms without model calls: Chromium trapped before CDP became ready. The fourth shard failed before episode dispatch because `srun` could not create its request socket. These failures remain preserved; scheduler completion of three workers is not scientific completion.
+
+The targeted repair uses short, owned private temporary directories to avoid Chromium Unix-domain socket pathname limits, permits `/dev/null` write-open without opening protected filesystem storage, and launches controller-owned workers directly within the existing batch cgroup. A subsequent two-arm startup check stopped at HTTP CDP discovery errors; it made no model calls. The next repair uses Chromium's exact native websocket endpoint, localhost proxy exclusions and shells with inherited startup hooks removed. A compute-node diagnostic passed native session creation, a browser step and screenshot capture. All seven offline routing/sandbox/30-decision tests still pass. A shared startup halt now stops further task attempts after a startup failure.
+
+**Job 362591 is collecting the eight originally unattempted arms in shard1**, within its remaining original two-hour budget. Its two earlier startup-invalid arms are retained. Live native receipts confirm high versus three-low-plus-low settings, identical candidate inputs, observable-only selection and real selected browser execution; the first post-repair episode also completed terminal judging. This is startup validation, not a comparative result or completion claim. W&B remains in `openwebrl-evals`; a tested persistent callback returns the active repair owner on failures and at 15-minute reviews. All attempts, including three bounded browser diagnostics, remain charged to their own shards.
+
+<details>
+<summary>Pending bounded recovery of all startup-invalid arms</summary>
+
+The frozen recovery manifest contains exactly **32 startup-invalid arms with zero model requests and no saved candidate actions**. It would repeat all 32 after repair, while preserving every original invalid disposition and keeping the eight untouched arms. Repaired data would use a separate lineage. Report the original first-attempt cohort separately from the paired post-repair view; all physical attempts remain included in resource/API accounting. No outcome-based replacement or missing-outcome relabeling is permitted.
+
+| Browser-attempt cap | Original approved | Proposed amended | Increase |
+| --- | ---: | ---: | ---: |
+| Shard0 | 12 | 22 | 10 |
+| Shard1 | 12 | 13 | 1 |
+| Shard2 | 12 | 20 | 8 |
+| Shard3 | 12 | 20 | 8 |
+| Total | 48 | 75 | 27 |
+
+**Prepared, not approved:** the extra 27 browser-attempt slots only. Each shard retains its original 0 GPU / 4 CPU / 16 GiB × two hours across all attempts, 1,000 Sol calls / $15 and 10 judge calls / $1. There is no additional compute time or API budget. The cap arithmetic includes 32 failed starts, three startup diagnostics and the requested 40 post-repair episodes. Three recovery-gate tests verify the pinned zero-model failure targets and refusal to dispatch before explicit amendment approval. Shards0/2/3 remain scientifically incomplete and are not being retried under exhausted/insufficient browser headroom. Independent provenance, paired validity/utility, all-attempt accounting, owned teardown and aggregate publication audits remain required.
+
+</details>
+
+<details>
+<summary>Earlier account-budget discrepancy</summary>
+
+The initial `zixianma` submission was rejected before a job ID was created: the scheduler claimed $402.10 completed plus $603.00 pending against a $1,000 budget, despite a $0 estimate for this CPU-only request. The [documented budget query](https://hyak.uw.edu/docs/systems/tillicum/scheduling-jobs/#monitoring-usage-with-hyakusage), `hyakusage -a zixianma -u zixianma -p`, reports `budget_type=none`, `budget_usd=0.0`, and `enforce=false`. This is an unresolved inconsistency, not evidence of a legitimate configured cap. The user is investigating and explicitly authorized `vlm` for the pilot. No account or enforcement settings were changed.
+
+</details>
 
 <a id="sol61-webvoyager-deepshop100-20261015"></a>
 ### WebVoyager100 and DeepShop100: staged parallel extension
