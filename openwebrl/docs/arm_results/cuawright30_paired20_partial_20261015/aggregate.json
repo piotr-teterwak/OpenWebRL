@@ -1,7 +1,7 @@
 {
   "schema": "cuawright20-partial-closeout-v1",
   "complete": false,
-  "status": "scientifically_incomplete_pending_browser_amendment",
+  "status": "original_partial_audit_recovery_authorized_and_active",
   "fixed_tasks": 20,
   "fixed_episode_dispositions": 40,
   "judged_valid": 7,
@@ -107,7 +107,8 @@
   },
   "owned_teardown_verified": true,
   "pending": [
-    "Browser-cap amendment remains unapproved."
+    "Approved recovery collection and independent effective-cohort audit.",
+    "Recovery allocations require new post-exit owned teardown."
   ],
   "amendment_proposed_browser_caps": [
     22,
@@ -124,5 +125,15 @@
     "2": 18,
     "3": 14
   },
-  "total_all_attempt_allocation_seconds": 890
+  "total_all_attempt_allocation_seconds": 890,
+  "recovery_authorized": true,
+  "amended_browser_caps_by_shard": [
+    22,
+    13,
+    20,
+    20
+  ],
+  "amended_campaign_browser_cap": 75,
+  "accounting_scope": "Original audited pre-amendment snapshot; excludes active recovery requests/allocations.",
+  "owned_teardown_scope": "Original pre-amendment allocations only."
 }

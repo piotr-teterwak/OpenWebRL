@@ -1171,13 +1171,13 @@ All 4,942 Sol requests and 150 judge requests have settled known usage, with no 
 <a id="sol61-cuawright30-20261015"></a>
 ### CUAWright web harness: partial collection audited; full comparison incomplete
 
-**Collection stopped with 7 judged-valid episodes, 32 startup-invalid episodes and one final-capture invalid; the full comparison is incomplete.** All 40 fixed episode dispositions are recorded, but only two tasks have valid outcomes in both arms, so these data do not support a policy-performance conclusion. The user-authorized `vlm` campaign contains 20 frozen OM2W tasks, both high and N3-low-plus-low policies on every task, divided into four independent five-task shards (40 episodes total). Tasks are SHA256-ranked from the original 100-task cohort under a new fixed seed, without outcome-based filtering; first-arm order is balanced 10/10. This is a small new-harness feasibility and paired-policy test, not a full benchmark result.
+**Recovery is authorized and active; the full comparison remains incomplete.** The original audited cohort has 7 judged-valid episodes, 32 startup-invalid episodes and one final-capture invalid. All 40 fixed episode dispositions are recorded, but only two tasks have valid outcomes in both arms, so these data do not support a policy-performance conclusion. The user-authorized `vlm` campaign contains 20 frozen OM2W tasks, both high and N3-low-plus-low policies on every task, divided into four independent five-task shards (40 episodes total). Tasks are SHA256-ranked from the original 100-task cohort under a new fixed seed, without outcome-based filtering; first-arm order is balanced 10/10. This is a small new-harness feasibility and paired-policy test, not a full benchmark result.
 
 The actor uses the [pinned CUAWright web terminal harness](https://github.com/microsoft/CUAWright/tree/ff44a0524e0812b69814efcec5e583f0d8cdde0c): persistent Playwright/CDP state, structured page inspection, filesystem notes and screenshots on demand. One selected terminal command may perform several related browser operations. **Thirty model decisions are not thirty browser clicks**: observations, commands and completion consume decisions, while browser CLI batches and selected terminal commands are counted separately. Do not equate these counts with primitive browser operations.
 
 Both policies retain Sol high/12,288 versus three concurrent low/4,096 proposals plus low/2,048 selection. All three proposals receive identical native history; only the selected proposal executes and enters future actor history. The controller owns local Chromium, initial navigation, final screenshot and the unchanged OM2W/AgentTrek terminal judge. Task timing starts after setup and ends before judging; setup, API tokens/cost and judge use remain separately saved. Raw screenshots use a 1280×1800 viewport and command output is truncated to 24,000 characters. Local CDP, a 30-decision cap, a 120-second command bound, disabled compaction and disabled auxiliary QA/self-reflection calls are explicit adaptations of the upstream configuration, so this is not a reproduction of its reported 100-step scores. Commands and browser writes are confined to the episode workspace; credentials are stripped from generated-command environments.
 
-| Proposed cap | Each of four shards | Campaign total |
+| Original approved cap | Each of four shards | Campaign total |
 | --- | ---: | ---: |
 | GPUs | 0 | 0 |
 | CPUs while concurrent | 4 | 16 |
@@ -1201,7 +1201,7 @@ The targeted repair uses short, owned private temporary directories to avoid Chr
 | One high | 20 | 16 | 1 | 3 | 2 |
 | Three low + low selection | 20 | 16 | 0 | 4 | 2 |
 
-All **307 Sol requests and seven judge requests** have known settled usage: **$3.4234655 Sol + $0.0650397 judge = $3.4885052**. The campaign used **43 browser attempts** (12/11/10/10 by shard), including failed starts and three diagnostics, under the current 48-attempt total. The nine collection/startup/diagnostic allocations consumed 872 seconds altogether, charged separately against each shard's two-hour limit. Four read-only cleanup allocations consumed another 18 seconds, bringing all-attempt allocation time to **890 seconds** (28/830/18/14 by shard), within each shard's separate two-hour limit. All eight worker W&B runs are finished. Independent post-exit scans on all four execution nodes verified owned teardown, including absence of all 62 previously observed process identities. Receipt hashes, registered allocation/node identities, complete user-process scans and scan timing after collection termination were checked independently. This verifies cleanup; the scientific comparison remains incomplete pending the browser-cap amendment. The tested active-owner callback remains bound for future authorized recovery.
+At the independently audited **pre-amendment snapshot**, all **307 Sol requests and seven judge requests** have known settled usage: **$3.4234655 Sol + $0.0650397 judge = $3.4885052**. The campaign used **43 browser attempts** (12/11/10/10 by shard), including failed starts and three diagnostics, under the original 48-attempt total. The nine collection/startup/diagnostic allocations consumed 872 seconds altogether, charged separately against each shard's two-hour limit. Four read-only cleanup allocations consumed another 18 seconds, bringing all-attempt allocation time to **890 seconds** (28/830/18/14 by shard), within each shard's separate two-hour limit. All eight worker W&B runs are finished. Independent post-exit scans on all four execution nodes verified owned teardown, including absence of all 62 previously observed process identities. Receipt hashes, registered allocation/node identities, complete user-process scans and scan timing after collection termination were checked independently. This verifies cleanup of those earlier attempts. Recovery allocations require fresh accounting and post-exit teardown checks. The tested active-owner callback follows the registered recovery attempts.
 
 ![Partial disposition coverage](arm_results/cuawright30_paired20_partial_20261015/partial-coverage.png)
 
@@ -1215,11 +1215,11 @@ All **307 Sol requests and seven judge requests** have known settled usage: **$3
 </details>
 
 <details>
-<summary>Pending bounded recovery of all startup-invalid arms</summary>
+<summary>Approved bounded startup recovery and mechanical repairs</summary>
 
-The frozen recovery manifest contains exactly **32 startup-invalid arms with zero model requests and no saved candidate actions**. It would repeat all 32 after repair, while preserving every original invalid disposition and keeping the eight untouched arms. Repaired data would use a separate lineage. Report the original first-attempt cohort separately from the paired post-repair view; all physical attempts remain included in resource/API accounting. No outcome-based replacement or missing-outcome relabeling is permitted.
+The frozen recovery manifest contains exactly **32 startup-invalid arms with zero model requests and no saved candidate actions**. The approved amendment permits one recovery attempt for each target after repair, while preserving every original invalid disposition and keeping the eight untouched arms. Recovery data use a separate lineage. Report the original first-attempt cohort separately from the paired post-repair view; all physical attempts remain included in resource/API accounting. No outcome-based replacement or missing-outcome relabeling is permitted.
 
-| Browser-attempt cap | Original approved | Proposed amended | Increase |
+| Browser-attempt cap | Original approved | Approved amended | Increase |
 | --- | ---: | ---: | ---: |
 | Shard0 | 12 | 22 | 10 |
 | Shard1 | 12 | 13 | 1 |
@@ -1227,7 +1227,11 @@ The frozen recovery manifest contains exactly **32 startup-invalid arms with zer
 | Shard3 | 12 | 20 | 8 |
 | Total | 48 | 75 | 27 |
 
-**Prepared, not approved:** the extra 27 browser-attempt slots only. Each shard retains its original 0 GPU / 4 CPU / 16 GiB × two hours across all attempts, 1,000 Sol calls / $15 and 10 judge calls / $1. There is no additional compute time or API budget. The cap arithmetic includes 32 failed starts, three startup diagnostics and the requested 40 post-repair episodes. Three recovery-gate tests verify the pinned zero-model failure targets and refusal to dispatch before explicit amendment approval. Shards0/2/3 remain scientifically incomplete and are not being retried under exhausted/insufficient browser headroom. Independent provenance, paired validity/utility, all-attempt accounting, owned teardown and aggregate publication audits remain required.
+**Approved and submitted:** the extra 27 browser-attempt slots only. Each shard retains its original 0 GPU / 4 CPU / 16 GiB × two hours across all attempts, 1,000 Sol calls / $15 and 10 judge calls / $1. There is no additional compute time or API budget. Every replacement allocation deducts all prior elapsed time; failed physical browser starts remain charged.
+
+The first recovery stopped before model calls because the copied sandbox launcher lacked its executable bit. The launcher now passes a direct-execution/native-CLI preflight without browser or API requests. Subsequent work exposed a race while sorting Chromium's transient cache files; the adapter snapshots file metadata and ignores only files that disappear during enumeration. A native HTTP/2 navigation failure prompted a browser transport repair. Site-specific navigation failures remain invalid; later controllers preserve them and continue unrelated fixed tasks instead of aborting a peer episode. Systemic startup/configuration failures still stop dispatch. Existing recovery results, including interrupted paid episodes, are pinned and skipped; continuation executes only untouched targets, without overwriting or adding attempts beyond the amended browser caps.
+
+These are mechanical repairs with unchanged actor, selector, judge, tasks and 30-decision protocol. Native high/low requests and additional judged outcomes have been observed, but no final recovery performance claim is made while collection is active. Independent provenance, paired validity/utility, all-attempt accounting, fresh owned teardown and aggregate publication audits remain required.
 
 </details>
 
