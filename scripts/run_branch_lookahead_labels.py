@@ -443,7 +443,7 @@ def main():
 
         async def run():
             import httpx
-            sem = asyncio.Semaphore(16)
+            sem = asyncio.Semaphore(int(os.environ.get("LOOKAHEAD_CONCURRENCY", "16")))   # lower it to fit worst-case reservations under a cap
             async with httpx.AsyncClient(trust_env=False, timeout=300) as client:
                 pending = [e for e in plan["states"] if not (outdir / f"{e['state']}.json").exists()]
                 for i in range(0, len(pending), 16):
