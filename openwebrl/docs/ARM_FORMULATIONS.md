@@ -577,6 +577,31 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 
 *Same 421 `fast1k` states, held-out draws 3–7. "No history" removes the 3 past steps (action + screenshot); "no tool feedback" cuts each lookahead step to the actor's tool call, dropping the environment's tool response and observation text, as in the history steps. "Current screenshot only" keeps all text (past actions, immediate receipts, lookahead actions with feedback) but no history, immediate-result or lookahead screenshots. Earlier lookahead results include that feedback. Paired differences (task-clustered): history − none +0.2 to +0.7 pp, none significant; K = 3 feedback − none +0.71 [+0.19, +1.56] (invalid = failure), +0.48 [−0.04, +1.13] (valid only). Current screenshot only − K = 3: +0.12 [−0.58, +0.86] (invalid = failure), +0.31 [−0.48, +1.26] (valid only). [JSON](arm_results/rl_integration/lookahead-history-feedback-20261014.json), [code](arm_results/rl_integration/lookahead-history-feedback-20261014.py).*
 
+<a id="lookahead-representation-grid-20261016"></a>
+
+#### Representation × depth grid without history
+
+**Execution depth matters; representation and history barely do. Screenshot-only K = 3 is the best and among the cheapest conditions.** All 12 cells use the same 736 states, no history, and 2 randomized-order calls per state. Success on the reporting set (Piotr-task states, valid draws only; 493 states, 78 tasks; uniform 32.33%, actor's first sample 31.22%):
+
+| Representation, no history | Pre-execution | Post-execution | K = 1 | K = 3 |
+| --- | ---: | ---: | ---: | ---: |
+| S + T (screenshot + page text) | 34.35% | 35.20% | 37.10% | 37.48% |
+| T (page text, no images) | 35.27% | 36.11% | 37.02% | 37.62% |
+| S (screenshots, no page text) | 34.20% | 34.77% | 37.71% | 38.21% |
+| S + T with 3 past steps | 34.73% | 35.80% | — | 37.76% |
+
+| USD per 1,000 states (2 calls each) | Pre-execution | Post-execution | K = 1 | K = 3 |
+| --- | ---: | ---: | ---: | ---: |
+| S + T (screenshot + page text) | 2.6 | 10.0 | 11.6 | 14.1 |
+| T (page text, no images) | 2.4 | 8.3 | 8.7 | 9.0 |
+| S (screenshots, no page text) | 1.4 | 2.7 | 4.3 | 6.6 |
+
+- **Depth:** K = 3 beats post-execution in every representation: S + T +2.28 [+0.81, +4.04], T +1.51 [+0.04, +3.16], S +3.43 [+1.83, +5.29]. Pre- vs post-execution differences are not significant.
+- **Representation:** within ±1 pp of S + T everywhere. Screenshot-only K = 3 is the one significant difference: +0.73 [+0.05, +1.56] over S + T, at less than half the cost. Text and screenshots carry largely redundant information; either suffices with lookahead.
+- **History:** 3 past steps change success by +0.39 / +0.60 / +0.28 pp (pre / post / K = 3), none significant.
+- **All 736 states, invalid = failure:** the same pattern; S K = 3 35.26%, S + T K = 3 34.71%, S + T post 32.50%.
+- *T drops every image including the current screenshot; S drops page text (visible text and interactive elements) from the current and immediate states and observation text from lookahead replies, keeping URL, title, actions and one-line tool results. Held-out draws 3–7; task-clustered intervals. Total USD 60.19. [JSON](arm_results/rl_integration/lookahead-representation-grid-20261016.json), [code](arm_results/rl_integration/lookahead-representation-grid-20261016.py).*
+
 <a id="lookahead-why-20261014"></a>
 
 #### Why lookahead labels are better: real outcome information, not an order-bias fix
