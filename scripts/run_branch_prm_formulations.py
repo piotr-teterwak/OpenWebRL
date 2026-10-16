@@ -354,7 +354,12 @@ def main():
             import httpx
             sem = asyncio.Semaphore(args.concurrency)
             async with httpx.AsyncClient(trust_env=False, timeout=300) as client:
-                jobs = [run_state(m, e, M, client, key, ledger, sem, outdir) for m in plan["methods"] for e in plan["states"]]
+                gate = asyncio.Semaphore(max(2, args.concurrency // 2))   # states in flight: each loads trees and screenshots
+
+                async def gated(m, e):
+                    async with gate:
+                        await run_state(m, e, M, client, key, ledger, sem, outdir)
+                jobs = [gated(m, e) for m in plan["methods"] for e in plan["states"]]
                 for coro in asyncio.as_completed(jobs):
                     try:
                         await coro
