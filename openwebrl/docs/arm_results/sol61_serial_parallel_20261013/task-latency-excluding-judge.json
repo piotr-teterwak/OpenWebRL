@@ -1,0 +1,23 @@
+{
+  "schema": "om2w100-task-latency-excluding-judge-v1",
+  "latency_definition": "Saved episode_seconds: starts before task evaluation, includes browser setup/reset, actor/selector requests and browser actions, stops on entry to terminal_reward before terminal judge. Early failures retain elapsed time. Excludes worker startup and terminal judge latency.",
+  "all_dispositions_included": true,
+  "by_arm": {
+    "serial_high": {
+      "episodes": 100,
+      "mean_seconds": 81.35785871155,
+      "median_seconds": 55.960753806994035,
+      "total_seconds": 8135.785871155,
+      "browser_step_attempts": 1191
+    },
+    "parallel3_low": {
+      "episodes": 100,
+      "mean_seconds": 86.28737354143938,
+      "median_seconds": 57.4385180499994,
+      "total_seconds": 8628.737354143937,
+      "browser_step_attempts": 824
+    }
+  },
+  "source_completion_sha256": "5b3fd818e00d64ccd855728c703103f12c9efc83ff0e32996a2e197f330be7ce",
+  "no_new_calls": true
+}
