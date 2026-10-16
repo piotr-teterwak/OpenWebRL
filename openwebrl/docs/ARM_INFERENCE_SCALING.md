@@ -1235,6 +1235,31 @@ The initial `zixianma` submission was rejected before a job ID was created: the 
 
 </details>
 
+<a id="sol61-browsercode-cuawright-paired20-prepared"></a>
+### BrowserCode versus CUAWright: matched four-condition pilot prepared
+
+**Prepared; exact new resource approval pending.** Run 20 fixed OM2W tasks under four conditions: CUAWright/high, CUAWright/three-low-plus-low selection, BrowserCode/high, and BrowserCode/three-low-plus-low selection. All 80 episodes are fresh; the earlier partial CUAWright outcomes remain historical. Each of four jobs owns the same five tasks under all four conditions, reducing node/time confounding. A cyclic order balances each condition into the first position on five tasks. Two episode workers per job yield at most eight concurrent episode browsers.
+
+Both harnesses use the same Sol model, high/12,288 versus three concurrent low/4,096 proposals plus low/2,048 selection, 30 decisions, common Chromium build/flags/1280×1800 viewport, 120-second command bound and 900-second episode deadline. Only a selected proposal may execute; unselected proposals never mutate the browser or future actor history. Task latency excludes initial setup and judging; both are recorded separately. A common raw viewport CDP screenshot supplies terminal evidence without waiting for font readiness. Preserve strict native judge/validity rules, every attempt, tokens/cost, paired task outcomes, browser seconds, owned-process CPU time and peak memory. Harness-specific operation counts remain labeled separately from model decisions.
+
+BrowserCode uses the pinned native JavaScript/CDP executor at `b200643fe0eb93ce5a3aadd4bb21cb6cceb2ed04` within the common metered proposal/selection loop. This is a controlled executor/interface comparison, not the full OpenCode product with its auxiliary tools. CUAWright retains pinned upstream `ff44a0524e0812b69814efcec5e583f0d8cdde0c` and the reviewed startup/race repairs. The native BrowserCode executor passed offline import, execution, exception-propagation and call-output-isolation checks under filesystem confinement, using a checksum-pinned portable Bun runtime. These preparation checks made zero browser/model requests; live CDP/startup remains a gate inside the requested allocation.
+
+| Proposed ceiling | Each of four independent jobs | Campaign total |
+| --- | ---: | ---: |
+| GPUs | 0 | 0 |
+| Concurrent CPUs | 4 | 16 |
+| Concurrent memory (GiB) | 16 | 64 |
+| Allocation time across all attempts (job-hours) | 2 | 8 |
+| Fresh episode slots | 20 | 80 |
+| Browser sessions, including diagnostics/retries | 30 | 120 |
+| Sol calls across all attempts | 1,500 | 6,000 |
+| Sol USD | 20 | 80 |
+| Judge calls across all attempts | 20 | 80 |
+| Judge USD | 1 | 4 |
+| Total API USD | 21 | 84 |
+
+Billing account: `vlm`. No submission or paid/browser request has been made for this proposed campaign. The prior campaign's 75-browser cap is exhausted; its unused time/API balances are not transferred. Run executable/native browser preflight before any paid model call, diagnose before retries, and preserve uniform fixed tasks and all failures. Final completion requires independent grid, selection, provenance, validity, paired utility, all-attempt accounting, owned teardown and aggregate-plot audits. Preparation gate validates the 80-slot grid and refuses dispatch before exact approval. Common worker/Slurm binding must also pass offline checks before release. Only aggregates and plots may be published.
+
 <a id="sol61-webvoyager-deepshop100-20261015"></a>
 ### WebVoyager100 and DeepShop100: staged parallel extension
 
