@@ -603,30 +603,30 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 
 #### Does a second outcome judge change the findings?
 
-**The ranking holds (K = 3 > post-execution > pre-execution), but GPT-6 Luna is a much stricter judge than o4-mini and the gaps roughly halve; on this small subset only K = 3's lead over uniform stays significant under both judges.** GPT-6 Luna (medium effort) re-judged every judged held-out continuation (draws 3–7) of 100 sampled Piotr-task states, replaying each logged o4-mini judge request unchanged (same prompt, trajectory, answer and screenshots).
+**No. Under GPT-6 Luna, a much stricter judge, K = 3's lead over pre- and post-execution is nearly unchanged and significant under both judges.** GPT-6 Luna (medium effort) re-judged every judged held-out continuation (draws 3–7) of all 559 Piotr-task states, replaying each logged o4-mini judge request unchanged (same prompt, trajectory, answer and screenshots).
 
-- **Agreement:** 85.7% on 1,312 continuations, Cohen's κ = 0.703. Success rate 44.2% (o4-mini) vs 32.7% (Luna): 169 o4-mini-only successes vs 18 Luna-only. Luna rejects runs that substitute a nearby category for the requested one, claim results without checking them, or complete the task only partly.
+- **Agreement:** 85.3% on 7,744 continuations, Cohen's κ = 0.704. Success rate 48.5% (o4-mini) vs 37.7% (Luna): 988 o4-mini-only successes vs 151 Luna-only. Luna rejects runs that substitute a nearby category for the requested one, claim results without checking them, or complete the task only partly.
 
 | Condition (screenshots only, no history) | o4-mini judge | GPT-6 Luna judge |
 | --- | ---: | ---: |
-| Pre-execution | 30.27% | 22.46% |
-| Post-execution | 32.64% | 24.17% |
-| K=1 | 33.58% | 23.96% |
-| K=3 | 35.72% | 25.12% |
-| Oracle (draws 0-2) | 32.25% | 23.52% |
-| Uniform | 28.07% | 20.53% |
-| Actor | 23.60% | 18.05% |
+| Pre-execution | 33.75% | 25.54% |
+| Post-execution | 34.50% | 25.60% |
+| K=1 | 37.11% | 27.81% |
+| K=3 | 37.81% | 28.75% |
+| Oracle (draws 0-2) | 36.63% | 27.86% |
+| Uniform | 31.77% | 24.68% |
+| Actor | 30.41% | 23.75% |
 
 | Paired difference, pp [95%] | o4-mini judge | GPT-6 Luna judge |
 | --- | --- | --- |
-| K=3 - Post-execution | +3.08 [−1.51, +7.77] | +0.96 [−2.48, +4.67] |
-| K=3 - Pre-execution | +5.45 [+0.60, +10.13] | +2.66 [−0.93, +6.36] |
-| K=1 - Post-execution | +0.94 [−3.15, +4.79] | −0.21 [−3.68, +2.98] |
-| Post-execution - Pre-execution | +2.38 [−0.79, +5.53] | +1.71 [−1.06, +4.56] |
-| K=3 - Uniform | +7.65 [+4.23, +11.27] | +4.59 [+1.95, +7.85] |
-| K=3 - Oracle (draws 0-2) | +3.47 [+0.32, +6.99] | +1.61 [−0.27, +3.45] |
+| K=3 - Post-execution | +3.31 [+1.76, +5.11] | +3.15 [+1.94, +4.48] |
+| K=3 - Pre-execution | +4.06 [+2.41, +5.59] | +3.22 [+1.50, +4.85] |
+| K=1 - Post-execution | +2.61 [+1.20, +3.99] | +2.21 [+0.80, +3.45] |
+| Post-execution - Pre-execution | +0.75 [−1.42, +2.70] | +0.06 [−1.47, +1.36] |
+| K=3 - Uniform | +6.04 [+4.20, +7.72] | +4.07 [+2.48, +5.77] |
+| K=3 - Oracle (draws 0-2) | +1.18 [−0.18, +2.55] | +0.90 [−0.37, +2.25] |
 
-- *81 scored states on 31 tasks (states need a valid held-out draw for every action); valid draws only. Continuations with no extractable answer score 0 without a judge, and invalid ones are excluded; both are unchanged. Teacher picks are the randomized screenshot-only no-history runs; the oracle picks on o4-mini draws 0–2. The teacher (Luna, high effort) and second judge (Luna, medium) share a model family, yet lookahead's margin shrinks rather than grows under Luna. USD 1.07. [JSON](arm_results/rl_integration/lookahead-second-judge-20261016.json), [code](arm_results/rl_integration/lookahead-second-judge-20261016.py), [re-judge script](../../scripts/rejudge_branch_outcomes.py).*
+- *467 scored states on 68 tasks (states need a valid held-out draw for every action); valid draws only. Continuations with no extractable answer score 0 without a judge and invalid ones are excluded; both are unchanged. Teacher picks are the randomized screenshot-only no-history runs; the oracle picks on o4-mini draws 0–2. The teacher (Luna, high effort) and second judge (Luna, medium) share a model family. A first 100-state subset (81 scored states, 31 tasks) had suggested the gaps roughly halve under Luna (K = 3 − post-execution +0.96 [−2.48, +4.67]); with all states that was small-sample noise. USD 6.25 in total (1.07 subset + 5.18 remainder, subset verdicts reused). [JSON](arm_results/rl_integration/lookahead-second-judge-all-20261016.json), [code](arm_results/rl_integration/lookahead-second-judge-all-20261016.py), [subset JSON](arm_results/rl_integration/lookahead-second-judge-20261016.json), [re-judge script](../../scripts/rejudge_branch_outcomes.py).*
 
 <a id="lookahead-why-20261014"></a>
 
