@@ -1,5 +1,8 @@
 # OpenWebRL project documentation
 
+[Sol high vs. N=3 low + low selection verified: 25/100 vs. 40/100 successes; +15 pp [8, 23], latency inconclusive, higher API cost](ARM_INFERENCE_SCALING.md#sol61-selector-online100-20261015).
+
+
 [Sol Online-Mind2Web100 verified: three candidates + selection 33/100 versus high effort 22/100; paired gain +11 pp (95% CI +3 to +19); live output ratio 1.07×](ARM_INFERENCE_SCALING.md#sol61-om2w100-20261014).
 
 [Saved-state Sol selector test: low effort saves 1.7% cost; median latency 18.1% lower, actions agree 80/100; task success unmeasured](ARM_INFERENCE_SCALING.md#sol61-selector-effort-probe-20261014).

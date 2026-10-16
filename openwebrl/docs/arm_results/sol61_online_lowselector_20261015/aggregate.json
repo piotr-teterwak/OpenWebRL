@@ -1,0 +1,381 @@
+{
+  "schema": "sol61-om2w100-independent-audit-v1",
+  "generated_epoch": 1792121689.6458368,
+  "status": "verified_complete",
+  "complete": true,
+  "errors": [],
+  "pending": [],
+  "physical_episode_attempts": 200,
+  "request_receipts": 5092,
+  "request_receipt_manifest_sha256": "b1441958ab8a3e4edb446b66a6a16eb46872905a2a5f0c17d4e893cde8dc407d",
+  "metrics": {
+    "arms": {
+      "serial_high": {
+        "recorded": 100,
+        "planned": 100,
+        "valid": 92,
+        "invalid": 8,
+        "successes": 25,
+        "overall_success": 0.25,
+        "valid_only_success": 0.2717391304347826
+      },
+      "parallel3_select_low": {
+        "recorded": 100,
+        "planned": 100,
+        "valid": 91,
+        "invalid": 9,
+        "successes": 40,
+        "overall_success": 0.4,
+        "valid_only_success": 0.43956043956043955
+      }
+    },
+    "paired_tasks": 100,
+    "matched_valid_tasks": 90,
+    "paired_outcomes": {
+      "serial0_parallel0": 59,
+      "serial0_parallel1": 16,
+      "serial1_parallel0": 1,
+      "serial1_parallel1": 24
+    },
+    "parallel_minus_serial": 0.15,
+    "paired_bootstrap_95ci": [
+      0.08,
+      0.23
+    ],
+    "matched_valid_difference": 0.15555555555555556,
+    "matched_valid_bootstrap_95ci": [
+      0.07777777777777778,
+      0.24444444444444444
+    ],
+    "results_provisional": false,
+    "missing_is_not_imputed": true,
+    "overall_denominator_note": "All planned tasks; invalid outcomes score zero. Missing episodes remain pending, not valid failures."
+  },
+  "validity_endings": {
+    "done": 150,
+    "browser_env": 17,
+    "step_limit": 33
+  },
+  "episode_latency_seconds": {
+    "parallel3_select_low": {
+      "count": 100,
+      "mean": 81.72410210852988,
+      "median": 50.43251208199945,
+      "max": 417.40089208000063
+    },
+    "serial_high": {
+      "count": 100,
+      "mean": 90.07474372988997,
+      "median": 57.28474372550045,
+      "max": 420.46021001199915
+    }
+  },
+  "accounting": {
+    "actor": {
+      "calls": 4942,
+      "unknown_usage_calls": 0,
+      "closed_rejected_unknown_usage_calls": 0,
+      "exact_usage_complete": true,
+      "settled_cost_lower_usd": 26.8335236,
+      "settled_cost_upper_usd": 26.8335236,
+      "unresolved_reservations_usd": 0.0,
+      "charged_or_reserved_usd": 26.8335236,
+      "ledger_present": true
+    },
+    "judge": {
+      "calls": 150,
+      "unknown_usage_calls": 0,
+      "closed_rejected_unknown_usage_calls": 0,
+      "exact_usage_complete": true,
+      "settled_cost_lower_usd": 0.6024326,
+      "settled_cost_upper_usd": 0.6024326,
+      "unresolved_reservations_usd": 0.0,
+      "charged_or_reserved_usd": 0.6024326,
+      "ledger_present": true
+    },
+    "browser": {
+      "calls": 200,
+      "charged_or_reserved_usd": 200.0
+    }
+  },
+  "usage_by_arm_and_role": {
+    "parallel3_select_low/judge": {
+      "calls": 80,
+      "input": 191273,
+      "cached_input": 0,
+      "cache_write_input": 0,
+      "output": 25291,
+      "reasoning_output": 17600,
+      "missing_fields": {
+        "cache_write_input": 80
+      },
+      "cost_lower_usd": 0.32168069999999993,
+      "cost_upper_usd": 0.32168069999999993,
+      "latency_seconds": {
+        "count": 80,
+        "mean": 2.8083255908874434,
+        "median": 2.644523167499756,
+        "max": 6.662831040999663
+      }
+    },
+    "parallel3_select_low/actor_low_0": {
+      "calls": 908,
+      "input": 3683864,
+      "cached_input": 2499908,
+      "cache_write_input": 1069548,
+      "output": 27840,
+      "reasoning_output": 174,
+      "missing_fields": {},
+      "cost_lower_usd": 3.4310767999999974,
+      "cost_upper_usd": 3.4310767999999974,
+      "latency_seconds": {
+        "count": 908,
+        "mean": 2.358106555529759,
+        "median": 2.2026002504990174,
+        "max": 10.876252308000403
+      }
+    },
+    "parallel3_select_low/actor_low_1": {
+      "calls": 908,
+      "input": 3683864,
+      "cached_input": 2536754,
+      "cache_write_input": 1032702,
+      "output": 28048,
+      "reasoning_output": 145,
+      "missing_fields": {},
+      "cost_lower_usd": 3.3447264,
+      "cost_upper_usd": 3.3447264,
+      "latency_seconds": {
+        "count": 908,
+        "mean": 2.3584651727896304,
+        "median": 2.20006527950045,
+        "max": 10.821634231999269
+      }
+    },
+    "parallel3_select_low/actor_low_2": {
+      "calls": 908,
+      "input": 3683864,
+      "cached_input": 2574521,
+      "cache_write_input": 994935,
+      "output": 27651,
+      "reasoning_output": 151,
+      "missing_fields": {},
+      "cost_lower_usd": 3.2501155999999916,
+      "cost_upper_usd": 3.2501155999999916,
+      "latency_seconds": {
+        "count": 908,
+        "mean": 2.3569448737543905,
+        "median": 2.198965902499367,
+        "max": 15.417845414000112
+      }
+    },
+    "parallel3_select_low/selector": {
+      "calls": 908,
+      "input": 2544406,
+      "cached_input": 0,
+      "cache_write_input": 2541682,
+      "output": 14774,
+      "reasoning_output": 1934,
+      "missing_fields": {},
+      "cost_lower_usd": 6.507393,
+      "cost_upper_usd": 6.507393,
+      "latency_seconds": {
+        "count": 908,
+        "mean": 1.7939744502742052,
+        "median": 1.654267715500282,
+        "max": 6.569485807000092
+      }
+    },
+    "serial_high/judge": {
+      "calls": 70,
+      "input": 169861,
+      "cached_input": 0,
+      "cache_write_input": 0,
+      "output": 21342,
+      "reasoning_output": 14784,
+      "missing_fields": {
+        "cache_write_input": 70
+      },
+      "cost_lower_usd": 0.2807518999999999,
+      "cost_upper_usd": 0.2807518999999999,
+      "latency_seconds": {
+        "count": 70,
+        "mean": 2.8729848657285664,
+        "median": 2.7431259100003444,
+        "max": 5.354027635999955
+      }
+    },
+    "serial_high/actor_high": {
+      "calls": 1310,
+      "input": 5746814,
+      "cached_input": 1835218,
+      "cache_write_input": 3746536,
+      "output": 42023,
+      "reasoning_output": 6500,
+      "missing_fields": {},
+      "cost_lower_usd": 10.300211800000007,
+      "cost_upper_usd": 10.300211800000007,
+      "latency_seconds": {
+        "count": 1310,
+        "mean": 2.6306346137854892,
+        "median": 2.462186046500392,
+        "max": 10.875418289000663
+      }
+    }
+  },
+  "decisions": {
+    "parallel3_select_low/accepted": 908,
+    "parallel3_select_low/failed": 0,
+    "parallel3_select_low/decisions": 908,
+    "serial_high/accepted": 1310,
+    "serial_high/failed": 0,
+    "serial_high/decisions": 1310
+  },
+  "model_decision_critical_path_seconds": {
+    "parallel3_select_low": {
+      "count": 908,
+      "mean": 4.449688983719132,
+      "median": 4.231329051999637
+    },
+    "serial_high": {
+      "count": 1310,
+      "mean": 2.6306346137854892,
+      "median": 2.462186046500392
+    }
+  },
+  "interpretation": "Reasoning output and cached/cache-write input are subsets, not added to total tokens; usage aggregates include all physical attempts. Paired bootstrap resamples tasks; matched-valid analysis is sensitivity only.",
+  "all_attempt_scheduler_seconds": 3333,
+  "owned_teardown_verified": true,
+  "source_plan_sha256": "1730812ae15f48c4cc3f3be734ff4f7de24ae04230df0a5496be16958b1598cc",
+  "browser_and_latency": {
+    "schema": "sol-lowselector-browser-latency-audit-v1",
+    "generated_epoch": 1792121738.899858,
+    "resource_receipts_verified": 200,
+    "resource_receipt_manifest_sha256": "c32f907289bc932674fdc28013977882ad78d9edd1aa679a79cc3dfc12025356",
+    "errors": [],
+    "metrics": {
+      "serial_high": {
+        "browser_steps": {
+          "count": 100,
+          "mean": 13.1,
+          "median": 9.0,
+          "p90": 30,
+          "total": 1310
+        },
+        "browser_execution_seconds": {
+          "count": 100,
+          "mean": 38.90057393808947,
+          "median": 13.841562640002849,
+          "p90": 146.94562396599395,
+          "total": 3890.0573938089474
+        },
+        "task_latency_seconds_excluding_judge": {
+          "count": 100,
+          "mean": 90.07474372988997,
+          "median": 57.28474372550045,
+          "p90": 246.38785307699982,
+          "total": 9007.474372988998
+        },
+        "sampled_browser_cpu_seconds_lower_bound": {
+          "count": 100,
+          "mean": 21.3028,
+          "median": 12.245000000000001,
+          "p90": 45.17,
+          "total": 2130.28
+        },
+        "sampled_browser_peak_rss_mib": {
+          "count": 100,
+          "mean": 874.3854296875,
+          "median": 764.857421875,
+          "p90": 1194.15234375,
+          "total": 87438.54296875
+        },
+        "browser_session_seconds": {
+          "count": 100,
+          "mean": 90.0646139084801,
+          "median": 57.27784897049969,
+          "p90": 246.37992729100006,
+          "total": 9006.46139084801
+        }
+      },
+      "parallel3_select_low": {
+        "browser_steps": {
+          "count": 100,
+          "mean": 9.08,
+          "median": 4.5,
+          "p90": 30,
+          "total": 908
+        },
+        "browser_execution_seconds": {
+          "count": 100,
+          "mean": 24.699750329310483,
+          "median": 6.498077935500987,
+          "p90": 60.425287524998566,
+          "total": 2469.975032931048
+        },
+        "task_latency_seconds_excluding_judge": {
+          "count": 100,
+          "mean": 81.72410210852988,
+          "median": 50.43251208199945,
+          "p90": 199.22444705199996,
+          "total": 8172.410210852988
+        },
+        "sampled_browser_cpu_seconds_lower_bound": {
+          "count": 100,
+          "mean": 21.0489,
+          "median": 10.21,
+          "p90": 37.53,
+          "total": 2104.89
+        },
+        "sampled_browser_peak_rss_mib": {
+          "count": 100,
+          "mean": 819.7310546875,
+          "median": 767.220703125,
+          "p90": 1179.23046875,
+          "total": 81973.10546875
+        },
+        "browser_session_seconds": {
+          "count": 100,
+          "mean": 81.7138760104502,
+          "median": 50.424208070500754,
+          "p90": 199.2150918819989,
+          "total": 8171.38760104502
+        }
+      }
+    },
+    "paired_task_latency_all_dispositions": {
+      "pairs": 100,
+      "parallel_minus_high_mean_seconds": -8.3506416213601,
+      "paired_bootstrap_95ci_seconds": [
+        -20.779392891520164,
+        2.8918415287698735
+      ],
+      "bootstrap_repetitions": 20000
+    },
+    "paired_task_latency_common_valid_sensitivity": {
+      "pairs": 90,
+      "parallel_minus_high_mean_seconds": -3.006339741111252,
+      "paired_bootstrap_95ci_seconds": [
+        -12.464617591300298,
+        6.197247469433286
+      ],
+      "bootstrap_repetitions": 20000
+    },
+    "paired_task_latency_common_success_sensitivity": {
+      "pairs": 24,
+      "parallel_minus_high_mean_seconds": -16.772389166166704,
+      "paired_bootstrap_95ci_seconds": [
+        -38.24721568074998,
+        2.2687901944582336
+      ],
+      "bootstrap_repetitions": 20000
+    },
+    "limitations": [
+      "Browser CPU and peak RSS are sampled every second and can miss short-lived processes; CPU is a lower bound.",
+      "RSS sums shared pages, not PSS.",
+      "Browser session follows the instrumented browser-stack lifetime, including waiting for model decisions; task latency excludes terminal judge.",
+      "All-disposition latency includes invalid early exits; common-valid and common-success timing are sensitivity analyses.",
+      "Latency reflects different executed trajectories and step counts; it is not per-decision model-speed isolation."
+    ]
+  }
+}

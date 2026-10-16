@@ -1120,13 +1120,53 @@ All 200 approved physical calls completed, costing **$1.123835 of the $5 cap**, 
 </details>
 
 <a id="sol61-selector-online100-20261015"></a>
-### Online high versus three-low-plus-low test: running
+### Online high versus three-low-plus-low: verified 100-task result
 
-The user requested online testing after the saved-state latency result. The corrected staged comparison uses the same 100 frozen OM2W pilot tasks, with **two fresh episodes per task**: **one high-effort Sol action**, versus **three low-effort Sol candidate actions followed by low-effort Sol selection**. The high arm has no selector. Actor output caps remain 12,288 for high and 4,096 for each low proposal; the low selector cap is 2,048. Task order is frozen, with 50 tasks starting with each arm. Browser settings, native history, 30-step ceiling, judge and validity rules are shared. Later states and sampled proposals can diverge between arms; this is a task-paired policy comparison, not identical candidate triplets at every decision. The original pilot remains a separate historical result.
+**Three low-effort candidates plus low-effort selection achieved 40 successes versus 25 for one high-effort action.** The task-paired gain is **+15 percentage points (95% paired-bootstrap interval +8 to +23)**. Mean task latency excluding terminal judging was 8.35 seconds lower, but its paired interval crosses zero (−20.78 to +2.89 seconds); this pilot does not establish a latency reduction. Parallel Sol cost was **60.5% higher**. All 200 fixed dispositions, native request histories, validity, usage, browser receipts and owned teardown are independently verified. [Aggregate audit](arm_results/sol61_online_lowselector_20261015/aggregate.json) · [W&B results and plots](https://wandb.ai/zixianma/openwebrl-evals/runs/sol61-online100-lowselector-audit-20261015-v1).
 
-Primary reporting covers overall and valid-only success, input/output/reasoning tokens, API cost, and **episode/task latency excluding terminal judging** (mean, median, p90 and paired uncertainty). Browser steps, execution time, session duration, sampled CPU seconds and sampled peak RSS remain saved. Judge latency stays in raw accounting, outside the headline latency metric. All dispositions remain included; common-success timing is a separately labeled sensitivity analysis. No failures are selectively replaced.
+| Policy | Tasks | Valid | Invalid | Successes | Overall success | Valid-only success | Sol USD | Judge USD |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| One high-effort action | 100 | 92 | 8 | 25 | 25.00% | 27.17% | 10.3002 | 0.2808 |
+| Three low-effort actions + low-effort selection | 100 | 91 | 9 | 40 | 40.00% | 43.96% | 16.5333 | 0.3217 |
 
-**Approved and launched October 15 as job 362358:** 0 GPUs, 16 CPUs, 64 GiB, at most six hours across all attempts; 200 browser sessions; 15,000 Sol calls / $100; 200 judge calls / $5. The call ceiling covers both arms at all 30 steps; dollar caps can stop collection earlier. The original high-versus-parallel pilot suggests roughly $25 in API usage for 200 episodes, with substantial trajectory variability. No budget transfers or automatic retries. Offline validation passed exact source/cohort/cap checks, balanced ordering, one-high versus three-low-plus-low request routing, unknown-usage preservation, and a mock 30-second judge delay excluded from the task timer. The exact caps were approved; six workers started and their native high/low efforts and pre-judge task timers were checked. A bound callback returns to the active repair owner on status changes, failures and 15-minute reviews. Collection remains incomplete until all dispositions, accounting, paired analysis and owned teardown are independently audited.
+Overall success uses all 100 planned tasks per arm, with invalid outcomes scoring zero. Valid-only denominators are 92 and 91. There are 90 common-valid tasks; their paired gain is +15.56 pp (95% interval +7.78 to +24.44). Of all 100 pairs, 24 succeeded in both arms, 16 only under parallel selection, one only under high, and 59 under neither. No failed or inaccessible task was replaced.
+
+| Resource or timing metric | One high | Three low + low selection |
+| --- | ---: | ---: |
+| Mean task latency excluding judge (seconds) | 90.07 | 81.72 |
+| Median task latency excluding judge (seconds) | 57.28 | 50.43 |
+| p90 task latency excluding judge (seconds) | 246.39 | 199.22 |
+| Mean recorded browser steps per episode | 13.10 | 9.08 |
+| Total recorded browser steps | 1,310 | 908 |
+| Mean browser execution time (seconds) | 38.90 | 24.70 |
+| Mean sampled browser-stack CPU seconds | 21.30 | 21.05 |
+| Mean per-episode sampled peak aggregate RSS (MiB) | 874.39 | 819.73 |
+| Mean instrumented browser session (seconds) | 90.06 | 81.71 |
+
+Timing includes all dispositions, including early invalid exits; different trajectories and step counts contribute. The common-valid mean latency difference is −3.01 seconds (95% interval −12.46 to +6.20); the 24 common-success pairs give −16.77 seconds (−38.25 to +2.27). Browser CPU/RSS are sampled every second over the owned environment-server/driver/browser tree, excluding the model worker. CPU is a lower bound and summed RSS double-counts shared pages; these are not exact CPU or PSS measurements. All 200 telemetry receipts finished without read errors. Instrumented browser session follows browser-stack lifetime and includes waiting for model decisions; task latency excludes the terminal judge.
+
+![Overall success](arm_results/sol61_online_lowselector_20261015/success.png)
+
+<details>
+<summary>Native protocol, tokens, accounting and comparison limits</summary>
+
+Both arms used the same 100 frozen OM2W pilot tasks, with fresh paired episodes, 50/50 first-arm ordering, the OpenWebRL screenshot/local-Chromium harness at 1280×720, native executed history and a 30-decision ceiling. Sol high outputs were capped at 12,288 tokens; each of three concurrent low proposals at 4,096; low selection at 2,048. Only the selected action executed, and private candidate reasoning was excluded from selector inputs. The unchanged OM2W/AgentTrek terminal judge and unified outcome validator were audited from the frozen source. This is a task-paired policy comparison: states and candidate proposals can diverge after execution.
+
+| Sol component | Requests | Input tokens | Output tokens including reasoning | Reported reasoning tokens | Usage-derived USD |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| High actor | 1,310 | 5,746,814 | 42,023 | 6,500 | 10.3002 |
+| Three low actors combined | 2,724 | 11,051,592 | 83,539 | 470 | 10.0259 |
+| Low selector | 908 | 2,544,406 | 14,774 | 1,934 | 6.5074 |
+
+Output ceilings do not enforce three times the realized reasoning or output. High averaged 32.08 output tokens per decision; low proposals averaged 30.67 per proposal. Reported reasoning is a subset of output, and cache-read/write tokens are subsets of input. The parallel policy used fewer decisions but more total requests, input/output tokens and API dollars. This result does not isolate selector benefit from candidate count, and the earlier medium-selector pilot was collected in a different time window; comparing those pilots is not a controlled selector-effort ablation.
+
+All 4,942 Sol requests and 150 judge requests have settled known usage, with no unresolved reservations. Total usage-derived API cost is **$27.4359562**: $26.8335236 Sol plus $0.6024326 judge. The 200-session cap was met exactly. Collection job 362358 consumed 3,329 seconds; the read-only cleanup observer consumed four seconds, for **3,333 seconds across all allocations**, within the original 21,600-second budget at 0 GPU / 16 CPU / 64 GiB. The observer made no browser/model/API requests and independently verified all 87 previously observed owned process identities were gone. All six workers and the aggregate W&B run are finished. No additional budget or selective retry was used. Only aggregates and plots are public.
+
+![Observed output tokens](arm_results/sol61_online_lowselector_20261015/output-tokens.png)
+
+![Paired outcomes](arm_results/sol61_online_lowselector_20261015/paired-outcomes.png)
+
+</details>
 
 <a id="sol61-webvoyager-deepshop100-20261015"></a>
 ### WebVoyager100 and DeepShop100: staged parallel extension
