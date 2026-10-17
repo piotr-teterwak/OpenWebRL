@@ -509,6 +509,30 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 - **How many outcomes it is worth:** K = 3 matches an oracle that picks on 3–5 observed outcomes per action ([draw-split figure](#lookahead-draw-split-20261013)).
 - *Details: [representation grid](#lookahead-representation-grid-20261016), [second judge](#lookahead-second-judge-20261016), [randomized order](#lookahead-why-20261014), [history and feedback](#lookahead-history-feedback-20261014), [costs](#lookahead-costs).*
 
+<a id="lookahead-prior-work-implementations-20261016"></a>
+
+#### How the prior-work judge formulations are implemented
+
+**Each method keeps its own prompt, inputs and scoring rule; only the model is GPT-6 Luna (high reasoning effort), the same teacher as the lookahead labels.** All three judge a candidate before it is executed. Runner: [`scripts/run_branch_prm_formulations.py`](../../scripts/run_branch_prm_formulations.py) (`prepare`, `dry-run` writes sample requests without calls, `execute`).
+
+| | WebShepherd | WebArbiter | PRO-CUA |
+| --- | --- | --- | --- |
+| Source | Official repository, revision `b87898f6`, loaded by `openwebrl/webprm_source.py::load_shepherd` (prompt modules `checklist_prompt.py`, `judge_prompt.py`, `construct_messages.py`) | Official WebPRMBench rendered prompts (`load_arbiter_causal_renderer`, template SHA-256 `041e7912…`) and the evaluator's `parse_answer` (`load_arbiter`) | Paper appendix "Prompt for PRM Grading" ([arXiv 2605.29119](https://arxiv.org/abs/2605.29119)), saved verbatim in [`scripts/prompts/procua_prm_grading.txt`](../../scripts/prompts/procua_prm_grading.txt) |
+| Calls per state | 1 checklist + 5 judgments | 4 pairwise comparisons | 5 (one per candidate) |
+| Prompt | `web_shepherd` checklist generation, then `judge_progress` with the checklist (text observation, no image) | The paper's pairwise template: four general criteria, state / criteria / analysis sections, `<Answer>Response 1 or 2</Answer>` | The grading prompt with the five-step analysis (state assessment, target verification, mental rollout, task alignment, verdict) and the four flaw categories |
+| Inputs | Task, start URL, current URL, page text, last 10 steps (thought + action), candidate thought and action | Task, page text, trajectory, start and current URL, two candidates' thought and action | Task, action history, current screenshot annotated at the action target (red ring and point, index label), candidate thought and action code |
+| Scoring | Each checklist item labelled Yes / In Progress / No; score = mean of 1 / 0.5 / 0; best score wins | Viewer knockout: pairs (1,2), (3,4), bye 5, then winners; one winner | `is_correct` per candidate; pick among the correct ones (all five if none) |
+| Ties | Kept and scored as an even split | None | Kept and scored as an even split |
+
+**Adaptations forced by our states:**
+- **Page text:** the saved accessibility tree (`a11ytree`, or the interactive-element list) rendered as BrowserGym-like `[id] tag "text"` lines. Upstream uses BrowserGym AXTREE text with element ids.
+- **Actions:** our candidates act by screen coordinates. For WebShepherd and WebArbiter, which were built on id-based BrowserGym actions, each click point is mapped to the smallest element whose box contains it (`click('id')`, falling back to `mouse_click(x, y)`); typing, keys, scrolling, navigation and tabs map to `keyboard_type`, `keyboard_press`, `scroll`, `goto`, `go_back`, `new_tab`, `tab_focus`, and `done` to `send_msg_to_user`. PRO-CUA keeps the native coordinate action, as in the paper.
+- **WebShepherd scoring:** upstream weights each label by the reward model's token probabilities; Luna returns text only, so labels are counted. The label parser reads one label per checklist line from the evaluation section. Consequence: on early states no candidate has checklist progress yet, many score 0, and ties are frequent (3.3 candidates picked per state on average).
+- **WebShepherd checklist:** generated once per state from that state's page; upstream generates it once per episode at the first step.
+- **Model and decoding:** Luna replaces WebShepherd-8B, WebArbiter-7B and PRO-CUA's GPT-5-mini or Qwen3-VL-4B; up to 8,192 output tokens (reasoning included). The paper models' sampling settings are not reproduced.
+
+*Validation: a 5-state pilot (75 calls) checked that every method's output parses; the WebShepherd label parser was tightened after the pilot showed dash-separated labels. Full run: 736 states, 11,040 calls, USD 7.07. Results: [table D above](#lookahead-main-results).*
+
 <a id="lookahead-why-20261014"></a>
 
 #### Why lookahead labels are better: real outcome information, not an order-bias fix
