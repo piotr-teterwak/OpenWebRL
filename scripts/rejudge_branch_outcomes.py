@@ -43,15 +43,29 @@ def event(path):
     return ast.literal_eval(record) if isinstance(record, str) else record
 
 
-def judged_items(entry):
-    """Valid held-out continuations of one state that reached the judge, with their logged request and verdict."""
-    root = Path(entry["root"])
-    db = sqlite3.connect(f"file:{root}/state.sqlite3?mode=ro", uri=True)
+def judged_items(entry, extra_roots=()):
+    """Valid held-out continuations of one state that reached the judge, with their logged request and verdict.
+
+    Held-out draws of older states were collected by later campaigns, so `extra_roots` (other campaign ledgers) are
+    searched too; the first record of each (candidate, draw) wins, as in the outcome loaders."""
     items, skipped = [], dict(not_valid=0, no_judge_call=0, no_logged_request=0)
+    seen = set()
+    for root in [Path(entry["root"])] + [Path(r) for r in extra_roots if Path(r) != Path(entry["root"])]:
+        if not (root / "state.sqlite3").exists():
+            continue
+        items, skipped = _judged_from(root, entry, items, skipped, seen)
+    return items, skipped
+
+
+def _judged_from(root, entry, items, skipped, seen):
+    db = sqlite3.connect(f"file:{root}/state.sqlite3?mode=ro", uri=True)
     for (raw,) in db.execute("SELECT result_json FROM attempts WHERE status='finished'"):
         x = json.loads(raw)
         if x.get("mode") != "branch" or not x.get("released") or x["state"] != entry["state"] or x["repeat"] not in HELD_OUT:
             continue
+        if (x["candidate"], x["repeat"]) in seen:
+            continue
+        seen.add((x["candidate"], x["repeat"]))
         if not x["valid"]:
             skipped["not_valid"] += 1; continue
         if not x.get("judge_http_attempts"):
@@ -130,6 +144,7 @@ def main():
     ap.add_argument("--root", type=Path, required=True)
     ap.add_argument("--states-from"); ap.add_argument("--n", type=int, default=100); ap.add_argument("--seed", type=int, default=20261016)
     ap.add_argument("--piotr-only", action="store_true"); ap.add_argument("--concurrency", type=int, default=8)
+    ap.add_argument("--extra-ledgers", action="store_true", help="also search the outcome ledgers of the original campaigns")
     args = ap.parse_args()
     root = args.root.resolve()
     if args.command == "prepare":
@@ -149,8 +164,12 @@ def main():
                 pool.append(e)
         random.Random(args.seed).shuffle(pool)
         chosen, items, skipped = pool[:args.n], [], {}
+        extra = []
+        if args.extra_ledgers:
+            from adapt_selection_head_outcomes import LEDGERS
+            extra = [str(p) for p in LEDGERS]
         for e in chosen:
-            it, sk = judged_items(e)
+            it, sk = judged_items(e, extra)
             items += it
             for k, v in sk.items():
                 skipped[k] = skipped.get(k, 0) + v
