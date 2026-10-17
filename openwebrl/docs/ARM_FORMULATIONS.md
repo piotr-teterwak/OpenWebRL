@@ -452,23 +452,38 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 
 ### Lookahead labels: main results
 
-**Looking three steps ahead is what makes Luna's labels better; the input format, history and call order barely matter, the result holds under a second, stricter outcome judge, and lookahead beats the WebShepherd, WebArbiter and PRO-CUA judge formulations by 3–6 pp.** Recommended labeller: **K = 3, screenshots only, no history, 1–2 randomized-order calls per state** (about USD 3.3 per 1,000 states at one call).
+**Looking three steps ahead is what makes Luna's labels better. On 1,037 states across 329 tasks, K = 3 beats pre-execution, post-execution and the WebShepherd, WebArbiter and PRO-CUA judge formulations by 2–4 pp under both outcome judges and in every view; the input format, history and call order barely matter.** Recommended labeller: **K = 3, screenshots only, no history, 1–2 randomized-order calls per state** (about USD 3.3 per 1,000 states at one call). K = 1 is within 1 pp at about 35% lower cost.
 
-**A. Across execution depth and outcome judges** (467 Piotr-task states, 68 tasks; held-out draws 3–7; valid draws only):
+**A. Across teacher formulations and outcome judges** (main set: all labelled states with a valid held-out draw for every action, completely blank pages removed; 1,037 states, 329 tasks; held-out draws 3–7; valid draws only):
 
-| Screenshots only, no history | o4-mini judge | GPT-6 Luna judge |
-| --- | ---: | ---: |
-| Pre-execution | 33.75% | 25.54% |
-| Post-execution | 34.50% | 25.60% |
-| Lookahead K = 1 | 37.11% | 27.81% |
-| **Lookahead K = 3** | 37.81% | 28.75% |
-| Oracle (picks on observed draws 0–2) | 36.63% | 27.86% |
-| Uniform pick | 31.77% | 24.68% |
-| Actor's first sample | 30.41% | 23.75% |
-| K = 3 − post-execution, pp [95%] | +3.31 [+1.76, +5.11] | +3.15 [+1.94, +4.48] |
-| K = 3 − pre-execution, pp [95%] | +4.06 [+2.41, +5.59] | +3.22 [+1.50, +4.85] |
+| Teacher (GPT-6 Luna; screenshots only, no history) | o4-mini judge | − K = 3, pp [95%] | GPT-6 Luna judge | − K = 3, pp [95%] |
+| --- | ---: | --- | ---: | --- |
+| **Lookahead K = 3** | 40.49% | — | 32.47% | — |
+| Lookahead K = 1 | 40.26% | −0.23 [−1.30, +0.79] | 31.83% | −0.64 [−1.48, +0.13] |
+| Post-execution | 38.31% | −2.18 [−3.33, −1.09] | 30.09% | −2.38 [−3.22, −1.58] |
+| Pre-execution | 37.98% | −2.51 [−3.59, −1.36] | 29.51% | −2.95 [−4.03, −1.86] |
+| WebArbiter formulation | 37.86% | −2.63 [−3.74, −1.44] | 30.49% | −1.97 [−3.06, −0.81] |
+| WebShepherd formulation | 37.04% | −3.45 [−4.56, −2.29] | 29.29% | −3.17 [−4.20, −2.21] |
+| PRO-CUA formulation | 36.26% | −4.23 [−5.42, −2.87] | 28.84% | −3.62 [−4.76, −2.51] |
+| Uniform pick | 35.72% | −4.76 [−5.93, −3.53] | 28.50% | −3.97 [−5.03, −2.96] |
+| Actor's first sample | 35.69% | −4.80 [−6.64, −2.82] | 28.73% | −3.74 [−5.30, −2.21] |
 
-**B. Across input formats** (o4-mini judge; 493 Piotr-task states, 78 tasks; randomized order, 2 calls per state unless noted):
+**Robustness across views** (all differences in pp [95%]; each view's rule was fixed before the final results):
+
+| View | States | Tasks | K = 3 − post-execution, o4-mini | K = 3 − post-execution, Luna | K = 3 − pre-execution, o4-mini | K = 3 − pre-execution, Luna |
+| --- | ---: | ---: | --- | --- | --- | --- |
+| Main (blank pages removed) | 1,037 | 329 | +2.18 [+1.09, +3.33] | +2.38 [+1.58, +3.22] | +2.51 [+1.36, +3.59] | +2.95 [+1.86, +4.03] |
+| 2+ different actions | 743 | 262 | +2.37 [+1.00, +3.78] | +2.42 [+1.37, +3.53] | +2.83 [+1.37, +4.19] | +3.62 [+2.31, +5.00] |
+| Without browser error pages | 961 | 327 | +2.36 [+1.25, +3.45] | +2.34 [+1.49, +3.19] | +2.65 [+1.41, +3.85] | +2.95 [+1.81, +4.13] |
+| arXiv capped at 10% | 766 | 329 | +1.96 [+0.53, +3.34] | +2.49 [+1.46, +3.55] | +1.97 [+0.41, +3.52] | +2.87 [+1.49, +4.26] |
+
+![Success vs evaluation continuations on the main set](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_piotr_absolute_lines_valid_only_main.png)
+
+*Main set, valid draws only, screenshot-only no-history teachers. x = continuations per action used for evaluation; the oracle picks on the other 8 − x draws, and teachers see only draw 0. [Version with paired bands](arm_results/rl_integration/lookahead-draw-split-20261013/lookahead_draw_split_piotr_absolute_valid_only_main.png), [JSON](arm_results/rl_integration/lookahead-draw-split-20261013/curve_piotr_main.json).*
+
+- *All states: 1,171 labelled (736 grid + 435 new `fast1k`), all from OpenWebRL-4B-SFT; 103 lack a valid held-out draw for some action and 31 are completely blank pages. Views: 2+ different effective actions (type + target); without the 76 browser error pages; arXiv (a third of the main set) downsampled round-robin across its tasks to 10%. The Luna judge re-judged every judged held-out continuation (no state lacks a verdict). Task-clustered intervals. [JSON](arm_results/rl_integration/lookahead-full-set-20261017.json), [code](arm_results/rl_integration/lookahead-full-set-20261017.py).*
+
+**B. Across input formats** (run on the 736 grid states only; o4-mini judge; 493 Piotr-task states, 78 tasks; randomized order, 2 calls per state unless noted):
 
 | Input format (o4-mini judge) | Pre-execution | Post-execution | K = 1 | K = 3 |
 | --- | ---: | ---: | ---: | ---: |
@@ -487,7 +502,7 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 | with only the current screenshot | 36.31% |
 | without history | 35.75% |
 
-**D. Against prior-work judge formulations** (all with GPT-6 Luna; 493 Piotr-task states, 78 tasks; held-out draws 3–7; valid draws only):
+**D. Prior-work judge formulations on the earlier Piotr-task subset** (superseded by table A on the main set; all with GPT-6 Luna; 493 Piotr-task states, 78 tasks; held-out draws 3–7; valid draws only):
 
 | Teacher formulation (all with GPT-6 Luna) | Candidates picked per state | o4-mini judge | − K = 3, pp [95%] | GPT-6 Luna judge | − K = 3, pp [95%] |
 | --- | ---: | ---: | --- | ---: | --- |

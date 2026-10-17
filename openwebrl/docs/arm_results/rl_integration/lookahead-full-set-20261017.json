@@ -1,0 +1,626 @@
+{
+ "labelled": 1171,
+ "with_all_conditions": 1171,
+ "luna_coverage_missing": 0,
+ "view_composition": {
+  "o4-mini": {
+   "main (blank pages removed)": {
+    "states": 1037,
+    "arxiv": 348
+   },
+   "2+ different actions": {
+    "states": 743,
+    "arxiv": 281
+   },
+   "without browser error pages": {
+    "states": 961,
+    "arxiv": 348
+   },
+   "arXiv capped at 10%": {
+    "states": 766,
+    "arxiv": 77
+   },
+   "all usable (incl. blank)": {
+    "states": 1068,
+    "arxiv": 348
+   }
+  },
+  "luna": {
+   "main (blank pages removed)": {
+    "states": 1037,
+    "arxiv": 348
+   },
+   "2+ different actions": {
+    "states": 743,
+    "arxiv": 281
+   },
+   "without browser error pages": {
+    "states": 961,
+    "arxiv": 348
+   },
+   "arXiv capped at 10%": {
+    "states": 766,
+    "arxiv": 77
+   },
+   "all usable (incl. blank)": {
+    "states": 1068,
+    "arxiv": 348
+   }
+  }
+ },
+ "o4-mini": {
+  "main (blank pages removed)": {
+   "states": 1037,
+   "tasks": 329,
+   "success": {
+    "Pre-execution": 37.98,
+    "Post-execution": 38.31,
+    "Lookahead K=1": 40.26,
+    "Lookahead K=3": 40.49,
+    "WebArbiter formulation": 37.86,
+    "WebShepherd formulation": 37.04,
+    "PRO-CUA formulation": 36.26,
+    "Uniform": 35.72,
+    "Actor's first sample": 35.69
+   },
+   "minus_k3": {
+    "Pre-execution": [
+     -2.506428801028608,
+     -3.5854539742381397,
+     -1.3596491228070176
+    ],
+    "Post-execution": [
+     -2.182577949212472,
+     -3.327152863617635,
+     -1.0864135864135864
+    ],
+    "Lookahead K=1": [
+     -0.23304403728704595,
+     -1.2956730769230769,
+     0.7897793263646922
+    ],
+    "WebArbiter formulation": [
+     -2.625361620057859,
+     -3.741408934707904,
+     -1.4363910909777275
+    ],
+    "WebShepherd formulation": [
+     -3.450471445408765,
+     -4.558166922683052,
+     -2.287448373123804
+    ],
+    "PRO-CUA formulation": [
+     -4.227338476374157,
+     -5.423566878980892,
+     -2.8685867170286437
+    ],
+    "Uniform": [
+     -4.764866602378657,
+     -5.9330232558139535,
+     -3.527113237639554
+    ],
+    "Actor's first sample": [
+     -4.801510768241722,
+     -6.642900950628642,
+     -2.8176795580110494
+    ]
+   }
+  },
+  "2+ different actions": {
+   "states": 743,
+   "tasks": 262,
+   "success": {
+    "Pre-execution": 36.02,
+    "Post-execution": 36.48,
+    "Lookahead K=1": 39.09,
+    "Lookahead K=3": 38.85,
+    "WebArbiter formulation": 36.09,
+    "WebShepherd formulation": 34.41,
+    "PRO-CUA formulation": 33.97,
+    "Uniform": 33.14,
+    "Actor's first sample": 32.57
+   },
+   "minus_k3": {
+    "Pre-execution": [
+     -2.8297442799461643,
+     -4.1909090909090905,
+     -1.3677536231884058
+    ],
+    "Post-execution": [
+     -2.3721399730820996,
+     -3.7778585271317833,
+     -1.004040404040404
+    ],
+    "Lookahead K=1": [
+     0.24226110363391662,
+     -1.074561403508772,
+     1.467013888888889
+    ],
+    "WebArbiter formulation": [
+     -2.7579632122027813,
+     -4.061838204150784,
+     -1.19431643625192
+    ],
+    "WebShepherd formulation": [
+     -4.442762075669209,
+     -5.795779843588609,
+     -2.9905982905982906
+    ],
+    "PRO-CUA formulation": [
+     -4.884028712427098,
+     -6.462762953550756,
+     -3.0898569023569022
+    ],
+    "Uniform": [
+     -5.7086137281292055,
+     -7.251664447403463,
+     -4.122392758756396
+    ],
+    "Actor's first sample": [
+     -6.281965006729475,
+     -8.591841186736476,
+     -3.9285714285714284
+    ]
+   }
+  },
+  "without browser error pages": {
+   "states": 961,
+   "tasks": 327,
+   "success": {
+    "Pre-execution": 39.88,
+    "Post-execution": 40.17,
+    "Lookahead K=1": 42.06,
+    "Lookahead K=3": 42.54,
+    "WebArbiter formulation": 39.78,
+    "WebShepherd formulation": 38.82,
+    "PRO-CUA formulation": 38.01,
+    "Uniform": 37.54,
+    "Actor's first sample": 37.48
+   },
+   "minus_k3": {
+    "Pre-execution": [
+     -2.654353104405134,
+     -3.851376488095238,
+     -1.4109121909633418
+    ],
+    "Post-execution": [
+     -2.3612556364897674,
+     -3.453099838969404,
+     -1.2521769418321145
+    ],
+    "Lookahead K=1": [
+     -0.48040235865417974,
+     -1.4027476500361533,
+     0.45362903225806456
+    ],
+    "WebArbiter formulation": [
+     -2.752341311134235,
+     -4.0398167723749125,
+     -1.368752068851374
+    ],
+    "WebShepherd formulation": [
+     -3.711209388368598,
+     -5.006646726487205,
+     -2.338262175218697
+    ],
+    "PRO-CUA formulation": [
+     -4.523413111342352,
+     -5.948339153012803,
+     -3.0263516865079367
+    ],
+    "Uniform": [
+     -4.990634755463059,
+     -6.364056821935911,
+     -3.58296783625731
+    ],
+    "Actor's first sample": [
+     -5.055497745404094,
+     -7.166828009035172,
+     -2.8568604191379987
+    ]
+   }
+  },
+  "arXiv capped at 10%": {
+   "states": 766,
+   "tasks": 329,
+   "success": {
+    "Pre-execution": 41.45,
+    "Post-execution": 41.46,
+    "Lookahead K=1": 43.22,
+    "Lookahead K=3": 43.42,
+    "WebArbiter formulation": 41.34,
+    "WebShepherd formulation": 40.52,
+    "PRO-CUA formulation": 40.17,
+    "Uniform": 39.29,
+    "Actor's first sample": 39.71
+   },
+   "minus_k3": {
+    "Pre-execution": [
+     -1.9680156657963446,
+     -3.522178304787001,
+     -0.4110054347826088
+    ],
+    "Post-execution": [
+     -1.959312445604874,
+     -3.3399696624952595,
+     -0.5315544260906395
+    ],
+    "Lookahead K=1": [
+     -0.20234986945169714,
+     -1.3304482911673325,
+     1.0372229192806357
+    ],
+    "WebArbiter formulation": [
+     -2.0811575282854657,
+     -3.601756954612006,
+     -0.5617608409986857
+    ],
+    "WebShepherd formulation": [
+     -2.9003481288076594,
+     -4.211756775933022,
+     -1.5798157818392808
+    ],
+    "PRO-CUA formulation": [
+     -3.2555120394545987,
+     -4.688787351319989,
+     -1.851158427149617
+    ],
+    "Uniform": [
+     -4.132941688424717,
+     -5.459226565783943,
+     -2.8262639245929737
+    ],
+    "Actor's first sample": [
+     -3.7064838990426456,
+     -5.624718087505638,
+     -1.7417319408181025
+    ]
+   }
+  },
+  "all usable (incl. blank)": {
+   "states": 1068,
+   "tasks": 335,
+   "success": {
+    "Pre-execution": 38.3,
+    "Post-execution": 38.71,
+    "Lookahead K=1": 40.45,
+    "Lookahead K=3": 40.62,
+    "WebArbiter formulation": 38.19,
+    "WebShepherd formulation": 37.32,
+    "PRO-CUA formulation": 36.47,
+    "Uniform": 36.04,
+    "Actor's first sample": 36.1
+   },
+   "minus_k3": {
+    "Pre-execution": [
+     -2.3220973782771535,
+     -3.495734908136483,
+     -1.120603015075377
+    ],
+    "Post-execution": [
+     -1.910112359550562,
+     -3.0062548866301797,
+     -0.8268858800773694
+    ],
+    "Lookahead K=1": [
+     -0.1685393258426966,
+     -1.2250554323725056,
+     0.817136378360868
+    ],
+    "WebArbiter formulation": [
+     -2.4250936329588013,
+     -3.5807790549169862,
+     -1.2169003115264798
+    ],
+    "WebShepherd formulation": [
+     -3.297882854764877,
+     -4.435126582278482,
+     -2.123104927189308
+    ],
+    "PRO-CUA formulation": [
+     -4.144897003745319,
+     -5.351061228482004,
+     -2.8340253064452354
+    ],
+    "Uniform": [
+     -4.581148564294632,
+     -5.753012048192772,
+     -3.3565121412803536
+    ],
+    "Actor's first sample": [
+     -4.522471910112359,
+     -6.374297984803436,
+     -2.5618349151567443
+    ]
+   }
+  }
+ },
+ "luna": {
+  "main (blank pages removed)": {
+   "states": 1037,
+   "tasks": 329,
+   "success": {
+    "Pre-execution": 29.51,
+    "Post-execution": 30.09,
+    "Lookahead K=1": 31.83,
+    "Lookahead K=3": 32.47,
+    "WebArbiter formulation": 30.49,
+    "WebShepherd formulation": 29.29,
+    "PRO-CUA formulation": 28.84,
+    "Uniform": 28.5,
+    "Actor's first sample": 28.73
+   },
+   "minus_k3": {
+    "Pre-execution": [
+     -2.954034072645452,
+     -4.02763561924258,
+     -1.8582375478927202
+    ],
+    "Post-execution": [
+     -2.3762455801992926,
+     -3.2239819004524892,
+     -1.5823805335678687
+    ],
+    "Lookahead K=1": [
+     -0.6404693024750883,
+     -1.478055857816467,
+     0.13157894736842113
+    ],
+    "WebArbiter formulation": [
+     -1.9744455159112828,
+     -3.062311790595321,
+     -0.8072645116440735
+    ],
+    "WebShepherd formulation": [
+     -3.1749705346619526,
+     -4.195832048514751,
+     -2.2146592442645074
+    ],
+    "PRO-CUA formulation": [
+     -3.6236204864459443,
+     -4.757692307692308,
+     -2.5071399737612277
+    ],
+    "Uniform": [
+     -3.9705882352941178,
+     -5.025049309664694,
+     -2.961219336219336
+    ],
+    "Actor's first sample": [
+     -3.7359369977499193,
+     -5.302197802197803,
+     -2.211764705882353
+    ]
+   }
+  },
+  "2+ different actions": {
+   "states": 743,
+   "tasks": 262,
+   "success": {
+    "Pre-execution": 26.94,
+    "Post-execution": 28.14,
+    "Lookahead K=1": 29.93,
+    "Lookahead K=3": 30.56,
+    "WebArbiter formulation": 28.79,
+    "WebShepherd formulation": 26.63,
+    "PRO-CUA formulation": 26.3,
+    "Uniform": 25.74,
+    "Actor's first sample": 25.82
+   },
+   "minus_k3": {
+    "Pre-execution": [
+     -3.6193360251233737,
+     -4.995682210708117,
+     -2.3141571969696972
+    ],
+    "Post-execution": [
+     -2.4214894571556753,
+     -3.5343137254901964,
+     -1.3660179640718564
+    ],
+    "Lookahead K=1": [
+     -0.6314490803050695,
+     -1.589390142021721,
+     0.2681159420289856
+    ],
+    "WebArbiter formulation": [
+     -1.7709735307312695,
+     -3.082970488630866,
+     -0.33472222222222225
+    ],
+    "WebShepherd formulation": [
+     -3.9321818453716166,
+     -5.2117690058479536,
+     -2.755829903978052
+    ],
+    "PRO-CUA formulation": [
+     -4.257439808583819,
+     -5.709895203546957,
+     -2.813949938949939
+    ],
+    "Uniform": [
+     -4.822566173171826,
+     -6.163846153846154,
+     -3.497865983781477
+    ],
+    "Actor's first sample": [
+     -4.738672050246747,
+     -6.764275256222548,
+     -2.8241778774289985
+    ]
+   }
+  },
+  "without browser error pages": {
+   "states": 961,
+   "tasks": 327,
+   "success": {
+    "Pre-execution": 31.28,
+    "Post-execution": 31.89,
+    "Lookahead K=1": 33.7,
+    "Lookahead K=3": 34.23,
+    "WebArbiter formulation": 32.3,
+    "WebShepherd formulation": 30.95,
+    "PRO-CUA formulation": 30.5,
+    "Uniform": 30.15,
+    "Actor's first sample": 30.41
+   },
+   "minus_k3": {
+    "Pre-execution": [
+     -2.9474505723204993,
+     -4.131328073635766,
+     -1.8124246079613993
+    ],
+    "Post-execution": [
+     -2.338709677419355,
+     -3.194141193595342,
+     -1.4892302259887005
+    ],
+    "Lookahead K=1": [
+     -0.5246271245230663,
+     -1.4003623188405796,
+     0.27277277277277284
+    ],
+    "WebArbiter formulation": [
+     -1.9302809573361082,
+     -3.1052442528735633,
+     -0.6922043010752688
+    ],
+    "WebShepherd formulation": [
+     -3.2808995259567584,
+     -4.349145707311896,
+     -2.2400207786526685
+    ],
+    "PRO-CUA formulation": [
+     -3.728089952595676,
+     -4.958126858275521,
+     -2.5303256895978734
+    ],
+    "Uniform": [
+     -4.0797780090183835,
+     -5.1820714519829565,
+     -2.9944693572496264
+    ],
+    "Actor's first sample": [
+     -3.8172043010752694,
+     -5.459411952700544,
+     -2.2102396514161224
+    ]
+   }
+  },
+  "arXiv capped at 10%": {
+   "states": 766,
+   "tasks": 329,
+   "success": {
+    "Pre-execution": 34.05,
+    "Post-execution": 34.43,
+    "Lookahead K=1": 35.85,
+    "Lookahead K=3": 36.92,
+    "WebArbiter formulation": 35.32,
+    "WebShepherd formulation": 33.86,
+    "PRO-CUA formulation": 33.52,
+    "Uniform": 33.02,
+    "Actor's first sample": 33.39
+   },
+   "minus_k3": {
+    "Pre-execution": [
+     -2.868798955613577,
+     -4.256525459991442,
+     -1.493993993993994
+    ],
+    "Post-execution": [
+     -2.494560487380331,
+     -3.547751506722299,
+     -1.455599300087489
+    ],
+    "Lookahead K=1": [
+     -1.0715839860748475,
+     -1.9727463312368971,
+     -0.15753424657534246
+    ],
+    "WebArbiter formulation": [
+     -1.5981288076588338,
+     -2.967931937172775,
+     -0.25101763907734054
+    ],
+    "WebShepherd formulation": [
+     -3.0560632434000583,
+     -4.178946589732209,
+     -1.928735167206041
+    ],
+    "PRO-CUA formulation": [
+     -3.4048447925732526,
+     -4.69286359530262,
+     -2.138960113960114
+    ],
+    "Uniform": [
+     -3.897084421235857,
+     -5.083440860215054,
+     -2.7517730496453905
+    ],
+    "Actor's first sample": [
+     -3.5280678851174936,
+     -5.356313834726091,
+     -1.6757493188010897
+    ]
+   }
+  },
+  "all usable (incl. blank)": {
+   "states": 1068,
+   "tasks": 335,
+   "success": {
+    "Pre-execution": 30.04,
+    "Post-execution": 30.61,
+    "Lookahead K=1": 32.2,
+    "Lookahead K=3": 32.75,
+    "WebArbiter formulation": 30.96,
+    "WebShepherd formulation": 29.76,
+    "PRO-CUA formulation": 29.28,
+    "Uniform": 28.98,
+    "Actor's first sample": 29.19
+   },
+   "minus_k3": {
+    "Pre-execution": [
+     -2.7067727840199747,
+     -3.833333333333334,
+     -1.6097689075630255
+    ],
+    "Post-execution": [
+     -2.1418539325842696,
+     -2.951181326501566,
+     -1.3530655391120507
+    ],
+    "Lookahead K=1": [
+     -0.5454119850187265,
+     -1.3513257575757573,
+     0.22438204943604506
+    ],
+    "WebArbiter formulation": [
+     -1.786828963795256,
+     -2.9013663535439793,
+     -0.6599356160374598
+    ],
+    "WebShepherd formulation": [
+     -2.9862151477320023,
+     -4.030793459321806,
+     -2.0365497076023393
+    ],
+    "PRO-CUA formulation": [
+     -3.4725603412401167,
+     -4.592248062015504,
+     -2.35971849199244
+    ],
+    "Uniform": [
+     -3.769038701622972,
+     -4.82066594281578,
+     -2.7615526802218113
+    ],
+    "Actor's first sample": [
+     -3.5564918851435707,
+     -5.097989093387866,
+     -2.0942239432074863
+    ]
+   }
+  }
+ },
+ "luna_states_missing_verdicts": 0
+}
