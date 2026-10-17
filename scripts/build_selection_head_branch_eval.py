@@ -66,6 +66,8 @@ def main():
     ap.add_argument("--split", default="branch124", help="split name written to every panel")
     ap.add_argument("--expect-trials", type=int, default=3,
                     help="required draws per candidate in this run's release; 0 accepts any complete panel")
+    ap.add_argument("--states-from", help="comma-separated label plans (plan.json with root/state entries); only states "
+                    "with non-empty judgments next to each plan are used, each read from its own campaign root")
     args = ap.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     piotr_tasks = set()
@@ -76,8 +78,18 @@ def main():
                 piotr_tasks.add(norm(found[-1]))
 
     counts, panels, states = Counter(), [], []
-    for state_id in read_json(args.run / "accepted-states.json")["state_ids"]:
-        anchor_path = Path(read_json(args.run / "states" / state_id / "anchor-reference.json")["path"])
+    if args.states_from:
+        entries, seen = [], set()
+        for plan_path in args.states_from.split(","):
+            done = Path(plan_path).parent / "judgments"
+            for e in read_json(plan_path)["states"]:
+                j = done / f"{e['state']}.json"
+                if e["state"] not in seen and j.exists() and read_json(j):
+                    seen.add(e["state"]); entries.append((Path(e["root"]), e["state"]))
+    else:
+        entries = [(args.run, s) for s in read_json(args.run / "accepted-states.json")["state_ids"]]
+    for run, state_id in entries:
+        anchor_path = Path(read_json(run / "states" / state_id / "anchor-reference.json")["path"])
         anchor = read_json(anchor_path)
         depth = anchor["depth"]
         reserved = [read_json(p)["record"] for p in sorted((anchor_path.parent / "events").glob("*.json"))
@@ -90,7 +102,7 @@ def main():
 
         outcomes = defaultdict(lambda: {"successes": 0, "trials": 0, "valid": 0})
         prompt, fallback = None, None
-        for attempt in read_json(args.run / "states" / state_id / "release.json")["attempt_directories"]:
+        for attempt in read_json(run / "states" / state_id / "release.json")["attempt_directories"]:
             result = read_json(Path(attempt) / "result.json")
             o = outcomes[result["candidate"]]
             o["trials"] += 1
