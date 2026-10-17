@@ -1323,6 +1323,58 @@ Independent verification checked the frozen grid and sources, native model/effor
 
 </details>
 
+
+<a id="sol61-harness-paired100-20261017"></a>
+### GPT-6.1 Sol high versus three-low-plus-low across CUAWright and BrowserCode: 100-task comparison
+
+All **400 fixed episodes completed and were independently verified**: the 20-task paired pilot plus an 80-task extension gave 100 OM2W tasks in each of four cells. Both harnesses used the same frozen task set and decision ceiling; only the execution harness and reasoning/selection policy varied. The comparison does not show a consistent performance winner. On common-valid task pairs, high effort did better in both harnesses, but uncertainty is substantial; the all-task BrowserCode result favors selection because it produced more valid episodes. The selection policy used about **4.4–4.8×** the Sol API cost.
+
+| Harness / policy | Tasks | Valid | Invalid | Successes | Overall success (%) | Valid-only success (%) | Mean task latency on valid episodes (s; judge excluded) | Sol calls | Sol cost (USD; judge excluded) |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| CUAWright / one high action | 100 | 87 | 13 | 51 | 51.0 | 58.6 | 111.4 | 1,248 | 12.37 |
+| CUAWright / three low actions + low selector | 100 | 95 | 5 | 51 | 51.0 | 53.7 | 100.3 | 3,776 | 54.73 |
+| BrowserCode / one high action | 100 | 70 | 30 | 45 | 45.0 | 64.3 | 47.1 | 928 | 7.89 |
+| BrowserCode / three low actions + low selector | 100 | 90 | 10 | 56 | 56.0 | 62.2 | 64.9 | 4,203 | 37.88 |
+
+Overall success uses the fixed 100-task denominator and counts invalid outcomes as non-success; valid-only rates condition on successful infrastructure/protocol validation. That distinction matters here: BrowserCode selection has 11 more overall successes, but 20 more valid episodes. The selected policy's valid-only rate is slightly lower than high, and on the 69 tasks valid in both conditions, high wins seven discordant pairs to one. Thus the overall BrowserCode advantage is largely a coverage/validity result, not evidence that selection chose better actions on shared valid tasks.
+
+| Harness, high → N3 low + low selector | Common-valid tasks | Both succeed | High only | Selection only | Both fail | Paired success difference (pp; bootstrap 95% CI) | Exact McNemar p | Task-latency difference, N3 − high (s; bootstrap 95% CI) |
+| --- | ---: | ---: | ---: | ---: | ---: | --- | ---: | --- |
+| CUAWright | 87 | 43 | 8 | 3 | 33 | −5.7 [−13.8, +1.1] | 0.227 | −15.0 [−32.7, +4.0] |
+| BrowserCode | 69 | 38 | 7 | 1 | 23 | −8.7 [−17.4, −1.4] | 0.070 | +5.2 [−1.0, +11.4] |
+
+N3 denotes three parallel low-effort candidates followed by one low-effort selector call. Paired differences use tasks valid in both arms; task latency excludes setup, final screenshot capture and judge. Bootstrap intervals use 10,000 task-resampled replicates (seed 20261017); the paired binary McNemar test is exact and two-sided. For BrowserCode the bootstrap interval and exact test give different conventional significance readings, so treat the apparent high-effort advantage on common-valid tasks as suggestive rather than conclusive. The pooled 100-task table is also across two collection windows (20 pilot tasks followed by 80 new tasks); it is not a single simultaneously randomized 100-task batch.
+
+Sol cost is usage-derived from native receipts at the pinned price table, includes failed/partial calls and all attempts, and excludes the terminal judge. Total Sol cost was **$112.87** across these four 100-episode cells. Mean task latency is conditional on valid episodes; paired latency is additionally restricted to the listed common-valid tasks.
+
+![Coverage and successes](arm_results/sol_harness_100_20261017/coverage-success.png)
+
+![Success rates](arm_results/sol_harness_100_20261017/success-rates.png)
+
+![Paired effects](arm_results/sol_harness_100_20261017/paired-effects.png)
+
+![Sol cost](arm_results/sol_harness_100_20261017/sol-cost.png)
+
+[Aggregate-only JSON](arm_results/sol_harness_100_20261017/aggregate.json).
+
+<details>
+<summary>Frozen protocol, validity causes, resources and all-attempt accounting</summary>
+
+The actor was GPT-6.1 Sol. The serial condition requested one high-effort action (12,288-token output cap). The comparison condition generated three parallel low-effort candidates (4,096 cap each), then passed the same state/history and candidate actions to one low-effort selector (2,048 cap); only its selected proposal executed. The frozen 30-decision task ceiling, fixed OM2W tasks, local browser, native action history and terminal judge were held constant. This is a comparison of these complete policies, not a pure isolation of candidate count or reasoning alone.
+
+The 80-task extension's 320 outcomes include 278 valid and 42 invalid episodes: 29 conservative input-price-tier guards, ten initial-navigation failures, two native-response `ValueError`s, and one Unicode encoding error. The early max-output incomplete response was retained as a failed attempt; only cells that had never started were resumed, under shard 0's original remaining allowance. No executed episode was repeated, and no task or outcome was replaced. The 20-task pilot's original dispositions are retained in the combined totals. All ten extension/recovery W&B worker runs finished.
+
+| Shard | Scheduler seconds, all attempts | Browser sessions | Sol calls | Sol USD | Judge calls | Judge USD |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 0, including bounded continuation | 3,731 | 82 | 2,200 | 23.63 | 70 | 0.61 |
+| 1 | 4,421 | 81 | 2,032 | 24.67 | 66 | 0.56 |
+| 2 | 4,491 | 81 | 2,405 | 29.18 | 71 | 0.63 |
+| 3 | 3,611 | 81 | 1,986 | 22.67 | 71 | 0.60 |
+
+Every shard remained below its approved 10,800-second, 120-browser, 4,000-call / $40 Sol and 100-call / $2 judge ceiling; no resources or balances transferred. The independent audit verified all 320 extension outcomes, all 400 pooled task/cell episodes, native request receipts, fixed grid membership, selected-only execution, validity labels, all-attempt API ledgers, terminal scheduler and W&B states, and owned-browser teardown. The exported JSON and plots contain aggregate values only; task-level records remain private in the runtime campaign directory.
+
+</details>
+
 <a id="sol61-webvoyager-deepshop100-20261015"></a>
 ### WebVoyager100 and DeepShop100: staged parallel extension
 

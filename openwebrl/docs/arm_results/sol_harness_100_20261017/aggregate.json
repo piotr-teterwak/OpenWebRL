@@ -1,0 +1,166 @@
+{
+  "schema": "sol61-harness-paired-100-aggregate-v1",
+  "created_epoch": 1792225660.0290475,
+  "tasks": 100,
+  "episodes_planned": 400,
+  "episodes_physically_attempted": 400,
+  "cells": {
+    "cuawright/serial_high": {
+      "planned": 100,
+      "physical_attempted": 100,
+      "valid": 87,
+      "invalid": 13,
+      "successes": 51,
+      "overall_success": 0.51,
+      "valid_only_success": 0.5862068965517241,
+      "valid_only_wilson95": [
+        0.47900269592201083,
+        0.6861201477083132
+      ],
+      "valid_mean_task_seconds_excluding_judge": 111.39285861365472,
+      "valid_mean_decisions": 12.954022988505747
+    },
+    "cuawright/parallel3_select_low": {
+      "planned": 100,
+      "physical_attempted": 100,
+      "valid": 95,
+      "invalid": 5,
+      "successes": 51,
+      "overall_success": 0.51,
+      "valid_only_success": 0.5368421052631579,
+      "valid_only_wilson95": [
+        0.4351288914721527,
+        0.6356915930038862
+      ],
+      "valid_mean_task_seconds_excluding_judge": 100.29761064423181,
+      "valid_mean_decisions": 9.936842105263159
+    },
+    "browsercode/serial_high": {
+      "planned": 100,
+      "physical_attempted": 100,
+      "valid": 70,
+      "invalid": 30,
+      "successes": 45,
+      "overall_success": 0.45,
+      "valid_only_success": 0.6428571428571429,
+      "valid_only_wilson95": [
+        0.5229183852897756,
+        0.747932168307291
+      ],
+      "valid_mean_task_seconds_excluding_judge": 47.10311636847182,
+      "valid_mean_decisions": 8.9
+    },
+    "browsercode/parallel3_select_low": {
+      "planned": 100,
+      "physical_attempted": 100,
+      "valid": 90,
+      "invalid": 10,
+      "successes": 56,
+      "overall_success": 0.56,
+      "valid_only_success": 0.6222222222222222,
+      "valid_only_wilson95": [
+        0.5169233587876589,
+        0.7175145994077279
+      ],
+      "valid_mean_task_seconds_excluding_judge": 64.8894837750559,
+      "valid_mean_decisions": 10.933333333333334
+    }
+  },
+  "all_attempt_api_usage_by_cell": {
+    "cuawright/serial_high": {
+      "sol_usd": 12.367701500000003,
+      "judge_usd": 0.8068103999999999,
+      "cache_write_input": 3000267.0,
+      "reasoning_output": 15439.0,
+      "judge_calls": 87.0,
+      "output": 242626.0,
+      "sol_calls": 1248.0,
+      "cached_input": 24332860.0,
+      "input": 27336871.0
+    },
+    "cuawright/parallel3_select_low": {
+      "sol_usd": 54.732154100000045,
+      "judge_usd": 0.8259867,
+      "cache_write_input": 17917344.0,
+      "reasoning_output": 4728.0,
+      "judge_calls": 95.0,
+      "output": 501823.0,
+      "sol_calls": 3776.0,
+      "cached_input": 47142401.0,
+      "input": 65162907.0
+    },
+    "browsercode/serial_high": {
+      "sol_usd": 7.8888652999999955,
+      "judge_usd": 0.5570520999999999,
+      "cache_write_input": 2129451.0,
+      "reasoning_output": 10892.0,
+      "judge_calls": 70.0,
+      "output": 141247.0,
+      "sol_calls": 928.0,
+      "cached_input": 11471998.0,
+      "input": 13604233.0
+    },
+    "browsercode/parallel3_select_low": {
+      "sol_usd": 37.8783501,
+      "judge_usd": 0.7165818000000002,
+      "cache_write_input": 12451144.0,
+      "reasoning_output": 5250.0,
+      "judge_calls": 90.0,
+      "output": 307267.0,
+      "sol_calls": 4203.0,
+      "cached_input": 34873621.0,
+      "input": 47419994.0
+    }
+  },
+  "paired": {
+    "cuawright": {
+      "comparison": "N3 low + low selector minus serial high",
+      "common_valid_tasks": 87,
+      "outcome_pairs": {
+        "00": 33,
+        "01": 3,
+        "10": 8,
+        "11": 43
+      },
+      "paired_success_gain": -0.05747126436781609,
+      "paired_success_gain_bootstrap95": [
+        -0.13793103448275862,
+        0.011494252873563218
+      ],
+      "exact_mcnemar_two_sided_p": 0.2265625,
+      "mean_task_latency_seconds_high": 111.39285861365472,
+      "mean_task_latency_seconds_n3_low_plus_selector": 96.35263301922984,
+      "paired_task_latency_difference_seconds_n3_minus_high": -15.04022559442489,
+      "paired_task_latency_difference_bootstrap95": [
+        -32.73185821764324,
+        3.952361933068292
+      ]
+    },
+    "browsercode": {
+      "comparison": "N3 low + low selector minus serial high",
+      "common_valid_tasks": 69,
+      "outcome_pairs": {
+        "00": 23,
+        "01": 1,
+        "10": 7,
+        "11": 38
+      },
+      "paired_success_gain": -0.08695652173913043,
+      "paired_success_gain_bootstrap95": [
+        -0.17391304347826086,
+        -0.014492753623188406
+      ],
+      "exact_mcnemar_two_sided_p": 0.0703125,
+      "mean_task_latency_seconds_high": 47.50375001146418,
+      "mean_task_latency_seconds_n3_low_plus_selector": 52.66405538836261,
+      "paired_task_latency_difference_seconds_n3_minus_high": 5.160305376898433,
+      "paired_task_latency_difference_bootstrap95": [
+        -1.0295963629424754,
+        11.419039956636867
+      ]
+    }
+  },
+  "task_latency_definition": "task latency excludes setup, final capture and judge",
+  "sol_cost_excludes_judge": true,
+  "limitations": "Valid-only estimates condition on infrastructure-valid episodes; overall success uses all 100 planned tasks and counts invalid outcomes as non-success. Wilson intervals are descriptive; paired bootstrap intervals are task-resampled and unadjusted for multiple comparisons. All API usage includes every attempt."
+}
