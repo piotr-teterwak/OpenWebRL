@@ -48,6 +48,12 @@ for name, root in RUNS.items():
         for j in json.loads(f.read_text()):
             if j["valid"]:
                 picks[name][j["state"]].append(j["candidate"])
+# prior-work judge formulations (formulation-faithful, GPT-6 Luna): their pick sets, ties split
+for name, m in (("WebArbiter formulation", "arbiter"), ("WebShepherd formulation", "shepherd"), ("PRO-CUA formulation", "procua")):
+    picks[name] = {}
+    for root in (B / "prm-formulations-20261016", NW / "prm-formulations"):
+        for f in (root / "results" / m).glob("*.json"):
+            r = read(f); picks[name][r["state"]] = r["picks"]
 states = sorted(keep & set.intersection(*(set(v) for v in picks.values())))
 
 
@@ -64,7 +70,7 @@ for n in range(2, 7):
         if None in fit or None in hold:
             continue
         fit, hold = np.array(fit), np.array(hold)
-        per[s] = {k: float(np.mean([hold[c] for c in picks[k][s]])) for k in RUNS}
+        per[s] = {k: float(np.mean([hold[c] for c in picks[k][s]])) for k in picks}
         per[s] |= {"Uniform": float(hold.mean()), "Actor first sample": float(hold[0]), "Best on observed draws": float(hold[fit == fit.max()].mean())}
     st = sorted(per); g = [task[s] for s in st]
     pooled = {"states": len(st), "task_groups": len(set(g))}

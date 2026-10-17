@@ -6,6 +6,9 @@ STYLE = {  # key in curve.json -> (legend label, colour, line style)
     "Lookahead K=1": ("Lookahead K=1", "#93bdef", "-"),
     "Immediate result": ("Post-execution", "#eb6834", "-"),
     "Before execution": ("Pre-execution", "#7b4fd0", "-"),
+    "WebArbiter formulation": ("WebArbiter (Luna)", "#8c6d31", "-."),
+    "WebShepherd formulation": ("WebShepherd (Luna)", "#b5a33a", "-."),
+    "PRO-CUA formulation": ("PRO-CUA (Luna)", "#4a8c8c", "-."),
     "Actor first sample": ("Actor (first sample)", "#b04a9b", ":"),
     "Uniform": ("Uniform", "#9a9890", "--"),
 }
