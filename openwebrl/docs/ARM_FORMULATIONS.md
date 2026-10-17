@@ -452,7 +452,7 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 
 ### Lookahead labels: main results
 
-**Looking three steps ahead is what makes Luna's labels better; the input format, history and call order barely matter, and the result holds under a second, stricter outcome judge.** Recommended labeller: **K = 3, screenshots only, no history, 1–2 randomized-order calls per state** (about USD 3.3 per 1,000 states at one call).
+**Looking three steps ahead is what makes Luna's labels better; the input format, history and call order barely matter, the result holds under a second, stricter outcome judge, and lookahead beats the WebShepherd, WebArbiter and PRO-CUA judge formulations by 3–6 pp.** Recommended labeller: **K = 3, screenshots only, no history, 1–2 randomized-order calls per state** (about USD 3.3 per 1,000 states at one call).
 
 **A. Across execution depth and outcome judges** (467 Piotr-task states, 68 tasks; held-out draws 3–7; valid draws only):
 
@@ -486,6 +486,22 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 | without tool feedback in lookahead steps | 35.52% |
 | with only the current screenshot | 36.31% |
 | without history | 35.75% |
+
+**D. Against prior-work judge formulations** (all with GPT-6 Luna; 493 Piotr-task states, 78 tasks; held-out draws 3–7; valid draws only):
+
+| Teacher formulation (all with GPT-6 Luna) | Candidates picked per state | o4-mini judge | − K = 3, pp [95%] | GPT-6 Luna judge | − K = 3, pp [95%] |
+| --- | ---: | ---: | --- | ---: | --- |
+| **Lookahead K = 3 (ours)** | — | 38.21% | — | 29.64% | — |
+| Post-execution (ours) | — | 34.77% | −3.43 [−5.29, −1.83] | 26.26% | −3.38 [−4.78, −2.16] |
+| Pre-execution (ours) | — | 34.20% | −4.01 [−5.36, −2.62] | 26.30% | −3.34 [−4.85, −1.86] |
+| WebArbiter formulation | 1.0 | 34.49% | −3.72 [−5.12, −2.14] | 26.54% | −3.09 [−4.72, −1.56] |
+| WebShepherd formulation | 3.3 | 33.62% | −4.58 [−6.08, −3.05] | 26.30% | −3.34 [−5.03, −1.98] |
+| PRO-CUA formulation | 3.5 | 32.08% | −6.13 [−7.90, −4.08] | 24.85% | −4.79 [−6.74, −2.90] |
+| Uniform pick | — | 32.33% | −5.87 [−7.50, −4.07] | 25.52% | −4.12 [−5.80, −2.58] |
+| Actor's first sample | — | 31.22% | −6.98 [−9.42, −4.45] | 24.92% | −4.72 [−7.37, −2.56] |
+
+- **All three prior-work formulations judge before execution and score like our pre-execution baseline; K = 3 lookahead beats each by 3–6 pp under both judges.** WebArbiter (pairwise tournament) is the best of the three, level with our post-execution labels; PRO-CUA is the weakest and marks most candidates correct (3.5 of 5 per state on average), so its picks are close to uniform.
+- *Formulation-faithful: each method's own prompt and scoring with Luna as the model. WebShepherd: upstream checklist and progress prompts, text observation, labels scored Yes 1 / In Progress 0.5 / No 0 (upstream weights them by token probabilities); many early states give every candidate 0, hence ties. WebArbiter: official WebPRMBench pairwise template, native verdict parser and knockout tournament. PRO-CUA: the paper's PRM grading prompt verbatim with the action target marked on the screenshot, one binary call per candidate. The page text is the saved accessibility tree; coordinate clicks are mapped to the element under the click point for WebShepherd and WebArbiter. Ties count as an even split. 11,040 calls, USD 7.07. [JSON](arm_results/rl_integration/lookahead-prior-work-judges-20261016.json), [scoring](arm_results/rl_integration/lookahead-prior-work-judges-20261016.py), [runner](../../scripts/run_branch_prm_formulations.py).*
 
 - **Depth:** K = 3 beats post-execution by about 3 pp under both judges; post-execution adds nothing over pre-execution. K = 1 recovers most of the gain.
 - **Input format:** screenshots only, text only and both are within about 1 pp; screenshots only is cheapest and best at K = 3. History, call order (fixed vs randomized) and the number of calls (1 vs 4) change success by less than 1 pp. The one text component that matters is the tool feedback inside lookahead steps (C).
