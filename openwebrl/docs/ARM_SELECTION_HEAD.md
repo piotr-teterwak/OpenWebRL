@@ -24,6 +24,7 @@
   - The head's decisions cost 64% of Piotr's compute: only the actor's work, since its selector adds under 1%.
   - It is the fastest five-candidate method, 0.4 s behind five samples with no selector.
   - The slow selectors slow down further under live load: Kev-style's decisions take 16.6 s live against 8.7 s offline.
+- **Across benchmarks** ([details](#selection-head-crossbench-20261017)): on the same 100 tasks per benchmark, the lookahead K = 1 head trained on 1,908 of our SFT + RL states beats the 840-state version by +7.0 pp [+0.7, +13.3] (300 tasks). It is level with SFT (+1.7 pp [−4.7, +7.7]) and with the head trained on Piotr's data; no selector beats SFT on DeepShop.
 - **Branching states with held-out outcomes.**
   - No teacher-trained selector clearly beats a uniform pick, while choosing by observed outcomes does: +5.32 pp [+3.09, +7.62] ([details](#selection-head-outcomes-20261010)).
   - Among small students, only **lookahead-labelled** ones move above uniform (+2.4 to +3.0 pp) ([label types](#selection-head-label-types-20261011)).
@@ -58,6 +59,85 @@
 **Agreement with teachers does not track action quality.** The Kev-style decision pass on the actor's weights, trained to step 600, matches held-out GPT-5.5 choices best of any actor-based selector: 67.1%, versus 65.4% for the frozen-feature head. On the original 124 states it matches an independent teacher (Luna before execution) on 66.1% of judgments, versus 73.2% for Piotr ARM. Its chosen actions succeed on 32.79% of held-out draws, +1.12 pp [−1.38, +3.75] over uniform.
 
 **Supervising the selector with outcomes needs more states than exist now.** 188 states have eight draws for all five actions: 9,720 outcomes in 151 task groups, 14× fewer states than the 2,692 teacher-labelled training states ([data comparison](#selection-head-outcome-data-20261010)). A pre-registered five-fold [adaptation pilot](#selection-head-outcome-adaptation-20261010) on 138 of these states overfits: it fits training folds but does not beat uniform on held-out tasks. Ridge probes, a combined teacher-plus-outcome loss and selector combinations also find [no held-out gain](#selection-head-early-signal-20261010). Confirming a 3 pp selector difference needs about 200 states with eight draws, and confirming Piotr's ~2.5 pp gain over uniform about 300.
+
+</details>
+
+<a id="selection-head-crossbench-20261017"></a>
+
+## Across benchmarks: Online-Mind2Web, WebVoyager and DeepShop
+
+**Training the lookahead K = 1 head on 1,908 of our states (SFT- and RL-actor) instead of 840 raises its live success by 7.0 pp [+0.7, +13.3] over 300 tasks. It is now level with the single-sample SFT actor (+1.7 pp [−4.7, +7.7]) and with the same head trained on Piotr's data. No selector beats SFT on DeepShop.**
+- **Setup:** the same seeded 100 tasks per benchmark for every condition (Online-Mind2Web 100 of 300, WebVoyager 100 of 595, DeepShop 100 of 150), one episode per task.
+- **Decoding:** T 0.7, top-p 0.9 and 1,024 tokens, as in the same-hardware runs. Heads see pre-execution inputs only.
+- **Judges:** o4-mini for Online-Mind2Web; GPT-4o for WebVoyager and DeepShop.
+- **Rates:** "overall" counts invalid episodes as failures; "valid only" divides by valid episodes.
+
+| Condition | Selector training data | Online-Mind2Web successes | WebVoyager successes | DeepShop successes | Online-Mind2Web valid only | WebVoyager valid only | DeepShop valid only |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| SFT 4B, 1 sample | — | 34 | 43 | **47** | 37.8% | 43.0% | 47.0% |
+| Piotr SelectionARM (LoRA 4B selector) | Piotr: 2,692 states, 35,916 panels | — | **55** | 45 | — | 57.3% | 45.9% |
+| Head, Piotr's data, pointwise | Piotr: 2,692 states, 35,916 panels | — | 50 | **51** | — | 51.5% | 53.1% |
+| Head, Piotr's data, listwise | Piotr: 2,692 states, 35,916 panels | **42** | 48 | 42 | 46.7% | 48.0% | 42.0% |
+| **Head, lookahead K = 1, SFT + RL states** | **ours: 1,908 states** | **39** | **49** | **41** | **46.4%** | **50.5%** | **41.0%** |
+| Head, lookahead K = 1 | ours: 840 states | 27 | 45 | 36 | 30.3% | 45.5% | 37.1% |
+| Head, observed outcomes (draws 0–2) | ours: 840 states | 37 | 42 | 35 | 40.7% | 42.4% | 35.4% |
+| Head, pre-execution teacher | ours: 840 states | 34 | 38 | 37 | 39.1% | 38.4% | 37.4% |
+| Head, lookahead K = 3 | ours: 840 states | 25 | 40 | 40 | 29.4% | 40.8% | 42.1% |
+
+Successes are out of 100 tasks, so they equal the overall rate in %. Piotr SelectionARM and the pointwise Piotr-data head were not rerun on Online-Mind2Web; their 3 × 300 same-hardware results are [above](#selection-head-samehw-20261012).
+
+| Paired difference, same tasks | Benchmarks | Tasks | Overall, pp [95% CI] | Valid tasks | Valid only, pp [95% CI] |
+| --- | --- | ---: | ---: | ---: | ---: |
+| K = 1 head: 1,908 states − 840 states | all three | 300 | **+7.0 [+0.7, +13.3]** | 272 | +7.4 [+0.7, +14.0] |
+| K = 1 head, 1,908 states − SFT | all three | 300 | +1.7 [−4.7, +7.7] | 279 | +2.5 [−4.3, +9.3] |
+| K = 1 head, 840 states − SFT | all three | 300 | −5.3 [−11.3, +0.7] | 281 | −5.0 [−11.0, +1.1] |
+| Listwise head, Piotr's data − SFT | all three | 300 | +2.7 [−3.7, +9.0] | 286 | +2.4 [−4.2, +9.1] |
+| Pointwise head, Piotr's data − SFT | WebVoyager, DeepShop | 200 | +5.5 [−2.5, +13.5] | 193 | +7.3 [−0.5, +15.0] |
+| Piotr SelectionARM − SFT | WebVoyager, DeepShop | 200 | +5.0 [−2.5, +12.5] | 194 | +5.7 [−2.1, +13.4] |
+| K = 1 head, 1,908 states − Piotr SelectionARM | WebVoyager, DeepShop | 200 | −5.0 [−12.5, +2.0] | 191 | −5.2 [−12.6, +2.1] |
+
+Intervals resample tasks (10,000 resamples). Per benchmark, only two differences exclude zero: Piotr SelectionARM − SFT on WebVoyager, +12.0 pp [+2.0, +22.0], and the 1,908-state − 840-state head on Online-Mind2Web, +12.0 pp [+2.0, +22.0].
+
+- **More of our states help live; the offline test fold does not show it.**
+  - On the shared held-out test fold (210 states, held-out draws 3–7), the 1,908-state head scores the same as the 840-state head: −1.5 pp [−4.7, +0.7] under o4-mini.
+  - The live gain likely comes from coverage: 138 new tasks and RL-reached pages that the old test fold does not sample.
+  - So offline held-out success is not a sufficient check for deployment.
+- **Data, not the selector's size, is the main gap to Piotr.**
+  - The same frozen-feature head trained on Piotr's 2,692 teacher-labelled states lands within about 5 pp of his full 4B selector.
+  - Ours is now level with that head on Online-Mind2Web and WebVoyager.
+  - Piotr's states carry about 13 five-candidate panels each, against one per state for ours, so his data has about 19× more labelled choices.
+- **DeepShop is the exception.** Only the pointwise Piotr-data head is above SFT there, at +4 pp; Piotr SelectionARM is −2 pp and our heads are −6 to −12 pp.
+- **Caveat.** Each cell is one 100-task run, so a single benchmark's difference needs about 10 pp to clear noise; the pooled rows are the reliable comparisons. The full sets (300 + 595 + 150 tasks) are planned next for SFT, Piotr SelectionARM and the 1,908-state head.
+
+<details>
+<summary>Protocol, invalid episodes, training data, cost and evidence</summary>
+
+- **Runner.** `scripts/run_crossbench_selector_eval.py` with `openwebrl/crossbench_selector_eval.py` (Sol harness port; commits `83e1230`, `2fb1f28`, `bd5a048`).
+  - Actor: OpenWebRL-4B-SFT on sglang, 8 tasks in parallel, local browser, 30 steps, full history, one screenshot, seed 42.
+  - Selectors: five candidates per step. Heads score them from layers 18/27/36 captured while the actor generates, and Piotr SelectionARM runs on its own sglang server on the same GPU.
+  - Plans are frozen per condition and benchmark (task subset seed 0, protocol hash, head sha256). A restart skips verified task records.
+- **Invalid episodes.** Each Online-Mind2Web condition has 6 site-unreachable resets and 2 browser-step errors. Actor context overflows (a request over 32K tokens) vary by selector:
+  - 8 for the 1,908-state head and 7 for the K = 3 head;
+  - 2 for SFT, Piotr SelectionARM and the listwise Piotr-data head.
+  - Overflows count as failures in the overall rate, because the selector's picks lead to them.
+- **Selector training data.**
+  - **Our heads:** branching states with 5 fixed SFT-sampled candidates and 8 continuation draws per candidate.
+  - **Label sources:** Luna lookahead votes (screenshots only, no history, 2 randomized-order calls), the pre-execution teacher, or observed outcomes on draws 0–2. Draws 3–7 are never used.
+  - **840-state heads:** the supervision-ablation split (folds 1–4).
+  - **1,908-state heads:** 1,171 labelled SFT-actor states plus 925 new ones: 460 SFT-actor and 465 collected with the RL checkpoint OpenWebRL-4B `616cc8f`. All states have K = 1 labels ($4.10, 1,851 Luna calls), and training keeps states that also have an observed-outcome target.
+  - **New tasks:** they go to training folds only, so the test fold stays task-disjoint.
+  - **Piotr-data heads:** the selection-head training set above (GPT-5.5 picks on Piotr's 2,692 states). Pointwise scores each candidate alone; listwise attends across the five.
+- **Offline check on the shared test fold** (task-disjoint; held-out draws 3–7, valid only; mean of 3 seeds). On the original 210 test states:
+  - **K = 1 head:** 840 states 36.16%, 1,908-state training set 34.66% (o4-mini). The 1,908-state version trains on the 1,564 non-test states.
+  - **Observed-outcomes head:** 34.73% and 35.05%.
+  - **Uniform pick:** 31.91%.
+  - **Under the Luna judge:** the same ordering. [Evidence](arm_results/rl_integration/sftrl-heads-offline-20261018.json).
+- **Cost.**
+  - Original 17 runs: 16.2 GPU-hours (1 H200 each, including restarts).
+  - Piotr-data heads: 4.2 GPU-hours.
+  - 1,908-state head: 1.1 GPU-hours for features and training, plus 2.9 for the live runs.
+  - Judging: about $9 for all runs.
+- **Evidence.** [Per-condition rows and paired differences](arm_results/rl_integration/crossbench-selectors-20261017.json). Runtime root: `evaluations/crossbench-selectors-20261017/` (frozen plans, every record, judge verdicts and rollouts). Heads: `selection-head-20261008/sftrl-heads-20261017/heads-all/` and `supervision-ablation-20261017/students-repro/heads/`.
 
 </details>
 
