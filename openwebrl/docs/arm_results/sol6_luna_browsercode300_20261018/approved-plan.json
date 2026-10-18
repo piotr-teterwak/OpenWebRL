@@ -1,0 +1,86 @@
+{
+  "created_epoch": 1792358629.377572,
+  "status": "approved_submitted_startup_queued",
+  "benchmark": "Online-Mind2Web",
+  "harness": "BrowserCode",
+  "tasks_per_arm": 300,
+  "new_episodes": 700,
+  "preserved_luna_records": 200,
+  "preserved_luna_invalid_records": 13,
+  "arms": {
+    "serial_high": {
+      "actor_model": "gpt-6-sol",
+      "selector_model": null,
+      "candidates": 1
+    },
+    "parallel3_select_high": {
+      "actor_model": "gpt-6-luna",
+      "selector_model": "gpt-6-luna",
+      "candidates": 3
+    },
+    "parallel5_select_high": {
+      "actor_model": "gpt-6-luna",
+      "selector_model": "gpt-6-luna",
+      "candidates": 5
+    }
+  },
+  "common_protocol": {
+    "harness": "browsercode",
+    "browsercode_revision": "b200643fe0eb93ce5a3aadd4bb21cb6cceb2ed04",
+    "judge_model": "o4-mini-2025-04-16",
+    "judge_protocol": "same terminal-success protocol as paired BrowserCode comparison",
+    "latency": "episode/task latency excludes terminal judge",
+    "max_steps": 30,
+    "actor_effort": "high",
+    "actor_max_output_tokens": 12288,
+    "selector_effort": "high",
+    "selector_max_output_tokens": 12288,
+    "native_generation_only_proposals": true,
+    "selected_only_execution": true
+  },
+  "campaign_caps": {
+    "jobs": 20,
+    "gpus": 0,
+    "concurrent_cpus": 80,
+    "concurrent_memory_gib": 320,
+    "allocation_job_hours": 60,
+    "model_usd": 200,
+    "judge_usd": 20,
+    "total_api_usd": 220,
+    "model_calls_including_token_counts": 124000,
+    "judge_calls": 1000,
+    "browsers": 1000
+  },
+  "resources_per_shard": {
+    "billing_account": "vlm",
+    "cpus": 4,
+    "gpus": 0,
+    "memory_gib": 16,
+    "total_seconds_all_attempts": 10800
+  },
+  "new_episodes_by_arm": {
+    "serial_high": 300,
+    "parallel3_select_high": 200,
+    "parallel5_select_high": 200
+  },
+  "model_usd_caps_by_arm": {
+    "serial_high": 100,
+    "parallel3_select_high": 40,
+    "parallel5_select_high": 60
+  },
+  "primary_analysis": "New extension200 tasks; all-three common-valid comparisons plus fixed-grid overall and valid-only outcomes. Combined300 reuses outcome-observed Luna100 and is secondary.",
+  "old_sol61_reference": "Historical only; no GPT-6.1 outcome substitutes for the new GPT-6 Sol single-high arm.",
+  "metrics": {
+    "cost": "Every proposal and selector with actual native usage; judge separate. Unknown usage keeps its full budget reservation.",
+    "tokens": "Input, cached-input/cache-write, output and reported reasoning; reasoning is included in output and is not added twice.",
+    "task_latency": "Agent wall time; excludes setup, final capture and judge. Summed API durations include parallel calls and are not task wall time.",
+    "browser_steps": {
+      "model_decisions": "Completed native model decisions, including observations and completion.",
+      "selected_code_batches": "Selected nonempty code commands.",
+      "browser_code_batches_attempted": "Native executor step files excluding the initial controller viewport setup.",
+      "native_browsercode_cdp_attempts": "CDP calls recorded by the native bridge, including setup and observation calls; not equivalent to model decisions."
+    },
+    "retained_records": "Existing outcomes stay immutable; missing metadata will be derived from their original native receipts into separate analysis artifacts."
+  },
+  "results_available": false
+}

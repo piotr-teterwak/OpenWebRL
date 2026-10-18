@@ -1324,6 +1324,35 @@ Independent verification checked the frozen grid and sources, native model/effor
 </details>
 
 
+<a id="sol6-luna-browsercode300-20261018"></a>
+### GPT-6 Sol single high versus Luna N3/N5: approved full300
+
+**All 20 CPU jobs are submitted; native startup validation is pending.** The corrected baseline is **`gpt-6-sol` single high**. The earlier `gpt-6.1-sol` reference below stays historical and supplies no baseline outcomes to this new comparison.
+
+| BrowserCode condition | Final fixed tasks | Existing dispositions reused | New episodes | New model USD cap |
+| --- | ---: | ---: | ---: | ---: |
+| GPT-6 Sol, one high action | 300 | 0 | 300 | 100 |
+| GPT-6 Luna, N3 high + high selector | 300 | 100 | 200 | 40 |
+| GPT-6 Luna, N5 high + high selector | 300 | 100 | 200 | 60 |
+
+All 200 existing Luna dispositions remain immutable, including 13 invalid outcomes. The **new 200-task extension is the primary comparison**; the combined300 analysis is secondary because the reused Luna100 outcomes were already observed. Both overall and valid-only success, paired common-valid utility, model cost and task latency will be reported. Each native proposal and selector uses high effort and a 12,288-token ceiling; the shared episode limit remains 30 decisions.
+
+The approved new allocation is **20 jobs × 0 GPU / 4 CPUs / 16 GiB × 3 hours**, including every attempt. New API caps total **$220**: $200 model plus $20 judge, with 124,000 model/count requests, 1,000 judge requests and 1,000 browser sessions. Per-shard caps remain separate; old unused budget is not transferred. The three startup jobs are released to the CPU queue; the other 17 remain held until one valid native episode in each arm passes independent identity/execution checks.
+
+[Approved aggregate plan and metric definitions](arm_results/sol6_luna_browsercode300_20261018/approved-plan.json).
+
+<details>
+<summary>Token, cost, latency and browser-step measurement</summary>
+
+- Native receipts retain input, cached-input/cache-write, output and reported reasoning tokens for every proposal and selector, including unselected proposals and failed attempts. Reported reasoning is already included in output, not added twice.
+- Model cost excludes judging; every proposal and selector is priced. Unknown usage retains its full budget reservation. Native input-token counts are nongeneration requests with zero model USD and count against the call ceiling.
+- Task latency excludes setup, final capture and judging. Summed API-call durations include concurrent proposal durations and are kept distinct from episode wall time.
+- Browser resource measures include **model decisions**, **selected code batches**, **actual executor batches excluding controller viewport setup**, and **native CDP attempts**. One code batch can issue several browser operations; CDP attempts also include observations/setup. Owned browser duration, sampled CPU and sampled peak RSS remain saved separately.
+
+These per-episode metrics are saved durably and logged to `openwebrl-evals`. Startup checks require the exact requested and returned model, the correct one/three/five proposal count, no selector for single Sol, selected-only execution/history, native judge-image binding and owned teardown. Worker collection alone is incomplete: all 900 final dispositions, native receipts, all-attempt caps, W&B closure and owned teardown require an independent audit. Raw tasks and native payloads remain private.
+
+</details>
+
 <a id="luna-sol-browsercode100-20261018"></a>
 ### Luna high proposal selection versus single Sol high: fixed 100 tasks
 
