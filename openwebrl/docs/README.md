@@ -1,5 +1,7 @@
 # OpenWebRL project documentation
 
+[Luna N3/N5 versus single GPT-6.1 Sol on 100 fixed BrowserCode tasks: 69 common-valid tasks, paired success, all-call model cost and latency](ARM_INFERENCE_SCALING.md#luna-sol-browsercode100-20261018).
+
 [BrowserCode versus CUAWright: verified 20-task four-condition pilot, paired success/latency, native tokens/cost and sampled resources](ARM_INFERENCE_SCALING.md#sol61-browsercode-cuawright-paired20-20261016).
 [Completed 100-task GPT-6.1 Sol high versus three-low-plus-low comparison on both harnesses: overall and valid-only success, paired utility/latency, Sol-only cost and audit](ARM_INFERENCE_SCALING.md#sol61-harness-paired100-20261017).
 

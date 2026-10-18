@@ -1,0 +1,291 @@
+{
+  "schema": "om2w-browsercode-luna-versus-sol-fixed100-final-v1",
+  "created_epoch": 1792356603.1466546,
+  "verified_complete": true,
+  "benchmark": "Online-Mind2Web",
+  "tasks_per_arm": 100,
+  "harness": "BrowserCode",
+  "decision_cap": 30,
+  "proposal_effort": "high",
+  "selector_effort": "high",
+  "max_output_tokens_each_call": 12288,
+  "models": {
+    "sol61_single_high": "gpt-6.1-sol",
+    "parallel3_select_high": "gpt-6-luna",
+    "parallel5_select_high": "gpt-6-luna"
+  },
+  "full_fixed100": {
+    "sol61_single_high": {
+      "recorded": 100,
+      "physical": 100,
+      "valid": 70,
+      "successes": 45,
+      "valid_only_success": 0.6428571428571429,
+      "valid_mean_task_seconds_excluding_judge": 47.10311636847182,
+      "overall_success": 0.45,
+      "invalid": 30,
+      "valid_browser_resources": {
+        "mean_decisions": 8.9,
+        "mean_selected_code_batches": 7.9,
+        "mean_native_cdp_attempts": 32.57142857142857,
+        "mean_owned_browser_seconds_before_judge": 48.944023707185,
+        "mean_observed_process_cpu_seconds": 12.306428571428572,
+        "mean_sampled_process_peak_rss_mib": 1944.6379464285715
+      }
+    },
+    "parallel3_select_high": {
+      "recorded": 100,
+      "physical": 100,
+      "valid": 93,
+      "successes": 65,
+      "valid_only_success": 0.6989247311827957,
+      "valid_mean_task_seconds_excluding_judge": 159.81641078880682,
+      "overall_success": 0.65,
+      "invalid": 7,
+      "valid_browser_resources": {
+        "mean_decisions": 15.623655913978494,
+        "mean_selected_code_batches": 14.698924731182796,
+        "mean_native_cdp_attempts": 41.11827956989247,
+        "mean_owned_browser_seconds_before_judge": 161.65239553329954,
+        "mean_observed_process_cpu_seconds": 34.88139784946237,
+        "mean_sampled_process_peak_rss_mib": 2168.810987903226
+      }
+    },
+    "parallel5_select_high": {
+      "recorded": 100,
+      "physical": 100,
+      "valid": 94,
+      "successes": 67,
+      "valid_only_success": 0.7127659574468085,
+      "valid_mean_task_seconds_excluding_judge": 189.22838493227647,
+      "overall_success": 0.67,
+      "invalid": 6,
+      "valid_browser_resources": {
+        "mean_decisions": 16,
+        "mean_selected_code_batches": 15.063829787234043,
+        "mean_native_cdp_attempts": 45.87234042553192,
+        "mean_owned_browser_seconds_before_judge": 191.0512419283824,
+        "mean_observed_process_cpu_seconds": 43.50691489361702,
+        "mean_sampled_process_peak_rss_mib": 2317.2520777925533
+      }
+    }
+  },
+  "shared_valid_all_three": {
+    "tasks": 69,
+    "task_set_sha256": "4ef5c9e1b6dfab44af7e372450db5532d9995407697d7065b5e1af6b1612a52a",
+    "arms": {
+      "sol61_single_high": {
+        "recorded": 69,
+        "physical": 69,
+        "valid": 69,
+        "successes": 45,
+        "valid_only_success": 0.6521739130434783,
+        "valid_mean_task_seconds_excluding_judge": 47.50375001146418,
+        "model_receipt_usd": 4.6340367,
+        "unknown_model_calls": 0,
+        "mean_model_receipt_usd_per_task": 0.06715995217391305,
+        "browser_resources": {
+          "mean_decisions": 8.956521739130435,
+          "mean_selected_code_batches": 7.956521739130435,
+          "mean_native_cdp_attempts": 32.85507246376812,
+          "mean_owned_browser_seconds_before_judge": 49.354956850825346,
+          "mean_observed_process_cpu_seconds": 12.47072463768116,
+          "mean_sampled_process_peak_rss_mib": 1957.0448935688405
+        },
+        "mean_tokens_per_task": {
+          "input": 106213.46376811594,
+          "output": 1311.4057971014493,
+          "reasoning": 115.82608695652173
+        }
+      },
+      "parallel3_select_high": {
+        "recorded": 69,
+        "physical": 69,
+        "valid": 69,
+        "successes": 46,
+        "valid_only_success": 0.6666666666666666,
+        "valid_mean_task_seconds_excluding_judge": 133.54558969260887,
+        "model_receipt_usd": 2.758180565,
+        "unknown_model_calls": 0,
+        "mean_model_receipt_usd_per_task": 0.03997363137681159,
+        "browser_resources": {
+          "mean_decisions": 13.898550724637682,
+          "mean_selected_code_batches": 12.942028985507246,
+          "mean_native_cdp_attempts": 35.89855072463768,
+          "mean_owned_browser_seconds_before_judge": 135.35495327585215,
+          "mean_observed_process_cpu_seconds": 24.447536231884058,
+          "mean_sampled_process_peak_rss_mib": 2123.6994451992755
+        },
+        "mean_tokens_per_task": {
+          "input": 819176.7826086957,
+          "output": 14425.68115942029,
+          "reasoning": 8778.434782608696
+        }
+      },
+      "parallel5_select_high": {
+        "recorded": 69,
+        "physical": 69,
+        "valid": 69,
+        "successes": 48,
+        "valid_only_success": 0.6956521739130435,
+        "valid_mean_task_seconds_excluding_judge": 161.4339698784499,
+        "model_receipt_usd": 3.8357047349999998,
+        "unknown_model_calls": 0,
+        "mean_model_receipt_usd_per_task": 0.05558992369565217,
+        "browser_resources": {
+          "mean_decisions": 14.652173913043478,
+          "mean_selected_code_batches": 13.710144927536232,
+          "mean_native_cdp_attempts": 41.10144927536232,
+          "mean_owned_browser_seconds_before_judge": 163.21904949649183,
+          "mean_observed_process_cpu_seconds": 28.983478260869564,
+          "mean_sampled_process_peak_rss_mib": 2338.7800611413045
+        },
+        "mean_tokens_per_task": {
+          "input": 1443552.1014492754,
+          "output": 23942.695652173912,
+          "reasoning": 13787.811594202898
+        }
+      }
+    },
+    "comparisons_to_sol61": {
+      "parallel3_select_high": {
+        "tasks": 69,
+        "outcome_pairs": {
+          "00": 19,
+          "01": 5,
+          "10": 4,
+          "11": 41
+        },
+        "success_difference_pp": 1.4492753623188406,
+        "paired_bootstrap95_pp": [
+          -7.246376811594203,
+          10.144927536231885
+        ],
+        "exact_mcnemar_p": 1
+      },
+      "parallel5_select_high": {
+        "tasks": 69,
+        "outcome_pairs": {
+          "00": 16,
+          "01": 8,
+          "10": 5,
+          "11": 40
+        },
+        "success_difference_pp": 4.3478260869565215,
+        "paired_bootstrap95_pp": [
+          -5.797101449275362,
+          14.492753623188406
+        ],
+        "exact_mcnemar_p": 0.5810546875
+      }
+    }
+  },
+  "sol_reference_all_attempt_model_usd": 7.8888653,
+  "luna_all_attempt_accounting": {
+    "parallel3_select_high": {
+      "model_reserved_or_settled_usd": 5.405104885,
+      "model_calls": 7317,
+      "browser_sessions": 185,
+      "judge_reserved_or_settled_usd": 0.8950117000000001
+    },
+    "parallel5_select_high": {
+      "model_reserved_or_settled_usd": 7.040009634999994,
+      "model_calls": 10756,
+      "browser_sessions": 195,
+      "judge_reserved_or_settled_usd": 0.9248844000000003
+    }
+  },
+  "new_completion_tranche_accounting": {
+    "parallel3_select_high": {
+      "model_usd": 4.481240284999999,
+      "model_calls": 5737,
+      "judge_usd": 0.7700154,
+      "judge_calls": 79,
+      "browsers": 91,
+      "allocation_seconds_all_attempts": 7769
+    },
+    "parallel5_select_high": {
+      "model_usd": 6.496276299999995,
+      "model_calls": 9411,
+      "judge_usd": 0.8817523000000003,
+      "judge_calls": 89,
+      "browsers": 100,
+      "allocation_seconds_all_attempts": 10144
+    }
+  },
+  "new_completion_caps": {
+    "jobs": 10,
+    "gpus_per_job": 0,
+    "cpus_per_job": 4,
+    "memory_gib_per_job": 16,
+    "seconds_per_shard_all_attempts": 10800,
+    "model_usd": 40,
+    "judge_usd": 5,
+    "browsers_per_shard": 25
+  },
+  "new_invalid_causes": {
+    "TimeoutError": 10,
+    "Error": 3
+  },
+  "audit_checks": {
+    "unique_shard_job_ownership": 1,
+    "all_attempt_scheduler_records": 1,
+    "scheduler_billing_account": 10,
+    "all_attempt_resource_cap": 10,
+    "all_attempt_time_cap": 10,
+    "native_luna_request_protocol": 13878,
+    "unique_native_response_id": 14046,
+    "native_model_identity": 13878,
+    "native_judge_request_protocol": 168,
+    "native_count_not_generation": 1270,
+    "native_count_receipt": 1270,
+    "native_count_full_request_binding": 1270,
+    "remaining_phase_api_cap": 20,
+    "original_all_attempt_api_cap": 20,
+    "all_physical_requests_and_cost_reconcile": 20,
+    "fixed_grid_identity": 181,
+    "result_source_binding": 181,
+    "owned_browser_teardown": 181,
+    "exact_controller_viewport_setup": 170,
+    "only_selected_commands_executed": 181,
+    "strict_valid_endpoint": 168,
+    "native_decision_count": 168,
+    "task_latency_and_prejudge_teardown": 168,
+    "exact_candidate_count": 2721,
+    "same_state_candidate_inputs": 2721,
+    "only_selected_native_history": 2721,
+    "strict_completed_proposals_and_selection": 2721,
+    "native_selected_execution_identity": 2721,
+    "observable_selector_identity": 2721,
+    "final_image_hash": 168,
+    "raw_final_image_dimensions": 168,
+    "one_native_judge": 168,
+    "native_reward_identity": 168,
+    "judge_uses_final_saved_image": 168,
+    "missing_outcome_remains_null": 13,
+    "all_attempt_browser_cap": 10,
+    "native_zero_call_preflight_and_teardown": 10,
+    "every_browser_has_durable_disposition": 10,
+    "fixed_phase_grid_complete": 10,
+    "global_all_attempt_time_cap": 1,
+    "wandb_terminal": 1
+  },
+  "evidence_sha256": {
+    "analysis/independent-phase-audit.json": "e8abdae0fbacf475d17e386038d475def91d75298aa9073a3ca9dac6296e6f52",
+    "analysis/same-benchmark-progress.json": "5df9750088e7e1521cb6601d55b0f8f5b5e0bba54dedf254e3a04a9a2a765966",
+    "analysis/reference-costs.json": "c297ea6d7e2360922f81ca1f091ad32a1e60661cc0f8861789e6ddf7dc35b4be",
+    "analysis/terminal-wandb.json": "c9895eda62c3a8f2776d456a7d010a97da7c714bf7b39f1455ae8f9768305c27",
+    "preserved-evidence.json": "1355777972e1d7c9a7a006c1247f8e42ce5eb0742649f4e35275d4e4b62a1338",
+    "harness-paired100-extension-20261016-v1/combined-100-aggregate.json": "33c91a9e1f73ea9bcb47ec5bc93d6a2734bde9cec4c3bbe79d3b770da1e88416",
+    "harness-paired100-extension-20261016-v1/independent-audit.json": "6a1255e0f43618fedfa0d4fddacf8c43f3f635ca0a42caaa43fcfaea901a67cc",
+    "harness-paired20-preparation-v1/final-independent-audit.json": "b15a0961861f72b3ab6dafc7c6cc681bf90a12cd9b337530f192d6083d569d66"
+  },
+  "limitations": [
+    "The 69-task common-valid comparison conditions on validity; the full fixed100 table separately retains every invalid outcome as nonsuccess.",
+    "The original Sol reference and Luna episodes were collected on different dates; website drift is not controlled.",
+    "All proposal and selector costs are included, judge excluded; frozen receipt pricing is an estimate, not a provider invoice.",
+    "Latency excludes setup, final capture and judge. CPU and RSS statistics are sampled observations, with shared-page double counting possible.",
+    "N3 and N5 differ from single Sol in both model and proposal/selection policy; no isolated selector effect is established.",
+    "Historical failed Luna attempts and unknown-usage reservations remain in all-attempt accounting. Mistaken GPT-6 Sol multi-proposal spending is preserved separately and excluded from Luna totals."
+  ]
+}

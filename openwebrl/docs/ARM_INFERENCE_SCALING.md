@@ -1324,6 +1324,55 @@ Independent verification checked the frozen grid and sources, native model/effor
 </details>
 
 
+<a id="luna-sol-browsercode100-20261018"></a>
+### Luna high proposal selection versus single Sol high: fixed 100 tasks
+
+**No clear success improvement on the 69 tasks valid in all three conditions:** single GPT-6.1 Sol succeeds on 45, versus 46 for Luna N3 and 48 for Luna N5. Luna selection costs less per shared task, but takes **2.8× / 3.4×** the mean task latency. All **200 Luna dispositions** are independently verified: 19 preserved valid episodes plus 181 newly collected episodes; the previously verified 100-task Sol reference is unchanged.
+
+| BrowserCode policy | Common-valid tasks | Successes | Success, % | Mean task latency, s | Model USD/task |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| GPT-6.1 Sol, one high action | 69 | 45 | 65.2 | 47.5 | 0.0672 |
+| GPT-6 Luna, N3 high + high selector | 69 | 46 | 66.7 | 133.5 | 0.0400 |
+| GPT-6 Luna, N5 high + high selector | 69 | 48 | 69.6 | 161.4 | 0.0556 |
+
+Every row above uses the **same 69 tasks**. Model cost includes every proposal and selector call associated with those tasks, excluding judge; no proposal cost is discarded after selection. Latency excludes setup, final capture and judge. Prices are frozen, usage-derived estimates, not provider invoices. Relative to single Sol, Luna N3 changes success by **+1.45 pp** (paired 95% bootstrap interval **[-7.25, +10.14]**, exact McNemar p=1.000); N5 changes it by **+4.35 pp** (**[-5.80, +14.49]**, p=0.581). These small differences do not establish a performance gain.
+
+Both Luna proposals and its selector use `gpt-6-luna`, high effort and a 12,288-token ceiling per call, with 30 decisions. Proposals see the same native BrowserCode history and remain generation-only; only the selected action executes and enters subsequent history. The reference is **`gpt-6.1-sol` single high**, not the separately attempted GPT-6 Sol multi-proposal pilot. Model and proposal/selection policy both change, so this does not isolate a selector effect. The reference and Luna collections also occurred on different dates; live-site drift is uncontrolled.
+
+[Aggregate results, cost scope, paired uncertainty and audit hashes](arm_results/luna_sol_browsercode100_20261018/aggregate.json).
+
+<details>
+<summary>Fixed-100 coverage, sampled resources, tokens and all-attempt accounting</summary>
+
+| Policy | Fixed tasks | Valid | Invalid | Successes | Overall success, % | Valid-only success, % |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| GPT-6.1 Sol, one high action | 100 | 70 | 30 | 45 | 45.0 | 64.3 |
+| GPT-6 Luna, N3 high + high selector | 100 | 93 | 7 | 65 | 65.0 | 69.9 |
+| GPT-6 Luna, N5 high + high selector | 100 | 94 | 6 | 67 | 67.0 | 71.3 |
+
+Overall success counts every invalid outcome as non-success; valid-only success excludes invalid outcomes. The higher overall Luna percentages partly reflect its greater valid coverage and must not be interpreted as equally large action-quality gains. The common-valid comparison above keeps the task set fixed. Every failure remains preserved; no invalid is relabeled and no valid outcome is replaced.
+
+The following means use the same common-valid task set. Input/output counts include all proposals and selections; output already includes reported reasoning tokens.
+
+| Policy | Input tokens/task | Output tokens/task | Reported reasoning/task | Decisions/task | Native CDP attempts/task | Observed CPU s/task | Sampled peak RSS, MiB |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| GPT-6.1 Sol, one high action | 106213 | 1311 | 116 | 9.0 | 32.9 | 12.5 | 1957.0 |
+| GPT-6 Luna, N3 high + high selector | 819177 | 14426 | 8778 | 13.9 | 35.9 | 24.4 | 2123.7 |
+| GPT-6 Luna, N5 high + high selector | 1443552 | 23943 | 13788 | 14.7 | 41.1 | 29.0 | 2338.8 |
+
+A model decision can execute multiple CDP operations. CPU/RSS sample the worker descendant tree every 250 ms; CPU is an observed lower bound and summed RSS can double-count shared pages. These are observed process resources, not whole-host browser billing.
+
+| Luna completion arm | Allocation seconds, all new attempts | Browsers, including preflight | Model calls, including token counts | Model USD | Judge calls | Judge USD |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| GPT-6 Luna, N3 high + high selector | 7769 | 91 | 5737 | 4.4812 | 79 | 0.7700 |
+| GPT-6 Luna, N5 high + high selector | 10144 | 100 | 9411 | 6.4963 | 89 | 0.8818 |
+
+The new tranche used ten CPU-only jobs, each capped at 4 CPUs, 16 GiB and three hours across all attempts; no GPUs or budget transfers. New model/judge caps were $40/$5, with 25 browsers per shard. Native input-token counts are separately recorded nongeneration requests, charged zero model USD but counted against the same call ceiling. All new receipts, per-shard ledgers, scheduler time/resources, native model identities, selected-only execution, final-image judge bindings, owned browser cleanup and all 20 terminal W&B workers passed independent verification.
+
+Earlier Luna failures and unknown-usage reservations remain in separate lifetime accounting in the aggregate; the new tranche does not absorb old budget balances. The serving table uses shared completed-task receipt costs, not total research/recovery spend. The separate GPT-6 Sol multi-proposal pilot remains outside these Luna costs and results. Raw tasks, trajectories, screenshots and native requests stay local.
+
+</details>
+
 <a id="sol61-harness-paired100-20261017"></a>
 ### GPT-6.1 Sol high versus three-low-plus-low across CUAWright and BrowserCode: 100-task comparison
 
