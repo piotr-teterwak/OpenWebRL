@@ -23,6 +23,7 @@ def main():
     ap.add_argument("--seeds", default="0,1,2"); ap.add_argument("--epochs", type=int, default=20)
     ap.add_argument("--batch-size", type=int, default=64); ap.add_argument("--lr", type=float, default=3e-4)
     ap.add_argument("--weight-decay", type=float, default=0.05); ap.add_argument("--device", default="cpu")
+    ap.add_argument("--save-heads", action="store_true", help="save each trained head (deployment); --test-fold -1 trains on every fold")
     args = ap.parse_args()
     import torch
     from openwebrl.selection_head import CandidateSetHead, HeadConfig, selection_loss
@@ -66,8 +67,12 @@ def main():
                     opt.zero_grad(); loss.backward(); torch.nn.utils.clip_grad_norm_(head.parameters(), 1.); opt.step(); sched.step()
             head.eval()
             with torch.no_grad():
-                logits, _ = head(cand[te].to(args.device), state[te].to(args.device))
-            out["picks"][f"{src}/seed{seed}"] = {s: int(k) for s, k in zip(test_ids, logits.argmax(-1).tolist())}
+                logits = head(cand[te].to(args.device), state[te].to(args.device))[0] if len(te) else torch.zeros(0, 5)
+            out["picks"][f"{src}/seed{seed}"] = {s: int(k) for s, k in zip(test_ids, logits.argmax(-1).tolist())} if test_ids else {}
+            if args.save_heads:
+                d = args.output / "heads" / src / f"seed{seed}"; d.mkdir(parents=True, exist_ok=True)
+                torch.save({"config": config.to_json(), "state_dict": {k: v.cpu() for k, v in head.state_dict().items()}, "objective": "soft_ce",
+                            "source": src, "seed": seed, "train_states": len(train_ids)}, d / "head.pt")
             print(json.dumps(dict(source=src, seed=seed, seconds=round(time.time() - started, 1))), flush=True)
     args.output.mkdir(parents=True, exist_ok=True)
     (args.output / "student-picks.json").write_text(json.dumps(out, indent=1))
