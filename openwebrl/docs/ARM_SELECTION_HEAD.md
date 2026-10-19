@@ -24,7 +24,8 @@
   - The head's decisions cost 64% of Piotr's compute: only the actor's work, since its selector adds under 1%.
   - It is the fastest five-candidate method, 0.4 s behind five samples with no selector.
   - The slow selectors slow down further under live load: Kev-style's decisions take 16.6 s live against 8.7 s offline.
-- **Across benchmarks** ([details](#selection-head-crossbench-20261017)): on the same 100 tasks per benchmark, the lookahead K = 1 head trained on 1,908 of our SFT + RL states beats the 840-state version by +7.0 pp [+0.7, +13.3] (300 tasks). It is level with SFT (+1.7 pp [−4.7, +7.7]) and with the head trained on Piotr's data; no selector beats SFT on DeepShop.
+- **Full benchmarks at T 1.0** ([details](#selection-head-crossbench-full-20261018)): on all 1,045 tasks of Online-Mind2Web, WebVoyager and DeepShop, the lookahead K = 1 head trained on 1,908 of our SFT + RL states beats SFT by +4.6 pp [+1.5, +7.6] at 64% of Piotr SelectionARM's compute; Piotr is +7.0 pp [+3.9, +10.0], and the head − Piotr difference is −2.4 pp [−5.3, +0.4].
+- **Across benchmarks, 100-task subsets at T 0.7** ([details](#selection-head-crossbench-20261017)): on the same 100 tasks per benchmark, the lookahead K = 1 head trained on 1,908 of our SFT + RL states beats the 840-state version by +7.0 pp [+0.7, +13.3] (300 tasks). It is level with SFT (+1.7 pp [−4.7, +7.7]) and with the head trained on Piotr's data; no selector beats SFT on DeepShop.
 - **Branching states with held-out outcomes.**
   - No teacher-trained selector clearly beats a uniform pick, while choosing by observed outcomes does: +5.32 pp [+3.09, +7.62] ([details](#selection-head-outcomes-20261010)).
   - Among small students, only **lookahead-labelled** ones move above uniform (+2.4 to +3.0 pp) ([label types](#selection-head-label-types-20261011)).
@@ -59,6 +60,67 @@
 **Agreement with teachers does not track action quality.** The Kev-style decision pass on the actor's weights, trained to step 600, matches held-out GPT-5.5 choices best of any actor-based selector: 67.1%, versus 65.4% for the frozen-feature head. On the original 124 states it matches an independent teacher (Luna before execution) on 66.1% of judgments, versus 73.2% for Piotr ARM. Its chosen actions succeed on 32.79% of held-out draws, +1.12 pp [−1.38, +3.75] over uniform.
 
 **Supervising the selector with outcomes needs more states than exist now.** 188 states have eight draws for all five actions: 9,720 outcomes in 151 task groups, 14× fewer states than the 2,692 teacher-labelled training states ([data comparison](#selection-head-outcome-data-20261010)). A pre-registered five-fold [adaptation pilot](#selection-head-outcome-adaptation-20261010) on 138 of these states overfits: it fits training folds but does not beat uniform on held-out tasks. Ridge probes, a combined teacher-plus-outcome loss and selector combinations also find [no held-out gain](#selection-head-early-signal-20261010). Confirming a 3 pp selector difference needs about 200 states with eight draws, and confirming Piotr's ~2.5 pp gain over uniform about 300.
+
+</details>
+
+<a id="selection-head-crossbench-full-20261018"></a>
+
+## Full benchmarks: Online-Mind2Web, WebVoyager and DeepShop at T 1.0
+
+**On all 1,045 tasks, the lookahead K = 1 head trained on 1,908 of our states beats the single-sample SFT actor by +4.6 pp [+1.5, +7.6] at 64% of Piotr SelectionARM's compute. Piotr SelectionARM gains +7.0 pp [+3.9, +10.0]; the head is 2.4 pp behind it [−5.3, +0.4].**
+- **Setup:** every task of each benchmark, one episode per task, the same tasks for every condition.
+  - Actor decoding T 1.0, top-p 0.9 (chosen after a [30-task decoding test](#selection-head-decoding-test-20261018)); 1,024 tokens and 30 steps.
+  - Judges: o4-mini for Online-Mind2Web; GPT-4o for WebVoyager and DeepShop.
+- **Hardware:** each condition and benchmark ran alone on one H200, with Piotr's selector on the same GPU.
+
+| Condition | Online-Mind2Web successes (of 300) | WebVoyager successes (of 595) | DeepShop successes (of 150) | All successes (of 1,045) | Online-Mind2Web overall | WebVoyager overall | DeepShop overall | All overall | All valid only |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| SFT 4B, 1 sample | 109 | 264 | 51 | 424 | 36.3% | 44.4% | 34.0% | 40.6% | 41.9% |
+| Piotr SelectionARM | **123** | **312** | 62 | **497** | **41.0%** | **52.4%** | 41.3% | **47.6%** | **50.2%** |
+| **K = 1 head, 1,908 SFT + RL states** | 112 | 292 | **68** | 472 | 37.3% | 49.1% | **45.3%** | 45.2% | 47.9% |
+
+| Paired difference, same tasks, pp [95% CI] | Online-Mind2Web | WebVoyager | DeepShop | All 1,045 tasks |
+| --- | ---: | ---: | ---: | ---: |
+| K = 1 head − SFT | +1.0 [−4.3, +6.3] | **+4.7 [+0.7, +8.6]** | **+11.3 [+2.7, +20.0]** | **+4.6 [+1.5, +7.6]** |
+| Piotr SelectionARM − SFT | +4.7 [−1.0, +10.0] | **+8.1 [+4.2, +11.9]** | +7.3 [−1.3, +16.0] | **+7.0 [+3.9, +10.0]** |
+| K = 1 head − Piotr SelectionARM | −3.7 [−8.7, +1.0] | −3.4 [−7.2, +0.5] | +4.0 [−4.7, +12.7] | −2.4 [−5.3, +0.4] |
+
+Overall rates count invalid episodes as failures. Valid-only paired differences on all tasks are +5.2 pp [+2.0, +8.4] for the head and +7.5 pp [+4.3, +10.5] for Piotr against SFT (978 and 979 tasks valid under both).
+
+| Cost and latency, all tasks | PFLOP per step | Selector PFLOP per step | Seconds per decision, mean | Steps per episode | Context overflows |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| SFT 4B, 1 sample | 0.019 | — | 2.81 | 13.6 | 5 |
+| Piotr SelectionARM | 0.096 | 0.034 | 8.68 | 14.3 | 16 |
+| K = 1 head | **0.060** | **<0.001** | **8.21** | 15.3 | 22 |
+
+- **Both selectors beat a single sample on the full sets; the head costs 36% less compute than Piotr.** The head's selector adds under 0.1% of a step's compute because it reads hidden states the actor already computed. Its decisions are 0.5 s faster than Piotr's.
+- **The head is behind Piotr SelectionARM on Online-Mind2Web and WebVoyager and ahead on DeepShop**; no per-benchmark difference between the two excludes zero.
+- **Selection lengthens episodes.** Both selectors take more steps and overflow the 32K context more often than SFT. Overflows count as failures.
+- **Comparison with the 100-task runs at T 0.7** ([below](#selection-head-crossbench-20261017)): the same 1,908-state head was level with SFT there (+1.7 pp [−4.7, +7.7], 300 tasks). Two things changed together: 3.5× more tasks and higher-temperature candidates. With the same decoding, the 30-task test put the head's margin over SFT at +8.9 pp under T 1.0 and +5.6 pp under T 0.7 on the same 90 tasks.
+
+<details>
+<summary>Decoding test, protocol, accounting and evidence</summary>
+
+<a id="selection-head-decoding-test-20261018"></a>
+
+- **Decoding test (30 tasks per benchmark, the first 30 of each 100-task subset; 90 tasks).**
+  - SFT successes: T 0.7 35, T 0.6 / top-p 0.95 27, T 1.0 / top-p 0.9 32.
+  - K = 1 head successes: 40, 30 and 40.
+  - Paired T 0.6 − T 0.7: SFT −8.9 pp [−20.0, +2.2], head −11.1 pp [−22.2, 0.0]. Paired T 1.0 − T 0.7: SFT −3.3 pp [−13.3, +6.7], head 0.0 pp [−10.0, +10.0].
+  - The T 0.6 drop is concentrated on DeepShop, mostly in episodes that exhaust the 30-step limit.
+  - The T 0.7 runs were on 2026-10-17 and the others on 2026-10-18, so decoding and date are confounded.
+  - [T 0.6](arm_results/rl_integration/crossbench-decoding-t06-20261018.json), [T 1.0](arm_results/rl_integration/crossbench-decoding-t10-20261018.json).
+- **Runner.** `scripts/run_crossbench_selector_eval.py` (commit `bd5a048` adds `--temperature/--top-p` and `--subset-of-root`).
+  - Each condition and benchmark is its own frozen plan under `evaluations/crossbench-full-t10-20261018/<benchmark>/`.
+  - Task order is seeded; the full set is the same for every condition.
+- **FLOP accounting, as in the [same-hardware runs](#selection-head-samehw-20261012).**
+  - Actor: 2 × 4.44 B parameters × (uncached prompt + generated tokens) over every actor request.
+  - Piotr's selector: the same formula over its input and output tokens.
+  - Head: its logged per-decision FLOPs.
+  - Seconds per decision is the wall clock from the first candidate request to the pick, with 8 episodes running in parallel per GPU.
+- **Invalid episodes, all tasks:** SFT 34, Piotr SelectionARM 54, head 59. Most are site resets and step errors common to every condition; the rest are context overflows (table above).
+- **Compute.** 9 jobs, one H200 each: 19.7 GPU-hours in total. Judging was $12.57.
+- **Evidence:** [per-condition rows and paired differences](arm_results/rl_integration/crossbench-full-t10-20261018.json). The runtime root holds every record, judge verdict, rollout, actor-request receipt and selection log.
 
 </details>
 
@@ -107,7 +169,7 @@ Intervals resample tasks (10,000 resamples). Per benchmark, only two differences
   - Ours is now level with that head on Online-Mind2Web and WebVoyager.
   - Piotr's states carry about 13 five-candidate panels each, against one per state for ours, so his data has about 19× more labelled choices.
 - **DeepShop is the exception.** Only the pointwise Piotr-data head is above SFT there, at +4 pp; Piotr SelectionARM is −2 pp and our heads are −6 to −12 pp.
-- **Caveat.** Each cell is one 100-task run, so a single benchmark's difference needs about 10 pp to clear noise; the pooled rows are the reliable comparisons. The full sets (300 + 595 + 150 tasks) are planned next for SFT, Piotr SelectionARM and the 1,908-state head.
+- **Caveat.** Each cell is one 100-task run, so a single benchmark's difference needs about 10 pp to clear noise; the pooled rows are the reliable comparisons. The [full sets at T 1.0](#selection-head-crossbench-full-20261018) supersede these numbers for SFT, Piotr SelectionARM and the 1,908-state head.
 
 <details>
 <summary>Protocol, invalid episodes, training data, cost and evidence</summary>

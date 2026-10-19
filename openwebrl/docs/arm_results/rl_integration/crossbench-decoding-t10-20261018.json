@@ -1,0 +1,137 @@
+{
+ "note": "T 1.0 / top-p 0.9 versus T 0.7 / top-p 0.9 on the same first 30 tasks of each 100-task subset, for SFT 1 sample\nand the 1,908-state K = 1 head. Paired by task; 95% bootstrap over tasks (10,000 resamples). Overall counts invalid\nepisodes as failures; valid-only pairs tasks valid under both decodings.",
+ "rows": [
+  {
+   "condition": "SFT, 1 sample",
+   "benchmark": "online_mind2web",
+   "tasks": 30,
+   "t06_successes": 9,
+   "t07_successes": 9,
+   "t06_valid": 28,
+   "t07_valid": 28,
+   "diff_overall": [
+    0.0,
+    -13.3,
+    13.3
+   ],
+   "diff_valid_only": [
+    0.0,
+    -14.3,
+    14.3
+   ]
+  },
+  {
+   "condition": "SFT, 1 sample",
+   "benchmark": "webvoyager",
+   "tasks": 30,
+   "t06_successes": 14,
+   "t07_successes": 12,
+   "t06_valid": 29,
+   "t07_valid": 30,
+   "diff_overall": [
+    6.7,
+    -10.0,
+    23.3
+   ],
+   "diff_valid_only": [
+    6.9,
+    -10.3,
+    24.1
+   ]
+  },
+  {
+   "condition": "SFT, 1 sample",
+   "benchmark": "deepshop",
+   "tasks": 30,
+   "t06_successes": 9,
+   "t07_successes": 14,
+   "t06_valid": 28,
+   "t07_valid": 30,
+   "diff_overall": [
+    -16.7,
+    -36.7,
+    3.3
+   ],
+   "diff_valid_only": [
+    -17.9,
+    -39.3,
+    3.6
+   ]
+  },
+  {
+   "condition": "K = 1 head, 1,908 states",
+   "benchmark": "online_mind2web",
+   "tasks": 30,
+   "t06_successes": 12,
+   "t07_successes": 13,
+   "t06_valid": 26,
+   "t07_valid": 24,
+   "diff_overall": [
+    -3.3,
+    -23.3,
+    16.7
+   ],
+   "diff_valid_only": [
+    0.0,
+    -21.7,
+    26.1
+   ]
+  },
+  {
+   "condition": "K = 1 head, 1,908 states",
+   "benchmark": "webvoyager",
+   "tasks": 30,
+   "t06_successes": 13,
+   "t07_successes": 13,
+   "t06_valid": 29,
+   "t07_valid": 27,
+   "diff_overall": [
+    0.0,
+    -13.3,
+    13.3
+   ],
+   "diff_valid_only": [
+    0.0,
+    -14.8,
+    14.8
+   ]
+  },
+  {
+   "condition": "K = 1 head, 1,908 states",
+   "benchmark": "deepshop",
+   "tasks": 30,
+   "t06_successes": 15,
+   "t07_successes": 14,
+   "t06_valid": 29,
+   "t07_valid": 30,
+   "diff_overall": [
+    3.3,
+    -16.7,
+    23.3
+   ],
+   "diff_valid_only": [
+    3.4,
+    -17.2,
+    24.1
+   ]
+  }
+ ],
+ "pooled": {
+  "SFT, 1 sample": {
+   "tasks": 90,
+   "diff_overall": [
+    -3.3,
+    -13.3,
+    6.7
+   ]
+  },
+  "K = 1 head, 1,908 states": {
+   "tasks": 90,
+   "diff_overall": [
+    0.0,
+    -10.0,
+    10.0
+   ]
+  }
+ }
+}
