@@ -1,0 +1,391 @@
+{
+ "note": "100-step full-set comparison (2026-10-19): max steps 100, history window = last 20 turns full, older turns action + result line; otherwise identical to the 30-step T 1.0 / top-p 0.9 runs (2026-10-18): SFT 4B single sample, Piotr SelectionARM,\nand the K = 1 lookahead selection head trained on 1,908 SFT+RL states, on every task of Online-Mind2Web (300),\nWebVoyager (595) and DeepShop (150). One episode per task; each condition-benchmark ran alone on one H200.\n\nSuccess: overall counts invalid episodes as failures; valid-only uses valid episodes (paired over tasks valid under\nboth). Paired differences: 95% bootstrap over tasks (10,000 resamples, seed 20261018); pooled rows concatenate the\nthree benchmarks' tasks. Cost, as in the same-hardware study: actor PFLOP = 2 x 4.44e9 parameters x (uncached prompt\n+ generated tokens) over every actor request; Piotr's selector the same over its input+output tokens (same 4B size);\nthe head's own FLOPs as logged per decision. Latency: per-decision wall clock (generation + selection).",
+ "rows": [
+  {
+   "condition": "SFT 4B, 1 sample",
+   "slug": "sft1",
+   "benchmark": "online_mind2web",
+   "tasks": 300,
+   "successes": 120,
+   "valid": 277,
+   "invalid": 23,
+   "context_overflow": 0,
+   "overall": 40.0,
+   "valid_only": 43.3,
+   "steps_per_episode": 26.34,
+   "pflop_per_step": 0.0667,
+   "selector_pflop_per_step": 0.0,
+   "actor_tokens_per_episode": 198089,
+   "prompt_tokens_per_episode": 345718,
+   "prefix_cache_hit": 0.454,
+   "decision_seconds_mean": 4.05,
+   "decision_seconds_p50": 3.99,
+   "selection_seconds_mean": 0.0
+  },
+  {
+   "condition": "SFT 4B, 1 sample",
+   "slug": "sft1",
+   "benchmark": "webvoyager",
+   "tasks": 595,
+   "successes": 302,
+   "valid": 584,
+   "invalid": 11,
+   "context_overflow": 6,
+   "overall": 50.8,
+   "valid_only": 51.7,
+   "steps_per_episode": 22.95,
+   "pflop_per_step": 0.0665,
+   "selector_pflop_per_step": 0.0,
+   "actor_tokens_per_episode": 171927,
+   "prompt_tokens_per_episode": 299577,
+   "prefix_cache_hit": 0.452,
+   "decision_seconds_mean": 3.93,
+   "decision_seconds_p50": 3.85,
+   "selection_seconds_mean": 0.0
+  },
+  {
+   "condition": "SFT 4B, 1 sample",
+   "slug": "sft1",
+   "benchmark": "deepshop",
+   "tasks": 150,
+   "successes": 63,
+   "valid": 143,
+   "invalid": 7,
+   "context_overflow": 6,
+   "overall": 42.0,
+   "valid_only": 44.1,
+   "steps_per_episode": 23.17,
+   "pflop_per_step": 0.0709,
+   "selector_pflop_per_step": 0.0,
+   "actor_tokens_per_episode": 184947,
+   "prompt_tokens_per_episode": 335842,
+   "prefix_cache_hit": 0.476,
+   "decision_seconds_mean": 12.56,
+   "decision_seconds_p50": 12.76,
+   "selection_seconds_mean": 0.0
+  },
+  {
+   "condition": "SFT 4B, 1 sample",
+   "slug": "sft1",
+   "benchmark": "all",
+   "tasks": 1045,
+   "successes": 485,
+   "valid": 1004,
+   "invalid": 41,
+   "context_overflow": 12,
+   "overall": 46.4,
+   "valid_only": 48.3,
+   "steps_per_episode": 23.96,
+   "pflop_per_step": 0.0672,
+   "selector_pflop_per_step": 0.0,
+   "actor_tokens_per_episode": 181307,
+   "prompt_tokens_per_episode": 318029,
+   "prefix_cache_hit": 0.456,
+   "decision_seconds_mean": 5.16,
+   "decision_seconds_p50": 4.14,
+   "selection_seconds_mean": 0.0
+  },
+  {
+   "condition": "Piotr SelectionARM",
+   "slug": "piotr5",
+   "benchmark": "online_mind2web",
+   "tasks": 300,
+   "successes": 133,
+   "valid": 255,
+   "invalid": 45,
+   "context_overflow": 14,
+   "overall": 44.3,
+   "valid_only": 52.2,
+   "steps_per_episode": 29.15,
+   "pflop_per_step": 0.1607,
+   "selector_pflop_per_step": 0.03694,
+   "actor_tokens_per_episode": 406626,
+   "prompt_tokens_per_episode": 2090438,
+   "prefix_cache_hit": 0.831,
+   "decision_seconds_mean": 10.93,
+   "decision_seconds_p50": 10.61,
+   "selection_seconds_mean": 0.413
+  },
+  {
+   "condition": "Piotr SelectionARM",
+   "slug": "piotr5",
+   "benchmark": "webvoyager",
+   "tasks": 595,
+   "successes": 336,
+   "valid": 569,
+   "invalid": 26,
+   "context_overflow": 15,
+   "overall": 56.5,
+   "valid_only": 59.1,
+   "steps_per_episode": 24.23,
+   "pflop_per_step": 0.1574,
+   "selector_pflop_per_step": 0.03613,
+   "actor_tokens_per_episode": 330999,
+   "prompt_tokens_per_episode": 1645737,
+   "prefix_cache_hit": 0.825,
+   "decision_seconds_mean": 11.49,
+   "decision_seconds_p50": 11.0,
+   "selection_seconds_mean": 0.459
+  },
+  {
+   "condition": "Piotr SelectionARM",
+   "slug": "piotr5",
+   "benchmark": "deepshop",
+   "tasks": 150,
+   "successes": 78,
+   "valid": 146,
+   "invalid": 4,
+   "context_overflow": 3,
+   "overall": 52.0,
+   "valid_only": 53.4,
+   "steps_per_episode": 29.03,
+   "pflop_per_step": 0.1834,
+   "selector_pflop_per_step": 0.04359,
+   "actor_tokens_per_episode": 457268,
+   "prompt_tokens_per_episode": 2383182,
+   "prefix_cache_hit": 0.834,
+   "decision_seconds_mean": 15.01,
+   "decision_seconds_p50": 14.35,
+   "selection_seconds_mean": 0.449
+  },
+  {
+   "condition": "Piotr SelectionARM",
+   "slug": "piotr5",
+   "benchmark": "all",
+   "tasks": 1045,
+   "successes": 547,
+   "valid": 970,
+   "invalid": 75,
+   "context_overflow": 32,
+   "overall": 52.3,
+   "valid_only": 56.4,
+   "steps_per_episode": 26.33,
+   "pflop_per_step": 0.1626,
+   "selector_pflop_per_step": 0.03757,
+   "actor_tokens_per_episode": 370835,
+   "prompt_tokens_per_episode": 1879256,
+   "prefix_cache_hit": 0.828,
+   "decision_seconds_mean": 11.87,
+   "decision_seconds_p50": 11.26,
+   "selection_seconds_mean": 0.443
+  }
+ ],
+ "paired": [
+  {
+   "a": "piotr5",
+   "b": "sft1",
+   "benchmark": "online_mind2web",
+   "tasks": 300,
+   "overall": [
+    4.3,
+    -1.0,
+    9.7
+   ],
+   "valid_tasks": 254,
+   "valid_only": [
+    6.3,
+    0.4,
+    12.2
+   ]
+  },
+  {
+   "a": "piotr5",
+   "b": "sft1",
+   "benchmark": "webvoyager",
+   "tasks": 595,
+   "overall": [
+    5.7,
+    1.7,
+    9.6
+   ],
+   "valid_tasks": 559,
+   "valid_only": [
+    6.3,
+    2.3,
+    10.4
+   ]
+  },
+  {
+   "a": "piotr5",
+   "b": "sft1",
+   "benchmark": "deepshop",
+   "tasks": 150,
+   "overall": [
+    10.0,
+    0.7,
+    19.3
+   ],
+   "valid_tasks": 140,
+   "valid_only": [
+    8.6,
+    -1.4,
+    18.6
+   ]
+  },
+  {
+   "a": "piotr5",
+   "b": "sft1",
+   "benchmark": "all",
+   "tasks": 1045,
+   "overall": [
+    5.9,
+    3.0,
+    9.0
+   ],
+   "valid_tasks": 953,
+   "valid_only": [
+    6.6,
+    3.5,
+    9.9
+   ]
+  }
+ ],
+ "gain_100_minus_30": [
+  {
+   "condition": "SFT 4B, 1 sample",
+   "slug": "sft1",
+   "benchmark": "online_mind2web",
+   "tasks": 300,
+   "successes_30": 109,
+   "successes_100": 120,
+   "gain_100_minus_30": [
+    3.7,
+    -2.0,
+    9.3
+   ]
+  },
+  {
+   "condition": "SFT 4B, 1 sample",
+   "slug": "sft1",
+   "benchmark": "webvoyager",
+   "tasks": 595,
+   "successes_30": 264,
+   "successes_100": 302,
+   "gain_100_minus_30": [
+    6.4,
+    2.7,
+    10.1
+   ]
+  },
+  {
+   "condition": "SFT 4B, 1 sample",
+   "slug": "sft1",
+   "benchmark": "deepshop",
+   "tasks": 150,
+   "successes_30": 51,
+   "successes_100": 63,
+   "gain_100_minus_30": [
+    8.0,
+    -0.7,
+    17.3
+   ]
+  },
+  {
+   "condition": "SFT 4B, 1 sample",
+   "slug": "sft1",
+   "benchmark": "all",
+   "tasks": 1045,
+   "successes_30": 424,
+   "successes_100": 485,
+   "gain_100_minus_30": [
+    5.8,
+    2.9,
+    8.8
+   ]
+  },
+  {
+   "condition": "Piotr SelectionARM",
+   "slug": "piotr5",
+   "benchmark": "online_mind2web",
+   "tasks": 300,
+   "successes_30": 123,
+   "successes_100": 133,
+   "gain_100_minus_30": [
+    3.3,
+    -2.0,
+    9.0
+   ]
+  },
+  {
+   "condition": "Piotr SelectionARM",
+   "slug": "piotr5",
+   "benchmark": "webvoyager",
+   "tasks": 595,
+   "successes_30": 312,
+   "successes_100": 336,
+   "gain_100_minus_30": [
+    4.0,
+    0.2,
+    8.1
+   ]
+  },
+  {
+   "condition": "Piotr SelectionARM",
+   "slug": "piotr5",
+   "benchmark": "deepshop",
+   "tasks": 150,
+   "successes_30": 62,
+   "successes_100": 78,
+   "gain_100_minus_30": [
+    10.7,
+    2.7,
+    18.7
+   ]
+  },
+  {
+   "condition": "Piotr SelectionARM",
+   "slug": "piotr5",
+   "benchmark": "all",
+   "tasks": 1045,
+   "successes_30": 497,
+   "successes_100": 547,
+   "gain_100_minus_30": [
+    4.8,
+    1.8,
+    7.9
+   ]
+  }
+ ],
+ "paired_at_30": [
+  {
+   "a": "piotr5",
+   "b": "sft1",
+   "benchmark": "online_mind2web",
+   "overall": [
+    4.7,
+    -0.7,
+    10.3
+   ]
+  },
+  {
+   "a": "piotr5",
+   "b": "sft1",
+   "benchmark": "webvoyager",
+   "overall": [
+    8.1,
+    4.2,
+    11.9
+   ]
+  },
+  {
+   "a": "piotr5",
+   "b": "sft1",
+   "benchmark": "deepshop",
+   "overall": [
+    7.3,
+    -1.3,
+    16.0
+   ]
+  },
+  {
+   "a": "piotr5",
+   "b": "sft1",
+   "benchmark": "all",
+   "overall": [
+    7.0,
+    4.0,
+    10.0
+   ]
+  }
+ ]
+}

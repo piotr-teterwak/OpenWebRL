@@ -22,6 +22,7 @@
 - **Training data.**
   - "Piotr's data": GPT-5.5 picks on Piotr's 2,692 states (35,916 five-candidate panels). The head's weights are the same-hardware study's listwise head; Piotr SelectionARM is a LoRA fine-tune of the 4B model on the same data.
   - "Our K = 1 labels": Luna lookahead K = 1 votes on 1,908 branching states, 434 of them from the RL actor, with one panel per state.
+- **100 steps** ([details](#selection-head-100-steps-20261019)): raising the step limit from 30 to 100 adds +5.8 pp [+2.9, +8.8] for SFT and +4.8 pp [+1.8, +7.9] for Piotr SelectionARM; Piotr's lead over SFT holds at +5.9 pp [+3.0, +9.0]. The heads have not been run at 100 steps.
 - **Model × data.** On Piotr's data the head matches Piotr's 4B selector: +0.5 pp [−2.5, +3.4]. On our data it trails the Piotr-data head by 2.9 pp [−0.1, +5.9], a gap that likely reflects about 19× fewer labelled choices. Training only on our SFT-actor states (1,631) changes little: −0.8 pp [−3.6, +2.1] against the SFT + RL head ([details](#selection-head-crossbench-full-20261018)).
 - **Details:** [full-benchmark section](#selection-head-crossbench-full-20261018) (per-benchmark tables, cost accounting, decoding test), [evidence](arm_results/rl_integration/crossbench-full-t10-20261018.json).
 
@@ -118,6 +119,24 @@ Overall rates count invalid episodes as failures. Valid-only paired differences 
 - **The head is behind Piotr SelectionARM on Online-Mind2Web and WebVoyager and ahead on DeepShop**; no per-benchmark difference between the two excludes zero.
 - **Selection lengthens episodes.** Both selectors take more steps and overflow the 32K context more often than SFT. Overflows count as failures.
 - **Comparison with the 100-task runs at T 0.7** ([below](#selection-head-crossbench-20261017)): the same 1,908-state head was level with SFT there (+1.7 pp [−4.7, +7.7], 300 tasks). Two things changed together: 3.5× more tasks and higher-temperature candidates. With the same decoding, the 30-task test put the head's margin over SFT at +8.9 pp under T 1.0 and +5.6 pp under T 0.7 on the same 90 tasks.
+
+<a id="selection-head-100-steps-20261019"></a>
+
+**100 steps** (same tasks and decoding; history keeps the last 20 turns in full and reduces older turns to their action and tool-result line, `browser_history_full_turns` 20, commit `de7ccb9`):
+
+| Method | Online-Mind2Web successes (of 300) | WebVoyager successes (of 595) | DeepShop successes (of 150) | All successes (of 1,045) | All overall | Gain vs 30 steps, pp [95% CI] | − SFT, pp [95% CI] |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| SFT 4B, 1 sample | 120 | 302 | 63 | 485 | 46.4% | +5.8 [+2.9, +8.8] | — |
+| Piotr SelectionARM | **133** | **336** | **78** | **547** | **52.3%** | +4.8 [+1.8, +7.9] | **+5.9 [+3.0, +9.0]** |
+
+- **Gain per benchmark, 100 − 30 steps.**
+  - SFT: Online-Mind2Web +3.7 [−2.0, +9.3], WebVoyager +6.4 [+2.7, +10.1], DeepShop +8.0 [−0.7, +17.3].
+  - Piotr: +3.3 [−2.0, +9.0], +4.0 [+0.2, +8.1] and +10.7 [+2.7, +18.7].
+- **Piotr − SFT at 100 steps:** Online-Mind2Web +4.3 [−1.0, +9.7], WebVoyager +5.7 [+1.7, +9.6], DeepShop +10.0 [+0.7, +19.3]. At 30 steps the same comparison was +4.7, +8.1 and +7.3; selection keeps its value with longer episodes.
+- **Why the gain is modest.** Most episodes end well before 30 steps. On 90 tasks that hit the 30-step limit (30 per benchmark), SFT went from 7 to 27 successes.
+- **Cost.** Episodes run 24–26 steps on average instead of 14. Compute per step rises from 0.019 to 0.067 PFLOP (SFT) and from 0.096 to 0.163 (Piotr) because late steps carry longer prompts.
+- **Context.** With the 20-turn window, prompts reach about 21–23K tokens at step 100. Overflows of the 32K context: SFT 12, Piotr 32 of 1,045. Overflows count as failures.
+- [Evidence](arm_results/rl_integration/crossbench-full-h100-20261019.json). Runtime `evaluations/crossbench-full-h100-20261019/` (jobs 370304–370309); 90-task diagnostic in `evaluations/crossbench-horizon100-20261019/`.
 
 **Model × data and state source** (same protocol, all 1,045 tasks; head = the same frozen-feature listwise head, 22.6 M parameters):
 
