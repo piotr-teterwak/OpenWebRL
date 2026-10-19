@@ -13,6 +13,7 @@ Usage:
 
 import argparse
 import asyncio
+import glob
 import json
 import os
 import re
@@ -169,6 +170,43 @@ def _short_checkpoint_tag(hf_checkpoint: str, max_len: int = 80) -> str:
     if len(checkpoint_name) <= max_len:
         return checkpoint_name
     return checkpoint_name[:max_len].rstrip("_-.")
+
+
+def _completed_task_ids(output_path: str) -> set[str]:
+    """Task ids that already have a usable per-task record in `output_path`.
+
+    The per-task jsonl files run_evaluate writes as each task finishes are the
+    natural checkpoint for a preemptible run -- no extra state needed.
+
+    Two deliberate choices:
+    * Zero-length or unparseable records do NOT count as done. A run killed by a
+      full filesystem leaves exactly those (we lost one at 90/300 that way), and
+      skipping them would silently drop tasks from the evaluation.
+    * Both results_ and abnormal_ records count. Resuming only the failures
+      would retry aborts until they pass and bias the result upward; a resumed
+      run should land where an uninterrupted one would.
+    """
+    done: set[str] = set()
+    if not output_path or not os.path.isdir(output_path):
+        return done
+    for prefix in ("results_task_", "abnormal_task_"):
+        for path in glob.glob(os.path.join(output_path, f"{prefix}*.jsonl")):
+            try:
+                if os.path.getsize(path) == 0:
+                    continue
+                with open(path) as handle:
+                    usable = False
+                    for line in handle:
+                        if line.strip():
+                            json.loads(line)   # raises on a truncated record
+                            usable = True
+                            break
+                if not usable:
+                    continue
+            except (OSError, ValueError):
+                continue
+            done.add(os.path.basename(path)[len(prefix):-len(".jsonl")])
+    return done
 
 
 def load_tasks(data_path: str) -> list[dict]:
@@ -484,6 +522,10 @@ def main():
                         help="Eval judge protocol: browser (default VLM judge), webvoyager, online_mind2web, or deepshop.")
     parser.add_argument("--task-indices", type=str, default="",
                         help="Comma-separated task indices to evaluate (e.g. '0,5,10'). Empty = all.")
+    parser.add_argument("--resume", action="store_true",
+                        help="Reuse the newest matching output directory and skip tasks that "
+                             "already have a usable record there. Zero-length or corrupt "
+                             "records are re-run. Intended for preemptible (ckpt) jobs.")
     parser.add_argument("--turn-level", action="store_true", help="Whether to run turn-level evaluation instead of task-level.")
     parser.add_argument("--inference-step-timeout-secs", type=float, default=120.0,
                         help="Timeout in seconds for a single SGLang /generate request. <=0 disables the timeout.")
@@ -514,7 +556,15 @@ def main():
 
     checkpoint_tag = _short_checkpoint_tag(args.hf_checkpoint)
     judge_tag = os.path.basename(os.path.normpath(judge_model))
-    expt_name = f"eval_{checkpoint_tag}_{judge_tag}_{'turn' if args.turn_level else 'trajectory'}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
+    expt_stem = f"eval_{checkpoint_tag}_{judge_tag}_{'turn' if args.turn_level else 'trajectory'}"
+    expt_name = f"{expt_stem}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
+    if args.resume:
+        # Timestamped dir: a restart would mint a fresh one and see no prior
+        # work. Reuse the newest match so results stay in one place for scoring.
+        prior = sorted(glob.glob(os.path.join(args.output, f"{expt_stem}_*")))
+        if prior:
+            expt_name = os.path.basename(prior[-1])
+            print(f"Resume: reusing output directory {expt_name}")
     args.output = os.path.join(args.output, expt_name)
     os.makedirs(args.output, exist_ok=True)
 
@@ -565,6 +615,16 @@ def main():
     print(f"Evaluating {len(tasks)} tasks (protocol={args.eval_protocol}, ")
 
     # Run evaluation
+    if args.resume:
+        done = _completed_task_ids(args.output)
+        if done:
+            before = len(tasks)
+            tasks = [t for t in tasks if t["task_id"].replace("/", "_") not in done]
+            print(f"Resume: {before - len(tasks)}/{before} tasks already recorded; "
+                  f"{len(tasks)} remain")
+        if not tasks:
+            print("Resume: every task already has a record; nothing to run")
+
     results, abnormal_results = asyncio.run(
         evaluate_all(eval_args, tasks, args.n_parallel, sampling_params, args.turn_level, args.output)
     )
