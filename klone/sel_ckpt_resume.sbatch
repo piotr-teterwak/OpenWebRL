@@ -157,6 +157,35 @@ SELECTOR="${SELECTOR:?set SELECTOR=arm|zs|scalar}"
 # derive both ports from the job id: two selector jobs can land on the same
 # node (they did), and run_evaluation_local.sh defaults SGLANG_PORT to a
 # fixed 9000 -- a collision there silently cross-wires the two evals.
+# SINGLE_GPU=1 co-locates the judge with the policy on GPU0 so the job needs one
+# GPU instead of two. The point is placement, not speed: free GPUs on a busy
+# cluster are usually scattered one-per-node, so a 2-GPU request waits for a node
+# to free two at once while a 1-GPU request fits the gaps that actually appear.
+#
+# Memory: both servers are 4.4B bf16, ~9 GB of weights each, so on the smallest
+# card in play (48 GB l40s/a40) that leaves ~30 GB for the two KV pools. sglang's
+# mem-fraction-static is a share of TOTAL card memory, so the two must sum well
+# below 1.0. 0.42 + 0.36 = 78% leaves ~10 GB for CUDA contexts, activations and
+# fragmentation. The policy gets the larger share: it carries the long browser
+# context, while the judge only scores five short candidates.
+#
+# Cost: the two servers contend for SMs, so expect a slower step than the 2-GPU
+# layout. Measure before trusting any throughput number from this mode.
+# Usage: the #SBATCH --gpus=2 above is static, so pass --gpus=1 on the sbatch
+# command line too (CLI overrides the directive) or you will hold a second
+# idle GPU:
+#   SINGLE_GPU=1 SELECTOR=arm ARM=nucleus sbatch --gpus=1 klone/sel_ckpt_resume.sbatch
+SINGLE_GPU="${SINGLE_GPU:-0}"
+if [ "$SINGLE_GPU" = "1" ]; then
+  JUDGE_GPU=0
+  export SGLANG_MEM_FRACTION_STATIC="${SGLANG_MEM_FRACTION_STATIC:-0.42}"
+  JUDGE_MEM_FRACTION="${JUDGE_MEM_FRACTION:-0.36}"
+  echo "[sel] SINGLE_GPU=1: judge co-located on GPU0 (policy mem $SGLANG_MEM_FRACTION_STATIC, judge mem $JUDGE_MEM_FRACTION)"
+else
+  JUDGE_GPU=1
+  JUDGE_MEM_FRACTION="${JUDGE_MEM_FRACTION:-0.80}"
+fi
+
 JPORT=$((21000 + SLURM_JOB_ID % 900))
 export SGLANG_PORT=$((9000 + SLURM_JOB_ID % 900))
 echo "[sel] ports: policy=$SGLANG_PORT judge=$JPORT"
@@ -170,9 +199,9 @@ case "$SELECTOR" in
   arm|zs)
     if [ "$SELECTOR" = arm ]; then JUDGE_HF="${ARM_HF:-PTeterwak/OpenWebRL-4B-SelectionARM}";
     else JUDGE_HF="${ZS_HF:-/gscratch/cse/piotrt/models/OpenWebRL/OpenWebRL-4B-SFT}"; fi
-    CUDA_VISIBLE_DEVICES=1 python -m sglang.launch_server \
+    CUDA_VISIBLE_DEVICES=$JUDGE_GPU python -m sglang.launch_server \
       --model-path "$JUDGE_HF" --port "$JPORT" --host 127.0.0.1 \
-      --mem-fraction-static 0.80 --context-length 32768 > "$JLOG" 2>&1 &
+      --mem-fraction-static "$JUDGE_MEM_FRACTION" --context-length 32768 > "$JLOG" 2>&1 &
     JPID=$!
     export OWRL_ARBITER_URL="http://127.0.0.1:$JPORT/v1"
     export OWRL_ARBITER_API_KEY=EMPTY
@@ -181,7 +210,7 @@ case "$SELECTOR" in
     HEALTH="http://127.0.0.1:$JPORT/health"
     ;;
   scalar)
-    CUDA_VISIBLE_DEVICES=1 python "$REPO/klone/scalar_server.py" --port "$JPORT" > "$JLOG" 2>&1 &
+    CUDA_VISIBLE_DEVICES=$JUDGE_GPU python "$REPO/klone/scalar_server.py" --port "$JPORT" > "$JLOG" 2>&1 &
     JPID=$!
     export OWRL_SCALAR_URL="http://127.0.0.1:$JPORT"
     HEALTH="http://127.0.0.1:$JPORT/health"
@@ -189,7 +218,7 @@ case "$SELECTOR" in
   *) echo "unknown SELECTOR=$SELECTOR"; exit 1;;
 esac
 trap 'kill $JPID 2>/dev/null' EXIT
-echo "[sel] judge ($SELECTOR) starting on GPU1 port $JPORT"
+echo "[sel] judge ($SELECTOR) starting on GPU$JUDGE_GPU port $JPORT"
 for _ in $(seq 1 120); do
   kill -0 $JPID 2>/dev/null || { echo "[sel] FATAL judge died:"; tail -30 "$JLOG"; exit 1; }
   curl -sf "$HEALTH" >/dev/null 2>&1 && break
