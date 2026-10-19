@@ -1,5 +1,10 @@
 # CLAUDE.md — OpenWebRL on UW Hyak klone
 
+> **This describes klone.** The project has also been run on **tillicum**, a
+> separate Hyak cluster with its own filesystem, Slurm and accounts. If you are
+> not on klone, read [`CLUSTERS.md`](CLUSTERS.md) first — the paths, accounts and
+> the whole `klone/` directory below do not apply there.
+
 Read this first. It is short on purpose; it says where to look and what will
 bite you, not how the code works.
 
