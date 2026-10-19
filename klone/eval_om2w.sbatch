@@ -5,7 +5,11 @@
 # cpus-per-task is fair share here instead of 2.5x oversubscribed. Same 48GB,
 # ample for a 4B model + KV. dan29 uses a40 only because it works once
 # chromium launches fast; nothing about the workload requires it.
-#SBATCH --account=krishna
+# 'krishna' is not a valid association (valid: gpu-l40s-cse, gpu-l40s-krishna,
+# gpu-a100-*, gpu-a40-krishna, ckpt-*). The historical n=1 baseline 39383327
+# ran under gpu-l40s-cse; using it again also spreads quota so this can run
+# concurrently with a selector job on gpu-l40s-krishna.
+#SBATCH --account=gpu-l40s-cse
 #SBATCH --partition=gpu-l40s
 #SBATCH --nodes=1
 #SBATCH --ntasks=1

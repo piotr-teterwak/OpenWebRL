@@ -42,6 +42,11 @@ fi
 TASK_FILE="${TASK_FILE:-openwebrl/data/online-mind2web.jsonl}"
 OUTPUT_ROOT="${OUTPUT_ROOT:-eval_onlinemind2web/local_process_smoke}"
 TASK_INDICES="${TASK_INDICES:-}"
+# Resume support for preemptible (ckpt) jobs: reuse the newest matching output
+# directory and skip tasks already recorded there. Off by default.
+RESUME="${RESUME:-0}"
+RESUME_FLAG=""
+[ "${RESUME}" = "1" ] && RESUME_FLAG="--resume"
 N_PARALLEL="${N_PARALLEL:-8}"
 
 BROWSER_RESPONSE_FORMAT_MODE="${BROWSER_RESPONSE_FORMAT_MODE:-browser_env}"
@@ -143,6 +148,7 @@ echo "PLAYWRIGHT_CLI=${PLAYWRIGHT_CLI}"
 echo "MODEL_PATH=${MODEL_PATH}"
 echo "TASK_FILE=${TASK_FILE}"
 echo "TASK_INDICES=${TASK_INDICES}"
+echo "RESUME=${RESUME}"
 echo "N_PARALLEL=${N_PARALLEL}"
 echo "BROWSER_MAX_STEPS=${BROWSER_MAX_STEPS}"
 echo "OUTPUT_ROOT=${OUTPUT_ROOT}"
@@ -230,6 +236,7 @@ python openwebrl/run_evaluate.py \
     --temperature "${TEMPERATURE}" \
     --top-p "${TOP_P}" \
     --task-indices "${TASK_INDICES}" \
+    ${RESUME_FLAG} \
     --inference-step-timeout-secs "${INFERENCE_STEP_TIMEOUT_SECS}" \
     --task-timeout-secs "${TASK_TIMEOUT_SECS}" \
     --turn-level
