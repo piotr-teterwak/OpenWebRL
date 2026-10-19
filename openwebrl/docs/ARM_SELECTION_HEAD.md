@@ -4,21 +4,25 @@
 
 ## Headline results
 
-**On all 1,045 tasks of Online-Mind2Web, WebVoyager and DeepShop, the selection head trained on 1,908 of our lookahead-labelled states beats the single-sample SFT actor by +4.6 pp [+1.5, +7.6]. It adds 22.6 M parameters to the actor, against 4.44 B for Piotr SelectionARM's separate selector, and uses 36% less compute per step. Piotr SelectionARM gains +7.0 pp [+3.9, +10.0]; the head is 2.4 pp behind it [−5.3, +0.4].**
+**On all 1,045 tasks of Online-Mind2Web, WebVoyager and DeepShop, the same 22.6 M-parameter selection head matches Piotr SelectionARM's 4.44 B selector when trained on Piotr's data (+0.5 pp [−2.5, +3.4]) at 64% of its compute; both beat the single-sample SFT actor by about 7.5 pp. Trained on 1,908 of our lookahead-labelled states, the head beats SFT by +4.6 pp [+1.5, +7.6]. Selector size does not matter here; training data does.**
 - **Setup:** every task of each benchmark, one episode per task, the same tasks for every condition. Actor OpenWebRL-4B-SFT, T 1.0 / top-p 0.9, 30 steps; one H200 per condition and benchmark. Judges: o4-mini for Online-Mind2Web; GPT-4o for WebVoyager and DeepShop.
 
 | Method | Online-Mind2Web successes (of 300) | WebVoyager successes (of 595) | DeepShop successes (of 150) | All successes (of 1,045) | All overall | − SFT, pp [95% CI] | Parameters | Added for selection | PFLOP per step | Seconds per decision | Browser steps per episode |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | SFT 4B, 1 sample | 109 | 264 | 51 | 424 | 40.6% | — | 4.44 B | — | 0.019 | 2.81 | 13.6 |
 | Piotr SelectionARM | **123** | **312** | 62 | **497** | **47.6%** | **+7.0 [+3.9, +10.0]** | 8.88 B | 4.44 B | 0.096 | 8.68 | 14.3 |
-| **Selection head (ours), K = 1 labels** | 112 | 292 | **68** | 472 | 45.2% | **+4.6 [+1.5, +7.6]** | **4.46 B** | **22.6 M** | **0.060** | **8.21** | 15.3 |
+| **Selection head, Piotr's data** | **131** | 305 | 66 | **502** | **48.0%** | **+7.5 [+4.4, +10.5]** | **4.46 B** | **22.6 M** | 0.062 | 8.29 | 13.6 |
+| **Selection head, our K = 1 labels (1,908 SFT + RL states)** | 112 | 292 | **68** | 472 | 45.2% | **+4.6 [+1.5, +7.6]** | **4.46 B** | **22.6 M** | **0.060** | **8.21** | 15.3 |
 
 - **Per benchmark, head − SFT:** Online-Mind2Web +1.0 [−4.3, +6.3], WebVoyager +4.7 [+0.7, +8.6], DeepShop +11.3 [+2.7, +20.0]. Head − Piotr is −3.7, −3.4 and +4.0; none of these excludes zero.
 - **Columns.**
   - "Overall" counts invalid episodes as failures. Valid only, both selectors beat SFT by +5.2 pp [+2.0, +8.4] (head) and +7.5 pp [+4.3, +10.5] (Piotr).
   - Parameters are those loaded at inference. The head's 22.6 M are its only trained weights; the actor is frozen.
   - Browser steps are actions executed per episode. Both selectors run longer episodes than SFT.
-- **Training data.** The head learns from Luna lookahead K = 1 labels on 1,908 branching states (SFT- and RL-actor states). Piotr's selector is a LoRA fine-tune of the 4B model on 2,692 GPT-5.5-labelled states (35,916 panels).
+- **Training data.**
+  - "Piotr's data": GPT-5.5 picks on Piotr's 2,692 states (35,916 five-candidate panels). The head's weights are the same-hardware study's listwise head; Piotr SelectionARM is a LoRA fine-tune of the 4B model on the same data.
+  - "Our K = 1 labels": Luna lookahead K = 1 votes on 1,908 branching states, 434 of them from the RL actor, with one panel per state.
+- **Model × data.** On Piotr's data the head matches Piotr's 4B selector: +0.5 pp [−2.5, +3.4]. On our data it trails the Piotr-data head by 2.9 pp [−0.1, +5.9], a gap that likely reflects about 19× fewer labelled choices. Training only on our SFT-actor states (1,631) changes little: −0.8 pp [−3.6, +2.1] against the SFT + RL head ([details](#selection-head-crossbench-full-20261018)).
 - **Details:** [full-benchmark section](#selection-head-crossbench-full-20261018) (per-benchmark tables, cost accounting, decoding test), [evidence](arm_results/rl_integration/crossbench-full-t10-20261018.json).
 
 **Earlier, Online-Mind2Web on identical hardware (3 × 300 tasks, T 0.7; head trained on Piotr's teacher labels): the selection head matches Piotr SelectionARM's success with 36% less compute and 11% lower latency per decision.**
@@ -114,6 +118,22 @@ Overall rates count invalid episodes as failures. Valid-only paired differences 
 - **The head is behind Piotr SelectionARM on Online-Mind2Web and WebVoyager and ahead on DeepShop**; no per-benchmark difference between the two excludes zero.
 - **Selection lengthens episodes.** Both selectors take more steps and overflow the 32K context more often than SFT. Overflows count as failures.
 - **Comparison with the 100-task runs at T 0.7** ([below](#selection-head-crossbench-20261017)): the same 1,908-state head was level with SFT there (+1.7 pp [−4.7, +7.7], 300 tasks). Two things changed together: 3.5× more tasks and higher-temperature candidates. With the same decoding, the 30-task test put the head's margin over SFT at +8.9 pp under T 1.0 and +5.6 pp under T 0.7 on the same 90 tasks.
+
+**Model × data and state source** (same protocol, all 1,045 tasks; head = the same frozen-feature listwise head, 22.6 M parameters):
+
+| Selector | Training data | Online-Mind2Web successes | WebVoyager successes | DeepShop successes | All successes | All overall | − SFT, pp [95% CI] |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Head | Piotr: 2,692 states, GPT-5.5 picks | **131** | 305 | 66 | **502** | **48.0%** | **+7.5 [+4.4, +10.5]** |
+| Piotr SelectionARM (LoRA 4B) | Piotr: 2,692 states, GPT-5.5 picks | 123 | **312** | 62 | 497 | 47.6% | +7.0 [+3.9, +10.0] |
+| Head | ours: 1,908 SFT + RL states, Luna K = 1 | 112 | 292 | **68** | 472 | 45.2% | +4.6 [+1.5, +7.6] |
+| Head | ours: 1,631 SFT-actor states only, Luna K = 1 | 105 | 295 | 64 | 464 | 44.4% | +3.8 [+0.8, +6.9] |
+| SFT 4B, 1 sample | — | 109 | 264 | 51 | 424 | 40.6% | — |
+
+- **Same data, different selector size:** head − Piotr SelectionARM, both on Piotr's data, is +0.5 pp [−2.5, +3.4]. Per benchmark: +2.7, −1.2 and +2.7 pp.
+- **Same head, different data:** Piotr's data − our SFT + RL states is +2.9 pp [−0.1, +5.9]. The gap is concentrated on Online-Mind2Web: +6.3 pp [+0.7, +12.0].
+- **RL-actor states:** dropping them (SFT-actor states only, 157 more SFT states kept because outcome targets are not required) gives −0.8 pp [−3.6, +2.1], with the same pattern per benchmark. Offline on the shared test fold the two heads are also level (+0.15 pp [−1.40, +2.08]; [evidence](arm_results/rl_integration/sftonly-head-offline-20261019.json)).
+- **Episode length:** the Piotr-data head takes 13.6 steps per episode, like SFT (13.6); our-data heads take 15.3–15.6 and overflow the context more often.
+- [Evidence, all five conditions](arm_results/rl_integration/crossbench-full-t10-5cond-20261019.json).
 
 <details>
 <summary>Decoding test, protocol, accounting and evidence</summary>
