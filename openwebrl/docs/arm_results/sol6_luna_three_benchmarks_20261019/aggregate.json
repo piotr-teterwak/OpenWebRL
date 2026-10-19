@@ -1,0 +1,822 @@
+{
+  "schema": "sol6-luna-four-method-three-benchmark-headlines-v1",
+  "updated_date": "2026-10-19",
+  "models": {
+    "serial_high": "gpt-6-sol",
+    "luna_single_high": "gpt-6-luna",
+    "parallel3_select_high": "gpt-6-luna",
+    "parallel5_select_high": "gpt-6-luna"
+  },
+  "harness": "BrowserCode",
+  "effort": "high; proposals and selector high for N3/N5",
+  "max_output_tokens_per_call": 12288,
+  "max_decisions": 30,
+  "benchmarks": {
+    "Online-Mind2Web": {
+      "tasks_per_method": 300,
+      "status": "original300_secondary_cohort",
+      "by_method": {
+        "serial_high": {
+          "status": "audited",
+          "tasks": 300,
+          "valid": 266,
+          "invalid": 34,
+          "successes": 171,
+          "overall_success": 0.57,
+          "valid_only_success": 0.6428571428571429,
+          "all_attempt_model_usd_excluding_judge": 57.20936370000002,
+          "valid_episode_metrics": {
+            "mean_tokens_per_task": {
+              "input_tokens": 431031.3270676692,
+              "cached_input_tokens": 391329.63157894736,
+              "cache_write_tokens": 39654,
+              "output_tokens": 3021.312030075188,
+              "reported_reasoning_tokens": 754.484962406015
+            },
+            "mean_model_usd_per_task": 0.20770943759398497,
+            "mean_task_seconds": 92.65773511359622,
+            "mean_browser_steps": 14.988721804511279,
+            "unknown_usage_calls_on_valid_episodes": 0
+          }
+        },
+        "parallel3_select_high": {
+          "status": "audited",
+          "tasks": 300,
+          "valid": 269,
+          "invalid": 31,
+          "successes": 180,
+          "overall_success": 0.6,
+          "valid_only_success": 0.6691449814126395,
+          "all_attempt_model_usd_excluding_judge": 15.751733894999994,
+          "valid_episode_metrics": {
+            "mean_tokens_per_task": {
+              "input_tokens": 1162394.936802974,
+              "output_tokens": 17289.9219330855,
+              "reported_reasoning_tokens": 10625.420074349442
+            },
+            "mean_model_usd_per_task": 0.054963019237918215,
+            "mean_task_seconds": 178.0883317464566,
+            "mean_browser_steps": 14.79182156133829,
+            "unknown_usage_calls_on_valid_episodes": 0
+          }
+        },
+        "parallel5_select_high": {
+          "status": "audited",
+          "tasks": 300,
+          "valid": 267,
+          "invalid": 33,
+          "successes": 188,
+          "overall_success": 0.6266666666666667,
+          "valid_only_success": 0.704119850187266,
+          "all_attempt_model_usd_excluding_judge": 19.680758059999985,
+          "valid_episode_metrics": {
+            "mean_tokens_per_task": {
+              "input_tokens": 1863864.8539325842,
+              "output_tokens": 26811.958801498127,
+              "reported_reasoning_tokens": 15766.067415730337
+            },
+            "mean_model_usd_per_task": 0.0696033554494382,
+            "mean_task_seconds": 207.8937416237685,
+            "mean_browser_steps": 14.632958801498127,
+            "unknown_usage_calls_on_valid_episodes": 0
+          }
+        }
+      },
+      "efficiency_common_valid_tasks": 256,
+      "efficiency": {
+        "serial_high": {
+          "mean_model_usd_per_task": 0.20463666171875,
+          "mean_task_seconds": 91.46480008915864,
+          "mean_browser_steps": 14.8828125,
+          "successes": 165,
+          "success_rate": 0.64453125
+        },
+        "parallel3_select_high": {
+          "mean_model_usd_per_task": 0.05456018328125,
+          "mean_task_seconds": 177.68258941188583,
+          "mean_browser_steps": 14.79296875,
+          "successes": 171,
+          "success_rate": 0.66796875
+        },
+        "parallel5_select_high": {
+          "mean_model_usd_per_task": 0.0698910564453125,
+          "mean_task_seconds": 208.00888903788757,
+          "mean_browser_steps": 14.69921875,
+          "successes": 178,
+          "success_rate": 0.6953125
+        }
+      }
+    },
+    "WebVoyager": {
+      "tasks_per_method": 595,
+      "status": "four_arms_audited",
+      "by_method": {
+        "serial_high": {
+          "status": "audited",
+          "tasks": 595,
+          "valid": 553,
+          "invalid": 42,
+          "successes": 385,
+          "overall_success": 0.6470588235294118,
+          "valid_only_success": 0.6962025316455697,
+          "all_attempt_model_usd_excluding_judge": 115.59671290000006,
+          "valid_episode_metrics": {
+            "task_latency_seconds_excluding_judge": {
+              "mean": 94.14691202024558,
+              "median": 65.42473092005821,
+              "p90": 210.87889977802996
+            },
+            "model_decisions": {
+              "mean": 14.195298372513562,
+              "median": 12.0,
+              "p90": 30.0
+            },
+            "selected_browser_code_batches": {
+              "mean": 13.314647377938517,
+              "median": 11.0,
+              "p90": 30.0
+            },
+            "native_cdp_operations": {
+              "mean": 63.56962025316456,
+              "median": 48.0,
+              "p90": 122.80000000000001
+            },
+            "judge_only_capture_seconds": {
+              "mean": 4.201953334945412,
+              "median": 2.237310811993666,
+              "p90": 9.020303765567952
+            },
+            "judge_only_capture_operations": {
+              "mean": 13.314647377938517,
+              "median": 11.0,
+              "p90": 30.0
+            },
+            "model_usd_per_task_excluding_judge": 0.19769814538878847,
+            "model_usd_per_success_excluding_judge": 0.283966427012987,
+            "mean_tokens_per_task": {
+              "input_tokens": 403728.4683544304,
+              "cached_input_tokens": 365299.1808318264,
+              "cache_write_tokens": 38386.701627486436,
+              "output_tokens": 2858.6383363471973,
+              "reported_reasoning_tokens": 778.5641952983725
+            },
+            "cost_scope": "Same listed valid task cohort, including model spend on valid failures; every proposal/selector included. Infrastructure-invalid attempt cost is accounted separately."
+          }
+        },
+        "parallel3_select_high": {
+          "status": "audited",
+          "tasks": 595,
+          "valid": 568,
+          "invalid": 27,
+          "successes": 393,
+          "overall_success": 0.6605042016806723,
+          "valid_only_success": 0.6919014084507042,
+          "all_attempt_model_usd_excluding_judge": 25.808268260000027,
+          "valid_episode_metrics": {
+            "task_latency_seconds_excluding_judge": {
+              "mean": 163.37307838709927,
+              "median": 106.01329732648446,
+              "p90": 366.98974685060097
+            },
+            "model_decisions": {
+              "mean": 12.63556338028169,
+              "median": 10.0,
+              "p90": 27.0
+            },
+            "selected_browser_code_batches": {
+              "mean": 11.714788732394366,
+              "median": 9.0,
+              "p90": 26.0
+            },
+            "native_cdp_operations": {
+              "mean": 48.8362676056338,
+              "median": 32.5,
+              "p90": 99.0
+            },
+            "judge_only_capture_seconds": {
+              "mean": 2.1762689979486436,
+              "median": 1.605639881483512,
+              "p90": 4.320909041847336
+            },
+            "judge_only_capture_operations": {
+              "mean": 11.714788732394366,
+              "median": 9.0,
+              "p90": 26.0
+            },
+            "model_usd_per_task_excluding_judge": 0.04319473032570422,
+            "model_usd_per_success_excluding_judge": 0.062429025,
+            "mean_tokens_per_task": {
+              "input_tokens": 916661.9612676057,
+              "cached_input_tokens": 678907.8080985915,
+              "cache_write_tokens": 236898.66725352113,
+              "output_tokens": 13415.540492957747,
+              "reported_reasoning_tokens": 8128.68485915493
+            },
+            "cost_scope": "Same listed valid task cohort, including model spend on valid failures; every proposal/selector included. Infrastructure-invalid attempt cost is accounted separately."
+          }
+        },
+        "parallel5_select_high": {
+          "status": "audited",
+          "tasks": 595,
+          "valid": 555,
+          "invalid": 40,
+          "successes": 389,
+          "overall_success": 0.653781512605042,
+          "valid_only_success": 0.7009009009009008,
+          "all_attempt_model_usd_excluding_judge": 27.613534510000118,
+          "valid_episode_metrics": {
+            "task_latency_seconds_excluding_judge": {
+              "mean": 171.0284289410102,
+              "median": 117.23728882195428,
+              "p90": 361.98261296416166
+            },
+            "model_decisions": {
+              "mean": 11.81981981981982,
+              "median": 9.0,
+              "p90": 26.0
+            },
+            "selected_browser_code_batches": {
+              "mean": 10.886486486486486,
+              "median": 8.0,
+              "p90": 25.0
+            },
+            "native_cdp_operations": {
+              "mean": 45.4,
+              "median": 31.0,
+              "p90": 98.60000000000002
+            },
+            "judge_only_capture_seconds": {
+              "mean": 2.8599769365128447,
+              "median": 1.6712657080497593,
+              "p90": 6.966654283716346
+            },
+            "judge_only_capture_operations": {
+              "mean": 10.886486486486486,
+              "median": 8.0,
+              "p90": 25.0
+            },
+            "model_usd_per_task_excluding_judge": 0.045877126936936935,
+            "model_usd_per_success_excluding_judge": 0.06545451272493573,
+            "mean_tokens_per_task": {
+              "input_tokens": 1195570.455855856,
+              "cached_input_tokens": 986135.3513513514,
+              "cache_write_tokens": 208307.16756756758,
+              "output_tokens": 19729.16756756757,
+              "reported_reasoning_tokens": 11622.20900900901
+            },
+            "cost_scope": "Same listed valid task cohort, including model spend on valid failures; every proposal/selector included. Infrastructure-invalid attempt cost is accounted separately."
+          }
+        },
+        "luna_single_high": {
+          "status": "audited",
+          "tasks": 595,
+          "valid": 579,
+          "invalid": 16,
+          "successes": 390,
+          "overall_success": 0.6554621848739496,
+          "valid_only_success": 0.6735751295336787,
+          "all_attempt_model_usd_excluding_judge": 4.612620095000002,
+          "valid_episode_metrics": {
+            "task_latency_seconds_excluding_judge": {
+              "mean": 100.09790529011984,
+              "median": 72.7263827950228,
+              "p90": 217.09320636296184
+            },
+            "model_decisions": {
+              "mean": 14.405872193436961,
+              "median": 12.0,
+              "p90": 30.0
+            },
+            "selected_browser_code_batches": {
+              "mean": 13.53713298791019,
+              "median": 11.0,
+              "p90": 30.0
+            },
+            "native_cdp_operations": {
+              "mean": 52.30915371329879,
+              "median": 40.0,
+              "p90": 109.0
+            },
+            "judge_only_capture_seconds": {
+              "mean": 2.509646165577855,
+              "median": 1.9379767319187522,
+              "p90": 5.3193985935533465
+            },
+            "judge_only_capture_operations": {
+              "mean": 13.53713298791019,
+              "median": 11.0,
+              "p90": 30.0
+            },
+            "model_usd_per_task_excluding_judge": 0.007782127625215888,
+            "model_usd_per_success_excluding_judge": 0.011553466397435899,
+            "mean_tokens_per_task": {
+              "input_tokens": 278930.7443868739,
+              "cached_input_tokens": 252958.71675302245,
+              "cache_write_tokens": 25928.810017271157,
+              "output_tokens": 4014.2348877374784,
+              "reported_reasoning_tokens": 2092.3264248704663
+            },
+            "cost_scope": "Same listed valid task cohort, including model spend on valid failures; every proposal/selector included. Infrastructure-invalid attempt cost is accounted separately."
+          }
+        }
+      },
+      "efficiency_common_valid_tasks": 489,
+      "efficiency": {
+        "serial_high": {
+          "mean_model_usd_per_task": 0.18815723660531697,
+          "mean_task_seconds": 89.54210370633066,
+          "mean_browser_steps": 12.680981595092025,
+          "successes": 353,
+          "success_rate": 0.721881390593047
+        },
+        "parallel3_select_high": {
+          "mean_model_usd_per_task": 0.04074019633946831,
+          "mean_task_seconds": 156.89625161177344,
+          "mean_browser_steps": 11.267893660531698,
+          "successes": 342,
+          "success_rate": 0.6993865030674846
+        },
+        "parallel5_select_high": {
+          "mean_model_usd_per_task": 0.04433436018404908,
+          "mean_task_seconds": 166.99438822220017,
+          "mean_browser_steps": 10.54601226993865,
+          "successes": 352,
+          "success_rate": 0.7198364008179959
+        },
+        "luna_single_high": {
+          "mean_model_usd_per_task": 0.0072673925971370144,
+          "mean_task_seconds": 94.13132628041345,
+          "mean_browser_steps": 12.887525562372188,
+          "successes": 338,
+          "success_rate": 0.6912065439672802
+        }
+      },
+      "paired_comparisons": [
+        {
+          "first": "serial_high",
+          "second": "parallel3_select_high",
+          "all_fixed_tasks_invalid_as_unsuccessful": {
+            "tasks": 595,
+            "first_only_successes": 68,
+            "second_only_successes": 76,
+            "second_minus_first_success": 0.013445378151260505,
+            "paired_bootstrap95": [
+              -0.025210084033613446,
+              0.05378151260504202
+            ],
+            "bootstrap_draws": 20000,
+            "seed": 20261019,
+            "mcnemar_exact_p": 0.5598211377107971
+          },
+          "four_arm_common_valid": {
+            "tasks": 489,
+            "first_only_successes": 54,
+            "second_only_successes": 43,
+            "second_minus_first_success": -0.022494887525562373,
+            "paired_bootstrap95": [
+              -0.06134969325153374,
+              0.016359918200409
+            ],
+            "bootstrap_draws": 20000,
+            "seed": 20261029,
+            "mcnemar_exact_p": 0.30993353423900705
+          }
+        },
+        {
+          "first": "serial_high",
+          "second": "parallel5_select_high",
+          "all_fixed_tasks_invalid_as_unsuccessful": {
+            "tasks": 595,
+            "first_only_successes": 73,
+            "second_only_successes": 77,
+            "second_minus_first_success": 0.0067226890756302525,
+            "paired_bootstrap95": [
+              -0.03361344537815126,
+              0.047058823529411764
+            ],
+            "bootstrap_draws": 20000,
+            "seed": 20261020,
+            "mcnemar_exact_p": 0.8065959963978487
+          },
+          "four_arm_common_valid": {
+            "tasks": 489,
+            "first_only_successes": 50,
+            "second_only_successes": 49,
+            "second_minus_first_success": -0.002044989775051125,
+            "paired_bootstrap95": [
+              -0.0408997955010225,
+              0.03680981595092025
+            ],
+            "bootstrap_draws": 20000,
+            "seed": 20261030,
+            "mcnemar_exact_p": 1.0
+          }
+        },
+        {
+          "first": "serial_high",
+          "second": "luna_single_high",
+          "all_fixed_tasks_invalid_as_unsuccessful": {
+            "tasks": 595,
+            "first_only_successes": 68,
+            "second_only_successes": 73,
+            "second_minus_first_success": 0.008403361344537815,
+            "paired_bootstrap95": [
+              -0.030252100840336135,
+              0.047058823529411764
+            ],
+            "bootstrap_draws": 20000,
+            "seed": 20261021,
+            "mcnemar_exact_p": 0.7363564588511882
+          },
+          "four_arm_common_valid": {
+            "tasks": 489,
+            "first_only_successes": 56,
+            "second_only_successes": 41,
+            "second_minus_first_success": -0.03067484662576687,
+            "paired_bootstrap95": [
+              -0.06952965235173825,
+              0.0081799591002045
+            ],
+            "bootstrap_draws": 20000,
+            "seed": 20261031,
+            "mcnemar_exact_p": 0.1548157850344286
+          }
+        },
+        {
+          "first": "parallel3_select_high",
+          "second": "parallel5_select_high",
+          "all_fixed_tasks_invalid_as_unsuccessful": {
+            "tasks": 595,
+            "first_only_successes": 66,
+            "second_only_successes": 62,
+            "second_minus_first_success": -0.0067226890756302525,
+            "paired_bootstrap95": [
+              -0.043697478991596636,
+              0.030252100840336135
+            ],
+            "bootstrap_draws": 20000,
+            "seed": 20261022,
+            "mcnemar_exact_p": 0.7910074494028781
+          },
+          "four_arm_common_valid": {
+            "tasks": 489,
+            "first_only_successes": 38,
+            "second_only_successes": 48,
+            "second_minus_first_success": 0.02044989775051125,
+            "paired_bootstrap95": [
+              -0.016359918200409,
+              0.05725971370143149
+            ],
+            "bootstrap_draws": 20000,
+            "seed": 20261032,
+            "mcnemar_exact_p": 0.3318343545999156
+          }
+        },
+        {
+          "first": "parallel3_select_high",
+          "second": "luna_single_high",
+          "all_fixed_tasks_invalid_as_unsuccessful": {
+            "tasks": 595,
+            "first_only_successes": 66,
+            "second_only_successes": 63,
+            "second_minus_first_success": -0.005042016806722689,
+            "paired_bootstrap95": [
+              -0.04201680672268908,
+              0.031932773109243695
+            ],
+            "bootstrap_draws": 20000,
+            "seed": 20261023,
+            "mcnemar_exact_p": 0.8603106786164315
+          },
+          "four_arm_common_valid": {
+            "tasks": 489,
+            "first_only_successes": 49,
+            "second_only_successes": 45,
+            "second_minus_first_success": -0.0081799591002045,
+            "paired_bootstrap95": [
+              -0.04703476482617587,
+              0.03067484662576687
+            ],
+            "bootstrap_draws": 20000,
+            "seed": 20261033,
+            "mcnemar_exact_p": 0.7571890741424051
+          }
+        },
+        {
+          "first": "parallel5_select_high",
+          "second": "luna_single_high",
+          "all_fixed_tasks_invalid_as_unsuccessful": {
+            "tasks": 595,
+            "first_only_successes": 68,
+            "second_only_successes": 69,
+            "second_minus_first_success": 0.0016806722689075631,
+            "paired_bootstrap95": [
+              -0.03697478991596639,
+              0.040336134453781515
+            ],
+            "bootstrap_draws": 20000,
+            "seed": 20261024,
+            "mcnemar_exact_p": 1.0
+          },
+          "four_arm_common_valid": {
+            "tasks": 489,
+            "first_only_successes": 60,
+            "second_only_successes": 46,
+            "second_minus_first_success": -0.028629856850715747,
+            "paired_bootstrap95": [
+              -0.06952965235173825,
+              0.012269938650306749
+            ],
+            "bootstrap_draws": 20000,
+            "seed": 20261034,
+            "mcnemar_exact_p": 0.20649820735970978
+          }
+        }
+      ],
+      "all_attempt_accounting_by_method": {
+        "serial_high": {
+          "model_usd_charged_or_reserved_excluding_judge": 115.59671290000006,
+          "model_calls_including_native_counts": 12710,
+          "judge_usd_separate": 18.003620000000005,
+          "judge_calls": 494,
+          "browser_sessions": 605,
+          "received_input_tokens": 235603408,
+          "received_cached_input_tokens": 213050057,
+          "received_cache_write_tokens": 22528439,
+          "received_output_tokens": 1661578,
+          "received_reported_reasoning_tokens": 447508,
+          "unknown_usage_model_calls": 0,
+          "native_generation_calls": 8304,
+          "allocation_seconds_all_attempts": 34508
+        },
+        "parallel3_select_high": {
+          "model_usd_charged_or_reserved_excluding_judge": 25.808268260000027,
+          "model_calls_including_native_counts": 33836,
+          "judge_usd_separate": 17.770930000000003,
+          "judge_calls": 527,
+          "browser_sessions": 607,
+          "received_input_tokens": 546819430,
+          "received_cached_input_tokens": 405185261,
+          "received_cache_write_tokens": 141123365,
+          "received_output_tokens": 8074152,
+          "received_reported_reasoning_tokens": 4871839,
+          "unknown_usage_model_calls": 2,
+          "native_generation_calls": 30355,
+          "allocation_seconds_all_attempts": 56229
+        },
+        "parallel5_select_high": {
+          "model_usd_charged_or_reserved_excluding_judge": 27.613534510000118,
+          "model_calls_including_native_counts": 44661,
+          "judge_usd_separate": 16.897255,
+          "judge_calls": 525,
+          "browser_sessions": 611,
+          "received_input_tokens": 716771420,
+          "received_cached_input_tokens": 591543591,
+          "received_cache_write_tokens": 124561183,
+          "received_output_tokens": 11768842,
+          "received_reported_reasoning_tokens": 6880784,
+          "unknown_usage_model_calls": 11,
+          "native_generation_calls": 42010,
+          "allocation_seconds_all_attempts": 60615
+        },
+        "luna_single_high": {
+          "model_usd_charged_or_reserved_excluding_judge": 4.612620095000002,
+          "model_calls_including_native_counts": 11071,
+          "judge_usd_separate": 18.4919425,
+          "judge_calls": 509,
+          "browser_sessions": 604,
+          "received_input_tokens": 164919165,
+          "received_cached_input_tokens": 149542767,
+          "received_cache_write_tokens": 15350685,
+          "received_output_tokens": 2391571,
+          "received_reported_reasoning_tokens": 1247529,
+          "unknown_usage_model_calls": 0,
+          "native_generation_calls": 8571,
+          "allocation_seconds_all_attempts": 35625
+        }
+      }
+    },
+    "DeepShop": {
+      "tasks_per_method": 150,
+      "status": "three_luna_arms_audited_sol_incomplete",
+      "by_method": {
+        "luna_single_high": {
+          "status": "audited",
+          "tasks": 150,
+          "valid": 150,
+          "invalid": 0,
+          "successes": 73,
+          "overall_success": 0.4866666666666667,
+          "valid_only_success": 0.4866666666666667,
+          "all_attempt_model_usd_excluding_judge": 2.104640029999999,
+          "valid_episode_metrics": {},
+          "received_model_tokens": {
+            "input_tokens": 84161609,
+            "cached_input_tokens": 77462598,
+            "output_tokens": 985754,
+            "reported_reasoning_tokens": 588545
+          }
+        },
+        "parallel3_select_high": {
+          "status": "audited",
+          "tasks": 150,
+          "valid": 148,
+          "invalid": 2,
+          "successes": 81,
+          "overall_success": 0.54,
+          "valid_only_success": 0.5472972972972973,
+          "all_attempt_model_usd_excluding_judge": 13.204483570000022,
+          "valid_episode_metrics": {
+            "task_latency_seconds_excluding_judge": {
+              "mean": 258.21112880515363,
+              "median": 216.1471654988709,
+              "p90": 462.8713475676138
+            },
+            "model_decisions": {
+              "mean": 18.81081081081081,
+              "median": 18.0,
+              "p90": 30.0
+            },
+            "selected_browser_code_batches": {
+              "mean": 17.95945945945946,
+              "median": 17.0,
+              "p90": 30.0
+            },
+            "native_cdp_operations": {
+              "mean": 58.36486486486486,
+              "median": 54.0,
+              "p90": 89.60000000000002
+            },
+            "judge_only_capture_seconds": {
+              "mean": 3.733021730342345,
+              "median": 3.457267533929553,
+              "p90": 5.958886158210226
+            },
+            "judge_only_capture_operations": {
+              "mean": 17.95945945945946,
+              "median": 17.0,
+              "p90": 30.0
+            },
+            "model_usd_per_task_excluding_judge": 0.08883636675675677,
+            "model_usd_per_success_excluding_judge": 0.16231829975308643,
+            "mean_tokens_per_task": {
+              "input_tokens": 1937016.7972972973,
+              "cached_input_tokens": 1438582.25,
+              "cache_write_tokens": 497380.47297297296,
+              "output_tokens": 24345.155405405407,
+              "reported_reasoning_tokens": 16511.91891891892
+            },
+            "cost_scope": "Same listed valid task cohort, including model spend on valid failures; every proposal/selector included. Infrastructure-invalid attempt cost is accounted separately."
+          }
+        },
+        "parallel5_select_high": {
+          "status": "audited",
+          "tasks": 150,
+          "valid": 147,
+          "invalid": 3,
+          "successes": 77,
+          "overall_success": 0.5133333333333333,
+          "valid_only_success": 0.5238095238095238,
+          "all_attempt_model_usd_excluding_judge": 16.221254994999978,
+          "valid_episode_metrics": {
+            "task_latency_seconds_excluding_judge": {
+              "mean": 281.8559478882017,
+              "median": 233.76734921423486,
+              "p90": 518.120354977192
+            },
+            "model_decisions": {
+              "mean": 18.31972789115646,
+              "median": 17.0,
+              "p90": 30.0
+            },
+            "selected_browser_code_batches": {
+              "mean": 17.476190476190474,
+              "median": 16.0,
+              "p90": 30.0
+            },
+            "native_cdp_operations": {
+              "mean": 60.08163265306123,
+              "median": 54.0,
+              "p90": 94.0
+            },
+            "judge_only_capture_seconds": {
+              "mean": 3.5825746821965803,
+              "median": 3.3039490020019002,
+              "p90": 5.830538678506855
+            },
+            "judge_only_capture_operations": {
+              "mean": 17.476190476190474,
+              "median": 16.0,
+              "p90": 30.0
+            },
+            "model_usd_per_task_excluding_judge": 0.10953599132653062,
+            "model_usd_per_success_excluding_judge": 0.20911416525974028,
+            "mean_tokens_per_task": {
+              "input_tokens": 3015641.3061224488,
+              "cached_input_tokens": 2497387.517006803,
+              "cache_write_tokens": 516375.612244898,
+              "output_tokens": 39654.69387755102,
+              "reported_reasoning_tokens": 26948.102040816328
+            },
+            "cost_scope": "Same listed valid task cohort, including model spend on valid failures; every proposal/selector included. Infrastructure-invalid attempt cost is accounted separately."
+          }
+        },
+        "serial_high": {
+          "status": "incomplete_budget",
+          "tasks": 150,
+          "valid": 117,
+          "invalid": 33,
+          "successes": 55,
+          "overall_success": null,
+          "budget_affected_cells": 31,
+          "all_attempt_model_usd_excluding_judge": 47.8770037
+        }
+      },
+      "efficiency_common_valid_tasks": 145,
+      "efficiency": {
+        "luna_single_high": {
+          "mean_model_usd_per_task": 0.01397612503448276,
+          "mean_task_seconds": 154.23568408672924,
+          "mean_browser_steps": 20.551724137931036,
+          "successes": 71,
+          "success_rate": 0.4896551724137931
+        },
+        "parallel3_select_high": {
+          "mean_model_usd_per_task": 0.08919335848275863,
+          "mean_task_seconds": 259.121239074143,
+          "mean_browser_steps": 18.048275862068966,
+          "successes": 79,
+          "success_rate": 0.5448275862068965
+        },
+        "parallel5_select_high": {
+          "mean_model_usd_per_task": 0.1105742931034483,
+          "mean_task_seconds": 283.67195775779845,
+          "mean_browser_steps": 17.593103448275862,
+          "successes": 76,
+          "success_rate": 0.5241379310344828
+        }
+      },
+      "luna_paired_comparisons": {
+        "n3_vs_single": {
+          "tasks": 145,
+          "first_only_successes": 10,
+          "second_only_successes": 18,
+          "second_minus_first_success": 0.05517241379310345,
+          "paired_bootstrap95": [
+            -0.013793103448275862,
+            0.12413793103448276
+          ],
+          "bootstrap_draws": 20000,
+          "seed": 20261130,
+          "mcnemar_exact_p": 0.1849333420395851
+        },
+        "n5_vs_single": {
+          "tasks": 145,
+          "first_only_successes": 12,
+          "second_only_successes": 17,
+          "second_minus_first_success": 0.034482758620689655,
+          "paired_bootstrap95": [
+            -0.034482758620689655,
+            0.1103448275862069
+          ],
+          "bootstrap_draws": 20000,
+          "seed": 20261131,
+          "mcnemar_exact_p": 0.45825831964612007
+        },
+        "n5_vs_n3": {
+          "tasks": 145,
+          "first_only_successes": 13,
+          "second_only_successes": 10,
+          "second_minus_first_success": -0.020689655172413793,
+          "paired_bootstrap95": [
+            -0.08275862068965517,
+            0.041379310344827586
+          ],
+          "bootstrap_draws": 20000,
+          "seed": 20261132,
+          "mcnemar_exact_p": 0.6776394844055176
+        }
+      }
+    }
+  },
+  "missing_cells": {
+    "Online-Mind2Web/luna_single_high": "Not run under this matched protocol",
+    "DeepShop/serial_high": "Incomplete:31 budget-affected cells; original records unchanged"
+  },
+  "source_aggregate_sha256": {
+    "om2w": "3fd25ed68067ef7747862c47631a1420655a9271b292181b0db70d04fd9732aa",
+    "webvoyager": "95f61d879a51491edfe28528bda1ec304d691123ad0055ce788a7e08f9b81c8b",
+    "deepshop_single": "28c7a6232fc0a76ba5f2a642a865e4f8d7c8c7f79b754722f76946089cd2275f",
+    "deepshop_n3": "6d3c92b7fa92c454d2afe45d661fc92ab8d14df7799c598b26db6eb447c129ff",
+    "deepshop_n5": "bfaed7b7e5fce9d4da2d4e546f7c08925c107220e0fccd85e0af87d32520e578",
+    "deepshop_luna_common": "1d4903153396fcf355f7ecb80a758b2f150deef661db838f4fea7a0810dda448"
+  },
+  "definitions": {
+    "overall_success": "Successes divided by the full fixed benchmark task count; invalid outcomes are unsuccessful. Incomplete and unrun method cells have no headline rate.",
+    "model_cost": "Every attempt, proposal and selector; conservative unknown-call reservations included. Judge and compute costs excluded. Frozen-rate receipt estimates, not provider invoices.",
+    "efficiency": "Matched common-valid tasks within each benchmark:OM2W three original methods, WebVoyager all four, DeepShop three Luna methods.",
+    "browser_steps": "Selected BrowserCode batches, which may each contain multiple browser operations.",
+    "om2w": "Original300 secondary cohort retained unchanged; first100 Luna tasks had already been observed. Primary new200 controlled comparison remains separately documented; retries are not pooled."
+  },
+  "all_twelve_method_benchmark_cells_complete": false
+}

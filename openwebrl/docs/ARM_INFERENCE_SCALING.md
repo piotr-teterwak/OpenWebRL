@@ -1593,3 +1593,23 @@ All 79 additional retry dispositions across 29 tasks are independently audited. 
 All-attempt model API cost totals **$0.5172**, excluding **$0.0079** of judge cost. All nine scheduler jobs and 18 evaluation W&B workers finished; every physical browser has a durable disposition and owned teardown proof. All per-shard compute/API caps passed independent reconciliation. No further unchanged retries were launched.
 
 [Audited separate retry aggregate](arm_results/sol6_luna_browsercode300_20261018/retry79.json).
+
+
+<a id="sol6-luna-three-benchmarks-20261019"></a>
+
+### Four methods across three benchmarks on October 19, 2026
+
+The [headline tables](ARM_FINAL_RESULTS.md#headline-performance-cost-and-efficiency) cover exact GPT-6 Sol single high and GPT-6 Luna single/N3/N5 high. WebVoyager has all four independently audited 595-task arms. DeepShop has three audited 150-task Luna arms; Sol remains incomplete with 117 valid outcomes, 55 successes, 31 budget-affected cells and two additional invalid captures. Luna single was not run under the matched OM2W protocol. Original OM2W 300 outcomes and separate retry cohorts remain unchanged.
+
+Matched efficiency uses 256 OM2W tasks across its original three arms, 489 WebVoyager tasks across all four, and 145 DeepShop tasks across three Luna arms. This conditions on validity; fixed-grid success and coverage remain adjacent to the headline results. No cross-benchmark pooled average is reported.
+
+<details>
+<summary>Accounting, validity and uncertainty</summary>
+
+Every proposal and selector is included in model cost, including invalid physical attempts and conservative unknown-call charges. Judge costs and judge-only latency are excluded from the respective model metrics. Selected BrowserCode batches are reported separately from individual CDP operations. Received-token metrics and unknown-call counts are retained where available in the aggregate; reported reasoning tokens are a subset of output tokens.
+
+Isolated provider HTTP 500/503/520 errors remain invalid with full reservations retained. No failed call was resent; untouched tasks continued under a bounded circuit breaker, and edge HTTP 520 imposed 60 seconds of admission backoff. Startup, source/native request identity, selected-only execution, native judges, screenshot binding, W&B, per-shard all-attempt caps and owned teardown were independently checked. Benchmark-specific paired comparisons and confidence intervals are retained in the aggregate; they do not account for live-site drift or judge noise.
+
+[Aggregate metrics and source audit hashes](arm_results/sol6_luna_three_benchmarks_20261019/aggregate.json).
+
+</details>
