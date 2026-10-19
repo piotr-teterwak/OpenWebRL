@@ -23,6 +23,61 @@ set uses 3,464 *states* re-filtered to those with a usable chosen/rejected pair
 (DPO needs one, and both joint recipes had to share a corpus). Joint SFT is
 therefore **not** "1A plus Piotr data".
 
+## The actual goal: does a second round add anything?
+
+Round 1 above is the control, not the experiment. The open question — the one
+that has not worked for anyone yet — is **iteration**: train the actor on
+ARM-selected data, then collect *fresh* data with the improved actor and train
+again. In theory each round should compound. In practice it has not.
+
+```
+round 1   base actor --collect--> C2_1 --+--> train --> actor_1
+                                  Piotr -+
+round 2   actor_1    --collect--> C2_2 ------> train --> actor_2
+```
+
+Round 2 is the same pipeline with two substitutions: collect using `actor_1`
+instead of the base actor, and train from `actor_1`. Evaluate all three actors
+(base, actor_1, actor_2) **concurrently**.
+
+### Two reasons it may fail, and how to tell them apart
+
+Both are measurable from data the eval already writes, so neither needs a
+dedicated run.
+
+**1. Diversity collapse.** Selection needs the five candidates to differ. SFT on
+selected actions sharpens the policy, so each round makes the samples more alike
+and leaves the selector less to choose between — training away the thing the
+gain depends on. Klone baseline: **62.6%** of steps had >1 distinct tool call
+among five candidates (76% by full response). Compute it per round from
+`arbiter_logs/`; a fall toward 1 distinct is fatal, a drift from 5 toward 3 may
+not be — in the lookahead study the selector's advantage was concentrated
+exactly in the 1–3 distinct states.
+
+**2. The selector goes off-distribution.** The ARM was trained to judge
+candidates drawn from the *base* actor. `actor_1` samples from a shifted
+distribution, so even with diversity intact the ARM is judging inputs it was not
+trained on. This degrades selection independently of collapse.
+
+They are separable: if round-2 diversity holds but the gain still evaporates,
+it is the selector, not the collapse.
+
+### The control nobody has run
+
+Round 1 cannot distinguish "ARM filtering adds signal" from "more SFT on
+in-domain data adds signal", because no unfiltered arm exists. Same turn budget,
+turns chosen **at random** from the same trajectory pool, trained identically:
+
+| arm | selection | purpose |
+|---|---|---|
+| filtered SFT | ARM-selected turns | the published recipe |
+| **random SFT** | **random turns, same budget** | **does filtering do anything?** |
+
+If random matches filtered, there is no quality gradient for iteration to climb,
+and that explains the failure without needing either hypothesis above. One
+training run plus one eval — far cheaper than another iteration attempt, and it
+should come first.
+
 ## Pipeline
 
 ```bash
