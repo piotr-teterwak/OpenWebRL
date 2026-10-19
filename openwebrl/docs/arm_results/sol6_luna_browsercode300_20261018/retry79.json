@@ -1,0 +1,80 @@
+{
+  "schema": "separate-invalid-retry79-final-v1",
+  "epoch": 1792395252.358605,
+  "verified_complete": true,
+  "original900_and_retry22_unchanged": true,
+  "separate_retry_dispositions": 79,
+  "cohort": "29 unique tasks;79 previously invalid task/arm cells. Arm-specific subsets differ; these rates are not a paired arm comparison. The19 previously recovered valid outcomes are excluded. Original headline denominators and outcomes are unchanged.",
+  "by_arm": {
+    "serial_high": {
+      "recorded": 27,
+      "valid": 1,
+      "invalid": 26,
+      "successes": 1,
+      "retry_overall_success": 0.037037037037037035,
+      "retry_valid_only_success": 1.0,
+      "mean_valid_task_seconds_excluding_judge": 30.577461039996706,
+      "model_usd_all_attempts_excluding_judge": 0.3986202000000002,
+      "model_calls_including_token_counts": 40,
+      "judge_usd_all_attempts": 0.007854,
+      "judge_calls": 1,
+      "browser_sessions": 30,
+      "allocation_seconds_all_attempts": 587,
+      "invalid_causes": {
+        "TimeoutError": 21,
+        "Error": 5
+      }
+    },
+    "parallel3_select_high": {
+      "recorded": 25,
+      "valid": 0,
+      "invalid": 25,
+      "successes": 0,
+      "retry_overall_success": 0.0,
+      "retry_valid_only_success": null,
+      "mean_valid_task_seconds_excluding_judge": null,
+      "model_usd_all_attempts_excluding_judge": 0,
+      "model_calls_including_token_counts": 0,
+      "judge_usd_all_attempts": 0,
+      "judge_calls": 0,
+      "browser_sessions": 28,
+      "allocation_seconds_all_attempts": 408,
+      "invalid_causes": {
+        "TimeoutError": 20,
+        "Error": 5
+      }
+    },
+    "parallel5_select_high": {
+      "recorded": 27,
+      "valid": 0,
+      "invalid": 27,
+      "successes": 0,
+      "retry_overall_success": 0.0,
+      "retry_valid_only_success": null,
+      "mean_valid_task_seconds_excluding_judge": null,
+      "model_usd_all_attempts_excluding_judge": 0.11855489999999982,
+      "model_calls_including_token_counts": 166,
+      "judge_usd_all_attempts": 0,
+      "judge_calls": 0,
+      "browser_sessions": 30,
+      "allocation_seconds_all_attempts": 758,
+      "invalid_causes": {
+        "TimeoutError": 21,
+        "Error": 6
+      }
+    }
+  },
+  "audit_sha256": "41e80a9e29ea8ab59ecfc533d11bf2b9d588b25f1909f3aa6cd94cdf1f116fe9",
+  "by_previous_failure_group": {
+    "initial_navigation": {
+      "retried": 76,
+      "valid": 0,
+      "successes": 0
+    },
+    "previous_retry_still_invalid": {
+      "retried": 3,
+      "valid": 1,
+      "successes": 1
+    }
+  }
+}

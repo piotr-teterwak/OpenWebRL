@@ -1572,3 +1572,24 @@ All 22 approved retry dispositions are independently audited. These are differen
 Three outcomes remain invalid: two Sol final-screenshot timeouts and one Luna N5 proposal reaching the fixed 12,288-output-token ceiling. Every attempt and its cost is retained. All three scheduler jobs and six evaluation W&B runs finished, owned browsers were torn down, and all original per-shard caps passed independent accounting checks. Judge costs are excluded from the model cost above.
 
 [Audited separate retry aggregate](arm_results/sol6_luna_browsercode300_20261018/retry22.json).
+
+<a id="sol6-luna-invalid-retry79-20261019"></a>
+
+### Remaining invalid outcome retries on October 19, 2026
+
+All 79 additional retry dispositions across 29 tasks are independently audited. The 19 valid outcomes recovered by the earlier retry batch were excluded. The original 900 outcomes and the separate 22-retry evidence remain unchanged. Arm-specific retry subsets differ, so these counts are **not a paired model comparison**.
+
+| Policy | Retried cells | Valid | Invalid | Successes | Model API cost, all attempts |
+|---|---:|---:|---:|---:|---:|
+| GPT-6 Sol single high | 27 | 1 | 26 | 1 | $0.3986 |
+| GPT-6 Luna N3 high + high selector | 25 | 0 | 25 | 0 | $0.0000 |
+| GPT-6 Luna N5 high + high selector | 27 | 0 | 27 | 0 | $0.1186 |
+
+| Previous failure group | Retried cells | Valid | Successes |
+|---|---:|---:|---:|
+| initial navigation | 76 | 0 | 0 |
+| previous retry still invalid | 3 | 1 | 1 |
+
+All-attempt model API cost totals **$0.5172**, excluding **$0.0079** of judge cost. All nine scheduler jobs and 18 evaluation W&B workers finished; every physical browser has a durable disposition and owned teardown proof. All per-shard compute/API caps passed independent reconciliation. No further unchanged retries were launched.
+
+[Audited separate retry aggregate](arm_results/sol6_luna_browsercode300_20261018/retry79.json).
