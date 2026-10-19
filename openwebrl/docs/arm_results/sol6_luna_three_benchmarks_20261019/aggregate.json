@@ -818,5 +818,34 @@
     "browser_steps": "Selected BrowserCode batches, which may each contain multiple browser operations.",
     "om2w": "Original300 secondary cohort retained unchanged; first100 Luna tasks had already been observed. Primary new200 controlled comparison remains separately documented; retries are not pooled."
   },
-  "all_twelve_method_benchmark_cells_complete": false
+  "all_twelve_method_benchmark_cells_complete": false,
+  "original_disposition_accounting": {
+    "status": "terminal_budget_blocked",
+    "recorded_dispositions": 2980,
+    "physical_dispositions": 2958,
+    "valid_dispositions": 2817,
+    "invalid_dispositions": 163,
+    "not_dispatched_dispositions": 22,
+    "budget_affected_sol_deepshop_cells": 31,
+    "all_registered_jobs_terminal": true,
+    "all80_wandb_workers_finished": true,
+    "all_per_shard_original_caps_verified": true,
+    "owned_browser_teardown_verified": true,
+    "global_all_attempt_accounting": {
+      "received_input_tokens": 2594091670,
+      "received_cached_input_tokens": 2123720409,
+      "received_cache_write_tokens": 468688114,
+      "received_output_tokens": 35084501,
+      "received_reported_reasoning_tokens": 20678191,
+      "unknown_usage_model_calls": 13,
+      "model_usd_charged_or_reserved_excluding_judge": 253.03851806000026,
+      "model_calls_including_native_counts": 141886,
+      "judge_usd_separate": 93.29398000000002,
+      "judge_calls": 2490,
+      "browser_sessions": 3025,
+      "allocation_seconds_all_attempts": 258571
+    },
+    "requested_full_evaluation_complete": false,
+    "source_audit_sha256": "0e46c8967153b963883eaa97dc51933d9c4eb9219aee34777df2dd6197cefe76"
+  }
 }

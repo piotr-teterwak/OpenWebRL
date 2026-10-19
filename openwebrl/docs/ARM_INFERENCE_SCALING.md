@@ -1610,6 +1610,10 @@ Every proposal and selector is included in model cost, including invalid physica
 
 Isolated provider HTTP 500/503/520 errors remain invalid with full reservations retained. No failed call was resent; untouched tasks continued under a bounded circuit breaker, and edge HTTP 520 imposed 60 seconds of admission backoff. Startup, source/native request identity, selected-only execution, native judges, screenshot binding, W&B, per-shard all-attempt caps and owned teardown were independently checked. Benchmark-specific paired comparisons and confidence intervals are retained in the aggregate; they do not account for live-site drift or judge noise.
 
+Final all-attempt accounting independently covers **2,980 dispositions: 2,958 physical attempts, 2,817 valid outcomes and 163 invalid dispositions**, including 22 tasks never dispatched. The 31 budget-affected DeepShop Sol cells comprise nine physical budget failures and those 22 undispatched cells. All 40 logical shards and 80 W&B workers ended; per-shard caps and owned teardown passed. This is an accounting closeout, and the requested full evaluation remains incomplete.
+
+Model cost is **$253.0385**, excluding **$93.2940** of judge cost. Received usage totals **2,594,091,670 input tokens** (2,123,720,409 cached) and **35,084,501 output tokens**; 20,678,191 reported reasoning tokens are a subset of output. Thirteen model calls retain unknown usage and their full conservative reservations. No budget was transferred.
+
 [Aggregate metrics and source audit hashes](arm_results/sol6_luna_three_benchmarks_20261019/aggregate.json).
 
 </details>
