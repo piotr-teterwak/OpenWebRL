@@ -1,0 +1,63 @@
+{
+  "schema": "separate-invalid-retry22-final-v1",
+  "epoch": 1792392570.2509835,
+  "verified_complete": true,
+  "original900_results_unchanged": true,
+  "separate_retry_dispositions": 22,
+  "cohort": "18 unique tasks; 22 previously invalid task/arm cells. Arm-specific subsets differ; these rates are not a paired arm comparison. Original headline denominators and outcomes are unchanged.",
+  "by_arm": {
+    "serial_high": {
+      "recorded": 9,
+      "valid": 7,
+      "invalid": 2,
+      "successes": 5,
+      "retry_overall_success": 0.5555555555555556,
+      "retry_valid_only_success": 0.7142857142857143,
+      "mean_valid_task_seconds_excluding_judge": 112.8855101625751,
+      "model_usd_all_attempts_excluding_judge": 1.723429599999998,
+      "model_calls_including_token_counts": 197,
+      "judge_usd_all_attempts": 0.06927799999999999,
+      "judge_calls": 7,
+      "browser_sessions": 10,
+      "allocation_seconds_all_attempts": 609,
+      "invalid_causes": {
+        "TimeoutError": 2
+      }
+    },
+    "parallel3_select_high": {
+      "recorded": 6,
+      "valid": 6,
+      "invalid": 0,
+      "successes": 3,
+      "retry_overall_success": 0.5,
+      "retry_valid_only_success": 0.5,
+      "mean_valid_task_seconds_excluding_judge": 353.6676314548337,
+      "model_usd_all_attempts_excluding_judge": 0.5142731500000004,
+      "model_calls_including_token_counts": 594,
+      "judge_usd_all_attempts": 0.06880940000000002,
+      "judge_calls": 6,
+      "browser_sessions": 7,
+      "allocation_seconds_all_attempts": 1269,
+      "invalid_causes": {}
+    },
+    "parallel5_select_high": {
+      "recorded": 7,
+      "valid": 6,
+      "invalid": 1,
+      "successes": 5,
+      "retry_overall_success": 0.7142857142857143,
+      "retry_valid_only_success": 0.8333333333333334,
+      "mean_valid_task_seconds_excluding_judge": 360.89871025118435,
+      "model_usd_all_attempts_excluding_judge": 0.7670124250000012,
+      "model_calls_including_token_counts": 972,
+      "judge_usd_all_attempts": 0.07294209999999998,
+      "judge_calls": 6,
+      "browser_sessions": 8,
+      "allocation_seconds_all_attempts": 1521,
+      "invalid_causes": {
+        "NativeIncompleteResponse": 1
+      }
+    }
+  },
+  "audit_sha256": "0a887b649ecd6ea8c66523774df21ce26ece23d599d548285537e889568b11ac"
+}

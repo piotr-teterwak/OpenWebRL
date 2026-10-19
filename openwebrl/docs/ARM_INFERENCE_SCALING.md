@@ -1556,3 +1556,19 @@ The actor caps were high/12,288 versus three low/4,096, with medium/2,048 for se
 **Medium-effort follow-up verified (October 14):** the approved 30-call/$5 snapshot-only amendment completed all 30 native actions for **$0.4043**. It used **198,291 input**, **807 output**, and **25 reported reasoning tokens**; 1/30 calls reported positive reasoning. The paired high/medium reasoning ratio was undefined on 29/30 states and 3.56 on the sole positive-medium state; the ratio of cohort totals was 67, driven by zero-heavy usage. This does not establish a stable threefold reasoning comparison. No automatic effort sweep or budget transfer was performed. [Follow-up aggregate and audit hashes](arm_results/sol61_serial_parallel_20261013/medium-probe.json) · [W&B](https://wandb.ai/zixianma/openwebrl-evals/runs/sol61-medium-probe-20261014-v1).
 
 </details>
+
+<a id="sol6-luna-invalid-retry22-20261018"></a>
+
+### Separate invalid outcome retry audit on October 18, 2026
+
+All 22 approved retry dispositions are independently audited. These are different arm-specific subsets of 18 tasks selected for prior invalid outcomes, so their success rates are **not a paired comparison**. The original 900-disposition headline results and denominators remain unchanged.
+
+| Policy | Retried cells | Valid | Invalid | Successes | Model API cost, all attempts |
+|---|---:|---:|---:|---:|---:|
+| GPT-6 Sol single high | 9 | 7 | 2 | 5 | $1.7234 |
+| GPT-6 Luna N3 high + high selector | 6 | 6 | 0 | 3 | $0.5143 |
+| GPT-6 Luna N5 high + high selector | 7 | 6 | 1 | 5 | $0.7670 |
+
+Three outcomes remain invalid: two Sol final-screenshot timeouts and one Luna N5 proposal reaching the fixed 12,288-output-token ceiling. Every attempt and its cost is retained. All three scheduler jobs and six evaluation W&B runs finished, owned browsers were torn down, and all original per-shard caps passed independent accounting checks. Judge costs are excluded from the model cost above.
+
+[Audited separate retry aggregate](arm_results/sol6_luna_browsercode300_20261018/retry22.json).
