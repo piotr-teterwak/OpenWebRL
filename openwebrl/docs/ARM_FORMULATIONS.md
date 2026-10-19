@@ -459,6 +459,7 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 | Teacher (GPT-6 Luna; screenshots only, no history) | o4-mini judge | − K = 3, pp [95%] | GPT-6 Luna judge | − K = 3, pp [95%] |
 | --- | ---: | --- | ---: | --- |
 | **Lookahead K = 3** | 40.49% | — | 32.47% | — |
+| WebArbiter formulation + lookahead K = 1 | 40.37% | −0.12 [−1.40, +1.07] | 32.43% | −0.04 [−1.03, +0.87] |
 | Lookahead K = 1 | 40.26% | −0.23 [−1.30, +0.79] | 31.83% | −0.64 [−1.48, +0.13] |
 | Post-execution | 38.31% | −2.18 [−3.33, −1.09] | 30.09% | −2.38 [−3.22, −1.58] |
 | Pre-execution | 37.98% | −2.51 [−3.59, −1.36] | 29.51% | −2.95 [−4.03, −1.86] |
@@ -467,6 +468,11 @@ Every condition is the same GPT-6 Luna request (`gpt-6-luna`, high reasoning eff
 | PRO-CUA formulation | 36.26% | −4.23 [−5.42, −2.87] | 28.84% | −3.62 [−4.76, −2.51] |
 | Uniform pick | 35.72% | −4.76 [−5.93, −3.53] | 28.50% | −3.97 [−5.03, −2.96] |
 | Actor's first sample | 35.69% | −4.80 [−6.64, −2.82] | 28.73% | −3.74 [−5.30, −2.21] |
+
+- **Execution evidence, not the judging format, carries the gain.** Giving WebArbiter's pairwise tournament each response's K = 1 lookahead raises it by +2.51 pp [+0.98, +3.92] (o4-mini) and +1.94 pp [+0.70, +3.01] (Luna), to the level of the plain lookahead labellers: +0.11 pp [−0.89, +1.11] and +0.60 pp [−0.22, +1.45] over K = 1.
+  - It costs about 1.6× plain K = 1: USD 8.09 and 4,712 calls on 1,171 states, 4 pairwise calls per state.
+  - The robustness views agree. Its gain over WebArbiter alone is +1.17 pp [−0.10, +2.46] under Luna with arXiv capped.
+  - [JSON](arm_results/rl_integration/lookahead-arbiter-k1-20261018.json), runner `scripts/run_branch_prm_formulations.py` method `arbiter_k1` (commit `73295df`).
 
 **Robustness across views** (all differences in pp [95%]; each view's rule was fixed before the final results):
 
