@@ -4,7 +4,24 @@
 
 ## Headline results
 
-**On identical hardware, the selection head matches Piotr SelectionARM's success with 36% less compute and 11% lower latency per decision.**
+**On all 1,045 tasks of Online-Mind2Web, WebVoyager and DeepShop, the selection head trained on 1,908 of our lookahead-labelled states beats the single-sample SFT actor by +4.6 pp [+1.5, +7.6]. It adds 22.6 M parameters to the actor, against 4.44 B for Piotr SelectionARM's separate selector, and uses 36% less compute per step. Piotr SelectionARM gains +7.0 pp [+3.9, +10.0]; the head is 2.4 pp behind it [−5.3, +0.4].**
+- **Setup:** every task of each benchmark, one episode per task, the same tasks for every condition. Actor OpenWebRL-4B-SFT, T 1.0 / top-p 0.9, 30 steps; one H200 per condition and benchmark. Judges: o4-mini for Online-Mind2Web; GPT-4o for WebVoyager and DeepShop.
+
+| Method | Online-Mind2Web successes (of 300) | WebVoyager successes (of 595) | DeepShop successes (of 150) | All successes (of 1,045) | All overall | − SFT, pp [95% CI] | Parameters | Added for selection | PFLOP per step | Seconds per decision | Browser steps per episode |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| SFT 4B, 1 sample | 109 | 264 | 51 | 424 | 40.6% | — | 4.44 B | — | 0.019 | 2.81 | 13.6 |
+| Piotr SelectionARM | **123** | **312** | 62 | **497** | **47.6%** | **+7.0 [+3.9, +10.0]** | 8.88 B | 4.44 B | 0.096 | 8.68 | 14.3 |
+| **Selection head (ours), K = 1 labels** | 112 | 292 | **68** | 472 | 45.2% | **+4.6 [+1.5, +7.6]** | **4.46 B** | **22.6 M** | **0.060** | **8.21** | 15.3 |
+
+- **Per benchmark, head − SFT:** Online-Mind2Web +1.0 [−4.3, +6.3], WebVoyager +4.7 [+0.7, +8.6], DeepShop +11.3 [+2.7, +20.0]. Head − Piotr is −3.7, −3.4 and +4.0; none of these excludes zero.
+- **Columns.**
+  - "Overall" counts invalid episodes as failures. Valid only, both selectors beat SFT by +5.2 pp [+2.0, +8.4] (head) and +7.5 pp [+4.3, +10.5] (Piotr).
+  - Parameters are those loaded at inference. The head's 22.6 M are its only trained weights; the actor is frozen.
+  - Browser steps are actions executed per episode. Both selectors run longer episodes than SFT.
+- **Training data.** The head learns from Luna lookahead K = 1 labels on 1,908 branching states (SFT- and RL-actor states). Piotr's selector is a LoRA fine-tune of the 4B model on 2,692 GPT-5.5-labelled states (35,916 panels).
+- **Details:** [full-benchmark section](#selection-head-crossbench-full-20261018) (per-benchmark tables, cost accounting, decoding test), [evidence](arm_results/rl_integration/crossbench-full-t10-20261018.json).
+
+**Earlier, Online-Mind2Web on identical hardware (3 × 300 tasks, T 0.7; head trained on Piotr's teacher labels): the selection head matches Piotr SelectionARM's success with 36% less compute and 11% lower latency per decision.**
 - **Setup:** Online-Mind2Web, 300 tasks, three independent repetitions per method.
 - **Hardware:** every method ran on one H200, with CUDA graphs on and any separate selector on the same GPU.
 
