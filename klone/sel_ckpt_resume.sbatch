@@ -20,7 +20,11 @@
 #SBATCH --requeue
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=20
+# Right-sized from measured use, not guessed: the completed zs eval 39429421
+# burned 19.44 CPU-h over 3.67 h on 20 allocated CPUs -- a mean of 5.3 busy
+# cores, 27% utilisation. 12 leaves ~2x headroom over that mean and matches
+# the a40/a100 node shape (6.5 CPU per GPU); l40s is 16 and had room to spare.
+#SBATCH --cpus-per-task=12
 #SBATCH --gpus=2
 #SBATCH --mem=180G
 # gpu-l40s has MaxTime=UNLIMITED. 12h was fine for arm (36 s/task) and zs

@@ -13,7 +13,11 @@
 #SBATCH --partition=gpu-l40s
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=16
+# Right-sized from measured use, not guessed: the completed zs eval 39429421
+# burned 19.44 CPU-h over 3.67 h on 20 allocated CPUs -- a mean of 5.3 busy
+# cores, 27% utilisation. 10 leaves ~2x headroom over that mean and matches
+# the a40/a100 node shape (6.5 CPU per GPU); l40s is 16 and had room to spare.
+#SBATCH --cpus-per-task=10
 #SBATCH --gpus=1
 #SBATCH --mem=128G
 #SBATCH --time=12:00:00
