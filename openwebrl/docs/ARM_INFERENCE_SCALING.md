@@ -1325,31 +1325,78 @@ Independent verification checked the frozen grid and sources, native model/effor
 
 
 <a id="sol6-luna-browsercode300-20261018"></a>
-### GPT-6 Sol single high versus Luna N3/N5: approved full300
+### GPT-6 Sol single high versus Luna N3/N5: full300 results
 
-**All 20 CPU jobs are submitted; native startup validation is pending.** The corrected baseline is **`gpt-6-sol` single high**. The earlier `gpt-6.1-sol` reference below stays historical and supplies no baseline outcomes to this new comparison.
+**On the same 165 valid tasks in the primary new200 cohort, Luna N3/N5 reduce model cost by 73.2%/66.6%, while taking 1.99×/2.33× as long. Neither primary success comparison establishes a gain.**
 
-| BrowserCode condition | Final fixed tasks | Existing dispositions reused | New episodes | New model USD cap |
-| --- | ---: | ---: | ---: | ---: |
-| GPT-6 Sol, one high action | 300 | 0 | 300 | 100 |
-| GPT-6 Luna, N3 high + high selector | 300 | 100 | 200 | 40 |
-| GPT-6 Luna, N5 high + high selector | 300 | 100 | 200 | 60 |
+**Completed and independently audited: 900 dispositions across the same 300 Online-Mind2Web tasks.** The primary comparison uses the 200 new tasks; all 200 earlier Luna dispositions, including 13 invalid outcomes, remain preserved. The corrected single-action baseline is **`gpt-6-sol`**. The earlier GPT-6.1 Sol reference below supplies no baseline outcomes here.
 
-All 200 existing Luna dispositions remain immutable, including 13 invalid outcomes. The **new 200-task extension is the primary comparison**; the combined300 analysis is secondary because the reused Luna100 outcomes were already observed. Both overall and valid-only success, paired common-valid utility, model cost and task latency will be reported. Each native proposal and selector uses high effort and a 12,288-token ceiling; the shared episode limit remains 30 decisions.
+**Primary new200: fixed-grid success**
 
-The approved new allocation is **20 jobs × 0 GPU / 4 CPUs / 16 GiB × 3 hours**, including every attempt. New API caps total **$220**: $200 model plus $20 judge, with 124,000 model/count requests, 1,000 judge requests and 1,000 browser sessions. Per-shard caps remain separate; old unused budget is not transferred. The three startup jobs are released to the CPU queue; the other 17 remain held until one valid native episode in each arm passes independent identity/execution checks.
+| BrowserCode policy | Tasks | Valid | Invalid | Successes | Overall success, % | Valid-only success, % |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| GPT-6 Sol, single high | 200 | 173 | 27 | 109 | 54.5 | 63.0 |
+| GPT-6 Luna, N3 high + high | 200 | 176 | 24 | 115 | 57.5 | 65.3 |
+| GPT-6 Luna, N5 high + high | 200 | 173 | 27 | 121 | 60.5 | 69.9 |
 
-[Approved aggregate plan and metric definitions](arm_results/sol6_luna_browsercode300_20261018/approved-plan.json).
+Overall success treats invalid outcomes as nonsuccess. Valid-only rates have different task denominators; the comparison below fixes the task set. N3 overall minus Sol on all 200 tasks: +3.00 pp, paired 95% [-3.50, +9.50], exact McNemar p=0.451. N5 overall minus Sol on all 200 tasks: +6.00 pp, paired 95% [+0.00, +12.00], exact McNemar p=0.081.
+
+**Primary new200: the same 165 tasks valid in all three arms**
+
+| Policy | Shared tasks | Successes | Success, % | Mean task latency, s | Model USD/task |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| GPT-6 Sol, single high | 165 | 104 | 63.0 | 94.1 | 0.2084 |
+| GPT-6 Luna, N3 high + high | 165 | 108 | 65.5 | 186.9 | 0.0558 |
+| GPT-6 Luna, N5 high + high | 165 | 114 | 69.1 | 219.7 | 0.0696 |
+
+Every cost includes all proposals and selector calls associated with these tasks, including unselected proposals; judge cost is excluded. Task latency excludes setup, final capture and judge. Receipt-priced costs are estimates, not provider invoices.
+GPT-6 Luna, N3 high + high minus single Sol: **+2.42 pp**, paired 95% interval **[-4.85, +9.70]**, exact McNemar p=0.627.
+GPT-6 Luna, N5 high + high minus single Sol: **+6.06 pp**, paired 95% interval **[-0.61, +12.73]**, exact McNemar p=0.099.
+
+The shared-valid table conditions on validity. Fixed-grid paired comparisons retaining invalid outcomes as nonsuccess are included in the aggregate. Model and proposal/selection policy both change; this does not isolate a selector effect. BrowserCode, high effort, 12,288 tokens per proposal/selector and 30 decisions are shared. Proposals are generation-only; only the selected action executes and enters subsequent history. Live-site drift and judge error are not covered by task-bootstrap intervals.
+
+[Final aggregate, paired comparisons and independent audit hashes](arm_results/sol6_luna_browsercode300_20261018/aggregate.json) · [Original approved plan](arm_results/sol6_luna_browsercode300_20261018/approved-plan.json).
 
 <details>
-<summary>Token, cost, latency and browser-step measurement</summary>
+<summary>Secondary combined300, tokens, browser resources and all-attempt accounting</summary>
 
-- Native receipts retain input, cached-input/cache-write, output and reported reasoning tokens for every proposal and selector, including unselected proposals and failed attempts. Reported reasoning is already included in output, not added twice.
-- Model cost excludes judging; every proposal and selector is priced. Unknown usage retains its full budget reservation. Native input-token counts are nongeneration requests with zero model USD and count against the call ceiling.
-- Task latency excludes setup, final capture and judging. Summed API-call durations include concurrent proposal durations and are kept distinct from episode wall time.
-- Browser resource measures include **model decisions**, **selected code batches**, **actual executor batches excluding controller viewport setup**, and **native CDP attempts**. One code batch can issue several browser operations; CDP attempts also include observations/setup. Owned browser duration, sampled CPU and sampled peak RSS remain saved separately.
+The combined300 analysis is secondary because the original Luna100 outcomes were already observed before this extension.
 
-These per-episode metrics are saved durably and logged to `openwebrl-evals`. Startup checks require the exact requested and returned model, the correct one/three/five proposal count, no selector for single Sol, selected-only execution/history, native judge-image binding and owned teardown. Worker collection alone is incomplete: all 900 final dispositions, native receipts, all-attempt caps, W&B closure and owned teardown require an independent audit. Raw tasks and native payloads remain private.
+| Policy | Fixed tasks | Valid | Invalid | Successes | Overall success, % | Valid-only success, % |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| GPT-6 Sol, single high | 300 | 266 | 34 | 171 | 57.0 | 64.3 |
+| GPT-6 Luna, N3 high + high | 300 | 269 | 31 | 180 | 60.0 | 66.9 |
+| GPT-6 Luna, N5 high + high | 300 | 267 | 33 | 188 | 62.7 | 70.4 |
+
+**Secondary: same 256 common-valid tasks**
+
+| Policy | Shared tasks | Successes | Success, % | Task latency, s | Model USD/task |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| GPT-6 Sol, single high | 256 | 165 | 64.5 | 91.5 | 0.2046 |
+| GPT-6 Luna, N3 high + high | 256 | 171 | 66.8 | 177.7 | 0.0546 |
+| GPT-6 Luna, N5 high + high | 256 | 178 | 69.5 | 208.0 | 0.0699 |
+
+**Tokens and browser work on the same 165 primary common-valid tasks**
+
+| Policy | Input tokens/task | Cached input/task | Cache writes/task | Output tokens/task | Reported reasoning/task | Decisions/task | Selected code batches/task | Native CDP attempts/task |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| GPT-6 Sol, single high | 436342 | 397020 | 39274 | 3067 | 783 | 16.0 | 15.1 | 52.4 |
+| GPT-6 Luna, N3 high + high | 1182252 | 876098 | 305273 | 17489 | 10804 | 15.7 | 14.8 | 42.9 |
+| GPT-6 Luna, N5 high + high | 1861060 | 1536106 | 323823 | 27330 | 16449 | 15.4 | 14.5 | 44.7 |
+
+Output already includes reported reasoning tokens; they are not added twice. One code batch may contain several browser operations. Native CDP calls include observations and setup. Sampled CPU/RSS and owned-browser time are in the aggregate; CPU is an observed lower bound and RSS may double-count shared pages. Older preserved100 cost caches retain input/output/reasoning totals but not cached-input subdivisions.
+
+**New700 tranche: every attempt**
+
+| Arm | Allocation seconds | Browser sessions | Model/count requests | Model USD | Judge calls | Judge USD |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| GPT-6 Sol, single high | 16449 | 310 | 6682 | 57.2094 | 266 | 2.5378 |
+| GPT-6 Luna, N3 high + high | 20197 | 206 | 12791 | 10.3466 | 176 | 1.7038 |
+| GPT-6 Luna, N5 high + high | 23642 | 206 | 18080 | 12.6407 | 173 | 1.6659 |
+
+Each of 20 logical shards retains its original 0 GPU / 4 CPU / 16 GiB × 3-hour total across attempts. New caps remain $200 model plus $20 judge, with separate per-shard caps and no budget transfers. Unknown-usage requests keep their full reservation. Native input-token-count requests cost zero model USD but count toward request caps. Prior Luna research/recovery spend is separately retained in lifetime accounting; it is not transferred into this tranche.
+
+Independent verification checked 700 new plus 200 pinned preserved dispositions, exact native models, fixed grids, selected-only execution/history, raw final images and canonical judge bindings, all-call tokens/cost, per-shard all-attempt resources/time, all 40 finished W&B workers and owned teardown. Failed physical episodes were never rerun or replaced. Two recoveries resumed only never-dispatched tasks; their failed calls, aborted browser, reservations and consumed allocation time remain preserved.
 
 </details>
 

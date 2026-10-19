@@ -1,6 +1,6 @@
 # OpenWebRL project documentation
 
-[Full300 GPT-6 Sol single high versus Luna N3/N5: approved 20 CPU jobs, corrected model identity, token/cost/latency and browser-step tracking](ARM_INFERENCE_SCALING.md#sol6-luna-browsercode300-20261018).
+[Full300 GPT-6 Sol versus Luna N3/N5: 900 audited dispositions; primary new200 paired success, all-call cost, latency, tokens and browser work](ARM_INFERENCE_SCALING.md#sol6-luna-browsercode300-20261018).
 
 [Luna N3/N5 versus single GPT-6.1 Sol on 100 fixed BrowserCode tasks: 69 common-valid tasks, paired success, all-call model cost and latency](ARM_INFERENCE_SCALING.md#luna-sol-browsercode100-20261018).
 
