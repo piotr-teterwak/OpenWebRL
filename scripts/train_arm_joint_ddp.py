@@ -44,7 +44,11 @@ def frozen_config(objective):
     if objective not in ('sft','dpo','dpo_action'): raise ValueError('Unsupported objective')
     common=json.loads((REPO/'openwebrl/docs/arm_results/joint_data_v2/sft-config.json').read_text())
     output_name='joint-v2-dpo-action-2gpu' if objective=='dpo_action' else f'joint-v2-{objective}-2gpu'
+    # actor/data come from sft-config.json, whose paths are tillicum-absolute.
+    # Override them from the (env-aware) module constants so the same config
+    # works on another cluster; identical when the env vars are unset.
     return dict(common,objective=objective,world_size=2,beta=.1,gradient_accumulation_per_rank=16,
+                actor=str(ACTOR),data=str(DATA),
                 output=str(RUNTIME/f'runs/{output_name}'),
                 code_hashes={name:digest(REPO/'scripts'/name) for name in
                              ['train_arm_joint_ddp.py','train_arm_joint_sft.py','run_arm_joint_pipeline.py']},

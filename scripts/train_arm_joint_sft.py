@@ -20,9 +20,14 @@ import subprocess
 import time
 
 REPO = Path(__file__).resolve().parents[1]
-RUNTIME = Path('/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction')
-DATA = RUNTIME / 'joint-data-v2-20260910'
-ACTOR = Path('/gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT')
+# Roots default to the tillicum paths these runs were produced on; the env
+# overrides let the same code run on another cluster (e.g. UW klone) without
+# touching the defaults. Set OWRL_RUNTIME / OWRL_JOINT_DATA / OWRL_ACTOR there.
+RUNTIME = Path(os.environ.get('OWRL_RUNTIME',
+    '/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction'))
+DATA = Path(os.environ.get('OWRL_JOINT_DATA', str(RUNTIME / 'joint-data-v2-20260910')))
+ACTOR = Path(os.environ.get('OWRL_ACTOR',
+    '/gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT'))
 DEFAULT_CONFIG = REPO / 'openwebrl/docs/arm_results/joint_data_v2/sft-config.json'
 
 
