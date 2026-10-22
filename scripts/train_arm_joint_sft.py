@@ -70,6 +70,35 @@ def training_order(rows, seed=42):
     return [index for _, _, index in sorted(tickets)]
 
 
+def data_config(data, path):
+    """prepare() for a rebuilt dataset (e.g. --negatives-per-state 2): same recipe, but counts,
+    schedule and exposure order come from the data's pair view instead of the v2 constants."""
+    data = Path(data)
+    if json.loads((data / 'verification.json').read_text())['passed'] is not True: raise ValueError('Data verification did not pass')
+    rows = read_rows(data / 'joint_pairs.train.jsonl')
+    # train_arm_joint_ddp.rank_batch splits every batch across 2 ranks with no padding, so the
+    # final partial batch must be even; an odd count only fails at the last update (377014).
+    if len(rows) % 32 % 2: raise ValueError(f'{len(rows)} training pairs leave an odd final batch for 2 ranks')
+    updates = math.ceil(len(rows) / 32)
+    marks = [round(updates * k / 4) for k in range(5)]
+    names = ['joint_sft.train.jsonl', 'joint_sft.validation.jsonl', 'joint_pairs.train.jsonl', 'joint_pairs.validation.jsonl',
+             'validation-panel-c2.jsonl', 'validation-panel-piotr.jsonl', 'verification.json']
+    model_names = ['config.json', 'tokenizer.json', 'tokenizer_config.json', 'preprocessor_config.json', 'chat_template.jinja']
+    config = dict(actor=str(ACTOR), data=str(data), seed=42, objective='full-response winner SFT',
+                  train_examples=len(rows), validation_examples=sum(1 for _ in (data / 'joint_pairs.validation.jsonl').open()),
+                  source_counts=dict(Counter(r['source'] for r in rows)), batch_size=32, epochs=1,
+                  total_updates=updates, final_batch_size=len(rows) - 32 * (updates - 1), learning_rate=1e-5,
+                  warmup_examples=512, endpoint_lr_factor=.5, lora_rank=16, lora_alpha=32, lora_dropout=.05,
+                  max_tokens=32768, checkpoint_updates=marks[1:], validation_updates=marks,
+                  wandb_project='openwebrl-arm', wandb_group='arm-joint-v2',
+                  data_hashes={name: digest(data / name) for name in names},
+                  model_metadata_hashes={name: digest(ACTOR / name) for name in model_names},
+                  trainer_sha256=digest(__file__),
+                  order_sha256=hashlib.sha256(encoded([rows[i]['id'] for i in training_order(rows)]).encode()).hexdigest())
+    write_json(path, config)
+    return config
+
+
 def prepare(path):
     checks = json.loads((DATA / 'verification.json').read_text())
     if checks['passed'] is not True: raise ValueError('Data verification did not pass')
@@ -273,7 +302,8 @@ def run(args):
     identity_path = root/'wandb-identity.json'
     if identity_path.exists(): identity = json.loads(identity_path.read_text())
     else:
-        identity = dict(id=wandb.util.generate_id(),project=config['wandb_project'])
+        from wandb.sdk.lib.runid import generate_id  # wandb.util.generate_id is gone in 0.29
+        identity = dict(id=generate_id(),project=config['wandb_project'])
         write_json(identity_path,identity)
     tracking = wandb.init(project=identity['project'],id=identity['id'],resume='allow',
                          name='joint-v2-sft',group=config['wandb_group'],job_type='sft',

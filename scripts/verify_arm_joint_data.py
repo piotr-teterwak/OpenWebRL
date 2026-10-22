@@ -22,11 +22,24 @@ def main():
     counts=Counter();groups={};ids=set();validation=[]
     for split in ['train','validation']:
         groups[split]=set()
-        with (a.data/f'joint_pairs.{split}.jsonl').open() as pf,(a.data/f'joint_sft.{split}.jsonl').open() as sf:
-            for i,(pl,sl) in enumerate(itertools.zip_longest(pf,sf),1):
-                assert pl and sl,'SFT and pair view length mismatch'
-                row=json.loads(pl);sft=json.loads(sl)
-                assert sft=={k:v for k,v in row.items() if k not in ['rejected','rejected_index']}
+        # Extra negatives (prepare --negatives-per-state, ids "<state>#negN", train only) share
+        # their state's SFT row; every other pair row aligns one-to-one with the SFT view.
+        # Keep digests, not rows: the 384 MiB cap does not fit the whole SFT view in memory.
+        def digest_of(x,drop):
+            return hashlib.sha256(json.dumps({k:v for k,v in x.items() if k not in drop},sort_keys=True).encode()).digest()
+        sft_rows={}
+        with (a.data/f'joint_sft.{split}.jsonl').open() as sf:
+            for line in sf:
+                x=json.loads(line);sft_rows[x['id']]=(digest_of(x,[]),digest_of(x,['id','pair_type']))
+        paired=set()
+        with (a.data/f'joint_pairs.{split}.jsonl').open() as pf:
+            for i,pl in enumerate(pf,1):
+                row=json.loads(pl);base,_,extra=row['id'].partition('#neg')
+                assert not extra or split=='train','extra negatives must stay out of validation'
+                full,shared=sft_rows[base]
+                if extra:assert digest_of(row,['rejected','rejected_index','id','pair_type'])==shared
+                else:assert digest_of(row,['rejected','rejected_index'])==full
+                if not extra:paired.add(base)
                 assert row['id'] not in ids;ids.add(row['id'])
                 assert row['split']==split and row['status']=='retained'
                 assert pair_reason(row['chosen']['actions'],row['rejected']['actions'])=='eligible'
@@ -44,6 +57,7 @@ def main():
                 counts[split+':'+row['source']]+=1
                 if split=='validation':validation.append(row)
                 if i%100==0:time.sleep(.01)
+        assert paired==set(sft_rows),'SFT and pair view length mismatch'
     assert not groups['train']&groups['validation']
     panels={}
     for source in ['C2','Piotr']:

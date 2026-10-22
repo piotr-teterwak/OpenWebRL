@@ -277,20 +277,26 @@ class Builder:
             eligible.append((order(state['id']+':loser:'+group),i,r))
         base_id=state['base_id']
         drawpick=order(state['id'])
-        valid=None
+        valid=[]
+        # Same validation and deterministic order as before; --negatives-per-state K keeps
+        # the first K valid losers instead of only the first (K=1 is the original data).
         for _,li,r in sorted(eligible):
             try:
                 loser=self.candidate(r['text'],schema,source,r.get('finish'),r.get('ids'))
                 if state['prompt_tokens']+loser['tokens']>32768:raise ValueError('loser_context_limit')
-                valid=(li,loser);break
+                valid.append((li,loser))
+                if len(valid)>=getattr(self.a,'negatives_per_state',1):break
             except (ValueError,TypeError,KeyError) as err:
                 self.event(state,'invalid_loser',candidate_index=li,detail=str(err))
                 self.sample(state,winner,{'text':r['text'],'actions':[],'validation_error':str(err)},'excluded','invalid_loser',li)
         if valid:
-            li,loser=valid
+            li,loser=valid[0]
             payload={**state,'id':base_id,'draw_id':state['id'],'chosen_index':selected,'rejected_index':li,
                      'chosen':winner,'rejected':loser,'status':'retained','reason':'eligible',
                      'pair_type':pair_type(winner['actions'],loser['actions'])}
+            if len(valid)>1:
+                payload['extra_rejected']=[dict(rejected_index=i,rejected=l,pair_type=pair_type(winner['actions'],l['actions']))
+                                           for i,l in valid[1:]]
             kind='pair'
         else:
             self.event(state,'draw_without_eligible_negative')
@@ -467,11 +473,19 @@ class Builder:
             if why:
                 x.update(status='quarantined' if why.endswith('_review') else 'excluded',reason=why)
                 paths['quarantine-states'].write(encode(x)+'\n');self.event(x,why)
+                x.pop('extra_rejected',None)
                 if x.get('rejected'):self.sample(x,x['chosen'],x['rejected'],x['status'],why,0)
                 continue
             if x['status']=='sft_reserve':
+                x.pop('extra_rejected',None)
                 paths['sft-only-reserve'].write(encode(x)+'\n');self.stats[x['source']]['sft_reserve_states']+=1;continue
+            extra=x.pop('extra_rejected',[])
             paths['joint_pairs.'+split].write(encode(x)+'\n')
+            if split=='train':
+                # Extra negatives for the same state: train only, so validation panels are unchanged.
+                for n,e in enumerate(extra,2):
+                    paths['joint_pairs.train'].write(encode({**x,'id':f"{x['id']}#neg{n}",**e})+'\n')
+                    self.stats[x['source']]['extra_negative_pairs_train']+=1
             sft={k:v for k,v in x.items() if k not in ['rejected','rejected_index']}
             paths['joint_sft.'+split].write(encode(sft)+'\n')
             source=x['source'];self.stats[source]['retained_'+split]+=1
@@ -490,7 +504,7 @@ class Builder:
                 for bucket in buckets:
                     if offset<len(bucket) and count<32:
                         sid=bucket[offset][1]
-                        x=json.loads(self.db.execute('SELECT payload FROM states WHERE id=?',(sid,)).fetchone()[0])
+                        x=json.loads(self.db.execute('SELECT payload FROM states WHERE id=?',(sid,)).fetchone()[0]);x.pop('extra_rejected',None)
                         group=find(x['episode_id']);x.update(task_group=group,split='validation' if group in val else 'train')
                         selected.append(x);count+=1
                 offset+=1
@@ -535,6 +549,7 @@ def main():
     p.add_argument('--repo',type=Path,default=Path(__file__).resolve().parents[1])
     p.add_argument('--model',type=Path,default=Path('/gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT'))
     p.add_argument('--eval',type=Path,default=Path('openwebrl/data/eval/online-mind2web.jsonl'))
+    p.add_argument('--negatives-per-state',type=int,default=1,help='Rejected candidates kept per state (train split only beyond the first).')
     a=p.parse_args()
     os.environ['TOKENIZERS_PARALLELISM']='false'
     resource.setrlimit(resource.RLIMIT_AS,(1024**3,1024**3))

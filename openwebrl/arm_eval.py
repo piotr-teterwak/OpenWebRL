@@ -6,6 +6,14 @@ import json
 import os
 from pathlib import Path
 
+# Benchmark -> (reward module name, canonical judge, screenshots attached to the judge,
+# manifest label). Same defaults as run_evaluate's _protocol_judge_defaults.
+PROTOCOLS = {
+    "online_mind2web": ("online_mind2web", "o4-mini", 3, "online_mind2web/AgentTrek"),
+    "webvoyager": ("webvoyager", "gpt-4o", 30, "webvoyager/FARA"),
+    "deepshop": ("deepshop", "gpt-4o", 30, "deepshop/MolmoWeb"),
+}
+
 
 def summarize(records, scheduled):
     valid = [r for r in records if r.get("valid")]
@@ -62,7 +70,8 @@ async def run(args):
     # The training generator records navigation-failure hosts; keep evaluation's
     # list inside its own output directory, never modify the training blacklist.
     generation._BROWSER_HOST_BLACKLIST_PATH = str(output / "navigation_failures.txt")
-    evaluation.reward_func = evaluation._load_reward_func("online_mind2web")
+    reward_name, _, judge_imgs, judge_protocol = PROTOCOLS[args.protocol]
+    evaluation.reward_func = evaluation._load_reward_func(reward_name)
 
     tasks = evaluation.load_tasks_from_jsonl(args.task_file)
     if args.task_indices:
@@ -81,11 +90,13 @@ async def run(args):
         "sampling": sampling, "max_steps": args.max_steps,
         "context_num_screenshots": 1, "history": "full",
         "browser_format": "browser_env", "judge": args.judge_model,
-        "judge_protocol": "online_mind2web/AgentTrek", "candidate_count": 1 if args.mode == "baseline" else 5,
+        "judge_protocol": judge_protocol, "candidate_count": 1 if args.mode == "baseline" else 5,
         "browser_port_range": [args.browser_port_start, args.browser_port_end],
         "selector_endpoint": args.selector_endpoint if args.mode != "baseline" else None,
         "task_timeout": args.task_timeout,
     }
+    if args.protocol != "online_mind2web":  # keeps existing Online-Mind2Web manifests resumable
+        manifest["judge_max_attached_imgs"] = judge_imgs
     serial_variant = getattr(args, "serial_variant", None)
     if serial_variant:
         if args.mode != "baseline":
@@ -133,6 +144,8 @@ async def run(args):
         browser_include_tool_response=1, inference_step_timeout_secs=180,
         task_timeout_secs=args.task_timeout, path_to_save_generated_samples=str(output / "samples"),
     )
+    if args.protocol != "online_mind2web":
+        eval_args.judge_max_attached_imgs = judge_imgs
     eval_args.rollout_temperature = args.temperature
     eval_args.rollout_max_response_len = args.max_new_tokens
     if serial_variant:
@@ -189,7 +202,9 @@ def main():
     ap.add_argument("--task-timeout", type=int, default=1800)
     ap.add_argument("--browser-port-start", type=int, default=19200)
     ap.add_argument("--browser-port-end", type=int, default=19399)
-    ap.add_argument("--judge-model", default="o4-mini")
+    ap.add_argument("--protocol", choices=sorted(PROTOCOLS), default="online_mind2web",
+                    help="Benchmark judge; pair it with the matching --task-file")
+    ap.add_argument("--judge-model", help="Default: the protocol's canonical judge")
     ap.add_argument("--env-file", default=".env")
     ap.add_argument("--candidate-representation", choices=["full", "actions_only"], default="full")
     ap.add_argument("--shadow-modulus", type=int, default=0,
@@ -198,6 +213,7 @@ def main():
     ap.add_argument("--serial-gate", help="Passed model/runtime-specific generation or browser gate JSON")
     ap.add_argument("--serial-gate-pilot", action="store_true", help="Run only the frozen <=5-task pilot after a generation gate")
     args = ap.parse_args()
+    args.judge_model = args.judge_model or PROTOCOLS[args.protocol][1]
     args.requested_parallel = args.parallel
     args.parallel, args.execution_settings = execution_parallel(args.mode, args.output, args.parallel)
     if args.parallel < 1:

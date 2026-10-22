@@ -42,7 +42,9 @@ def backward_mode(actor,dropout):
 
 def frozen_config(objective):
     if objective not in ('sft','dpo','dpo_action'): raise ValueError('Unsupported objective')
-    common=json.loads((REPO/'openwebrl/docs/arm_results/joint_data_v2/sft-config.json').read_text())
+    # A rebuilt dataset carries its own schedule (train_arm_joint_sft.data_config); v2 uses the docs copy.
+    custom=DATA/'train-config.json'
+    common=json.loads((custom if custom.exists() else REPO/'openwebrl/docs/arm_results/joint_data_v2/sft-config.json').read_text())
     output_name='joint-v2-dpo-action-2gpu' if objective=='dpo_action' else f'joint-v2-{objective}-2gpu'
     # actor/data come from sft-config.json, whose paths are tillicum-absolute.
     # Override them from the (env-aware) module constants so the same config
@@ -89,12 +91,16 @@ def main():
     for name,checksum in config['model_metadata_hashes'].items():
         if digest(Path(config['actor'])/name)!=checksum: raise ValueError(f'Model metadata changed: {name}')
     objective=config['objective'];is_dpo=objective.startswith('dpo');score_field='action' if objective=='dpo_action' else 'full'
+    # dpo_exclude_end_of_turn: the DPO term ignores each response's closing <|im_end|>\n, so the
+    # preference gradient never pushes down the rejected response's end of turn (the suspected
+    # cause of run-on generations at lr 5e-5); stopping is then learned only from the NLL term.
+    if config.get('dpo_exclude_end_of_turn'):score_field='full_noeot'
     root=Path(config['output']);student=root/'student'
     student.mkdir(parents=True,exist_ok=True)
     random.seed(config['seed']);torch.manual_seed(config['seed']);torch.cuda.manual_seed_all(config['seed'])
     rows=read_rows(Path(config['data'])/'joint_pairs.train.jsonl')
     order=training_order(rows,config['seed'])
-    if len(rows)!=5540 or hashlib.sha256(encoded([rows[i]['id'] for i in order]).encode()).hexdigest()!=config['order_sha256']:
+    if len(rows)!=config['train_examples'] or hashlib.sha256(encoded([rows[i]['id'] for i in order]).encode()).hexdigest()!=config['order_sha256']:
         raise ValueError('Training exposure differs from frozen SFT manifest')
     panels=sum([read_rows(Path(config['data'])/f'validation-panel-{s}.jsonl') for s in ['c2','piotr']],[])
     processor=AutoProcessor.from_pretrained(config['actor'],local_files_only=True)
@@ -159,7 +165,8 @@ def main():
         if rank==0:write_json(student/'latest-checkpoint.json',dict(path=str(dest),**state))
         return dest
     def score_values(lp,row,branch):
-        return dict(full=lp.sum().item(),action=lp[row[branch]['action_token_indices']].sum().item(),ce=-lp.mean().item())
+        return dict(full=lp.sum().item(),full_noeot=lp[:-2].sum().item(),
+                    action=lp[row[branch]['action_token_indices']].sum().item(),ce=-lp.mean().item())
     # Cache is private to this immutable config, with one append-only file per rank.
     cache_path=root/f'reference-rank-{rank}.jsonl';reference={}
     if cache_path.exists():
@@ -189,6 +196,10 @@ def main():
                 reference[row['id']]=values
                 stream.write(encoded(dict(id=row['id'],config_sha256=config_hash,scores=values))+'\n')
         dist.barrier()
+        def score(lp,row,branch):
+            if score_field=='full':return lp.sum()
+            if score_field=='full_noeot':return lp[:-2].sum()
+            return lp[row[branch]['action_token_indices']].sum()
         def batch_backward(indices,lr,dropout=True):
             backward_mode(actor,dropout);optimizer.zero_grad(set_to_none=True)
             metrics=torch.zeros(5,device='cuda',dtype=torch.float32)
@@ -200,10 +211,11 @@ def main():
                     ce=-winner.mean()
                     if is_dpo:
                         ref=reference[row['id']]
-                        winner_score=winner.sum() if score_field=='full' else winner[row['chosen']['action_token_indices']].sum()
-                        loser_score=loser.sum() if score_field=='full' else loser[row['rejected']['action_token_indices']].sum()
+                        winner_score=score(winner,row,'chosen');loser_score=score(loser,row,'rejected')
                         raw=winner_score-loser_score
                         loss,relative=dpo_loss(winner_score,loser_score,ref['chosen'][score_field],ref['rejected'][score_field],effective_beta)
+                        # RPO (Pang et al. 2024): DPO plus length-normalised NLL on the chosen response.
+                        if config.get('auxiliary_sft_weight',0):loss=loss+config['auxiliary_sft_weight']*ce
                     else:
                         raw=relative=ce.detach()*0;loss=ce
                     if not torch.isfinite(loss):raise ValueError('Nonfinite training loss')
@@ -222,8 +234,7 @@ def main():
                     if is_dpo:
                         rejected=token_logps(actor,make_example(row,processor,'rejected'))
                         ref=reference[row['id']]
-                        chosen_score=chosen.sum() if score_field=='full' else chosen[row['chosen']['action_token_indices']].sum()
-                        rejected_score=rejected.sum() if score_field=='full' else rejected[row['rejected']['action_token_indices']].sum()
+                        chosen_score=score(chosen,row,'chosen');rejected_score=score(rejected,row,'rejected')
                         z=effective_beta*(chosen_score-rejected_score-ref['chosen'][score_field]+ref['rejected'][score_field])
                         values.append(torch.nn.functional.softplus(-z).item())
                     else:values.append(-chosen.mean().item())
@@ -243,7 +254,13 @@ def main():
                     for call in calls:
                         value=call.model_dump();arguments=value['parameters']
                         actions.append(dict(name=value['name'],arguments=json.loads(arguments) if isinstance(arguments,str) else arguments))
-                    if actions!=row[branch]['actions']:raise ValueError('Native tool parsing mismatch')
+                    # The builder stores Piotr actions with schema defaults filled in (clicks/button,
+                    # is_hotkey/presses) that the text omits; require same names and that every argument
+                    # the native parser recovers matches, rather than byte-equal dicts (failed 378652).
+                    stored=row[branch]['actions']
+                    if len(actions)!=len(stored) or any(x['name']!=y['name'] or any(y['arguments'].get(k)!=v for k,v in x['arguments'].items())
+                                                        for x,y in zip(actions,stored)):
+                        raise ValueError('Native tool parsing mismatch')
                 with torch.no_grad():
                     ex=make_example(row,processor)
                     if not torch.allclose(token_logps(actor,ex),token_logps(actor,ex,True),atol=.02,rtol=.002):
@@ -288,15 +305,26 @@ def main():
             actual=get_peft_model_state_dict(actor)
             error=max((actual[k].detach().cpu()-expected[k]).abs().max().item() for k in expected)
             if error>2e-5:raise ValueError(f'Resume replay adapter mismatch: {error}')
+            # GPU backward is not bit-reproducible, so a replayed step leaves Adam moments a little
+            # off: rtol 1e-4 failed 5 of 6 DPO-family runs on tillicum H200s, and with rtol 1e-3 a
+            # near-zero exp_avg still missed atol 2e-5 by 2.2e-5 (376998). Moments get atol 1e-4;
+            # the adapter-weight check above stays at 2e-5. Report the worst tensor so a real resume
+            # bug (large, not marginal) stays distinguishable.
+            worst=(0.,None)
             for key,value in optimizer.state_dict()['state'].items():
                 for name,tensor in value.items():
                     other=expected_opt['state'][key][name]
-                    if torch.is_tensor(tensor) and not torch.allclose(tensor,other,atol=2e-5,rtol=1e-4):
-                        raise ValueError('Resume replay optimizer mismatch')
+                    if not torch.is_tensor(tensor):continue
+                    excess=((tensor-other).abs()-1e-4-1e-3*other.abs()).max().item()
+                    if excess>worst[0]:worst=(excess,f'{key}/{name}')
+                    if not torch.allclose(tensor,other,atol=1e-4,rtol=1e-3):
+                        raise ValueError(f'Resume replay optimizer mismatch at {key}/{name}: '
+                                         f'max abs diff {(tensor-other).abs().max().item():.3g}')
             set_peft_model_state_dict(actor,snapshot);optimizer.state.clear();optimizer.zero_grad(set_to_none=True);set_rng(initial_rng)
             if rank==0:write_json(root/'smoke-passed.json',dict(calibration=calibration,beta=effective_beta,
                  beta_calibration=config.get('beta_calibration'),score_field=score_field,
                  repeated_loss_before=before,repeated_loss_after=after,resume_max_error=error,
+                 resume_optimizer_excess_over_rtol=worst[0],resume_optimizer_worst_tensor=worst[1],
                  native_parser=True,longest_sequence_backward=True,actual_training_updates=0))
             del snapshot,expected,expected_opt,restored,actual
         elif objective=='dpo_action':
@@ -311,7 +339,9 @@ def main():
             import wandb
             load_dotenv(REPO/'.env',override=False)
             identity_path=root/'wandb-identity.json'
-            identity=json.loads(identity_path.read_text()) if identity_path.exists() else dict(id=wandb.util.generate_id())
+            # wandb 0.29 (the shared venv) no longer has wandb.util.generate_id.
+            from wandb.sdk.lib.runid import generate_id
+            identity=json.loads(identity_path.read_text()) if identity_path.exists() else dict(id=generate_id())
             write_json(identity_path,identity)
             tracking=wandb.init(project='openwebrl-arm',id=identity['id'],resume='allow',name=f'joint-v2-{objective}',
                 group='arm-joint-v2',job_type=objective,dir=str(root),config=config,settings=wandb.Settings(init_timeout=60))
@@ -351,7 +381,7 @@ def main():
         if state['updates'] in config['validation_updates']:evaluate()
         for begin in range(state['examples_seen'],len(order),32):
             check_stop();started=time.monotonic();seen=min(begin+32,len(order))
-            lr=1e-5*lr_factor(seen,len(order));metrics,norm=batch_backward(rank_batch(order,begin,rank),lr)
+            lr=config.get('learning_rate',1e-5)*lr_factor(seen,len(order));metrics,norm=batch_backward(rank_batch(order,begin,rank),lr)
             state.update(updates=state['updates']+1,examples_seen=seen,next_position=seen)
             emit({'train/loss':metrics[0].item(),'train/winner_ce':metrics[1].item(),
                   'train/raw_margin':metrics[2].item(),'train/relative_margin':metrics[3].item(),

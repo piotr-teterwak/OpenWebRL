@@ -237,6 +237,11 @@ def load_tasks_from_jsonl(task_file: str) -> list[dict]:
                 continue
             row = json.loads(line)
             metadata = dict(row.get("metadata", {}) or {})
+            if not metadata and "task_name" in row:
+                # DeepShop rows are flat. Allowlist what the actor and judge need; never
+                # expose evaluator_reference or definite_answer (same rule as jev_eval).
+                metadata = {"task_id": str(row["task_id"]), "intent": row["task_name"],
+                            "start_url": row["website"], "benchmark_name": row.get("benchmark_name", "deepshop")}
             task_id = metadata.get("task_id") or row.get("id") or f"task_{i}"
             prompt_text = metadata.get("intent") or row.get("ques", "")
             tasks.append({
