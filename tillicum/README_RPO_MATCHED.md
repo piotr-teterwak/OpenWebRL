@@ -37,7 +37,7 @@ Zixian's, read-only:
 
 ### 1. Data
 
-Download the matched data from HF (`HF_DATASET_ID`) or rebuild it from joint-data-v2
+Download the matched data from HF ([`PTeterwak/openwebrl-arm-matched-pairs`](https://huggingface.co/datasets/PTeterwak/openwebrl-arm-matched-pairs); JSONL only, screenshots stay on tillicum) or rebuild it from joint-data-v2
 on a compute node:
 
 ```bash
