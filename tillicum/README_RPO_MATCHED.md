@@ -84,7 +84,7 @@ MODELS=base,rpo-matched-lr5e-5 PASS=repro1 sbatch --gpus=h200:2 --cpus-per-task=
 ```
 
 Always run base in the same job: base varies by about 2 points between runs. The result
-is `<eval>/pass<PASS>/<label>/<bench>/summary.json`. `BENCH=webvoyager` or
+is `<eval>/pass<PASS>/<label>/<bench>/summary.json`. For WebVoyager and DeepShop, see [README_BENCHMARKS.md](README_BENCHMARKS.md); `BENCH=webvoyager` or
 `BENCH=deepshop` switches benchmark (GPT-4o judge, 30 screenshots).
 
 The judge needs `OPENAI_API_KEY` in `.env` (chmod 600, gitignored).
