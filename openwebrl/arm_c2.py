@@ -295,7 +295,7 @@ async def collect(config_path):
     manifest = q['teacher_manifest']
     args = evaluation.EvalArgs(sglang_router_ip='127.0.0.1', sglang_router_port=19100,
         hf_checkpoint=manifest['actor'], max_steps=30, context_num_screenshots=1,
-        judge_api_model='o4-mini', judge_api_mode='served', judge_timeout_secs=180,
+        judge_api_model=q.get('judge', 'gpt-5.6-terra'), judge_api_mode='served', judge_timeout_secs=180,
         browser_response_format_mode='browser_env', turn_history_reasoning_mode='full',
         browser_include_tool_response=1, inference_step_timeout_secs=180, task_timeout_secs=1800,
         path_to_save_generated_samples=str(root / 'samples'))
@@ -323,6 +323,7 @@ async def collect(config_path):
         for replica in replicas:
             info = await client.get(f"http://127.0.0.1:{replica['actor_port']}/get_model_info"); info.raise_for_status()
             if os.path.realpath(info.json()['model_path']) != os.path.realpath(manifest['actor']): raise ValueError('Wrong actor')
+            if q['teacher'] == 'baseline': continue  # actor-only rollouts: no selector is served
             info = await client.get(f"http://127.0.0.1:{replica['selector_port']}/health"); info.raise_for_status()
             if info.json() != manifest['selector_health']: raise ValueError('Wrong teacher')
     (root / 'results').mkdir(exist_ok=True)

@@ -23,6 +23,10 @@
 # Round 2: ACTOR is a merged round-1 model, e.g. the 1A retrain merged by the eval:
 #   ACTOR=/gpfs/scrubbed/piotrt/owrl/eval/merged/1a NAME=round2-1a sbatch tillicum/c2_collect.sbatch
 # Defaults reuse her deduplicated 2,091-task pool so rounds are comparable.
+#
+# No-ARM baseline: TEACHER=baseline executes the actor's single sample (no selector is
+# launched); SEED changes the sampling seeds, so repeated attempts use distinct C2_ROOTs:
+#   ACTOR=$BASE TEACHER=baseline SEED=1 NAME=baseline-a1 sbatch --gpus=h200:1 tillicum/c2_collect.sbatch
 set -euo pipefail
 ACTOR="${ACTOR:?set ACTOR to a model directory (base or merged round-N actor)}"
 NAME="${NAME:?set NAME, e.g. round2-1a}"
@@ -37,6 +41,10 @@ ARM_MODEL="${ARM_MODEL:-/gpfs/scrubbed/zixianma/checkpoints/web/arm/selection/81
 BASE=/gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT
 C2_ROOT="${C2_ROOT:-/gpfs/scrubbed/piotrt/owrl/c2-collect/$NAME}"
 PARALLEL="${PARALLEL:-32}"
+TEACHER="${TEACHER:-selection}"
+# o4-mini (used for Zixian's C2 outcomes) was retired in 2026-10; outcome filtering now uses JUDGE.
+SEED="${SEED:-42}"
+case "$TEACHER" in selection|baseline) ;; *) echo "bad TEACHER=$TEACHER"; exit 1;; esac
 
 export OPENWEBRL_CACHE_ROOT=/gpfs/scrubbed/piotrt/owrl/cache
 source $REPO/scripts/h200_env.sh
@@ -69,6 +77,7 @@ for i in $(seq 0 $((N-1))); do
     --context-length 32768 --max-running-requests 48 --chunked-prefill-size 4096 --cuda-graph-max-bs 48 \
     > $C2_ROOT/actor-replica-$i.log 2>&1 &
   PIDS+=($!)
+  [ "$TEACHER" = baseline ] && { PIDS+=(${PIDS[-1]}); continue; }  # keep 2 slots per GPU for wait_ok
   CUDA_VISIBLE_DEVICES=${GPUS[$i]} setsid $ARM_PY scripts/serve_arm.py --mode selection --model $ARM_MODEL \
     --base $BASE --port $((18101 + 10*i)) > $C2_ROOT/teacher-replica-$i.log 2>&1 &
   PIDS+=($!)
@@ -81,16 +90,17 @@ wait_ok() { local url=$1 pid=$2 t0=$(date +%s)
   done; }
 for i in $(seq 0 $((N-1))); do
   wait_ok http://127.0.0.1:$((18100 + 10*i))/health_generate ${PIDS[$((2*i))]}
-  wait_ok http://127.0.0.1:$((18101 + 10*i))/health ${PIDS[$((2*i+1))]}
+  [ "$TEACHER" = baseline ] || wait_ok http://127.0.0.1:$((18101 + 10*i))/health ${PIDS[$((2*i+1))]}
 done
-echo "[c2] $N actor+ARM replicas healthy; actor=$ACTOR"
+echo "[c2] $N replicas healthy; teacher=$TEACHER seed=$SEED actor=$ACTOR"
 
 # The config is frozen on first submission; arm_c2.build reads it from C2_ROOT.
 # Only the allocation-bound fields (stop time, ports) are refreshed on resume.
 END=$(date -d "$(squeue -h -j $SLURM_JOB_ID -o %e)" +%s)   # %e is local time
 STOP=$(( END - 900 ))
 [ $(( STOP - $(date +%s) )) -gt 1800 ] || { echo "FATAL stop time is <30 min away; check the deadline math"; exit 1; }
-SELECTOR_HEALTH=$(curl -sf http://127.0.0.1:18101/health)
+SELECTOR_HEALTH=null
+[ "$TEACHER" = baseline ] || SELECTOR_HEALTH=$(curl -sf http://127.0.0.1:18101/health)
 $ARM_PY - <<PYEOF
 import hashlib, json
 from datetime import datetime, timezone
@@ -98,7 +108,7 @@ from pathlib import Path
 root = Path('$C2_ROOT'); path = root / 'frozen-config.json'
 tasks = Path('$TASKS')
 fresh = dict(output=str(root), task_file=str(tasks), task_file_sha256=hashlib.sha256(tasks.read_bytes()).hexdigest(),
-             task_count=len(tasks.read_text().splitlines()), parallel=$PARALLEL, seed=42, teacher='selection',
+             task_count=len(tasks.read_text().splitlines()), parallel=$PARALLEL, seed=$SEED, teacher='$TEACHER', judge='${JUDGE:-gpt-5.6-terra}',
              teacher_manifest=dict(actor=str(Path('$ACTOR').resolve()), selector_health=json.loads('''$SELECTOR_HEALTH''')),
              training=dict(max_tokens=32768), round_source='$NAME')
 if path.exists():
