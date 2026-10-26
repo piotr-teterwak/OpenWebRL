@@ -30,6 +30,7 @@
 # directory so cells do not collide:
 #   OBJECTIVE=dpo LR=5e-5 SFT_WEIGHT=1 RUN=rpo-a1-lr5e-5 sbatch --time=05:00:00 tillicum/train_joint.sbatch
 # BETA overrides DPO's beta (default 0.1), e.g. BETA=0.5 RUN=rpo-a1-lr5e-5-b0.5.
+# SEED (default 42) reseeds LoRA init, dropout and data order, e.g. SEED=1 RUN=rpo-matched-lr5e-5-s1.
 set -euo pipefail
 OBJECTIVE="${OBJECTIVE:?set OBJECTIVE=sft|dpo|dpo_action}"
 case "$OBJECTIVE" in sft|dpo|dpo_action) ;; *) echo "bad OBJECTIVE=$OBJECTIVE"; exit 1;; esac
@@ -67,6 +68,14 @@ if '${LR:-}': config['learning_rate'] = float('${LR:-}')
 if '${SFT_WEIGHT:-}': config['auxiliary_sft_weight'] = float('${SFT_WEIGHT:-}')
 if '${BETA:-}': config['beta'] = float('${BETA:-}')
 if '${EXCLUDE_EOT:-}' == '1': config['dpo_exclude_end_of_turn'] = True
+if '${SEED:-}':
+    # The seed sets LoRA init, dropout and the exposure order; the trainer checks that order
+    # against order_sha256, so recompute it for the new seed.
+    import hashlib
+    from train_arm_joint_sft import training_order, read_rows, encoded
+    config['seed'] = int('${SEED:-}')
+    rows = read_rows(Path(config['data']) / 'joint_pairs.train.jsonl')
+    config['order_sha256'] = hashlib.sha256(encoded([rows[i]['id'] for i in training_order(rows, config['seed'])]).encode()).hexdigest()
 path = Path(config['output']) / 'frozen-config.json'
 if not path.exists():
     path.parent.mkdir(parents=True, exist_ok=True)

@@ -9,7 +9,8 @@ from pathlib import Path
 # Benchmark -> (reward module name, canonical judge, screenshots attached to the judge,
 # manifest label). Same defaults as run_evaluate's _protocol_judge_defaults.
 PROTOCOLS = {
-    "online_mind2web": ("online_mind2web", "o4-mini", 3, "online_mind2web/AgentTrek"),
+    # o4-mini was retired by OpenAI (2026-10); results judged with it are under eval/pass*/.
+    "online_mind2web": ("online_mind2web", "gpt-5.6-terra", 3, "online_mind2web/AgentTrek"),
     "webvoyager": ("webvoyager", "gpt-4o", 30, "webvoyager/FARA"),
     "deepshop": ("deepshop", "gpt-4o", 30, "deepshop/MolmoWeb"),
 }

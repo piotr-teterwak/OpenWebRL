@@ -92,6 +92,16 @@ for b in 0.3 0.5 1.0; do SPECS+=("rpo-a1-lr5e-5-b$b|$OWRL/joint-retrain/runs/rpo
 SPECS+=("rpo-matched-lr5e-5|$OWRL/joint-retrain/runs/rpo-matched-lr5e-5|student/update-000128")
 # Ablation: is it the matched data or RPO? Same data, lr, beta and updates; SFT only / DPO only.
 for r in sft-matched-lr5e-5 dpo-matched-lr5e-5; do SPECS+=("$r|$OWRL/joint-retrain/runs/$r|student/update-000128"); done
+# Same objective on the unfiltered joint-data-v2 (5,540 pairs -> 174 updates), for the SFT data comparison.
+SPECS+=("joint-sft-lr5e-5|$OWRL/joint-retrain/runs/joint-sft-lr5e-5|student/update-000174")
+# Beta sweep on matched pairs (RPO, alpha 1).
+for b in 0.3 0.5; do SPECS+=("rpo-matched-lr5e-5-b$b|$OWRL/joint-retrain/runs/rpo-matched-lr5e-5-b$b|student/update-000128"); done
+# Seed replicates of the best run (SEED=1, 2; the original is seed 42).
+for sd in 1 2; do SPECS+=("rpo-matched-lr5e-5-s$sd|$OWRL/joint-retrain/runs/rpo-matched-lr5e-5-s$sd|student/update-000128"); done
+# Beta sweep for plain DPO on matched pairs (no SFT term): can beta replace it?
+for b in 0.3 0.5 0.7 1.0; do SPECS+=("dpo-matched-lr5e-5-b$b|$OWRL/joint-retrain/runs/dpo-matched-lr5e-5-b$b|student/update-000128")
+  for sd in 1 2; do SPECS+=("dpo-matched-lr5e-5-b$b-s$sd|$OWRL/joint-retrain/runs/dpo-matched-lr5e-5-b$b-s$sd|student/update-000128"); done; done
+for sd in 1 2; do SPECS+=("dpo-matched-lr5e-5-b0.5-s$sd|$OWRL/joint-retrain/runs/dpo-matched-lr5e-5-b0.5-s$sd|student/update-000128"); done
 SPECS+=("rpo-noeot-lr5e-5|$OWRL/joint-retrain/runs/rpo-noeot-lr5e-5|student/update-000174")
 SPECS+=("rpo-a2-lr5e-5|$OWRL/joint-retrain/runs/rpo-a2-lr5e-5|student/update-000174")
 TASKS=()
