@@ -99,11 +99,23 @@ for b in 0.3 0.5; do SPECS+=("rpo-matched-lr5e-5-b$b|$OWRL/joint-retrain/runs/rp
 # Seed replicates of the best run (SEED=1, 2; the original is seed 42).
 for sd in 1 2; do SPECS+=("rpo-matched-lr5e-5-s$sd|$OWRL/joint-retrain/runs/rpo-matched-lr5e-5-s$sd|student/update-000128"); done
 # Beta sweep for plain DPO on matched pairs (no SFT term): can beta replace it?
+# beta 0.1 is the default (run name without -b); seeds 1 and 2 added later.
+for sd in 1 2; do SPECS+=("dpo-matched-lr5e-5-s$sd|$OWRL/joint-retrain/runs/dpo-matched-lr5e-5-s$sd|student/update-000128"); done
 for b in 0.3 0.5 0.7 1.0; do SPECS+=("dpo-matched-lr5e-5-b$b|$OWRL/joint-retrain/runs/dpo-matched-lr5e-5-b$b|student/update-000128")
   for sd in 1 2; do SPECS+=("dpo-matched-lr5e-5-b$b-s$sd|$OWRL/joint-retrain/runs/dpo-matched-lr5e-5-b$b-s$sd|student/update-000128"); done; done
 for sd in 1 2; do SPECS+=("dpo-matched-lr5e-5-b0.5-s$sd|$OWRL/joint-retrain/runs/dpo-matched-lr5e-5-b0.5-s$sd|student/update-000128"); done
 SPECS+=("rpo-noeot-lr5e-5|$OWRL/joint-retrain/runs/rpo-noeot-lr5e-5|student/update-000174")
 SPECS+=("rpo-a2-lr5e-5|$OWRL/joint-retrain/runs/rpo-a2-lr5e-5|student/update-000174")
+# On-policy pairs (Dan's HF release, joint-data/onpolicy: 5,206 pairs -> 163 updates), objective x beta x seed.
+for o in dpo rpo; do for b in 0.1 0.3 0.5 0.7 1.0; do for sd in 42 1 2; do
+  r=onpol-$o-b$b-s$sd; SPECS+=("$r|$OWRL/joint-retrain/runs/$r|student/update-000163"); done; done; done
+# Filtered SFT on the same on-policy data (chosen = ARM pick in a successful episode), the DPO control.
+for sd in 42 1 2; do r=onpol-sft-lr5e-5-s$sd; SPECS+=("$r|$OWRL/joint-retrain/runs/$r|student/update-000163"); done
+# Iterative round-2 runs (r2-*, trained from a merged round-1 actor): final checkpoint from each
+# run's frozen config, since the update count depends on the round-2 pair count.
+for d in $OWRL/joint-retrain/runs/r2-*/ $OWRL/joint-retrain/runs/comb-*/; do [ -f $d/frozen-config.json ] || continue
+  u=$(python3 -c "import json;print('%06d'%json.load(open('$d/frozen-config.json'))['total_updates'])")
+  SPECS+=("$(basename $d)|${d%/}|student/update-$u"); done
 TASKS=()
 if [ "$SMOKE" = 1 ]; then SPECS=("${SPECS[0]}"); TASKS=(--task-indices ${SMOKE_TASKS:-0,1}); fi
 # MODELS=base,1a,... evaluates a subset; pass --gpus to match (one per model).
@@ -138,6 +150,25 @@ done
 for p in "${MERGE_PIDS[@]}"; do wait $p || { echo "FATAL a merge failed; see $EVAL/merged/*.log"; exit 1; }; done
 echo "[eval] models ready: $(ls $EVAL/merged 2>/dev/null | grep -v log | tr '\n' ' ')"
 
+# Port block per job: 1-GPU jobs can share a node, and fixed ports would collide (sglang bind
+# failure, or arm_eval reaching another job's server). 18 slots x 8 GPUs x 300 ports above 20000;
+# start at the job ID's slot but take the first one whose server ports are free here, since IDs
+# that are equal mod 18 (e.g. 18 submissions apart) can land on one node.
+PORT0=$(python3 - <<PYEOF
+import socket, sys
+def free(p):
+    with socket.socket() as s:
+        try: s.bind(('127.0.0.1', p)); return True
+        except OSError: return False
+start = $SLURM_JOB_ID % 18
+for k in list(range(start, 18)) + list(range(start)):
+    base = 20000 + 300 * 8 * k
+    if all(free(base + 10 + 300 * i) for i in range($N)):
+        print(base); sys.exit()
+sys.exit('no free port block')
+PYEOF
+)
+echo "[eval] port block $PORT0"
 # 2. One sglang server per GPU, same flags as Zixian's worker. Ports are derived
 # from the GPU slot in a range her scripts do not use (they take 19100-19699).
 END=$(date -d "$(squeue -h -j $SLURM_JOB_ID -o %e)" +%s)   # %e is local time
@@ -146,13 +177,13 @@ for spec in "${SPECS[@]}"; do
   IFS='|' read label root ckpt <<<"$spec"
   mkdir -p $OUT/$label
   CUDA_VISIBLE_DEVICES=${GPUS[$i]} setsid $SERVER_PY -m sglang.launch_server --model-path "$(model_path "$label" "$root" "$ckpt")" \
-    --host 127.0.0.1 --port $((20010 + 300*i)) --dtype bfloat16 --tp 1 --mem-fraction-static 0.45 \
+    --host 127.0.0.1 --port $((PORT0 + 10 + 300*i)) --dtype bfloat16 --tp 1 --mem-fraction-static 0.45 \
     --context-length 32768 --max-running-requests 24 --chunked-prefill-size 4096 --disable-cuda-graph \
     > $OUT/$label/actor-server-$BENCH.log 2>&1 &
   PIDS+=($!); i=$((i+1))
 done
 for i in $(seq 0 $((N-1))); do
-  port=$((20010 + 300*i)); t0=$(date +%s)
+  port=$((PORT0 + 10 + 300*i)); t0=$(date +%s)
   until curl -sf http://127.0.0.1:$port/health_generate >/dev/null; do
     kill -0 ${PIDS[$i]} 2>/dev/null || { echo "FATAL server $i died"; tail -20 $OUT/*/actor-server-$BENCH.log; exit 1; }
     [ $(( $(date +%s) - t0 )) -lt 900 ] || { echo "FATAL server $i not healthy after 15 min"; exit 1; }
@@ -170,7 +201,7 @@ PIDS+=($!)
 i=0; EVAL_PIDS=()
 for spec in "${SPECS[@]}"; do
   IFS='|' read label root ckpt <<<"$spec"
-  b=$((20000 + 300*i))
+  b=$((PORT0 + 300*i))
   timeout --signal=TERM --kill-after=120 $REMAIN $ARM_PY -m openwebrl.arm_eval --mode baseline \
     --actor "$(model_path "$label" "$root" "$ckpt")" --actor-port $((b + 10)) --output $OUT/$label/$BENCH \
     --parallel 12 --protocol ${BENCH//-/_} --task-file $TASK_FILE --seed 42 --temperature 0.7 --top-p 0.9 \

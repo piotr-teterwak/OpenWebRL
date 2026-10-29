@@ -83,7 +83,9 @@ def main():
     dist.init_process_group('nccl',timeout=timedelta(minutes=30))
     rank=dist.get_rank();world=dist.get_world_size()
     config=json.loads(args.config.read_text());config_hash=digest(args.config)
-    if world!=2 or config['world_size']!=2: raise ValueError('Exactly two data-parallel workers required')
+    # 1 or 2 ranks: each rank averages its share of the 32-example batch and DDP averages the ranks,
+    # so one rank over all 32 gives the same mean gradient (same batch, lr schedule and updates).
+    if world not in (1,2) or config['world_size']!=world: raise ValueError('world size must be 1 or 2 and match the config')
     for name,checksum in config['code_hashes'].items():
         if digest(REPO/'scripts'/name)!=checksum: raise ValueError(f'Frozen code changed: {name}')
     for name,checksum in config['data_hashes'].items():
@@ -244,7 +246,8 @@ def main():
             if rank==0:write_json(root/'training-status.json',dict(phase='engineering_rehearsal',allocation=job))
             # Direct parser and actual image/token alignment, for both sources on each rank.
             from openwebrl.base.utils import ToolParser
-            for source in ['C2','Piotr']:
+            # Every source present in the training rows (on-policy data has no Piotr rows).
+            for source in sorted({r['source'] for r in rows}):
                 row=min((r for r in rows if r['source']==source),key=lambda r:r['prompt_tokens'])
                 block=re.search(r'<tools>\n(.*?)\n</tools>',row['prompt'],re.S).group(1)
                 native=ToolParser([json.loads(x) for x in block.splitlines() if x.strip()])._get_sglang_parser()
@@ -278,7 +281,7 @@ def main():
             # Four disjoint training-only batches (128 states); record scale by batch.
             calibration=[]
             for begin in range(0,128,32):
-                check_stop();metrics,norm=batch_backward(rank_batch(order,begin,rank),1e-5,dropout=False)
+                check_stop();metrics,norm=batch_backward(rank_batch(order,begin,rank,world),1e-5,dropout=False)
                 calibration.append(dict(batch=begin//32,loss=metrics[0].item(),grad_norm=norm,mean_abs_z=metrics[4].item()))
                 set_peft_model_state_dict(actor,snapshot);optimizer.state.clear();set_rng(initial_rng)
             if objective=='dpo_action':
@@ -288,7 +291,7 @@ def main():
                 selected=max(rule['clamp'][0],min(rule['clamp'][1],selected))
                 selected_box=[selected if rank==0 else None];dist.broadcast_object_list(selected_box,src=0)
                 effective_beta=selected_box[0]
-            repeated=rank_batch(order,0,rank);before=probe_loss(repeated)
+            repeated=rank_batch(order,0,rank,world);before=probe_loss(repeated)
             for _ in range(3):batch_backward(repeated,1e-5,dropout=False)
             after=probe_loss(repeated)
             if not after<before:raise ValueError(f'Repeated-batch learning gate failed: {before} -> {after}')
@@ -381,7 +384,7 @@ def main():
         if state['updates'] in config['validation_updates']:evaluate()
         for begin in range(state['examples_seen'],len(order),32):
             check_stop();started=time.monotonic();seen=min(begin+32,len(order))
-            lr=config.get('learning_rate',1e-5)*lr_factor(seen,len(order));metrics,norm=batch_backward(rank_batch(order,begin,rank),lr)
+            lr=config.get('learning_rate',1e-5)*lr_factor(seen,len(order));metrics,norm=batch_backward(rank_batch(order,begin,rank,world),lr)
             state.update(updates=state['updates']+1,examples_seen=seen,next_position=seen)
             emit({'train/loss':metrics[0].item(),'train/winner_ce':metrics[1].item(),
                   'train/raw_margin':metrics[2].item(),'train/relative_margin':metrics[3].item(),

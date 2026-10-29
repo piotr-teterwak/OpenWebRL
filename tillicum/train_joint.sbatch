@@ -47,7 +47,8 @@ export WANDB_MODE=offline
 trap 'rm -rf "$OPENWEBRL_JOB_TMP"' EXIT
 PY=$ZRUN/venv/bin/python
 
-export OWRL_ACTOR=/gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT
+# Iterative rounds: OWRL_ACTOR=<merged round-N actor>; it is also the DPO reference.
+export OWRL_ACTOR=${OWRL_ACTOR:-/gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT}
 export OWRL_JOINT_DATA=${OWRL_JOINT_DATA:-$ZRUN/joint-data-v2-20260910}   # e.g. /gpfs/scrubbed/piotrt/owrl/joint-data/k2
 export OWRL_RUNTIME=/gpfs/scrubbed/piotrt/owrl/joint-retrain
 cd $REPO
@@ -68,6 +69,11 @@ if '${LR:-}': config['learning_rate'] = float('${LR:-}')
 if '${SFT_WEIGHT:-}': config['auxiliary_sft_weight'] = float('${SFT_WEIGHT:-}')
 if '${BETA:-}': config['beta'] = float('${BETA:-}')
 if '${EXCLUDE_EOT:-}' == '1': config['dpo_exclude_end_of_turn'] = True
+config['world_size'] = int('${NGPU:-2}')   # NGPU=1: same 32-example batch on one GPU, ~2x slower
+# train-config.json records the actor's metadata hashes from data-build time (the base model);
+# hash the actor actually trained, which differs for an iterative round's merged actor.
+from train_arm_joint_sft import digest
+config['model_metadata_hashes'] = {name: digest(Path(config['actor']) / name) for name in config['model_metadata_hashes']}
 if '${SEED:-}':
     # The seed sets LoRA init, dropout and the exposure order; the trainer checks that order
     # against order_sha256, so recompute it for the new seed.
@@ -92,6 +98,6 @@ if [ -f $RUN/student/latest-checkpoint.json ] && [ ! -f $RUN/student/complete.js
 echo "[joint] objective=$OBJECTIVE node=$(hostname -s) config=$CONFIG stop=$(date -u -d @$STOP +%FT%TZ) $RESUME"
 echo "[joint] code=$(git rev-parse --short HEAD) dirty=$(git status --porcelain scripts | wc -l)"
 
-$PY -m torch.distributed.run --standalone --nnodes=1 --nproc_per_node=2 \
+$PY -m torch.distributed.run --standalone --nnodes=1 --nproc_per_node=${NGPU:-2} \
   scripts/train_arm_joint_ddp.py --config $CONFIG --stop-unix $STOP $RESUME
 cat $RUN/training-status.json; echo

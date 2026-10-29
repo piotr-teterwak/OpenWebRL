@@ -74,6 +74,16 @@ def make_app(args):
     model.eval()
     model.requires_grad_(False)
     builder = load_selection_builder(args.source_root)
+    frontier = None
+    if getattr(args, "prompt_format", "canonical") == "frontier":
+        # action-reward-models' build_selection_sft.py builds the released SelectionARM's training
+        # prompts with inference/openwebrl/frontier_arbiter.py (normalized coordinates); serve with it.
+        import importlib.util
+        import os
+        os.environ["OWRL_ARBITER_COORDS"] = "normalized"
+        spec = importlib.util.spec_from_file_location("frontier_arbiter", args.frontier_arbiter)
+        frontier = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(frontier)
     grammar_compiler = None
     if args.mode == "selection":
         import xgrammar as xgr
@@ -89,6 +99,7 @@ def make_app(args):
                 "adapter": adapter, "adapter_sha256": adapter_sha256,
                 "max_pixels": args.max_pixels, "config_source": args.base,
                 "source_root": args.source_root,
+                "prompt_format": getattr(args, "prompt_format", "canonical"),
                 **({"selection_decoding": "canonical_no_cot_json_schema/xgrammar"}
                    if args.mode == "selection" else {})}
 
@@ -102,9 +113,17 @@ def make_app(args):
         with lock, torch.inference_mode():
             if args.mode == "selection":
                 started = time.monotonic()
-                messages = selection_messages(builder, request.task, request.url,
-                                              request.history, request.candidates, image_bytes,
-                                              request.candidate_representation)
+                if frontier is not None:
+                    # Same fields frontier_arbiter.extract_context/split_think take from the actor
+                    # prompt: past actions whitespace-collapsed to 300 chars, thoughts to 2000.
+                    history = [" ".join((h.get("action") or "").split())[:300] for h in request.history]
+                    candidates = [(" ".join((c.get("thought") or "").split())[:2000] if request.candidate_representation == "full" else "",
+                                   (c.get("action") or "").strip() or "(empty response)") for c in request.candidates]
+                    messages = frontier.build_messages(request.task, request.url, history, candidates, "x")
+                else:
+                    messages = selection_messages(builder, request.task, request.url,
+                                                  request.history, request.candidates, image_bytes,
+                                                  request.candidate_representation)
                 # Processor chat templates use type=image. Preserve the exact text
                 # blocks and screenshot position produced by the canonical builder.
                 messages[1]["content"][1] = {"type": "image"}
@@ -157,6 +176,9 @@ def main():
     ap.add_argument("--device", default="cuda:0")
     ap.add_argument("--port", type=int, default=19101)
     ap.add_argument("--max-pixels", type=int, default=262144)
+    ap.add_argument("--prompt-format", choices=["canonical", "frontier"], default="canonical",
+                    help="canonical: selection_prompt.py v2 (default); frontier: action-reward-models' frontier_arbiter.py, the SelectionARM training prompt")
+    ap.add_argument("--frontier-arbiter", default="/gpfs/scrubbed/piotrt/owrl/arm-scaling/action-reward-models/inference/openwebrl/frontier_arbiter.py")
     ap.add_argument("--context-length", type=int, default=32768)
     ap.add_argument("--max-new-tokens", type=int, default=128)
     args = ap.parse_args()
