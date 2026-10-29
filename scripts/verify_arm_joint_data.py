@@ -14,10 +14,16 @@ from tokenizers import Tokenizer
 from prepare_arm_joint_data import pair_reason, order
 
 
+# Fields that differ between teacher draws of one state (panel, pick, reasoning, provenance).
+DRAW_FIELDS=['id','pair_type','chosen','chosen_index','rejected','rejected_index','draw_id','teacher_reasoning',
+             'temperature','candidate_file_offset','candidate_line_sha256','label_sha256','custom_id']
+
+
 def main():
     p=argparse.ArgumentParser();p.add_argument('--data',type=Path,required=True)
+    p.add_argument('--cpu-seconds',type=int,default=90)
     a=p.parse_args();start=time.monotonic()
-    resource.setrlimit(resource.RLIMIT_AS,(384*1024**2,384*1024**2));resource.setrlimit(resource.RLIMIT_CPU,(90,95))
+    resource.setrlimit(resource.RLIMIT_AS,(384*1024**2,384*1024**2));resource.setrlimit(resource.RLIMIT_CPU,(a.cpu_seconds,a.cpu_seconds+5))
     tok=Tokenizer.from_file('/gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT/tokenizer.json')
     counts=Counter();groups={};ids=set();validation=[]
     for split in ['train','validation']:
@@ -30,14 +36,16 @@ def main():
         sft_rows={}
         with (a.data/f'joint_sft.{split}.jsonl').open() as sf:
             for line in sf:
-                x=json.loads(line);sft_rows[x['id']]=(digest_of(x,[]),digest_of(x,['id','pair_type']))
+                x=json.loads(line);sft_rows[x['id']]=(digest_of(x,[]),digest_of(x,['id','pair_type']),digest_of(x,DRAW_FIELDS))
         paired=set()
         with (a.data/f'joint_pairs.{split}.jsonl').open() as pf:
             for i,pl in enumerate(pf,1):
-                row=json.loads(pl);base,_,extra=row['id'].partition('#neg')
-                assert not extra or split=='train','extra negatives must stay out of validation'
-                full,shared=sft_rows[base]
-                if extra:assert digest_of(row,['rejected','rejected_index','id','pair_type'])==shared
+                row=json.loads(pl);base,_,extra=row['id'].partition('#')
+                assert not extra or split=='train','extra negatives/draws must stay out of validation'
+                full,shared,state=sft_rows[base]
+                # #drawN rows are another teacher draw of the same state: only state fields match.
+                if extra.startswith('draw'):assert digest_of(row,DRAW_FIELDS)==state
+                elif extra:assert digest_of(row,['rejected','rejected_index','id','pair_type'])==shared
                 else:assert digest_of(row,['rejected','rejected_index'])==full
                 if not extra:paired.add(base)
                 assert row['id'] not in ids;ids.add(row['id'])

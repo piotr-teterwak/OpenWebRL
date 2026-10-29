@@ -90,7 +90,8 @@ class Builder:
         self.db.execute('PRAGMA cache_size=-8192')
         self.db.executescript('''CREATE TABLE IF NOT EXISTS states(id TEXT PRIMARY KEY, source TEXT, episode TEXT,
           task TEXT, host TEXT, identity TEXT, winner TEXT, pick TEXT, payload TEXT);
-          CREATE TABLE IF NOT EXISTS samples(bucket TEXT PRIMARY KEY, pick TEXT, payload TEXT);''')
+          CREATE TABLE IF NOT EXISTS samples(bucket TEXT PRIMARY KEY, pick TEXT, payload TEXT);
+          CREATE TABLE IF NOT EXISTS draws(base_id TEXT, pick TEXT, payload TEXT, PRIMARY KEY(base_id, pick));''')
         self.stats = defaultdict(Counter); self.images = {}; self.contexts = {}
         self.tok = Tokenizer.from_file(str(args.model / 'tokenizer.json'))
         self.parser = native_parser(args.repo)
@@ -244,7 +245,8 @@ class Builder:
     def accept_draw(self, state, raw_candidates, selected, schema):
         source = state['source']; self.stats[source]['draws_seen']+=1
         existing=self.db.execute('SELECT pick FROM states WHERE id=?',(state['base_id'],)).fetchone()
-        if existing and existing[0].startswith('0') and '0'+order(state['id']) >= existing[0]:
+        # --draws-per-state D>1 validates every draw, not just ones that beat the current pick.
+        if getattr(self.a,'draws_per_state',1)==1 and existing and existing[0].startswith('0') and '0'+order(state['id']) >= existing[0]:
             self.event(state,'draw_not_selected_by_seed')
             return
         try:
@@ -303,6 +305,8 @@ class Builder:
             payload={**state,'id':base_id,'draw_id':state['id'],'chosen_index':selected,
                      'chosen':winner,'status':'sft_reserve','reason':'no_eligible_negative'}
             kind='reserve'
+        if kind=='pair' and getattr(self.a,'draws_per_state',1)>1:
+            self.db.execute('INSERT OR REPLACE INTO draws VALUES(?,?,?)',(base_id,drawpick,encode(payload)))
         # A valid pair always takes priority over an SFT-only reserve from another draw.
         pick=('0' if kind=='pair' else '1')+drawpick
         old=self.db.execute('SELECT pick FROM states WHERE id=?',(base_id,)).fetchone()
@@ -486,6 +490,18 @@ class Builder:
                 for n,e in enumerate(extra,2):
                     paths['joint_pairs.train'].write(encode({**x,'id':f"{x['id']}#neg{n}",**e})+'\n')
                     self.stats[x['source']]['extra_negative_pairs_train']+=1
+                # Extra teacher draws of the same state (--draws-per-state D): each is a different
+                # five-candidate panel with its own pick, ranked by the same seeded hash as the
+                # primary draw, so D=2 rows are a subset of D=4 rows. Train only.
+                n=1
+                for (pl,) in self.db.execute('SELECT payload FROM draws WHERE base_id=? ORDER BY pick',(x['id'],)).fetchall():
+                    if n>=getattr(self.a,'draws_per_state',1):break
+                    e=json.loads(pl)
+                    if e['draw_id']==x['draw_id']:continue
+                    n+=1;e.pop('extra_rejected',None)
+                    e.update(id=f"{x['id']}#draw{n}",task_group=group,split='train')
+                    paths['joint_pairs.train'].write(encode(e)+'\n')
+                    self.stats[x['source']]['extra_draw_pairs_train']+=1
             sft={k:v for k,v in x.items() if k not in ['rejected','rejected_index']}
             paths['joint_sft.'+split].write(encode(sft)+'\n')
             source=x['source'];self.stats[source]['retained_'+split]+=1
@@ -550,10 +566,12 @@ def main():
     p.add_argument('--model',type=Path,default=Path('/gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT'))
     p.add_argument('--eval',type=Path,default=Path('openwebrl/data/eval/online-mind2web.jsonl'))
     p.add_argument('--negatives-per-state',type=int,default=1,help='Rejected candidates kept per state (train split only beyond the first).')
+    p.add_argument('--draws-per-state',type=int,default=1,help='Teacher draws (candidate panels) kept per state; extras are train only, ids <state>#drawN.')
+    p.add_argument('--cpu-seconds',type=int,default=240,help='RLIMIT_CPU for the build; D>1 validates every draw and needs more.')
     a=p.parse_args()
     os.environ['TOKENIZERS_PARALLELISM']='false'
     resource.setrlimit(resource.RLIMIT_AS,(1024**3,1024**3))
-    resource.setrlimit(resource.RLIMIT_CPU,(240,245))
+    resource.setrlimit(resource.RLIMIT_CPU,(a.cpu_seconds,a.cpu_seconds+5))
     b=Builder(a)
     if not a.resume:b.c2()
     b.piotr();b.finish()
