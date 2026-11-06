@@ -13,7 +13,7 @@ stated. "Our ADM" is Piotr's SelectionARM (`PTeterwak/OpenWebRL-4B-SelectionARM`
 |---|---|
 | Does our WebArbiter reproduction match the paper? | Yes: A18 gives a 48.3 four-site mean (no Map) against the published 49.2. |
 | Our ADM vs WebArbiter-7B with GPT-4o on WebArena-Lite, same viewport? | Ahead, not significant: +6.6 [−2.0, +15.0] at 1280×720, +4.6 [−2.8, +12.0] at the paper's 1024×2490. |
-| Our ADM vs WebArbiter-7B with GPT-4o on Online-Mind2Web? | Ahead, significant: +12.5 [+7.0, +18.0]. WebArbiter gives no gain over GPT-4o alone. |
+| Our ADM vs WebArbiter-7B with GPT-4o on Online-Mind2Web? | Ahead, significant: +12.2 [+7.2, +17.6] (valid-only), +9.7 [+5.0, +15.0] over all 300 tasks. WebArbiter gives no gain over GPT-4o alone. |
 | External selectors on our SFT actor? | Best-of-Q and PRO-CUA give nothing. WebDreamer (n = 10) is level with our ADM overall (44.1 vs 45.7), significantly behind on OM2W, at about 3.4× a single-pass selector's GPU time. |
 
 ## 1. WebArena-Lite, GPT-4o actor (WebArbiter Table 5 setting)
@@ -66,20 +66,21 @@ best-coverage crop 47.5, vs 44.7 at 1280×720 (all within noise; off-window cand
 
 `webarena_repro/om2w_episode.py` runs the same A18 harness on live sites (any origin through the cluster
 proxy, desktop user agent, CDP screenshots, DOM-ready navigation) and scores each terminal state once with
-the OM2W/AgentTrek judge prompt on gpt-5.6-terra (final screenshot + executed actions). 300 tasks.
-Provisional: 4–9 tasks per row were still being rerun (browser hangs; a hang is now recorded as invalid).
+the OM2W/AgentTrek judge prompt on gpt-5.6-terra (final screenshot + executed actions). All 300 tasks per row;
+tasks whose browser hung past the per-task limit were rerun once with a 20-minute limit, and a second hang is
+recorded as invalid.
 
 | Row | Tasks | Valid | Valid-only | Overall | Mean steps | OpenAI |
 |---|---|---|---|---|---|---|
-| GPT-4o, no selection | 295 | 289 | 23.9 | 23.0 | 9.7 | $38 |
-| + WebArbiter-7B | 296 | 290 | 24.1 | 23.3 | 12.1 | $136 |
-| + our ADM | 291 | 278 | **36.0** | **33.3** | 18.8 | $209 |
+| GPT-4o, no selection | 300 | 291 | 23.7 | 23.0 | 9.6 | $38 |
+| + WebArbiter-7B | 300 | 293 | 24.2 | 23.7 | 12.1 | $138 |
+| + our ADM | 300 | 282 | **35.5** | **33.3** | 18.5 | $212 |
 
 | Paired difference | Points |
 |---|---|
-| our ADM − WebArbiter | **+12.5 [+7.0, +18.0]** (272 tasks; 46 only ADM, 12 only WebArbiter) |
-| our ADM − no selection | **+12.0 [+6.9, +17.5]** |
-| WebArbiter − no selection | +0.7 [−3.9, +5.7] |
+| our ADM − WebArbiter | **+12.2 [+7.2, +17.6]** valid-only (278 tasks); **+9.7 [+5.0, +15.0]** overall (300) |
+| our ADM − no selection | **+11.9 [+6.8, +16.9]** valid-only; **+10.3 [+5.3, +15.3]** overall |
+| WebArbiter − no selection | +0.7 [−4.2, +5.6] valid-only; +0.7 [−4.0, +5.3] overall |
 
 Consistent with Zixian's earlier OM2W rerun under her protocol (no search 26.9, SelectionARM 29.5, WebArbiter
 24.1, WebShepherd 12.3). Cost per task in the 10-task cost test: no selection $0.19, WebArbiter $0.78, our ADM
@@ -145,7 +146,7 @@ the 30-minute limit were rerun with 90 minutes (16 still time out).
 
 GPU for this batch (Nov 5–6): OM2W ADM $52, OM2W WebArbiter $38, WebDreamer $34 (including two failed
 launches), WebArena-Lite runs (no selection at 1280×720 and the ADM viewport variants) $42, OM2W no selection $6. Per-user total on vlm: $262.54 of
-$1,000. OpenAI: OM2W ~$383, WebArena-Lite ADM 1024×2490 four sites $68, viewport variants ~$80, judges ~$33
+$1,000. OpenAI: OM2W $388, WebArena-Lite ADM 1024×2490 four sites $68, viewport variants ~$80, judges ~$33
 per external-selector run.
 
 ## Where things are
