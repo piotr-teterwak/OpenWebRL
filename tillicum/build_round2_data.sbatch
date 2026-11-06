@@ -18,6 +18,8 @@
 # unchanged, so held-out numbers stay comparable; the builder's own split keeps validation task
 # groups out of train, and verify checks the groups are disjoint.
 #   NAME=round2-b0.3s1 sbatch tillicum/build_round2_data.sbatch
+# Another selector's labels (scripts/relabel_with_selector.py) as the chosen side, in a separate output:
+#   NAME=round2-b0.3s1 OUTNAME=round2-b0.3s1-luna RELABEL=<labels.jsonl> sbatch tillicum/build_round2_data.sbatch
 set -euo pipefail
 NAME=${NAME:?set NAME, the collection prefix under c2-collect (shards are \$NAME-shard1..N)}
 NSHARDS=${NSHARDS:-4}; SH=$(seq -s " " 1 $NSHARDS)
@@ -26,7 +28,7 @@ ZRUN=/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction
 PY=$ZRUN/venv/bin/python
 C=/gpfs/scrubbed/piotrt/owrl/c2-collect
 ROOT=/gpfs/scrubbed/piotrt/owrl/joint-data
-MERGED=$C/$NAME; FULL=$ROOT/$NAME-full; OUT=$ROOT/$NAME
+MERGED=$C/$NAME; OUTNAME=${OUTNAME:-$NAME}; FULL=$ROOT/$OUTNAME-full; OUT=$ROOT/$OUTNAME
 export OPENWEBRL_CACHE_ROOT=/gpfs/scrubbed/piotrt/owrl/cache
 source $REPO/scripts/h200_env.sh
 export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-1}
@@ -60,7 +62,8 @@ PYEOF
 cp $ZRUN/joint-data-v2-20260910/working.sqlite $OPENWEBRL_JOB_TMP/context-cache.sqlite
 [ -e $FULL ] || $PY scripts/prepare_arm_joint_data.py --hf $ZRUN/joint-data-inputs-0d83b48 --c2 $MERGED --output $FULL \
   --context-cache $OPENWEBRL_JOB_TMP/context-cache.sqlite --cpu-seconds 10000 \
-  --model /gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT --eval openwebrl/data/eval/online-mind2web.jsonl
+  --model /gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT --eval openwebrl/data/eval/online-mind2web.jsonl \
+  ${RELABEL:+--relabel $RELABEL --relabel-name ${RELABEL_NAME:-gpt-6-luna}} ${MARGIN:+--rejected-margin $MARGIN} ${EXECUTED_ONLY:+--relabel-executed-only}
 
 # 3. Round-2 C2 train pairs with equal action counts; validation and its panels from joint-data/matched.
 python3 - <<PYEOF

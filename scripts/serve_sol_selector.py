@@ -15,6 +15,8 @@ from pydantic import BaseModel
 from openwebrl.arm_inference import load_selection_builder, selection_messages, parse_selection
 
 MODEL='gpt-5.6-sol'
+# USD per million tokens: input, cached input, output (gpt-6-luna as in openwebrl/reasoning_actor_policy.py).
+PRICES={'gpt-5.6-sol':(4.,.4,20.),'gpt-6-luna':(.10,.01,.50)}
 SOURCE=Path('/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/source')
 
 
@@ -59,7 +61,7 @@ class Selector:
                 row=json.loads(line); self.calls+=1; self.cost+=row['accounted_cost_usd']
 
     def health(self):
-        return dict(mode='selection',model=MODEL,provider='openai-responses',reasoning_effort=self.args.reasoning_effort,
+        return dict(mode='selection',model=self.args.model,provider='openai-responses',reasoning_effort=self.args.reasoning_effort,
             max_output_tokens=self.args.max_output_tokens,image_detail='high',source_root=str(SOURCE),
             selection_decoding='strict_json_schema',candidate_representation='full')
 
@@ -67,8 +69,17 @@ class Selector:
         inputs=response_input(request,self.builder)
         # Conservative reservation includes image tokens and upper bound of one
         # input token per UTF-8 byte. Reserve output including hidden reasoning.
+        k=len(request.candidates)
+        properties={'selection':{'type':'integer','enum':list(range(1,k+1))}}
+        if self.args.probabilities:
+            # Prompted confidence: same pinned ARM prompt, plus a request for a probability per candidate.
+            inputs[-1]['content'].append(dict(type='input_text',text=(
+                f'In addition to "selection", give "p1".."p{k}": your probability (0 to 1, summing to 1) that each '
+                'candidate is the best next action. The selected candidate must have the highest probability.')))
+            properties.update({f'p{i}':{'type':'number'} for i in range(1,k+1)})
         text_bytes=sum(len(p.get('text','').encode()) for m in inputs for p in m['content'])
-        reserve=(text_bytes+8192)*4/1e6+self.args.max_output_tokens*20/1e6
+        pin,_,pout=PRICES[self.args.model]
+        reserve=(text_bytes+8192)*pin/1e6+self.args.max_output_tokens*pout/1e6
         async with self.semaphore:
             if self.calls>=self.args.max_requests or self.cost+self.reserved+reserve>self.args.max_cost_usd:
                 (self.root/'budget-exhausted.json').write_text(json.dumps(dict(
@@ -78,22 +89,30 @@ class Selector:
             started=time.monotonic()
             record=dict(request_number=self.calls,task=request.task,
                 payload_sha256=hashlib.sha256(request.model_dump_json().encode()).hexdigest(),
-                requested_model=MODEL,accounted_cost_usd=reserve,passed=False)
+                requested_model=self.args.model,accounted_cost_usd=reserve,passed=False)
             try:
-                result=await self.client.responses.create(model=MODEL,input=inputs,
+                result=await self.client.responses.create(model=self.args.model,input=inputs,
                     reasoning=dict(effort=self.args.reasoning_effort),max_output_tokens=self.args.max_output_tokens,
                     text={'format':{'type':'json_schema','name':'action_selection','strict':True,'schema':{
-                        'type':'object','properties':{'selection':{'type':'integer','enum':list(range(1,len(request.candidates)+1))}},
-                        'required':['selection'],'additionalProperties':False}}})
+                        'type':'object','properties':properties,
+                        'required':list(properties),'additionalProperties':False}}})
                 usage=result.usage.model_dump()
                 cached=usage.get('input_tokens_details',{}).get('cached_tokens',0)
-                cost=((usage['input_tokens']-cached)*4+cached*.4+usage['output_tokens']*20)/1e6
+                pin,pcached,pout=PRICES[self.args.model]
+                cost=((usage['input_tokens']-cached)*pin+cached*pcached+usage['output_tokens']*pout)/1e6
                 record.update(response_id=result.id,returned_model=result.model,status=result.status,
                     raw=result.output_text,usage=usage,accounted_cost_usd=cost)
-                if result.model!=MODEL or result.status!='completed': raise ValueError('Incomplete or substituted selector response')
-                parse_selection(result.output_text,len(request.candidates))
+                if not result.model.startswith(self.args.model) or result.status!='completed': raise ValueError('Incomplete or substituted selector response')
+                scores=None; raw=result.output_text
+                if self.args.probabilities:
+                    values=json.loads(result.output_text); selection=int(values['selection'])
+                    if not 1<=selection<=k: raise ValueError('selection out of range')
+                    raw_p=[max(0.,float(values[f'p{i}'])) for i in range(1,k+1)]
+                    total=sum(raw_p); scores=[v/total for v in raw_p] if total>0 else None
+                    raw=json.dumps({'selection':selection})   # canonical form for downstream parse_selection
+                parse_selection(raw,k)
                 record['passed']=True
-                return dict(raw=result.output_text,candidate_representation='full',model=result.model,
+                return dict(raw=raw,scores=scores,candidate_representation='full',model=result.model,
                     input_tokens=usage['input_tokens'],output_tokens=usage['output_tokens'],
                     reasoning_tokens=usage.get('output_tokens_details',{}).get('reasoning_tokens',0),
                     cost_usd=cost,seconds=time.monotonic()-started,response_id=result.id)
@@ -123,6 +142,8 @@ def app(args,client=None):
 def parser():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--port',type=int,default=27511)
+    p.add_argument('--model',choices=sorted(PRICES),default=MODEL)
+    p.add_argument('--probabilities',action='store_true',help='also ask for a probability per candidate (returned as scores)')
     p.add_argument('--output',required=True)
     p.add_argument('--concurrency',type=int,default=16)
     p.add_argument('--reasoning-effort',choices=['medium','high'],default='medium')

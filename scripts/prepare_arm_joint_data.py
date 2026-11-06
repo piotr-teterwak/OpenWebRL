@@ -84,6 +84,12 @@ class Builder:
     def __init__(self, args):
         from tokenizers import Tokenizer
         self.a = args; self.start = time.monotonic()
+        self.margin = getattr(args, 'rejected_margin', None)
+        relabel = getattr(args, 'relabel', None)
+        rows = [json.loads(l) for l in relabel.read_text().splitlines()] if relabel else []
+        self.relabel = {r['id']: r['selected_index'] for r in rows} if relabel else None
+        self.relabel_scores = {r['id']: r.get('scores') for r in rows}
+        self.relabel_executed_only = getattr(args, 'relabel_executed_only', False)
         resume=getattr(args,'resume',False)
         args.output.mkdir(parents=True, exist_ok=resume)
         self.db = sqlite3.connect(args.output / 'working.sqlite')
@@ -242,7 +248,7 @@ class Builder:
                  'pair_type':pair_type(winner.get('actions',[]),loser.get('actions',[]))}
         self.db.execute('INSERT OR REPLACE INTO samples VALUES(?,?,?)',(bucket,pick,encode(payload)))
 
-    def accept_draw(self, state, raw_candidates, selected, schema):
+    def accept_draw(self, state, raw_candidates, selected, schema, probs=None):
         source = state['source']; self.stats[source]['draws_seen']+=1
         existing=self.db.execute('SELECT pick FROM states WHERE id=?',(state['base_id'],)).fetchone()
         # --draws-per-state D>1 validates every draw, not just ones that beat the current pick.
@@ -276,6 +282,14 @@ class Builder:
                 self.event(state,reason,candidate_index=i)
                 self.sample(state,winner,loser,'quarantined' if reason.endswith('_review') else 'excluded',reason,i)
                 continue
+            if self.margin is not None:
+                # --rejected-margin: rank losers by the selector's probability (highest first) and keep
+                # only those at least `margin` below the chosen one; the hash order breaks ties.
+                if not probs or len(probs)!=len(raw_candidates):
+                    self.event(state,'no_selector_probs');continue
+                if probs[selected]-probs[i]<self.margin:
+                    self.event(state,'below_margin',candidate_index=i);continue
+                eligible.append(((-probs[i],order(state['id']+':loser:'+group)),i,r));continue
             eligible.append((order(state['id']+':loser:'+group),i,r))
         base_id=state['base_id']
         drawpick=order(state['id'])
@@ -347,8 +361,18 @@ class Builder:
                            'url':c['url'],'turn':r['turn'],'prompt':c['prompt'],'images':images,
                            'source_path':r['source'],'source_sha256':r['source_sha256'],
                            'label_source':'SelectionARM; executed in valid successful trajectory','terminal_success':True}
+                    selected=r['selected_index']
+                    if self.relabel is not None:
+                        # --relabel: another selector's pick over the same stored panel; the chosen
+                        # response need not be the executed one. Unlabelled states are skipped.
+                        if stub['id'] not in self.relabel:raise ValueError('not_relabelled')
+                        selected=self.relabel[stub['id']]
+                        # --relabel-executed-only: keep the state only if the relabeller's pick is the executed one
+                        if self.relabel_executed_only and selected!=r['selected_index']:raise ValueError('relabel_not_executed')
+                        state['label_source']=f'{self.a.relabel_name} selection over the collection panel (executed pick by SelectionARM in a valid successful trajectory)'
                     candidates=[{'text':x['response'],'finish':x['finish_type'],'ids':x['response_token_ids']} for x in c['raw_candidates']]
-                    self.accept_draw(state,candidates,r['selected_index'],schemas(c['prompt']))
+                    probs=self.relabel_scores.get(stub['id']) if self.relabel is not None else c.get('scores')
+                    self.accept_draw(state,candidates,selected,schemas(c['prompt']),probs)
                 except (ValueError,TypeError,KeyError,OSError) as error:self.event(stub,'state_integrity_failure',detail=str(error))
                 if line_no%500==0:
                     self.db.commit();print(f'C2 {line_no}/8394',flush=True)
@@ -567,6 +591,10 @@ def main():
     p.add_argument('--eval',type=Path,default=Path('openwebrl/data/eval/online-mind2web.jsonl'))
     p.add_argument('--negatives-per-state',type=int,default=1,help='Rejected candidates kept per state (train split only beyond the first).')
     p.add_argument('--draws-per-state',type=int,default=1,help='Teacher draws (candidate panels) kept per state; extras are train only, ids <state>#drawN.')
+    p.add_argument('--rejected-margin',type=float,help='C2 rejected = most probable eligible loser whose recorded selector probability is >= this far below the chosen one; states without one are skipped')
+    p.add_argument('--relabel',type=Path,help='JSONL {id, selected_index} from scripts/relabel_with_selector.py: C2 chosen = that pick')
+    p.add_argument('--relabel-executed-only',action='store_true',help='with --relabel: keep only states where the relabel pick is the executed action')
+    p.add_argument('--relabel-name',default='relabel selector',help='label_source name for --relabel picks')
     p.add_argument('--cpu-seconds',type=int,default=240,help='RLIMIT_CPU for the build; D>1 validates every draw and needs more.')
     a=p.parse_args()
     os.environ['TOKENIZERS_PARALLELISM']='false'

@@ -179,6 +179,14 @@ def main():
     local_training=[rows[i] for i in order[rank::world]]
     local_panels=panels[rank::world]
     reference_rows=(local_training if is_dpo else [])+local_panels
+    # The DPO reference defaults to the start model with its adapter disabled. An iterative round can
+    # start from a merged round-N actor but keep an earlier model (e.g. base) as the reference:
+    # reference_actor is then loaded separately for the cache pass only.
+    reference_actor=config.get('reference_actor') or config['actor']
+    separate_reference=os.path.realpath(reference_actor)!=os.path.realpath(config['actor'])
+    if separate_reference and is_dpo:
+        longest_row=rows[max(range(len(rows)),key=lambda i:rows[i]['prompt_tokens']+max(rows[i][b]['tokens'] for b in ['chosen','rejected']))]
+        if longest_row['id'] not in {r['id'] for r in reference_rows}: reference_rows=reference_rows+[longest_row]
     effective_beta=config['beta']
     try:
         if rank==0:
@@ -187,16 +195,21 @@ def main():
             write_json(student/'training-config.json',config)
             write_json(root/'training-status.json',dict(phase='reference_cache',allocation=job))
         actor.eval()
-        with (cache_path).open('a',buffering=1) as stream,torch.no_grad(),actor.disable_adapter():
+        scorer=actor
+        if separate_reference and any(r['id'] not in reference for r in reference_rows):
+            scorer=AutoModelForImageTextToText.from_pretrained(reference_actor,local_files_only=True,
+                torch_dtype=torch.bfloat16,device_map={'':f'cuda:{local_rank}'},attn_implementation='sdpa').eval()
+        with (cache_path).open('a',buffering=1) as stream,torch.no_grad(),(nullcontext() if separate_reference else actor.disable_adapter()):
             for offset,row in enumerate(reference_rows):
                 if offset%16==0:check_stop()
                 if row['id'] in reference:continue
-                values={branch:score_values(token_logps(actor,make_example(row,processor,branch)),row,branch)
+                values={branch:score_values(token_logps(scorer,make_example(row,processor,branch)),row,branch)
                         for branch in ['chosen','rejected']}
                 if any(not math.isfinite(v) for branch in values.values() for v in branch.values()):
                     raise ValueError('Nonfinite reference score')
                 reference[row['id']]=values
                 stream.write(encoded(dict(id=row['id'],config_sha256=config_hash,scores=values))+'\n')
+        if scorer is not actor: del scorer; torch.cuda.empty_cache()
         dist.barrier()
         def score(lp,row,branch):
             if score_field=='full':return lp.sum()
@@ -274,6 +287,7 @@ def main():
             longest=max(range(len(rows)),key=lambda i:rows[i]['prompt_tokens']+max(rows[i][b]['tokens'] for b in ['chosen','rejected']))
             row=rows[longest]
             if is_dpo and row['id'] not in reference:
+                if separate_reference: raise ValueError('Longest row missing from the separate-reference cache')
                 with torch.no_grad(),actor.disable_adapter():
                     reference[row['id']]={b:score_values(token_logps(actor,make_example(row,processor,b)),row,b) for b in ['chosen','rejected']}
             batch_backward([longest],0,dropout=False)

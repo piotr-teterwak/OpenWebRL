@@ -70,6 +70,7 @@ if '${SFT_WEIGHT:-}': config['auxiliary_sft_weight'] = float('${SFT_WEIGHT:-}')
 if '${BETA:-}': config['beta'] = float('${BETA:-}')
 if '${EXCLUDE_EOT:-}' == '1': config['dpo_exclude_end_of_turn'] = True
 config['world_size'] = int('${NGPU:-2}')   # NGPU=1: same 32-example batch on one GPU, ~2x slower
+if '${OWRL_REFERENCE:-}': config['reference_actor'] = '${OWRL_REFERENCE:-}'   # DPO reference other than the start model
 # train-config.json records the actor's metadata hashes from data-build time (the base model);
 # hash the actor actually trained, which differs for an iterative round's merged actor.
 from train_arm_joint_sft import digest

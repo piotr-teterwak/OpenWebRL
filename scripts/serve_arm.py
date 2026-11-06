@@ -138,12 +138,22 @@ def make_app(args):
                 grammar = grammar_compiler.compile_json_schema(selection_schema(len(request.candidates)))
                 output = model.generate(
                     **inputs, do_sample=False, max_new_tokens=args.max_new_tokens,
-                    logits_processor=[LogitsProcessor(grammar)])
-                raw = processor.tokenizer.decode(output[0, inputs.input_ids.shape[-1]:],
-                                                  skip_special_tokens=True)
-                return {"raw": raw, "candidate_representation": request.candidate_representation,
+                    logits_processor=[LogitsProcessor(grammar)], output_scores=True, return_dict_in_generate=True)
+                generated = output.sequences[0, inputs.input_ids.shape[-1]:]
+                raw = processor.tokenizer.decode(generated, skip_special_tokens=True)
+                # Confidence: the grammar-constrained next-token distribution at the step that emits
+                # the selection digit, renormalised over candidates 1..K (greedy pick unchanged).
+                digits = [processor.tokenizer.convert_tokens_to_ids(str(k)) for k in range(1, len(request.candidates) + 1)]
+                probs = None
+                for step, token in enumerate(generated.tolist()):
+                    if token in digits:
+                        logits = output.scores[step][0].float()
+                        values = torch.softmax(logits[digits], dim=-1)
+                        probs = [round(float(v), 6) for v in values]
+                        break
+                return {"raw": raw, "scores": probs, "candidate_representation": request.candidate_representation,
                         "input_tokens": inputs.input_ids.shape[-1],
-                        "output_tokens": output.shape[-1] - inputs.input_ids.shape[-1],
+                        "output_tokens": int(generated.shape[-1]),
                         "seconds": time.monotonic() - started}
             scores = []
             weight = value_head["v_head.summary.weight"]
