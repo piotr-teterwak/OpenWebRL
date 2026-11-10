@@ -100,7 +100,7 @@ def main():
         def up(run=run, r=r, u=u, gsum=gsum):
             repo = f'PTeterwak/openwebrl-4b-{run}'
             api.create_repo(repo, private=True, exist_ok=True)
-            upload_dir(r / 'student' / f'update-{u}', '', ['*'], repo=repo, repo_type='model', ignore=['optimizer.pt'])
+            upload_dir(r / 'student' / f'update-{u}', '', ['*'], repo=repo, repo_type='model', ignore=['optimizer.pt', 'README.md'])  # PEFT README's base_model is a local path, which HF rejects
             for f in [r / 'frozen-config.json', r / 'training-status.json', r / 'student/metrics.jsonl', gsum]:
                 if f and f.exists():
                     api.upload_file(path_or_fileobj=str(f), path_in_repo=f'training/{f.name}', repo_id=repo, commit_message='training metadata')
