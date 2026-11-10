@@ -30,6 +30,7 @@
 # directory so cells do not collide:
 #   OBJECTIVE=dpo LR=5e-5 SFT_WEIGHT=1 RUN=rpo-a1-lr5e-5 sbatch --time=05:00:00 tillicum/train_joint.sbatch
 # BETA overrides DPO's beta (default 0.1), e.g. BETA=0.5 RUN=rpo-a1-lr5e-5-b0.5.
+# EPOCHS=2 runs two passes over the pairs (one reseeded order per epoch; lr schedule over both); gate CKPT is the doubled update count.
 # SEED (default 42) reseeds LoRA init, dropout and data order, e.g. SEED=1 RUN=rpo-matched-lr5e-5-s1.
 set -euo pipefail
 OBJECTIVE="${OBJECTIVE:?set OBJECTIVE=sft|dpo|dpo_action}"
@@ -83,6 +84,16 @@ if '${SEED:-}':
     config['seed'] = int('${SEED:-}')
     rows = read_rows(Path(config['data']) / 'joint_pairs.train.jsonl')
     config['order_sha256'] = hashlib.sha256(encoded([rows[i]['id'] for i in training_order(rows, config['seed'])]).encode()).hexdigest()
+if int('${EPOCHS:-1}') > 1:
+    # EPOCHS=2: the trainer concatenates one order per epoch (seed+e); rescale the schedule and marks to match.
+    import hashlib, math
+    from train_arm_joint_sft import training_order, read_rows, encoded
+    E = int('${EPOCHS:-1}'); rows = read_rows(Path(config['data']) / 'joint_pairs.train.jsonl')
+    order = [i for e in range(E) for i in training_order(rows, config['seed'] + e)]
+    if len(order) % 32 % 2: raise SystemExit(f'{len(order)} exposures leave an odd final batch for 2 ranks')
+    u = math.ceil(len(order) / 32); marks = [round(u * k / 4) for k in range(5)]
+    config.update(epochs=E, total_updates=u, final_batch_size=len(order) - 32 * (u - 1), checkpoint_updates=marks[1:], validation_updates=marks,
+                  order_sha256=hashlib.sha256(encoded([rows[i]['id'] for i in order]).encode()).hexdigest())
 path = Path(config['output']) / 'frozen-config.json'
 if not path.exists():
     path.parent.mkdir(parents=True, exist_ok=True)

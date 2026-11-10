@@ -44,7 +44,9 @@ PARALLEL="${PARALLEL:-32}"
 TEACHER="${TEACHER:-selection}"
 # o4-mini (used for Zixian's C2 outcomes) was retired in 2026-10; outcome filtering now uses JUDGE.
 SEED="${SEED:-42}"
-case "$TEACHER" in selection|baseline) ;; *) echo "bad TEACHER=$TEACHER"; exit 1;; esac
+case "$TEACHER" in selection|baseline|luna) ;; *) echo "bad TEACHER=$TEACHER"; exit 1;; esac
+# TEACHER=luna: gpt-6-luna picks among the 5 candidates before execution (pre-execution label), through
+# scripts/serve_sol_selector.py with the pinned ARM prompt; LUNA_EFFORT (high), LUNA_MAX_USD per replica (60).
 
 export OPENWEBRL_CACHE_ROOT=/gpfs/scrubbed/piotrt/owrl/cache
 source $REPO/scripts/h200_env.sh
@@ -58,6 +60,9 @@ export no_proxy="127.0.0.1,${no_proxy:-localhost}" NO_PROXY="127.0.0.1,${no_prox
 # the code still probes each port for actual use, so jobs sharing a node cannot clash.
 export SLIME_BROWSER_LOCAL_PROCESS_PORT_LOCK_DIR=$OPENWEBRL_JOB_TMP/port-locks
 set -a; source $REPO/.env; set +a
+# The repo .env key predates the Oct 31 rotation; the live key is in Zixian's .env (as in every eval sbatch).
+ZKEY=$(grep -E '^OPENAI_API_KEY=' /gpfs/projects/krishna/zixianma/OpenWebRL/.env 2>/dev/null | head -1 | cut -d= -f2- | tr -d "\"'")
+[ ${#ZKEY} -gt 40 ] && export OPENAI_API_KEY=$ZKEY
 [ ${#OPENAI_API_KEY} -gt 40 ] || { echo "FATAL OPENAI_API_KEY did not resolve"; exit 1; }
 cd $REPO
 mkdir -p $C2_ROOT
@@ -78,8 +83,14 @@ for i in $(seq 0 $((N-1))); do
     > $C2_ROOT/actor-replica-$i.log 2>&1 &
   PIDS+=($!)
   [ "$TEACHER" = baseline ] && { PIDS+=(${PIDS[-1]}); continue; }  # keep 2 slots per GPU for wait_ok
+  if [ "$TEACHER" = luna ]; then
+    setsid $ARM_PY scripts/serve_sol_selector.py --model gpt-6-luna --reasoning-effort ${LUNA_EFFORT:-high} --max-output-tokens 8192 \
+      --max-cost-usd ${LUNA_MAX_USD:-60} --max-requests 30000 --concurrency 16 --port $((18101 + 10*i)) --output $C2_ROOT/luna-api-$i \
+      > $C2_ROOT/teacher-replica-$i.log 2>&1 &
+  else
   CUDA_VISIBLE_DEVICES=${GPUS[$i]} setsid $ARM_PY scripts/serve_arm.py --mode selection --model $ARM_MODEL \
     --base $BASE --port $((18101 + 10*i)) > $C2_ROOT/teacher-replica-$i.log 2>&1 &
+  fi
   PIDS+=($!)
 done
 wait_ok() { local url=$1 pid=$2 t0=$(date +%s)

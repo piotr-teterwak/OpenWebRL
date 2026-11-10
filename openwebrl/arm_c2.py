@@ -311,7 +311,7 @@ async def collect(config_path):
     transport_logger.addHandler(transport_handler)
     transport_logger.propagate = False
     args.rollout_num_gpus = len(replicas)
-    per_replica = [replica_args(args, replica, ActionSelector(q['teacher'],
+    per_replica = [replica_args(args, replica, ActionSelector('selection' if q['teacher'] == 'luna' else q['teacher'],  # luna: API selector, same /select protocol
         f"http://127.0.0.1:{replica['selector_port']}", root / 'selections', seed=q['seed'], exporter=exporter, connect_timeout=10.0))
         for replica in replicas]
     init_http_client(args)

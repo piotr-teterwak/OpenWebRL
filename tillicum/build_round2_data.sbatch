@@ -18,6 +18,8 @@
 # unchanged, so held-out numbers stay comparable; the builder's own split keeps validation task
 # groups out of train, and verify checks the groups are disjoint.
 #   NAME=round2-b0.3s1 sbatch tillicum/build_round2_data.sbatch
+# IDPREFIX (default C2r2) renames C2:<task>:<turn> ids, so passes over the same tasks (different seeds) stay distinct
+# when combined: e.g. IDPREFIX=LA42 for half A seed 42.
 # Another selector's labels (scripts/relabel_with_selector.py) as the chosen side, in a separate output:
 #   NAME=round2-b0.3s1 OUTNAME=round2-b0.3s1-luna RELABEL=<labels.jsonl> sbatch tillicum/build_round2_data.sbatch
 set -euo pipefail
@@ -82,7 +84,7 @@ dropped = keep.pop()['id'] if len(keep) % 32 % 2 else None   # 2-rank trainer ne
 ids = {r['id'] for r in keep}
 def renamed(r):
     for k in ('id', 'base_id'):
-        if isinstance(r.get(k), str) and r[k].startswith('C2:'): r[k] = 'C2r2:' + r[k][3:]
+        if isinstance(r.get(k), str) and r[k].startswith('C2:'): r[k] = '${IDPREFIX:-C2r2}:' + r[k][3:]
     return json.dumps(r, ensure_ascii=False, separators=(',', ':')) + '\n'
 with (out / 'joint_pairs.train.jsonl').open('w') as f:
     for r in pairs:
@@ -94,7 +96,7 @@ with (full / 'joint_sft.train.jsonl').open() as src, (out / 'joint_sft.train.jso
 for name in ['joint_pairs.validation.jsonl', 'joint_sft.validation.jsonl']: shutil.copy2(val / name, out / name)
 manifest = {x['path']: x for m in (full, val) for x in json.loads((m / 'image-manifest.json').read_text())}
 (out / 'image-manifest.json').write_text(json.dumps(list(manifest.values())) + '\n')
-report = dict(source=str(full), collection='$MERGED', c2_train_pairs=len(c2), kept_train_pairs=len(keep),
+report = dict(source=str(full), collection='$MERGED', id_prefix='${IDPREFIX:-C2r2}', c2_train_pairs=len(c2), kept_train_pairs=len(keep),
               dropped_matched_validation_groups=sum(r['task_group'] in held for r in c2),
               filter='source C2 (round-2 collection) and equal action counts; validation copied from joint-data/matched',
               dropped_for_even_final_batch=dropped)

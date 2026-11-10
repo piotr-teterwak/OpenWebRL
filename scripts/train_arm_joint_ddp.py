@@ -101,7 +101,9 @@ def main():
     student.mkdir(parents=True,exist_ok=True)
     random.seed(config['seed']);torch.manual_seed(config['seed']);torch.cuda.manual_seed_all(config['seed'])
     rows=read_rows(Path(config['data'])/'joint_pairs.train.jsonl')
-    order=training_order(rows,config['seed'])
+    # epochs > 1 (RPO 2-epoch recipe): one exposure order per epoch, reseeded seed+e, concatenated, so the
+    # lr schedule and checkpoint marks span all epochs; epochs=1 is the original order exactly.
+    order=[i for e in range(config.get('epochs',1)) for i in training_order(rows,config['seed']+e)]
     if len(rows)!=config['train_examples'] or hashlib.sha256(encoded([rows[i]['id'] for i in order]).encode()).hexdigest()!=config['order_sha256']:
         raise ValueError('Training exposure differs from frozen SFT manifest')
     panels=sum([read_rows(Path(config['data'])/f'validation-panel-{s}.jsonl') for s in ['c2','piotr']],[])

@@ -18,7 +18,8 @@
 # Copy of eval_arm_prompt.sbatch with a per-arm actor. One GPU per arm; the ARM shares the GPU.
 # TUNED lists fine-tuned actors as label=path; each gets an n=1 arm and a +arm arm. ARMS picks the
 # arms for this job (one GPU each). An arm name may end in @SEED to set arm_eval's sampling seed
-# (default 42), e.g. base+arm@1. Example, base plus two seeds = 5 GPUs:
+# (default 42), e.g. base+arm@1. "<label>+luna" uses gpt-6-luna (API) as the selector instead of the ARM
+# (LUNA_EFFORT, LUNA_MAX_USD cap). Example, base plus two seeds = 5 GPUs:
 #   M=/gpfs/scrubbed/piotrt/owrl/eval/merged
 #   TUNED="s1=$M/onpol-dpo-b0.3-s1 s2=$M/onpol-dpo-b0.3-s2" ARMS="base s1 s1+arm s2 s2+arm" PASS=compose1 \
 #     sbatch --gpus=h200:5 --cpus-per-task=40 --mem=600G tillicum/eval_arm_compose.sbatch      (SMOKE=1: tasks 0-1)
@@ -49,7 +50,8 @@ PIDS=(); cleanup() { for p in "${PIDS[@]}"; do kill -- -$p 2>/dev/null || true; 
 ALL=("base|$BASE||42" "base+arm|$BASE|canonical|42")
 for t in $TUNED; do l=${t%%=*} m=${t#*=}
   [ -f $m/config.json ] || { echo "FATAL no model at $m"; exit 1; }
-  ALL+=("$l|$m||42" "$l+arm|$m|canonical|42"); done
+  ALL+=("$l|$m||42" "$l+arm|$m|canonical|42" "$l+luna|$m|luna|42"); done
+ALL+=("base+luna|$BASE|luna|42")
 ARMS=()
 for want in $ARMS_SEL; do name=${want%@*}; sd=42; [[ $want == *@* ]] && sd=${want#*@}
   for spec in "${ALL[@]}"; do IFS='|' read l m f _ <<<"$spec"
@@ -80,7 +82,13 @@ for spec in "${ARMS[@]}"; do
     --port $((PORT0 + 10 + 300*i)) --dtype bfloat16 --tp 1 --mem-fraction-static 0.4 --context-length 32768 \
     --max-running-requests 48 --chunked-prefill-size 4096 --disable-cuda-graph > $OUT/$label/actor-server.log 2>&1 &
   PIDS+=($!)
-  if [ -n "$fmt" ]; then
+  if [ "$fmt" = luna ]; then
+    # API selector instead of the local ARM: gpt-6-luna with the same pinned ARM prompt and a cost cap.
+    setsid $ARM_PY scripts/serve_sol_selector.py --model gpt-6-luna --reasoning-effort ${LUNA_EFFORT:-high} \
+      --max-output-tokens 8192 --max-cost-usd ${LUNA_MAX_USD:-60} --concurrency 16 --port $((PORT0 + 11 + 300*i)) \
+      --output $OUT/$label/selector-api > $OUT/$label/arm-server.log 2>&1 &
+    PIDS+=($!)
+  elif [ -n "$fmt" ]; then
     CUDA_VISIBLE_DEVICES=${GPUS[$i]} setsid $ARM_PY scripts/serve_arm.py --mode selection --model $ARM --base $BASE \
       --port $((PORT0 + 11 + 300*i)) --prompt-format $fmt > $OUT/$label/arm-server.log 2>&1 &
     PIDS+=($!)
