@@ -76,20 +76,28 @@ trap cleanup EXIT
 
 # arm_c2 wants actor/selector ports below its browser range (19200-19399); stay
 # clear of the 19100-19103 her runs use.
+# Two jobs on one node once both bound 18100/18101: the second's servers failed to bind, its health checks
+# passed against the first job's servers, and it ran on them with its own GPU idle (443085 on g006). So the
+# base port is per job (job id) and skipped while anything listens in its range; still below 19100.
+PORT0=$((18100 + 20 * (${SLURM_JOB_ID:-0} % 40)))
+busy() { ss -ltnH 2>/dev/null | awk '{print $4}' | grep -qE ":($(seq -s '|' $PORT0 $((PORT0 + 10*N + 1))))\$"; }
+for _ in $(seq 40); do busy || break; PORT0=$(( (PORT0 - 18100 + 20) % 800 + 18100 )); done
+busy && { echo "FATAL no free port range"; exit 1; }
+echo "[c2] ports from $PORT0"
 for i in $(seq 0 $((N-1))); do
   CUDA_VISIBLE_DEVICES=${GPUS[$i]} setsid $SERVER_PY -m sglang.launch_server --model-path $ACTOR \
-    --host 127.0.0.1 --port $((18100 + 10*i)) --dtype bfloat16 --tp 1 --mem-fraction-static 0.4 \
+    --host 127.0.0.1 --port $((PORT0 + 10*i)) --dtype bfloat16 --tp 1 --mem-fraction-static 0.4 \
     --context-length 32768 --max-running-requests 48 --chunked-prefill-size 4096 --cuda-graph-max-bs 48 \
     > $C2_ROOT/actor-replica-$i.log 2>&1 &
   PIDS+=($!)
   [ "$TEACHER" = baseline ] && { PIDS+=(${PIDS[-1]}); continue; }  # keep 2 slots per GPU for wait_ok
   if [ "$TEACHER" = luna ]; then
     setsid $ARM_PY scripts/serve_sol_selector.py --model gpt-6-luna --reasoning-effort ${LUNA_EFFORT:-high} --max-output-tokens 8192 \
-      --max-cost-usd ${LUNA_MAX_USD:-60} --max-requests 30000 --concurrency 16 --port $((18101 + 10*i)) --output $C2_ROOT/luna-api-$i \
+      --max-cost-usd ${LUNA_MAX_USD:-60} --max-requests 30000 --concurrency 16 --port $((PORT0 + 1 + 10*i)) --output $C2_ROOT/luna-api-$i \
       > $C2_ROOT/teacher-replica-$i.log 2>&1 &
   else
   CUDA_VISIBLE_DEVICES=${GPUS[$i]} setsid $ARM_PY scripts/serve_arm.py --mode selection --model $ARM_MODEL \
-    --base $BASE --port $((18101 + 10*i)) > $C2_ROOT/teacher-replica-$i.log 2>&1 &
+    --base $BASE --port $((PORT0 + 1 + 10*i)) > $C2_ROOT/teacher-replica-$i.log 2>&1 &
   fi
   PIDS+=($!)
 done
@@ -100,8 +108,8 @@ wait_ok() { local url=$1 pid=$2 t0=$(date +%s)
     sleep 5
   done; }
 for i in $(seq 0 $((N-1))); do
-  wait_ok http://127.0.0.1:$((18100 + 10*i))/health_generate ${PIDS[$((2*i))]}
-  [ "$TEACHER" = baseline ] || wait_ok http://127.0.0.1:$((18101 + 10*i))/health ${PIDS[$((2*i+1))]}
+  wait_ok http://127.0.0.1:$((PORT0 + 10*i))/health_generate ${PIDS[$((2*i))]}
+  [ "$TEACHER" = baseline ] || wait_ok http://127.0.0.1:$((PORT0 + 1 + 10*i))/health ${PIDS[$((2*i+1))]}
 done
 echo "[c2] $N replicas healthy; teacher=$TEACHER seed=$SEED actor=$ACTOR"
 
@@ -111,7 +119,7 @@ END=$(date -d "$(squeue -h -j $SLURM_JOB_ID -o %e)" +%s)   # %e is local time
 STOP=$(( END - 900 ))
 [ $(( STOP - $(date +%s) )) -gt 1800 ] || { echo "FATAL stop time is <30 min away; check the deadline math"; exit 1; }
 SELECTOR_HEALTH=null
-[ "$TEACHER" = baseline ] || SELECTOR_HEALTH=$(curl -sf http://127.0.0.1:18101/health)
+[ "$TEACHER" = baseline ] || SELECTOR_HEALTH=$(curl -sf http://127.0.0.1:$((PORT0 + 1))/health)
 $ARM_PY - <<PYEOF
 import hashlib, json
 from datetime import datetime, timezone
@@ -130,7 +138,7 @@ if path.exists():
 else:
     config = fresh
 config.update(stop_utc=datetime.fromtimestamp($STOP, timezone.utc).isoformat(), allocation='$SLURM_JOB_ID',
-              collection_replicas=[dict(actor_port=18100 + 10*i, selector_port=18101 + 10*i) for i in range($N)])
+              collection_replicas=[dict(actor_port=$PORT0 + 10*i, selector_port=$PORT0 + 1 + 10*i) for i in range($N)])
 path.write_text(json.dumps(config, indent=1) + '\n')
 print(f"[c2] config {path}: {config['task_count']} tasks, parallel {config['parallel']}")
 PYEOF
