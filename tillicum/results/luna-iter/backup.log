@@ -1,0 +1,19 @@
+[backup] uploaded collection:luna-A-s42-shard1
+[backup] FAILED collection:luna-A-s43-shard1 HfHubHTTPError('504 Server Error: Gateway Time-out for url: https://huggingface.co/api/datasets/PTeterwak/openwebrl-luna-iter/commit/main (Amz CF ID: TelDoVsk32gKNPl54aDAsSKRg4l_fSEvSWgdao62F9cceNAe0iWSDg==)')
+[backup] FAILED collection:luna-Bsft-s42-shard1 HfHubHTTPError('504 Server Error: Gateway Time-out for url: https://huggingface.co/api/datasets/PTeterwak/openwebrl-luna-iter/commit/main (Amz CF ID: 1ZdycJ7UypRBUvRnoRmKTrnoc5CfbOsJYJ9LOxNWodRzxLtef3u6fQ==)')
+[backup] uploaded collection:luna-Bsft-s43-shard1
+[backup] git push ok
+[backup] FAILED collection:luna-A-s42-shard2 HfHubHTTPError('504 Server Error: Gateway Time-out for url: https://huggingface.co/api/datasets/PTeterwak/openwebrl-luna-iter/commit/main (Amz CF ID: HWK6lpIArflAv3V8qTsNlwPpOFKN0l8MWNyqFU8Jfe9ng-GC2wuMeQ==)')
+[backup] uploaded collection:luna-A-s43-shard1
+[backup] FAILED collection:luna-A-s43-shard2 HfHubHTTPError('504 Server Error: Gateway Time-out for url: https://huggingface.co/api/datasets/PTeterwak/openwebrl-luna-iter/commit/main (Amz CF ID: leDGV_M6JA66SSg-F8OSJmUKoYZOG1wqKhPIbhWcPeBPEm3q6lyXOQ==)')
+[backup] uploaded collection:luna-Bsft-s42-shard1
+[backup] uploaded data:luna-A
+[backup] uploaded data:luna-A-s42
+[backup] uploaded data:luna-A-s43
+[backup] uploaded data:luna-Bsft-s42
+[backup] git push ok
+[backup] uploaded collection:luna-A-s42-shard2
+[backup] uploaded collection:luna-A-s43-shard2
+[backup] FAILED collection:luna-Bsft-s42-shard2 HfHubHTTPError('504 Server Error: Gateway Time-out for url: https://huggingface.co/api/datasets/PTeterwak/openwebrl-luna-iter/commit/main (Amz CF ID: SHIH3uuFyZ0-V61cJ2ZbD0J7wrIvZ70axgne0fN87xzNje7ta6d1Sg==)')
+[backup] git push ok
+[backup] uploaded collection:luna-Bsft-s42-shard2

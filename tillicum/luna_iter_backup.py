@@ -112,7 +112,7 @@ def main():
         done(f'eval:{label}/{b.name}', lambda b=b, label=label: upload_dir(b, f'evals/{label}/{b.name}', ['summary.json', 'results/*.json', '*.jsonl']))
     # git: summaries only
     scan(SUM, ['*'])
-    subprocess.run(['git', 'add', str(SUM)], cwd=REPO, check=True)
+    subprocess.run(['git', 'add', '-f', str(SUM)], cwd=REPO, check=True)
     if subprocess.run(['git', 'diff', '--cached', '--quiet', '--', str(SUM)], cwd=REPO).returncode:
         msg = ('luna-iter: results snapshot\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n'
                'Claude-Session: https://claude.ai/code/session_016S4mcroQkpMqianwQVfBrb\n')
