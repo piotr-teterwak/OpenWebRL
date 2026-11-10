@@ -16,11 +16,12 @@ X="--exclude=g001,g008,g011,g013,g015,g021"
 log() { echo "$(date '+%F %T') $*"; }
 
 wait_job() {  # wait for one job; urgent after 30 min pending
-  local j=$1 st
+  # all locals: an unscoped `read s ...` here once overwrote collect()'s seed (resubmitted with SEED=RUNNING)
+  local j=$1 st state elapsed q w
   while st=$(squeue -h -j $j -o "%T %M %q" 2>/dev/null) && [ -n "$st" ]; do
-    read s t q <<<"$st"
-    if [ "$s" = PENDING ] && [ "$q" != urgent ]; then
-      local w=$(( $(date +%s) - $(date -d "$(squeue -h -j $j -o %V)" +%s) ))
+    read state elapsed q <<<"$st"
+    if [ "$state" = PENDING ] && [ "$q" != urgent ]; then
+      w=$(( $(date +%s) - $(date -d "$(squeue -h -j $j -o %V)" +%s) ))
       [ $w -gt 1800 ] && scontrol update JobId=$j QOS=urgent 2>/dev/null && log "job $j pending ${w}s -> urgent"
     fi
     sleep 120
@@ -113,8 +114,8 @@ control() {
 }
 
 log "pipeline start"
-round1_and_2 > >(sed 's/^/[iter] /') 2>&1 & P=$!
-control > >(sed 's/^/[ctrl] /') 2>&1 & Q=$!
+round1_and_2 > >(sed -u 's/^/[iter] /') 2>&1 & P=$!
+control > >(sed -u 's/^/[ctrl] /') 2>&1 & Q=$!
 wait $P; a=$?; wait $Q; b=$?
 log "training branches done (iter rc $a, ctrl rc $b)"
 MODELS=base; for r in r2-luna-r1 r2-luna-joint r2-luna-cont r2-luna-ctrl; do [ -f $M/$r/merge-manifest.json ] && MODELS="$MODELS,$r"; done
