@@ -67,6 +67,9 @@ train() {  # train <run> <data> <actor> -> RPO, resubmitting (resume) up to 2x; 
   local run=$1 data=$2 actor=$3
   for attempt in 1 2 3; do
     [ -f $RUNS/$run/student/complete.json ] && break
+    # a restarted driver adopts a job of this run that is already queued or running instead of submitting a duplicate
+    local live=$(squeue -h -u $USER -n tr-$run -o %i | head -1)
+    if [ -n "$live" ]; then log "train $run: adopting running job $live"; wait_job $live; continue; fi
     local j=$(OBJECTIVE=dpo LR=5e-5 SFT_WEIGHT=1 BETA=0.1 EPOCHS=2 SEED=42 OWRL_ACTOR=$actor OWRL_REFERENCE=$SFT OWRL_JOINT_DATA=$D/$data RUN=$run \
       sbatch --parsable -A vlm $X --time=10:00:00 --job-name=tr-$run tillicum/train_joint.sbatch)
     log "train $run (data $data, actor $(basename $actor)) attempt $attempt job $j"; wait_job $j

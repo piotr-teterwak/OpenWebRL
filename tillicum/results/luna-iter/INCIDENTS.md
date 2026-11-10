@@ -31,3 +31,13 @@
   from update 44) and the luna-Bsft-s43 shard 2 collection. Everything new (round 2, joint / continued / control
   training, gates, evals) uses the mirror. If her SFT is purged before those two finish, restart them from scratch on
   the mirror (r1: 44 updates lost).
+
+## 2026-11-10 14:40 — mirror missed the Playwright browsers; session loss
+- Maintenance ended ~14:39. r2-luna-r1 resumed from update 44 on the mirror venv (446004) and trains normally.
+- The control shard (446003) "completed" in 2 min: `scripts/h200_env.sh` derives `PLAYWRIGHT_BROWSERS_PATH`,
+  `CUDA_HOME`, `CPATH` from the runtime root, and the mirror lacked `browsers/`, `cuda/`, `src/python-headers`, so
+  every browser launch failed and 445 tasks were recorded as unavailable (0 turns). Copied those dirs (~1.3 GB; only
+  deb/rpm dep lists and one extensions dir were unreadable) and test-launched headless Chromium from the mirror.
+  The 445 bogus results moved to `luna-Bsft-s43-shard2/quarantine-446003/` (51 earlier results kept); resubmitted.
+- The Claude session ended during maintenance, taking the driver / backup / urgent loops with it; restarted 14:55.
+  `train()` now adopts a queued/running job of the same run instead of submitting a duplicate.
