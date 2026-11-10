@@ -1,0 +1,14 @@
+{
+  "complete_collection": true,
+  "scheduled": 497,
+  "attempted": 497,
+  "successful_tasks_with_usable_turns": 253,
+  "retained_turns": 2106,
+  "exclusions": {
+    "trajectory_unsuccessful_or_unavailable": 244,
+    "not_executed": 1
+  },
+  "dataset": "/gpfs/scrubbed/piotrt/owrl/c2-collect/luna-A-s43-shard1/training.jsonl",
+  "dataset_sha256": "f083a064c38a1ca4ec5ec223aef8f27929e46634abfc1e0a0ba9400d95e447df",
+  "filter": "C2: valid successful trajectory + usable executed winner; no confidence cutoff"
+}
