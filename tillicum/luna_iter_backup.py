@@ -89,7 +89,9 @@ def main():
         if not (r / 'student/complete.json').exists():
             continue
         u = '%06d' % json.loads((r / 'frozen-config.json').read_text())['total_updates']
-        gates = re.findall(rf'gate {re.escape(run)} job (\d+)', plog)
+        # pipeline.log is block-buffered by its sed prefixers, so find the gate job by name
+        gates = subprocess.run(['sacct', '-n', '-X', '-S', '2026-11-09', '--name', f'gt-{run}', '-o', 'JobID'],
+                               capture_output=True, text=True).stdout.split()
         gsum = LOGS / f'gate-{gates[-1]}.summary' if gates else None
         for f in [r / 'frozen-config.json', r / 'training-status.json']:
             if f.exists(): shutil.copy2(f, SUM / f'{run}.{f.name}')
