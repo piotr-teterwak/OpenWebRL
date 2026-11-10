@@ -1,0 +1,8 @@
+luna-A-s42-shard1 443078
+luna-A-s42-shard2 443079
+luna-A-s43-shard1 443080
+luna-A-s43-shard2 443081
+luna-Bsft-s42-shard1 443082
+luna-Bsft-s42-shard2 443083
+luna-Bsft-s43-shard1 443084
+luna-Bsft-s43-shard2 443085

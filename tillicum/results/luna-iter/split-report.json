@@ -1,0 +1,13 @@
+{
+ "source": "/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/runs/c2-full-282782-20260908T075414Z/tasks.jsonl",
+ "source_sha256": "c52aeb3118d618e22c92b77e35e7f2f3ff628df3cf70c5e3bc41848701046d97",
+ "source_tasks": 2091,
+ "validation_tasks_dropped": 104,
+ "kept": 1987,
+ "hosts": 1339,
+ "seed": 0,
+ "A": 994,
+ "B": 993,
+ "hosts_in_both": 29,
+ "task_overlap": 0
+}
