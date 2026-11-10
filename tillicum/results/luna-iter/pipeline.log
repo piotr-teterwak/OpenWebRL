@@ -29,3 +29,38 @@
 [iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
 [iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
 [iter] 2026-11-10 08:38:17 train r2-luna-r1 (data luna-A, actor OpenWebRL-4B-SFT) attempt 2 job 445989
+2026-11-10 08:51:01 restart: new jobs on working mirror (zixian-mirror), resuming jobs keep Zixian paths
+2026-11-10 08:51:05 pipeline start
+[iter] 2026-11-10 08:51:05 collect luna-A-s42 complete
+[ctrl] 2026-11-10 08:51:05 collect luna-Bsft-s42 complete
+[iter] 2026-11-10 08:51:05 collect luna-A-s43 complete
+[ctrl] sbatch: GPUs: 1
+[ctrl] sbatch: CPUs: 8.0
+[ctrl] sbatch: MEM: 240.0 GB
+[ctrl] sbatch: TIME: 12.00 hrs
+[ctrl] sbatch: *COST: $10.80 (Est.)
+[ctrl] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[ctrl] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[ctrl] 2026-11-10 08:51:05 collect luna-Bsft-s43 attempt 2: resubmitted shards 2 as 446003
+[iter] sbatch: GPUs: 2
+[iter] sbatch: CPUs: 8.0
+[iter] sbatch: MEM: 240.0 GB
+[iter] sbatch: TIME: 10.00 hrs
+[iter] sbatch: *COST: $18.00 (Est.)
+[iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[iter] 2026-11-10 08:51:05 train r2-luna-r1 (data luna-A, actor OpenWebRL-4B-SFT) attempt 1 job 446004
+2026-11-10 14:55:59 restart after session loss; mirror browsers/cuda/headers added; 445 bogus shard2 results quarantined
+2026-11-10 14:55:59 pipeline start
+[ctrl] 2026-11-10 14:55:59 collect luna-Bsft-s42 complete
+[iter] 2026-11-10 14:55:59 collect luna-A-s42 complete
+[iter] 2026-11-10 14:55:59 collect luna-A-s43 complete
+[ctrl] sbatch: GPUs: 1
+[ctrl] sbatch: CPUs: 8.0
+[ctrl] sbatch: MEM: 240.0 GB
+[ctrl] sbatch: TIME: 12.00 hrs
+[ctrl] sbatch: *COST: $10.80 (Est.)
+[ctrl] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[ctrl] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[ctrl] 2026-11-10 14:55:59 collect luna-Bsft-s43 attempt 2: resubmitted shards 2 as 446143
+[iter] 2026-11-10 14:55:59 train r2-luna-r1: adopting running job 446004
