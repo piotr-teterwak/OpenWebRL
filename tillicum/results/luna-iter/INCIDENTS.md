@@ -15,3 +15,19 @@
   shard was resubmitted with `SEED=RUNNING` (443573 failed at config; 445855 cancelled). Fixed (locals), driver
   restarted 07:26; finished stages were skipped. Log prefixers now `sed -u` (pipeline.log was block-buffered).
 - **Maintenance** 11-10 09:00 → 11-11 09:00: training resubmitted as 445890, shortened to fit before it.
+
+## 2026-11-10 08:50 — working mirror of Zixian's scrubbed runtime
+- Everything else the pipeline used under `/gpfs/scrubbed/zixianma/` (SFT model, selection ARM 81b452d8, both venvs,
+  joint-data-inputs-0d83b48, joint-data-v2 working.sqlite, Megatron-LM src, c2-full tasks.jsonl) was also >60 days old.
+  At Piotr's request, copied (fresh timestamps) to `/gpfs/scrubbed/piotrt/owrl/zixian-mirror/` with the same layout
+  (~36 GB). The ARM venv's `.pth` and the Megatron editable finder point at the mirror; both venvs import
+  torch / transformers / peft / sglang from the mirror only.
+- `tillicum/{c2_collect,train_joint,gate,eval_concurrent,build_round2_data,build_combined_data,probe_round2}.sbatch`
+  and `scripts/h200_env.sh` now use the mirror. `scripts/train_arm_joint_sft.py` is unchanged (its hash is in the
+  frozen r2-luna-r1 config; its defaults are overridden by env vars).
+- New pair sets run `scripts/repoint_zixian_paths.py` before verification, so inherited paths (Piotr validation
+  screenshots) point at the mirror and the recorded hashes cover the rewritten files.
+- Jobs resuming frozen state keep Zixian's SFT path (their frozen configs record it): r2-luna-r1 training (resume
+  from update 44) and the luna-Bsft-s43 shard 2 collection. Everything new (round 2, joint / continued / control
+  training, gates, evals) uses the mirror. If her SFT is purged before those two finish, restart them from scratch on
+  the mirror (r1: 44 updates lost).

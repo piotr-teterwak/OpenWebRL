@@ -26,7 +26,7 @@ set -euo pipefail
 NAME=${NAME:?set NAME, the collection prefix under c2-collect (shards are \$NAME-shard1..N)}
 NSHARDS=${NSHARDS:-4}; SH=$(seq -s " " 1 $NSHARDS)
 REPO=/gpfs/home/piotrt/OpenWebRL
-ZRUN=/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction
+ZRUN=/gpfs/scrubbed/piotrt/owrl/zixian-mirror/openwebrl-runtime/arm-reproduction
 PY=$ZRUN/venv/bin/python
 C=/gpfs/scrubbed/piotrt/owrl/c2-collect
 ROOT=/gpfs/scrubbed/piotrt/owrl/joint-data
@@ -64,7 +64,7 @@ PYEOF
 cp $ZRUN/joint-data-v2-20260910/working.sqlite $OPENWEBRL_JOB_TMP/context-cache.sqlite
 [ -e $FULL ] || $PY scripts/prepare_arm_joint_data.py --hf $ZRUN/joint-data-inputs-0d83b48 --c2 $MERGED --output $FULL \
   --context-cache $OPENWEBRL_JOB_TMP/context-cache.sqlite --cpu-seconds 10000 \
-  --model /gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT --eval openwebrl/data/eval/online-mind2web.jsonl \
+  --model /gpfs/scrubbed/piotrt/owrl/zixian-mirror/checkpoints/web/OpenWebRL-4B-SFT --eval openwebrl/data/eval/online-mind2web.jsonl \
   ${RELABEL:+--relabel $RELABEL --relabel-name ${RELABEL_NAME:-gpt-6-luna}} ${MARGIN:+--rejected-margin $MARGIN} ${EXECUTED_ONLY:+--relabel-executed-only}
 
 # 3. Round-2 C2 train pairs with equal action counts; validation and its panels from joint-data/matched.
@@ -103,6 +103,8 @@ report = dict(source=str(full), collection='$MERGED', id_prefix='${IDPREFIX:-C2r
 (out / 'filter-report.json').write_text(json.dumps(report, indent=2) + '\n'); print('[round2]', json.dumps(report))
 PYEOF
 
+# Zixian's scrubbed runtime is past the purge: point inherited paths at the working mirror before hashing.
+python3 scripts/repoint_zixian_paths.py $OUT
 # 4. Verify (disjoint task groups etc.) and write the data-driven train config.
 $PY scripts/verify_arm_joint_data.py --data $OUT --cpu-seconds 1800 | tail -3
 $PY -c "

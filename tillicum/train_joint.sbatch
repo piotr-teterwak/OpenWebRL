@@ -36,7 +36,7 @@ set -euo pipefail
 OBJECTIVE="${OBJECTIVE:?set OBJECTIVE=sft|dpo|dpo_action}"
 case "$OBJECTIVE" in sft|dpo|dpo_action) ;; *) echo "bad OBJECTIVE=$OBJECTIVE"; exit 1;; esac
 REPO=/gpfs/home/piotrt/OpenWebRL
-ZRUN=/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction
+ZRUN=/gpfs/scrubbed/piotrt/owrl/zixian-mirror/openwebrl-runtime/arm-reproduction
 
 # Her env script with every writable cache moved to our scratch.
 export OPENWEBRL_CACHE_ROOT=/gpfs/scrubbed/piotrt/owrl/cache
@@ -49,7 +49,7 @@ trap 'rm -rf "$OPENWEBRL_JOB_TMP"' EXIT
 PY=$ZRUN/venv/bin/python
 
 # Iterative rounds: OWRL_ACTOR=<merged round-N actor>; it is also the DPO reference.
-export OWRL_ACTOR=${OWRL_ACTOR:-/gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT}
+export OWRL_ACTOR=${OWRL_ACTOR:-/gpfs/scrubbed/piotrt/owrl/zixian-mirror/checkpoints/web/OpenWebRL-4B-SFT}
 export OWRL_JOINT_DATA=${OWRL_JOINT_DATA:-$ZRUN/joint-data-v2-20260910}   # e.g. /gpfs/scrubbed/piotrt/owrl/joint-data/k2
 export OWRL_RUNTIME=/gpfs/scrubbed/piotrt/owrl/joint-retrain
 cd $REPO

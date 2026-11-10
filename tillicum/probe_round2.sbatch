@@ -21,12 +21,12 @@ set -euo pipefail
 ACTORS="${ACTORS:-base 1a joint-sft}"
 STATES="${STATES:-400}"
 REPO=/gpfs/home/piotrt/OpenWebRL
-ZRT=/gpfs/scrubbed/zixianma/openwebrl-runtime
+ZRT=/gpfs/scrubbed/piotrt/owrl/zixian-mirror/openwebrl-runtime
 ARM_PY=$ZRT/arm-reproduction/venv/bin/python
 SERVER_PY=$ZRT/venv/bin/python
 C2=$ZRT/arm-reproduction/runs/c2-full-282782-20260908T075414Z
-BASE=/gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT
-ARM_MODEL=/gpfs/scrubbed/zixianma/checkpoints/web/arm/selection/81b452d800d9f859687074f82680dd5257e02d89
+BASE=/gpfs/scrubbed/piotrt/owrl/zixian-mirror/checkpoints/web/OpenWebRL-4B-SFT
+ARM_MODEL=/gpfs/scrubbed/piotrt/owrl/zixian-mirror/checkpoints/web/arm/selection/81b452d800d9f859687074f82680dd5257e02d89
 OUT=/gpfs/scrubbed/piotrt/owrl/probe/$SLURM_JOB_ID
 
 export OPENWEBRL_CACHE_ROOT=/gpfs/scrubbed/piotrt/owrl/cache

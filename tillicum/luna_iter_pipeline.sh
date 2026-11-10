@@ -11,7 +11,10 @@ set -uo pipefail
 cd /gpfs/home/piotrt/OpenWebRL
 L=/gpfs/scrubbed/piotrt/owrl/c2-collect/luna-iter; C=/gpfs/scrubbed/piotrt/owrl/c2-collect
 D=/gpfs/scrubbed/piotrt/owrl/joint-data; RUNS=/gpfs/scrubbed/piotrt/owrl/joint-retrain/runs; M=/gpfs/scrubbed/piotrt/owrl/eval/merged
-SFT=/gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT
+# Working mirror of Zixian's scrubbed runtime (hers is past the 60-day purge). Jobs resuming frozen state started
+# on her path keep it, since their frozen configs record it: r2-luna-r1 training and the luna-* round-1 shards.
+SFT_Z=/gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT
+SFT=/gpfs/scrubbed/piotrt/owrl/zixian-mirror/checkpoints/web/OpenWebRL-4B-SFT
 X="--exclude=g001,g008,g011,g013,g015,g021"
 log() { echo "$(date '+%F %T') $*"; }
 
@@ -81,11 +84,11 @@ train() {  # train <run> <data> <actor> -> RPO, resubmitting (resume) up to 2x; 
 read_jobs() { awk -v n="$1" '$1 ~ "^"n"-shard" {print $2}' $L/round1-jobs.txt | tr '\n' ' '; }
 
 round1_and_2() {
-  ( collect luna-A-s42 A 42 $SFT $(read_jobs luna-A-s42) && build luna-A-s42 LA42 ) & p1=$!
-  ( collect luna-A-s43 A 43 $SFT $(read_jobs luna-A-s43) && build luna-A-s43 LA43 ) & p2=$!
+  ( collect luna-A-s42 A 42 $SFT_Z $(read_jobs luna-A-s42) && build luna-A-s42 LA42 ) & p1=$!
+  ( collect luna-A-s43 A 43 $SFT_Z $(read_jobs luna-A-s43) && build luna-A-s43 LA43 ) & p2=$!
   wait $p1 && wait $p2 || { log "FATAL round-1 data"; return 1; }
   combine luna-A-s42 luna-A-s43 luna-A || return 1
-  train r2-luna-r1 luna-A $SFT || return 1
+  train r2-luna-r1 luna-A $SFT_Z || return 1
   local R1=$M/r2-luna-r1 jobs
   for s in 42 43; do jobs=""
     for k in 1 2; do jobs="$jobs $(ACTOR=$R1 TEACHER=luna SEED=$s NAME=luna-Br1-s$s-shard$k PARALLEL=16 TASKS=$L/tasks-B-shard$k.jsonl LUNA_MAX_USD=25 \
@@ -103,8 +106,8 @@ round1_and_2() {
 }
 
 control() {
-  ( collect luna-Bsft-s42 B 42 $SFT $(read_jobs luna-Bsft-s42) && build luna-Bsft-s42 LBs42 ) & p1=$!
-  ( collect luna-Bsft-s43 B 43 $SFT $(read_jobs luna-Bsft-s43) && build luna-Bsft-s43 LBs43 ) & p2=$!
+  ( collect luna-Bsft-s42 B 42 $SFT_Z $(read_jobs luna-Bsft-s42) && build luna-Bsft-s42 LBs42 ) & p1=$!
+  ( collect luna-Bsft-s43 B 43 $SFT_Z $(read_jobs luna-Bsft-s43) && build luna-Bsft-s43 LBs43 ) & p2=$!
   wait $p1 && wait $p2 || { log "FATAL control data"; return 1; }
   combine luna-Bsft-s42 luna-Bsft-s43 luna-Bsft || return 1
   # luna-A is built by the round-1 branch; wait for it

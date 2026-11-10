@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Source this file to use the runtime built for this repository.
-OPENWEBRL_RUNTIME_ROOT="${OPENWEBRL_RUNTIME_ROOT:-/gpfs/scrubbed/zixianma/openwebrl-runtime}"
+OPENWEBRL_RUNTIME_ROOT="${OPENWEBRL_RUNTIME_ROOT:-/gpfs/scrubbed/piotrt/owrl/zixian-mirror/openwebrl-runtime}"
 OPENWEBRL_REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # Keep generated caches and temporary files off the small, snapshotted project

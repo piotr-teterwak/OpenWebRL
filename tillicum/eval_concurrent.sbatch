@@ -43,13 +43,13 @@ case "$BENCH" in
   *) echo "bad BENCH=$BENCH"; exit 1 ;;
 esac
 REPO=/gpfs/home/piotrt/OpenWebRL
-ZRT=/gpfs/scrubbed/zixianma/openwebrl-runtime
+ZRT=/gpfs/scrubbed/piotrt/owrl/zixian-mirror/openwebrl-runtime
 ARM_PY=$ZRT/arm-reproduction/venv/bin/python
 SERVER_PY=$ZRT/venv/bin/python
 OWRL=/gpfs/scrubbed/piotrt/owrl
 EVAL=$OWRL/eval
 OUT=$EVAL/pass$PASS
-BASE=/gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT
+BASE=/gpfs/scrubbed/piotrt/owrl/zixian-mirror/checkpoints/web/OpenWebRL-4B-SFT
 
 export OPENWEBRL_CACHE_ROOT=$OWRL/cache
 source $REPO/scripts/h200_env.sh

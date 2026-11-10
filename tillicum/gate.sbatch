@@ -21,7 +21,7 @@ set -euo pipefail
 LABEL="${LABEL:?set LABEL to a run name under joint-retrain/runs}"
 CKPT="${CKPT:-student/update-000174}"
 REPO=/gpfs/home/piotrt/OpenWebRL
-ZRT=/gpfs/scrubbed/zixianma/openwebrl-runtime
+ZRT=/gpfs/scrubbed/piotrt/owrl/zixian-mirror/openwebrl-runtime
 RUN=/gpfs/scrubbed/piotrt/owrl/joint-retrain/runs/${RUN_NAME:-$LABEL}
 MERGED=/gpfs/scrubbed/piotrt/owrl/eval/merged/$LABEL
 export OPENWEBRL_CACHE_ROOT=/gpfs/scrubbed/piotrt/owrl/cache

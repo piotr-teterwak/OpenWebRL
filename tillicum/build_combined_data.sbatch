@@ -19,7 +19,7 @@
 set -euo pipefail
 ROOT=/gpfs/scrubbed/piotrt/owrl/joint-data
 A=$ROOT/${A:-onpolicy}; B=$ROOT/${B:-round2-b0.3s1}; OUT=$ROOT/${OUT:-onpol-plus-r2}
-PY=/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/venv/bin/python
+PY=/gpfs/scrubbed/piotrt/owrl/zixian-mirror/openwebrl-runtime/arm-reproduction/venv/bin/python
 export OPENWEBRL_CACHE_ROOT=/gpfs/scrubbed/piotrt/owrl/cache
 source /gpfs/home/piotrt/OpenWebRL/scripts/h200_env.sh
 trap 'rm -rf "$OPENWEBRL_JOB_TMP"' EXIT
@@ -47,6 +47,8 @@ manifest = {x['path']: x for src in (a, b) for x in json.loads((src / 'image-man
 report = dict(sources=[str(a), str(b)], counts=n, validation_from=str(a))
 (out / 'filter-report.json').write_text(json.dumps(report, indent=2) + '\n'); print('[combined]', json.dumps(report))
 PYEOF
+# Zixian's scrubbed runtime is past the purge: point inherited paths at the working mirror before hashing.
+python3 scripts/repoint_zixian_paths.py $OUT
 $PY scripts/verify_arm_joint_data.py --data $OUT --cpu-seconds 2400 | tail -3
 $PY -c "
 import sys; sys.path.insert(0,'scripts')
