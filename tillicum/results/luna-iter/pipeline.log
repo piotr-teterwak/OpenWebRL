@@ -241,3 +241,29 @@
 [iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
 [iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
 [iter] 2026-11-11 05:38:53 gate r2-luna-joint job 449803
+[iter] 2026-11-11 05:44:53 gate r2-luna-joint: [gate] length_cap_rate 0.001 vs max 0.05: PASS
+2026-11-11 05:44:53 training branches done (iter rc 0, ctrl rc 0)
+sbatch: GPUs: 5
+sbatch: CPUs: 40.0
+sbatch: MEM: 320.0 GB
+sbatch: TIME: 6.00 hrs
+sbatch: *COST: $27.00 (Est.)
+sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+2026-11-11 05:44:53 eval online-mind2web (base,r2-luna-r1,r2-luna-joint,r2-luna-cont,r2-luna-ctrl) job 449878
+sbatch: GPUs: 5
+sbatch: CPUs: 40.0
+sbatch: MEM: 320.0 GB
+sbatch: TIME: 14.00 hrs
+sbatch: *COST: $63.00 (Est.)
+sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+2026-11-11 05:44:53 eval webvoyager (base,r2-luna-r1,r2-luna-joint,r2-luna-cont,r2-luna-ctrl) job 449879
+sbatch: GPUs: 5
+sbatch: CPUs: 40.0
+sbatch: MEM: 320.0 GB
+sbatch: TIME: 6.00 hrs
+sbatch: *COST: $27.00 (Est.)
+sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+2026-11-11 05:44:53 eval deepshop (base,r2-luna-r1,r2-luna-joint,r2-luna-cont,r2-luna-ctrl) job 449880

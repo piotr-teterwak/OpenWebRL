@@ -1,0 +1,2 @@
+SUMMARY {"label": "r2-luna-joint", "states": 200, "share_multi_distinct": 0.785, "length_cap_rate": 0.001, "mean_tool_calls": 1.237, "mean_distinct": 2.955, "pick_position": [0.545, 0.135, 0.13, 0.135, 0.055], "fallbacks": 0, "same_action_as_stored_base_pick": 0.3}
+[probe] DONE -> /gpfs/scrubbed/piotrt/owrl/probe/449803
