@@ -74,3 +74,39 @@
 [iter] 2026-11-10 16:20:03 gate r2-luna-r1 job 446383
 [iter] 2026-11-10 16:32:03 gate r2-luna-r1: 
 [iter] 2026-11-10 16:32:03 GATE FAIL r2-luna-r1
+[ctrl] 2026-11-10 17:04:01 collect luna-Bsft-s43 complete
+[ctrl] sbatch: GPUs: 1 (MIG)
+[ctrl] sbatch: CPUs: 2.0
+[ctrl] sbatch: MEM: 32.0 GB
+[ctrl] sbatch: TIME: 4.00 hrs
+[ctrl] sbatch: *COST: $0.51 (Est.)
+[ctrl] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[ctrl] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[ctrl] 2026-11-10 17:04:01 build luna-Bsft-s43 (LBs43) job 446551
+[ctrl] 2026-11-10 17:08:01 built luna-Bsft-s43: {"source":"/gpfs/scrubbed/piotrt/owrl/joint-data/luna-Bsft-s43-full","collection":"/gpfs/scrubbed/piotrt/owrl/c2-collect/luna-Bsft-s43","id_prefix":"LBs43","c2_train_pairs":1711,"kept_train_pairs":1302,"dropped_matched_validation_groups":0,"filter":"sourceC2(round-2collection)andequalactioncounts;va
+[ctrl] sbatch: GPUs: 1 (MIG)
+[ctrl] sbatch: CPUs: 2.0
+[ctrl] sbatch: MEM: 32.0 GB
+[ctrl] sbatch: TIME: 1.50 hrs
+[ctrl] sbatch: *COST: $0.19 (Est.)
+[ctrl] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[ctrl] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[ctrl] 2026-11-10 17:08:01 combine luna-Bsft-s42 + luna-Bsft-s43 -> luna-Bsft job 446585
+[ctrl] 2026-11-10 17:10:01 combined luna-Bsft
+[ctrl] sbatch: GPUs: 1 (MIG)
+[ctrl] sbatch: CPUs: 2.0
+[ctrl] sbatch: MEM: 32.0 GB
+[ctrl] sbatch: TIME: 1.50 hrs
+[ctrl] sbatch: *COST: $0.19 (Est.)
+[ctrl] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[ctrl] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[ctrl] 2026-11-10 17:10:01 combine luna-A + luna-Bsft -> luna-ctrl job 446600
+[ctrl] 2026-11-10 17:12:01 combined luna-ctrl
+[ctrl] sbatch: GPUs: 2
+[ctrl] sbatch: CPUs: 8.0
+[ctrl] sbatch: MEM: 240.0 GB
+[ctrl] sbatch: TIME: 10.00 hrs
+[ctrl] sbatch: *COST: $18.00 (Est.)
+[ctrl] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[ctrl] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[ctrl] 2026-11-10 17:12:01 train r2-luna-ctrl (data luna-ctrl, actor OpenWebRL-4B-SFT) attempt 1 job 446608

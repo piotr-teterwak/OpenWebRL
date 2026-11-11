@@ -1,0 +1,10 @@
+{
+  "source": "/gpfs/scrubbed/piotrt/owrl/joint-data/luna-Bsft-s43-full",
+  "collection": "/gpfs/scrubbed/piotrt/owrl/c2-collect/luna-Bsft-s43",
+  "id_prefix": "LBs43",
+  "c2_train_pairs": 1711,
+  "kept_train_pairs": 1302,
+  "dropped_matched_validation_groups": 0,
+  "filter": "source C2 (round-2 collection) and equal action counts; validation copied from joint-data/matched",
+  "dropped_for_even_final_batch": null
+}
