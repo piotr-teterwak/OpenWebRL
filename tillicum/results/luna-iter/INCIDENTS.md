@@ -41,3 +41,10 @@
   The 445 bogus results moved to `luna-Bsft-s43-shard2/quarantine-446003/` (51 earlier results kept); resubmitted.
 - The Claude session ended during maintenance, taking the driver / backup / urgent loops with it; restarted 14:55.
   `train()` now adopts a queued/running job of the same run instead of submitting a duplicate.
+
+## 2026-11-10 16:32 — round-1 "GATE FAIL" was the probe, not the model
+- r2-luna-r1 finished all 162 updates. Its gate (446383) crashed in 88 s: `probe_round2.sbatch` samples states from
+  Zixian's `c2-full-282782` collection, whose `training.jsonl` is not in the mirror and whose screenshots are purged.
+  The driver read the crash as a gate fail and stopped round 2.
+- Probe states now come from `luna-iter/probe-c2` (our SFT + Luna half-B collection, seed 42, held out from round-1
+  training; `PROBE_C2` overrides). Verified 200 states load. Driver restarted 19:08; gate resubmitted (447549).

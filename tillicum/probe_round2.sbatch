@@ -24,7 +24,9 @@ REPO=/gpfs/home/piotrt/OpenWebRL
 ZRT=/gpfs/scrubbed/piotrt/owrl/zixian-mirror/openwebrl-runtime
 ARM_PY=$ZRT/arm-reproduction/venv/bin/python
 SERVER_PY=$ZRT/venv/bin/python
-C2=$ZRT/arm-reproduction/runs/c2-full-282782-20260908T075414Z
+# Zixian's c2-full screenshots were purged (~2026-11-07), so probe states come from our own SFT + Luna collection on
+# half B of the luna-iter split (held out from round-1 training on half A); PROBE_C2 overrides.
+C2=${PROBE_C2:-/gpfs/scrubbed/piotrt/owrl/c2-collect/luna-iter/probe-c2}
 BASE=/gpfs/scrubbed/piotrt/owrl/zixian-mirror/checkpoints/web/OpenWebRL-4B-SFT
 ARM_MODEL=/gpfs/scrubbed/piotrt/owrl/zixian-mirror/checkpoints/web/arm/selection/81b452d800d9f859687074f82680dd5257e02d89
 OUT=/gpfs/scrubbed/piotrt/owrl/probe/$SLURM_JOB_ID
