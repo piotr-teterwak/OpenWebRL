@@ -1,0 +1,10 @@
+{
+  "source": "/gpfs/scrubbed/piotrt/owrl/joint-data/sol-A-s42-m0.3-full",
+  "collection": "/gpfs/scrubbed/piotrt/owrl/c2-collect/luna-A-s42",
+  "id_prefix": "SA42m",
+  "c2_train_pairs": 1430,
+  "kept_train_pairs": 1062,
+  "dropped_matched_validation_groups": 0,
+  "filter": "source C2 (round-2 collection) and equal action counts; validation copied from joint-data/matched",
+  "dropped_for_even_final_batch": null
+}
