@@ -110,3 +110,4 @@
 [ctrl] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
 [ctrl] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
 [ctrl] 2026-11-10 17:12:01 train r2-luna-ctrl (data luna-ctrl, actor OpenWebRL-4B-SFT) attempt 1 job 446608
+[ctrl] 2026-11-10 17:42:02 job 446608 pending 1801s -> urgent
