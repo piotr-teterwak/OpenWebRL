@@ -159,3 +159,4 @@
 [iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
 [iter] 2026-11-10 19:48:49 round-2 collection seed 43 jobs 447668 447669
 [iter] 2026-11-10 20:18:49 job 447665 pending 1801s -> urgent
+[iter] 2026-11-10 20:20:49 job 447668 pending 1920s -> urgent
