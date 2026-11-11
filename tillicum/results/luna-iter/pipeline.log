@@ -232,3 +232,4 @@
 [iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
 [iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
 [iter] 2026-11-11 03:18:52 gate r2-luna-cont job 449284
+[iter] 2026-11-11 03:34:52 gate r2-luna-cont: [gate] length_cap_rate 0.000 vs max 0.05: PASS
