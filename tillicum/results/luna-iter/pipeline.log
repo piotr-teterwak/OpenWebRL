@@ -224,3 +224,11 @@
 [iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
 [iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
 [iter] 2026-11-10 23:54:51 train r2-luna-joint (data luna-joint, actor OpenWebRL-4B-SFT) attempt 1 job 448645
+[iter] sbatch: GPUs: 1
+[iter] sbatch: CPUs: 4.0
+[iter] sbatch: MEM: 120.0 GB
+[iter] sbatch: TIME: 0.75 hrs
+[iter] sbatch: *COST: $0.68 (Est.)
+[iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[iter] 2026-11-11 03:18:52 gate r2-luna-cont job 449284
