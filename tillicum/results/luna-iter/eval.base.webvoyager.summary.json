@@ -1,0 +1,9 @@
+{
+  "scheduled": 595,
+  "attempted": 595,
+  "valid": 536,
+  "successes": 222,
+  "unavailable": 59,
+  "success_rate_all_scheduled": 0.373109243697479,
+  "success_rate_valid": 0.4141791044776119
+}
