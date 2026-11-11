@@ -126,3 +126,35 @@
 [iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
 [iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
 [iter] 2026-11-10 19:08:48 gate r2-luna-r1 job 447549
+[iter] 2026-11-10 19:40:48 job 447549 pending 1920s -> urgent
+[iter] 2026-11-10 19:48:48 gate r2-luna-r1: [gate] length_cap_rate 0.000 vs max 0.05: PASS
+[iter] sbatch: GPUs: 1
+[iter] sbatch: CPUs: 8.0
+[iter] sbatch: MEM: 240.0 GB
+[iter] sbatch: TIME: 12.00 hrs
+[iter] sbatch: *COST: $10.80 (Est.)
+[iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[iter] sbatch: GPUs: 1
+[iter] sbatch: CPUs: 8.0
+[iter] sbatch: MEM: 240.0 GB
+[iter] sbatch: TIME: 12.00 hrs
+[iter] sbatch: *COST: $10.80 (Est.)
+[iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[iter] 2026-11-10 19:48:48 round-2 collection seed 42 jobs 447665 447666
+[iter] sbatch: GPUs: 1
+[iter] sbatch: CPUs: 8.0
+[iter] sbatch: MEM: 240.0 GB
+[iter] sbatch: TIME: 12.00 hrs
+[iter] sbatch: *COST: $10.80 (Est.)
+[iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[iter] sbatch: GPUs: 1
+[iter] sbatch: CPUs: 8.0
+[iter] sbatch: MEM: 240.0 GB
+[iter] sbatch: TIME: 12.00 hrs
+[iter] sbatch: *COST: $10.80 (Est.)
+[iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[iter] 2026-11-10 19:48:49 round-2 collection seed 43 jobs 447668 447669
