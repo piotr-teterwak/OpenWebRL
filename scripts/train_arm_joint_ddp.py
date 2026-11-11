@@ -232,7 +232,10 @@ def main():
                         raw=winner_score-loser_score
                         loss,relative=dpo_loss(winner_score,loser_score,ref['chosen'][score_field],ref['rejected'][score_field],effective_beta)
                         # RPO (Pang et al. 2024): DPO plus length-normalised NLL on the chosen response.
-                        if config.get('auxiliary_sft_weight',0):loss=loss+config['auxiliary_sft_weight']*ce
+                        # sft_successful_only: no NLL on pairs from failed episodes (terminal_success False), whose
+                        # chosen is only the relabeller's preference at that state, not an action of a solved task.
+                        sft_w=config.get('auxiliary_sft_weight',0)*(0 if config.get('sft_successful_only') and row.get('terminal_success') is False else 1)
+                        if sft_w:loss=loss+sft_w*ce
                     else:
                         raw=relative=ce.detach()*0;loss=ce
                     if not torch.isfinite(loss):raise ValueError('Nonfinite training loss')

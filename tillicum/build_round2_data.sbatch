@@ -65,7 +65,7 @@ cp $ZRUN/joint-data-v2-20260910/working.sqlite $OPENWEBRL_JOB_TMP/context-cache.
 [ -e $FULL ] || $PY scripts/prepare_arm_joint_data.py --hf $ZRUN/joint-data-inputs-0d83b48 --c2 $MERGED --output $FULL \
   --context-cache $OPENWEBRL_JOB_TMP/context-cache.sqlite --cpu-seconds 10000 \
   --model /gpfs/scrubbed/piotrt/owrl/zixian-mirror/checkpoints/web/OpenWebRL-4B-SFT --eval openwebrl/data/eval/online-mind2web.jsonl \
-  ${RELABEL:+--relabel $RELABEL --relabel-name ${RELABEL_NAME:-gpt-6-luna}} ${MARGIN:+--rejected-margin $MARGIN} ${EXECUTED_ONLY:+--relabel-executed-only}
+  ${RELABEL:+--relabel $RELABEL --relabel-name ${RELABEL_NAME:-gpt-6-luna}} ${MARGIN:+--rejected-margin $MARGIN} ${EXECUTED_ONLY:+--relabel-executed-only} ${ALLOW_FAILED:+--allow-unsuccessful}
 
 # 3. Round-2 C2 train pairs with equal action counts; validation and its panels from joint-data/matched.
 python3 - <<PYEOF

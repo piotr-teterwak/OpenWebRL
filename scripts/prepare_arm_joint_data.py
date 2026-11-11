@@ -350,7 +350,10 @@ class Builder:
                         turns={x['turn']:x for x in execution['turns']}
                         outcome=json.loads((ep/'outcome.json').read_text());prev=ep
                     t=turns[r['turn']]
-                    if not outcome.get('valid') or outcome.get('reward')!=1 or outcome['task_id']!=r['task_id']:raise ValueError('terminal_outcome')
+                    # --allow-unsuccessful (with --relabel): valid failed episodes too; the chosen side is then only the
+                    # relabeller's pre-execution preference, so these states are marked terminal_success False.
+                    failed=outcome.get('valid') and outcome.get('reward')!=1 and getattr(self.a,'allow_unsuccessful',False) and self.relabel is not None
+                    if not outcome.get('valid') or (outcome.get('reward')!=1 and not failed) or outcome['task_id']!=r['task_id']:raise ValueError('terminal_outcome')
                     if execution['task_id']!=r['task_id'] or not t['executed'] or t['source_sha256']!=r['source_sha256'] or t['source']!=r['source']:raise ValueError('execution_join')
                     if t['prompt_token_ids']!=r['prompt_token_ids'] or t['image_grid_thw']!=r['image_grid_thw']:raise ValueError('execution_token_join')
                     if c.get('fallback') or c['mode']!='selection':raise ValueError('selector_fallback')
@@ -370,6 +373,7 @@ class Builder:
                         # --relabel-executed-only: keep the state only if the relabeller's pick is the executed one
                         if self.relabel_executed_only and selected!=r['selected_index']:raise ValueError('relabel_not_executed')
                         state['label_source']=f'{self.a.relabel_name} selection over the collection panel (executed pick by SelectionARM in a valid successful trajectory)'
+                        if failed: state.update(label_source=f'{self.a.relabel_name} selection over the collection panel (state from a valid failed trajectory)',terminal_success=False)
                     candidates=[{'text':x['response'],'finish':x['finish_type'],'ids':x['response_token_ids']} for x in c['raw_candidates']]
                     probs=self.relabel_scores.get(stub['id']) if self.relabel is not None else c.get('scores')
                     self.accept_draw(state,candidates,selected,schemas(c['prompt']),probs)
@@ -593,6 +597,7 @@ def main():
     p.add_argument('--draws-per-state',type=int,default=1,help='Teacher draws (candidate panels) kept per state; extras are train only, ids <state>#drawN.')
     p.add_argument('--rejected-margin',type=float,help='C2 rejected = most probable eligible loser whose recorded selector probability is >= this far below the chosen one; states without one are skipped')
     p.add_argument('--relabel',type=Path,help='JSONL {id, selected_index} from scripts/relabel_with_selector.py: C2 chosen = that pick')
+    p.add_argument('--allow-unsuccessful',action='store_true',help='with --relabel: also keep states from valid failed episodes (terminal_success False)')
     p.add_argument('--relabel-executed-only',action='store_true',help='with --relabel: keep only states where the relabel pick is the executed action')
     p.add_argument('--relabel-name',default='relabel selector',help='label_source name for --relabel picks')
     p.add_argument('--cpu-seconds',type=int,default=240,help='RLIMIT_CPU for the build; D>1 validates every draw and needs more.')
