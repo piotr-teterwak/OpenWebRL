@@ -1,0 +1,55 @@
+{
+  "actor": "/gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT",
+  "data": "/gpfs/scrubbed/piotrt/owrl/joint-data/sol-A-s43-m0.3",
+  "seed": 42,
+  "objective": "full-response winner SFT",
+  "train_examples": 982,
+  "validation_examples": 658,
+  "source_counts": {
+    "C2": 982
+  },
+  "batch_size": 32,
+  "epochs": 1,
+  "total_updates": 31,
+  "final_batch_size": 22,
+  "learning_rate": 1e-05,
+  "warmup_examples": 512,
+  "endpoint_lr_factor": 0.5,
+  "lora_rank": 16,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05,
+  "max_tokens": 32768,
+  "checkpoint_updates": [
+    8,
+    16,
+    23,
+    31
+  ],
+  "validation_updates": [
+    0,
+    8,
+    16,
+    23,
+    31
+  ],
+  "wandb_project": "openwebrl-arm",
+  "wandb_group": "arm-joint-v2",
+  "data_hashes": {
+    "joint_sft.train.jsonl": "83b3ed30c5bee9d7d6b7df765319ff21bbfc78ed0ede92f4dfb3e459a45fc257",
+    "joint_sft.validation.jsonl": "20478aa0bb5e5326954630a9640711e7a58635500fd50109fe00c4c32de4c8d7",
+    "joint_pairs.train.jsonl": "63511112f1e10b822032ab86e6bf53cde30242e7086da136ad340ab7397a0641",
+    "joint_pairs.validation.jsonl": "c8d608c203c2a5a979f69ba9bac147a19245f7bfb8986ff7f6c7bc328e99f6ca",
+    "validation-panel-c2.jsonl": "fb8f01ddd855d28a292f06915d2973a65fc6cbe4ab03875bafd4a70e643ae330",
+    "validation-panel-piotr.jsonl": "a9c6d7e65851e59b46ce45e84b8ec5d007a3b25695f48ad16b47a91064a4d594",
+    "verification.json": "90f4649913413ed33321fe4b8f577ca9af1e6879727a51b44d1e12f22d933218"
+  },
+  "model_metadata_hashes": {
+    "config.json": "edac7703329133edfc53e46ac0081835144c99d7eebf28b71c732694d435224d",
+    "tokenizer.json": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+    "tokenizer_config.json": "7b501e639b4d107a23effbe30390ee33d553f722467f7ac8e2744d7ff5d3a7d5",
+    "preprocessor_config.json": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+    "chat_template.jinja": "36e042fe45641f067b1f2381fcc8955d10d956a3ed333ecdf7f7eb0916f68956"
+  },
+  "trainer_sha256": "251f7ab29f344248c185fe230c535401915d7bb850fdc5798f59f2e9639afc89",
+  "order_sha256": "23c617a12795eb9432600845b5df699d64b15797642da6ab7a02ad1483d649cf"
+}
