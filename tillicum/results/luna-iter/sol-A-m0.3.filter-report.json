@@ -1,0 +1,11 @@
+{
+  "sources": [
+    "/gpfs/scrubbed/piotrt/owrl/joint-data/sol-A-s42-m0.3",
+    "/gpfs/scrubbed/piotrt/owrl/joint-data/sol-A-s43-m0.3"
+  ],
+  "counts": {
+    "joint_pairs.train.jsonl": 2044,
+    "joint_sft.train.jsonl": 2044
+  },
+  "validation_from": "/gpfs/scrubbed/piotrt/owrl/joint-data/sol-A-s42-m0.3"
+}
