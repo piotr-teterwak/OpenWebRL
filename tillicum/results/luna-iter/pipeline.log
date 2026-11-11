@@ -186,3 +186,15 @@
 [iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
 [iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
 [iter] 2026-11-10 22:56:50 build luna-Br1-s43 (LBr43) job 448431
+[ctrl] 2026-11-10 23:00:49 gate r2-luna-ctrl: [gate] length_cap_rate 0.000 vs max 0.05: PASS
+[iter] 2026-11-10 23:00:50 built luna-Br1-s42: {"source":"/gpfs/scrubbed/piotrt/owrl/joint-data/luna-Br1-s42-full","collection":"/gpfs/scrubbed/piotrt/owrl/c2-collect/luna-Br1-s42","id_prefix":"LBr42","c2_train_pairs":1833,"kept_train_pairs":1278,"dropped_matched_validation_groups":0,"filter":"sourceC2(round-2collection)andequalactioncounts;vali
+[iter] 2026-11-10 23:02:50 built luna-Br1-s43: {"source":"/gpfs/scrubbed/piotrt/owrl/joint-data/luna-Br1-s43-full","collection":"/gpfs/scrubbed/piotrt/owrl/c2-collect/luna-Br1-s43","id_prefix":"LBr43","c2_train_pairs":1646,"kept_train_pairs":1150,"dropped_matched_validation_groups":0,"filter":"sourceC2(round-2collection)andequalactioncounts;vali
+[iter] sbatch: GPUs: 1 (MIG)
+[iter] sbatch: CPUs: 2.0
+[iter] sbatch: MEM: 32.0 GB
+[iter] sbatch: TIME: 1.50 hrs
+[iter] sbatch: *COST: $0.19 (Est.)
+[iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[iter] 2026-11-10 23:02:50 combine luna-Br1-s42 + luna-Br1-s43 -> luna-Br1 job 448480
+[iter] 2026-11-10 23:34:50 job 448480 pending 1920s -> urgent
