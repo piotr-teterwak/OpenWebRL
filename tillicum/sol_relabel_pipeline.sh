@@ -16,7 +16,7 @@ X="--exclude=g001,g008,g011,g013,g015,g021"
 log() { echo "$(date '+%F %T') $*"; }
 
 wait_job() {  # wait for one job; urgent after 30 min pending
-  local j=$1 st state elapsed q w
+  local j=${1:-} st state elapsed q w; [ -n "$j" ] || { log "wait_job: empty job id (sbatch failed?)"; return 1; }
   while st=$(squeue -h -j $j -o "%T %M %q" 2>/dev/null) && [ -n "$st" ]; do
     read state elapsed q <<<"$st"
     if [ "$state" = PENDING ] && [ "$q" != urgent ]; then
@@ -29,7 +29,7 @@ wait_job() {  # wait for one job; urgent after 30 min pending
 
 build() {  # build <out name> <collection> <id prefix> <labels> [margin]
   [ -f $D/$1/train-config.json ] && return 0
-  local j=$(NAME=$2 OUTNAME=$1 IDPREFIX=$3 NSHARDS=2 RELABEL=$4 RELABEL_NAME=gpt-6-sol ${5:+MARGIN=$5} \
+  local j=$(NAME=$2 OUTNAME=$1 IDPREFIX=$3 NSHARDS=2 RELABEL=$4 RELABEL_NAME=gpt-6-sol MARGIN=${5:-} \
     sbatch --parsable -A vlm $X --job-name=bld-$3 tillicum/build_round2_data.sbatch 2>/dev/null)
   log "build $1 ($2, labels $(basename $(dirname $4)), margin ${5:-none}) job $j"; wait_job $j
   [ -f $D/$1/train-config.json ] && { log "built $1: $(tr -d '\n ' < $D/$1/filter-report.json | head -c 300)"; return 0; }
