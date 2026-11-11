@@ -16,7 +16,9 @@ from openwebrl.arm_inference import load_selection_builder, selection_messages, 
 
 MODEL='gpt-5.6-sol'
 # USD per million tokens: input, cached input, output (gpt-6-luna as in openwebrl/reasoning_actor_policy.py).
-PRICES={'gpt-5.6-sol':(4.,.4,20.),'gpt-6-luna':(.10,.01,.50)}
+# gpt-6-sol: list price not recorded in this repo; accounted at gpt-6.1-sol's (openwebrl/reasoning_actor_policy.py).
+# Raw token usage is logged per request, so spend can be re-priced exactly.
+PRICES={'gpt-5.6-sol':(4.,.4,20.),'gpt-6-luna':(.10,.01,.50),'gpt-6-sol':(2.,.10,10.)}
 SOURCE=Path('/gpfs/scrubbed/zixianma/openwebrl-runtime/arm-reproduction/source')
 
 
