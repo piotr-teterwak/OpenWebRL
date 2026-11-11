@@ -267,3 +267,4 @@ sbatch: *COST: $27.00 (Est.)
 sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
 sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
 2026-11-11 05:44:53 eval deepshop (base,r2-luna-r1,r2-luna-joint,r2-luna-cont,r2-luna-ctrl) job 449880
+2026-11-11 08:36:54 PIPELINE_DONE
