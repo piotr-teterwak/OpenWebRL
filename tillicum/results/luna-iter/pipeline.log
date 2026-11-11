@@ -160,3 +160,29 @@
 [iter] 2026-11-10 19:48:49 round-2 collection seed 43 jobs 447668 447669
 [iter] 2026-11-10 20:18:49 job 447665 pending 1801s -> urgent
 [iter] 2026-11-10 20:20:49 job 447668 pending 1920s -> urgent
+[ctrl] sbatch: GPUs: 1
+[ctrl] sbatch: CPUs: 4.0
+[ctrl] sbatch: MEM: 120.0 GB
+[ctrl] sbatch: TIME: 0.75 hrs
+[ctrl] sbatch: *COST: $0.68 (Est.)
+[ctrl] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[ctrl] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[ctrl] 2026-11-10 22:50:49 gate r2-luna-ctrl job 448402
+[iter] 2026-11-10 22:54:50 collect luna-Br1-s42 complete
+[iter] sbatch: GPUs: 1 (MIG)
+[iter] sbatch: CPUs: 2.0
+[iter] sbatch: MEM: 32.0 GB
+[iter] sbatch: TIME: 4.00 hrs
+[iter] sbatch: *COST: $0.51 (Est.)
+[iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[iter] 2026-11-10 22:54:50 build luna-Br1-s42 (LBr42) job 448422
+[iter] 2026-11-10 22:56:50 collect luna-Br1-s43 complete
+[iter] sbatch: GPUs: 1 (MIG)
+[iter] sbatch: CPUs: 2.0
+[iter] sbatch: MEM: 32.0 GB
+[iter] sbatch: TIME: 4.00 hrs
+[iter] sbatch: *COST: $0.51 (Est.)
+[iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[iter] 2026-11-10 22:56:50 build luna-Br1-s43 (LBr43) job 448431
