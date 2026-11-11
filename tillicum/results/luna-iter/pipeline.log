@@ -64,3 +64,13 @@
 [ctrl] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
 [ctrl] 2026-11-10 14:55:59 collect luna-Bsft-s43 attempt 2: resubmitted shards 2 as 446143
 [iter] 2026-11-10 14:55:59 train r2-luna-r1: adopting running job 446004
+[iter] sbatch: GPUs: 1
+[iter] sbatch: CPUs: 4.0
+[iter] sbatch: MEM: 120.0 GB
+[iter] sbatch: TIME: 0.75 hrs
+[iter] sbatch: *COST: $0.68 (Est.)
+[iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[iter] 2026-11-10 16:20:03 gate r2-luna-r1 job 446383
+[iter] 2026-11-10 16:32:03 gate r2-luna-r1: 
+[iter] 2026-11-10 16:32:03 GATE FAIL r2-luna-r1
