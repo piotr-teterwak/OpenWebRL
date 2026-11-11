@@ -158,3 +158,4 @@
 [iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
 [iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
 [iter] 2026-11-10 19:48:49 round-2 collection seed 43 jobs 447668 447669
+[iter] 2026-11-10 20:18:49 job 447665 pending 1801s -> urgent
