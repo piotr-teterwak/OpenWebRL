@@ -117,6 +117,10 @@ for sd in 42 1 2; do r=onpol-sft-lr5e-5-s$sd; SPECS+=("$r|$OWRL/joint-retrain/ru
 for d in $OWRL/joint-retrain/runs/r2-*/ $OWRL/joint-retrain/runs/comb-*/; do [ -f $d/frozen-config.json ] || continue
   u=$(python3 -c "import json;print('%06d'%json.load(open('$d/frozen-config.json'))['total_updates'])")
   SPECS+=("$(basename $d)|${d%/}|student/update-$u"); done
+# Intermediate checkpoints of r2-* runs as <run>@<update>, e.g. r2-luna-r1@81 (merged to eval/merged/<run>-u<update>).
+for want in ${MODELS//,/ }; do [[ $want == r2-*@* ]] || continue; r=${want%@*} u=$(printf %06d ${want#*@})
+  [ -d $OWRL/joint-retrain/runs/$r/student/update-$u ] || { echo "FATAL no checkpoint $want"; exit 1; }
+  SPECS+=("$want|$OWRL/joint-retrain/runs/$r|student/update-$u"); done
 TASKS=()
 if [ "$SMOKE" = 1 ]; then SPECS=("${SPECS[0]}"); TASKS=(--task-indices ${SMOKE_TASKS:-0,1}); fi
 # MODELS=base,1a,... evaluates a subset; pass --gpus to match (one per model).

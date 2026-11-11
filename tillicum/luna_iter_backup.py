@@ -26,7 +26,8 @@ D = Path('/gpfs/scrubbed/piotrt/owrl/joint-data'); RUNS = Path('/gpfs/scrubbed/p
 EVAL = Path('/gpfs/scrubbed/piotrt/owrl/eval/passluna-iter'); LOGS = Path('/gpfs/scrubbed/piotrt/owrl/logs')
 REPO = Path('/gpfs/home/piotrt/OpenWebRL'); SUM = REPO / 'tillicum/results/luna-iter'
 DS = 'PTeterwak/openwebrl-luna-iter'
-RUN_NAMES = ['r2-luna-r1', 'r2-luna-joint', 'r2-luna-cont', 'r2-luna-ctrl']
+RUN_NAMES = ['r2-luna-r1', 'r2-luna-joint', 'r2-luna-cont', 'r2-luna-ctrl',
+             'r2-luna-r1-1ep-s1', 'r2-luna-ctrl-1ep-s1', 'r2-luna-cont-refr1-1ep']  # + stage 1 (luna_stage1.sh)
 # Key-shaped strings must start at a token boundary: browsed pages carry long opaque URL / base64 blobs that contain
 # 'hf_' + 20 alphanumerics mid-string (an Amazon URL in DeepShop Amazon--134). Our real keys are also matched exactly.
 SECRET = re.compile(r'(?<![A-Za-z0-9_-])(?:sk-proj-|sk-[A-Za-z0-9]{20,}|hf_[A-Za-z0-9]{20,}|ghp_)|BEGIN [A-Z ]*PRIVATE KEY')
@@ -110,10 +111,12 @@ def main():
                     api.upload_file(path_or_fileobj=str(f), path_in_repo=f'training/{f.name}', repo_id=repo, commit_message='training metadata')
         done(f'model:{run}', up)
     # evals (one summary per label per benchmark)
-    for summ in sorted(EVAL.glob('*/*/summary.json')):
-        b = summ.parent; label = b.parent.name
-        shutil.copy2(summ, SUM / f'eval.{label}.{b.name}.summary.json')
-        done(f'eval:{label}/{b.name}', lambda b=b, label=label: upload_dir(b, f'evals/{label}/{b.name}', ['summary.json', 'results/*.json', '*.jsonl']))
+    # passluna-iter keeps its original keys/paths; later passes (luna-iter-e1, -s1) are prefixed by pass name
+    for summ in sorted(EVAL.parent.glob('passluna-iter*/*/*/summary.json')):
+        b = summ.parent; label = b.parent.name; ps = b.parent.parent.name.removeprefix('pass')
+        tag = '' if ps == 'luna-iter' else ps + '/'
+        shutil.copy2(summ, SUM / f"eval.{tag.replace('/', '.')}{label}.{b.name}.summary.json")
+        done(f'eval:{tag}{label}/{b.name}', lambda b=b, d=f'evals/{tag}{label}/{b.name}': upload_dir(b, d, ['summary.json', 'results/*.json', '*.jsonl']))
     # git: summaries only
     scan(SUM, ['*'])
     subprocess.run(['git', 'add', '-f', str(SUM)], cwd=REPO, check=True)
