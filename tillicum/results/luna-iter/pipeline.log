@@ -111,3 +111,18 @@
 [ctrl] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
 [ctrl] 2026-11-10 17:12:01 train r2-luna-ctrl (data luna-ctrl, actor OpenWebRL-4B-SFT) attempt 1 job 446608
 [ctrl] 2026-11-10 17:42:02 job 446608 pending 1801s -> urgent
+2026-11-10 19:08:48 restart: r1 gate failed on probe source (purged c2-full screenshots), not on the model; probe now uses luna-iter/probe-c2 (half B, SFT+Luna)
+2026-11-10 19:08:48 pipeline start
+[ctrl] 2026-11-10 19:08:48 collect luna-Bsft-s42 complete
+[iter] 2026-11-10 19:08:48 collect luna-A-s43 complete
+[ctrl] 2026-11-10 19:08:48 collect luna-Bsft-s43 complete
+[iter] 2026-11-10 19:08:48 collect luna-A-s42 complete
+[ctrl] 2026-11-10 19:08:48 train r2-luna-ctrl: adopting running job 446608
+[iter] sbatch: GPUs: 1
+[iter] sbatch: CPUs: 4.0
+[iter] sbatch: MEM: 120.0 GB
+[iter] sbatch: TIME: 0.75 hrs
+[iter] sbatch: *COST: $0.68 (Est.)
+[iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[iter] 2026-11-10 19:08:48 gate r2-luna-r1 job 447549
