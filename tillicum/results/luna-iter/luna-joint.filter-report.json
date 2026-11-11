@@ -1,0 +1,11 @@
+{
+  "sources": [
+    "/gpfs/scrubbed/piotrt/owrl/joint-data/luna-A",
+    "/gpfs/scrubbed/piotrt/owrl/joint-data/luna-Br1"
+  ],
+  "counts": {
+    "joint_pairs.train.jsonl": 5014,
+    "joint_sft.train.jsonl": 5014
+  },
+  "validation_from": "/gpfs/scrubbed/piotrt/owrl/joint-data/luna-A"
+}

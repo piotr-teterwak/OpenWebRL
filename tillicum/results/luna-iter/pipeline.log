@@ -198,3 +198,29 @@
 [iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
 [iter] 2026-11-10 23:02:50 combine luna-Br1-s42 + luna-Br1-s43 -> luna-Br1 job 448480
 [iter] 2026-11-10 23:34:50 job 448480 pending 1920s -> urgent
+[iter] 2026-11-10 23:38:50 combined luna-Br1
+[iter] sbatch: GPUs: 1 (MIG)
+[iter] sbatch: CPUs: 2.0
+[iter] sbatch: MEM: 32.0 GB
+[iter] sbatch: TIME: 1.50 hrs
+[iter] sbatch: *COST: $0.19 (Est.)
+[iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[iter] 2026-11-10 23:38:50 combine luna-A + luna-Br1 -> luna-joint job 448612
+[iter] 2026-11-10 23:54:51 combined luna-joint
+[iter] sbatch: GPUs: 2
+[iter] sbatch: CPUs: 8.0
+[iter] sbatch: MEM: 240.0 GB
+[iter] sbatch: TIME: 10.00 hrs
+[iter] sbatch: *COST: $18.00 (Est.)
+[iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[iter] 2026-11-10 23:54:51 train r2-luna-cont (data luna-Br1, actor r2-luna-r1) attempt 1 job 448644
+[iter] sbatch: GPUs: 2
+[iter] sbatch: CPUs: 8.0
+[iter] sbatch: MEM: 240.0 GB
+[iter] sbatch: TIME: 10.00 hrs
+[iter] sbatch: *COST: $18.00 (Est.)
+[iter] sbatch: *NOTE: This is only an estimate based upon GPU hours requested.
+[iter] sbatch: *NOTE: You can still cancel this job at no charge (i.e., scancel <JOB_ID>).
+[iter] 2026-11-10 23:54:51 train r2-luna-joint (data luna-joint, actor OpenWebRL-4B-SFT) attempt 1 job 448645
