@@ -1,0 +1,16 @@
+{
+  "complete_collection": true,
+  "source_collection": "/gpfs/scrubbed/piotrt/owrl/c2-collect/luna-A-s43-shard1",
+  "scheduled": 497,
+  "failed_tasks_with_usable_turns": 208,
+  "successful_tasks_with_usable_turns": 0,
+  "retained_turns": 4037,
+  "exclusions": {
+    "not_valid_failed": 289,
+    "truncated_or_aborted_target": 3,
+    "not_executed": 8
+  },
+  "dataset": "/gpfs/scrubbed/piotrt/owrl/c2-collect/luna-Afail-s43-shard1/training.jsonl",
+  "dataset_sha256": "d9afae4fc6e250ca5585bdd80a7f6b553d3186ef575873ff0990c7f798ea9d64",
+  "filter": "valid FAILED trajectories (reward != 1) + usable executed turn; for relabelled pairs only"
+}
