@@ -13,6 +13,7 @@ Each finished item is uploaded once (state in luna-iter/backup-state.json), all 
 Small summaries are also copied to tillicum/results/luna-iter/ and committed + pushed to the current branch.
 """
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -26,7 +27,10 @@ EVAL = Path('/gpfs/scrubbed/piotrt/owrl/eval/passluna-iter'); LOGS = Path('/gpfs
 REPO = Path('/gpfs/home/piotrt/OpenWebRL'); SUM = REPO / 'tillicum/results/luna-iter'
 DS = 'PTeterwak/openwebrl-luna-iter'
 RUN_NAMES = ['r2-luna-r1', 'r2-luna-joint', 'r2-luna-cont', 'r2-luna-ctrl']
-SECRET = re.compile(r'sk-proj-|sk-[A-Za-z0-9]{20,}|hf_[A-Za-z0-9]{20,}|ghp_|BEGIN [A-Z ]*PRIVATE KEY')
+# Key-shaped strings must start at a token boundary: browsed pages carry long opaque URL / base64 blobs that contain
+# 'hf_' + 20 alphanumerics mid-string (an Amazon URL in DeepShop Amazon--134). Our real keys are also matched exactly.
+SECRET = re.compile(r'(?<![A-Za-z0-9_-])(?:sk-proj-|sk-[A-Za-z0-9]{20,}|hf_[A-Za-z0-9]{20,}|ghp_)|BEGIN [A-Z ]*PRIVATE KEY')
+OWN = [v for k, v in os.environ.items() if k in ('OPENAI_API_KEY', 'HF_TOKEN', 'HUGGING_FACE_HUB_TOKEN', 'WANDB_API_KEY') and len(v) > 20]
 api = HfApi()
 state_path = L / 'backup-state.json'
 state = json.loads(state_path.read_text()) if state_path.exists() else {}
@@ -48,7 +52,7 @@ def done(key, fn):
 def scan(folder, patterns):
     for p in patterns:
         for f in folder.glob(p):
-            if f.is_file() and f.suffix in ('.json', '.jsonl', '.log', '.txt', '.md') and SECRET.search(f.read_text(errors='ignore')):
+            if f.is_file() and f.suffix in ('.json', '.jsonl', '.log', '.txt', '.md') and (SECRET.search(t := f.read_text(errors='ignore')) or any(k in t for k in OWN)):
                 raise RuntimeError(f'possible secret in {f}')
 
 
