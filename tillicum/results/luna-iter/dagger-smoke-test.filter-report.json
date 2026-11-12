@@ -1,0 +1,10 @@
+{
+  "source": "/gpfs/scrubbed/piotrt/owrl/joint-data/dagger-smoke-test-full",
+  "collection": "/gpfs/scrubbed/piotrt/owrl/c2-collect/dagger-smoke-all",
+  "id_prefix": "DGT",
+  "c2_train_pairs": 10,
+  "kept_train_pairs": 8,
+  "dropped_matched_validation_groups": 0,
+  "filter": "source C2 (round-2 collection) and equal action counts; validation copied from joint-data/matched",
+  "dropped_for_even_final_batch": "C2:webvoyager/80563:9"
+}
