@@ -1,0 +1,10 @@
+{
+  "source": "/gpfs/scrubbed/piotrt/owrl/joint-data/dagger-Bsft-s42-full",
+  "collection": "/gpfs/scrubbed/piotrt/owrl/c2-collect/dagger-Bsft-s42-all",
+  "id_prefix": "DBs42",
+  "c2_train_pairs": 4035,
+  "kept_train_pairs": 3172,
+  "dropped_matched_validation_groups": 0,
+  "filter": "source C2 (round-2 collection) and equal action counts; validation copied from joint-data/matched",
+  "dropped_for_even_final_batch": null
+}
