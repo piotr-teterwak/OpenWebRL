@@ -36,3 +36,20 @@ lr 5e-6 drifted in training (held-out chosen-action CE 0.19 -> 0.23-0.28) and is
 | night-fullft | -3.9 | -4.2 |
 | pooled | +1.9 [-1.3, +5.5] | +3.7 [-1.9, +9.3] |
 Single passes swing by 5-8 points; repeat passes (repeat1: SFT, r2-luna-r1, C2, full FT 1e-6) launched to pool.
+
+## Repeat pass (2026-11-12 04:40, pass repeat1) and pooled differences vs SFT (paired within pass, then pooled)
+| model | repeat1 OM2W | repeat1 DeepShop |
+|---|---|---|
+| SFT | 30.9 | 36.9 |
+| LoRA r2-luna-r1 | 36.3 | 33.6 |
+| C2 r2-sol-r1-all-m0.3 | 37.8 | 35.1 |
+| full FT lr 1e-6 | 38.2 | 35.9 |
+
+| pooled vs SFT | passes | OM2W | DeepShop |
+|---|---|---|---|
+| LoRA r2-luna-r1 | 4 | +2.4 [-0.4, +5.3] | +1.9 [-2.8, +6.6] |
+| C2 | 2 | **+7.1 [+3.0, +11.3]** | +2.7 [-3.4, +8.9] |
+| full FT lr 1e-6 | 2 | +3.9 [-0.4, +8.1] | +1.0 [-5.8, +7.9] |
+
+In repeat1, C2, full FT and LoRA r1 are within ~1 point of each other on both benchmarks; the earlier
+single-pass gaps over LoRA were mostly its weak night-fullft pass. Only C2 vs SFT on OM2W is significant pooled.
