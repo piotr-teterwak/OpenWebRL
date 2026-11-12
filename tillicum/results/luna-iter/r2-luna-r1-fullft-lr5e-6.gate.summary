@@ -1,0 +1,2 @@
+SUMMARY {"label": "r2-luna-r1-fullft-lr5e-6", "states": 200, "share_multi_distinct": 0.815, "length_cap_rate": 0.0, "mean_tool_calls": 1.244, "mean_distinct": 3.12, "pick_position": [0.485, 0.215, 0.105, 0.11, 0.085], "fallbacks": 0, "same_action_as_stored_base_pick": 0.255}
+[probe] DONE -> /gpfs/scrubbed/piotrt/owrl/probe/456506
