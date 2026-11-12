@@ -120,7 +120,7 @@ def main():
         done(f'model:{run}', up)
     # evals (one summary per label per benchmark)
     # passluna-iter keeps its original keys/paths; later passes (luna-iter-e1, -s1) are prefixed by pass name
-    for summ in sorted(list(EVAL.parent.glob('passluna-iter*/*/*/summary.json')) + list(EVAL.parent.glob('passsol-relabel*/*/*/summary.json')) + list(EVAL.parent.glob('passnight-*/*/*/summary.json'))):
+    for summ in sorted(list(EVAL.parent.glob('passluna-iter*/*/*/summary.json')) + list(EVAL.parent.glob('passsol-relabel*/*/*/summary.json')) + list(EVAL.parent.glob('passnight-*/*/*/summary.json')) + list(EVAL.parent.glob('passrepeat*/*/*/summary.json'))):
         b = summ.parent; label = b.parent.name; ps = b.parent.parent.name.removeprefix('pass')
         tag = '' if ps == 'luna-iter' else ps + '/'
         shutil.copy2(summ, SUM / f"eval.{tag.replace('/', '.')}{label}.{b.name}.summary.json")
