@@ -16,13 +16,18 @@ from pathlib import Path
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--collection', type=Path, nargs='+', required=True); ap.add_argument('--out', type=Path, required=True)
+    ap.add_argument('--executed', action='store_true', help='selector-steered collection (EXECUTE unset): the executed pick is the teacher label')
     a = ap.parse_args()
     rows, skipped = {}, 0
     for c in a.collection:
         for f in sorted((c / 'selections').glob('*.jsonl')):
             for line in f.read_text().splitlines():
                 r = json.loads(line)
-                if r.get('execute') != 'first': raise ValueError(f'{f}: not a DAgger-style (EXECUTE=first) collection')
+                if a.executed:
+                    if r.get('execute') == 'first': raise ValueError(f'{f}: DAgger-style collection; drop --executed')
+                    if r.get('fallback') is not None: skipped += 1; continue
+                    r['teacher_index'] = r['selected_index']
+                elif r.get('execute') != 'first': raise ValueError(f'{f}: not a DAgger-style (EXECUTE=first) collection')
                 if r.get('teacher_index') is None: skipped += 1; continue  # selector fallback: no teacher label
                 key = f"C2:{r['task_id']}:{r['turn']}"
                 if key in rows: raise ValueError(f'duplicate state {key}')

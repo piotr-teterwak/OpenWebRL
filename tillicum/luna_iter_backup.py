@@ -29,7 +29,7 @@ DS = 'PTeterwak/openwebrl-luna-iter'
 RUN_NAMES = ['r2-luna-r1', 'r2-luna-joint', 'r2-luna-cont', 'r2-luna-ctrl',
              'r2-luna-r1-1ep-s1', 'r2-luna-ctrl-1ep-s1', 'r2-luna-cont-refr1-1ep',  # + stage 1 (luna_stage1.sh)
              'r2-sol-r1', 'r2-sol-r1-m0.3', 'r2-sol-r1-all-m0.3',  # + option C (sol_relabel_pipeline.sh, sol_relabel_c2.sh)
-             'r2-dagger-r1', 'r2-luna-r1-fullft-lr1e-6', 'r2-luna-r1-fullft-lr5e-6', 'r2-dagger-r2', 'r2-dagger-ctrl']  # + overnight_dagger_fullft.sh
+             'r2-dagger-r1', 'r2-luna-r1-fullft-lr1e-6', 'r2-luna-r1-fullft-lr5e-6', 'r2-dagger-r2', 'r2-dagger-ctrl', 'r2-luna-v2-r1', 'r2-luna-v2-r2', 'r2-luna-v2-ctrl']  # + iter_v2.sh  # + overnight_dagger_fullft.sh
 # Key-shaped strings must start at a token boundary: browsed pages carry long opaque URL / base64 blobs that contain
 # 'hf_' + 20 alphanumerics mid-string (an Amazon URL in DeepShop Amazon--134). Our real keys are also matched exactly.
 SECRET = re.compile(r'(?<![A-Za-z0-9_-])(?:sk-proj-|sk-[A-Za-z0-9]{20,}|hf_[A-Za-z0-9]{20,}|ghp_)|BEGIN [A-Z ]*PRIVATE KEY')
@@ -120,7 +120,7 @@ def main():
         done(f'model:{run}', up)
     # evals (one summary per label per benchmark)
     # passluna-iter keeps its original keys/paths; later passes (luna-iter-e1, -s1) are prefixed by pass name
-    for summ in sorted(list(EVAL.parent.glob('passluna-iter*/*/*/summary.json')) + list(EVAL.parent.glob('passsol-relabel*/*/*/summary.json')) + list(EVAL.parent.glob('passnight-*/*/*/summary.json')) + list(EVAL.parent.glob('passrepeat*/*/*/summary.json'))):
+    for summ in sorted(list(EVAL.parent.glob('passluna-iter*/*/*/summary.json')) + list(EVAL.parent.glob('passsol-relabel*/*/*/summary.json')) + list(EVAL.parent.glob('passnight-*/*/*/summary.json')) + list(EVAL.parent.glob('passrepeat*/*/*/summary.json')) + list(EVAL.parent.glob('passv2-*/*/*/summary.json'))):
         b = summ.parent; label = b.parent.name; ps = b.parent.parent.name.removeprefix('pass')
         tag = '' if ps == 'luna-iter' else ps + '/'
         shutil.copy2(summ, SUM / f"eval.{tag.replace('/', '.')}{label}.{b.name}.summary.json")
