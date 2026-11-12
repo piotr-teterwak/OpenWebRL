@@ -383,7 +383,8 @@ def main():
                  repeated_loss_before=before,repeated_loss_after=after,resume_max_error=error,
                  resume_optimizer_excess_over_rtol=worst[0],resume_optimizer_worst_tensor=worst[1],
                  native_parser=True,longest_sequence_backward=True,actual_training_updates=0))
-            del snapshot,expected,expected_opt,restored,actual
+            del snapshot
+            if not full: del expected,expected_opt,restored,actual
         elif objective=='dpo_action':
             effective_beta=json.loads((root/'smoke-passed.json').read_text())['beta']
         if rank==0:
