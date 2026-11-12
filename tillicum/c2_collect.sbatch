@@ -45,6 +45,7 @@ TEACHER="${TEACHER:-selection}"
 # o4-mini (used for Zixian's C2 outcomes) was retired in 2026-10; outcome filtering now uses JUDGE.
 SEED="${SEED:-42}"
 case "$TEACHER" in selection|baseline|luna|sol) ;; *) echo "bad TEACHER=$TEACHER"; exit 1;; esac
+# EXECUTE=first (DAgger-style): the teacher labels every state but the actor's own sample (candidate 0) is executed.
 # TEACHER=luna: gpt-6-luna picks among the 5 candidates before execution (pre-execution label), through
 # scripts/serve_sol_selector.py with the pinned ARM prompt; LUNA_EFFORT (high), LUNA_MAX_USD per replica (60).
 
@@ -131,6 +132,7 @@ fresh = dict(output=str(root), task_file=str(tasks), task_file_sha256=hashlib.sh
              task_count=len(tasks.read_text().splitlines()), parallel=$PARALLEL, seed=$SEED, teacher='$TEACHER', judge='${JUDGE:-gpt-5.6-terra}',
              teacher_manifest=dict(actor=str(Path('$ACTOR').resolve()), selector_health=json.loads('''$SELECTOR_HEALTH''')),
              training=dict(max_tokens=32768), round_source='$NAME')
+if '${EXECUTE:-}': fresh['execute'] = '${EXECUTE:-}'   # EXECUTE=first: actor executes its own sample, teacher only labels
 if path.exists():
     prior = json.loads(path.read_text())
     for key in fresh:

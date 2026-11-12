@@ -69,6 +69,7 @@ if '${RUN:-}':
 if '${LR:-}': config['learning_rate'] = float('${LR:-}')
 if '${SFT_WEIGHT:-}': config['auxiliary_sft_weight'] = float('${SFT_WEIGHT:-}')
 if '${BETA:-}': config['beta'] = float('${BETA:-}')
+if '${FULL_FT:-}' == '1': config['full_finetune'] = True   # all language-layer weights (FP32 master, bf16 autocast) instead of LoRA
 if '${SFT_SUCCESS_ONLY:-}' == '1': config['sft_successful_only'] = True   # RPO's SFT term only on pairs from successful episodes
 if '${EXCLUDE_EOT:-}' == '1': config['dpo_exclude_end_of_turn'] = True
 config['world_size'] = int('${NGPU:-2}')   # NGPU=1: same 32-example batch on one GPU, ~2x slower

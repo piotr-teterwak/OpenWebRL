@@ -24,13 +24,14 @@ def sha(data):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--collection', type=Path, required=True); ap.add_argument('--out', type=Path, required=True)
+    ap.add_argument('--include-successful', action='store_true', help='all valid episodes (DAgger-style collections, where every state carries a teacher label)')
     a = ap.parse_args()
     config = json.loads((a.collection / 'frozen-config.json').read_text())
-    reasons, records, tasks = Counter(), [], set()
+    reasons, records, tasks, succ_tasks = Counter(), [], set(), set()
     results = sorted((a.collection / 'results').glob('*.json'))
     for p in results:
         result = json.loads(p.read_text())
-        if not result.get('valid') or result.get('reward') == 1:
+        if not result.get('valid') or (result.get('reward') == 1 and not a.include_successful):
             reasons['not_valid_failed'] += 1; continue
         execution = json.loads((Path(result['attempt']) / 'execution.json').read_text())
         if execution['task_id'] != result['task_id']: raise ValueError('Cross-task execution join')
@@ -46,13 +47,13 @@ def main():
             records.append(dict(task_id=result['task_id'], turn=turn['turn'], source=str(source),
                                 source_sha256=turn['source_sha256'], prompt_token_ids=turn['prompt_token_ids'],
                                 image_grid_thw=turn['image_grid_thw'], selected_index=captured['selected_index']))
-            tasks.add(result['task_id'])
+            tasks.add(result['task_id']); succ_tasks.update([result['task_id']] if result.get('reward') == 1 else [])
     a.out.mkdir(parents=True, exist_ok=True)
     dataset = a.out / 'training.jsonl'; dataset.write_text(''.join(json.dumps(r) + '\n' for r in records))
     audit = dict(complete_collection=True, source_collection=str(a.collection), scheduled=len(results),
-                 failed_tasks_with_usable_turns=len(tasks), successful_tasks_with_usable_turns=0, retained_turns=len(records),
+                 failed_tasks_with_usable_turns=len(tasks - succ_tasks), successful_tasks_with_usable_turns=len(succ_tasks), retained_turns=len(records),
                  exclusions=dict(reasons), dataset=str(dataset), dataset_sha256=sha(dataset.read_bytes()),
-                 filter='valid FAILED trajectories (reward != 1) + usable executed turn; for relabelled pairs only')
+                 filter=('all valid' if a.include_successful else 'valid FAILED (reward != 1)') + ' trajectories + usable executed turn; for relabelled pairs only')
     (a.out / 'dataset-audit.json').write_text(json.dumps(audit, indent=2) + '\n'); print(json.dumps(audit))
 
 

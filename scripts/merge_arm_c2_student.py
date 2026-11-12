@@ -63,11 +63,14 @@ def main():
     checkpoint, progress = completed_checkpoint(run_root, args.checkpoint)
     output = (args.output or (run_root / "student" / "epoch-2-merged")).resolve()
     manifest_path = output / "merge-manifest.json"
+    # A full fine-tuning checkpoint (no adapter) is already a complete bf16 model: hard-link it instead of merging.
+    full = not (checkpoint / "adapter_config.json").exists()
+    identity = sorted(checkpoint.glob("*.safetensors"))[0] if full else checkpoint / "adapter_model.safetensors"
     if manifest_path.exists():
         manifest = json.loads(manifest_path.read_text())
         if (
             manifest.get("checkpoint") != str(checkpoint)
-            or manifest.get("adapter_sha256") != sha256(checkpoint / "adapter_model.safetensors")
+            or manifest.get("adapter_sha256") != sha256(identity)
             or manifest.get("dataset_sha256") != progress["dataset_sha256"]
         ):
             raise ValueError("Existing merged model has different provenance")
@@ -80,6 +83,18 @@ def main():
     base = Path(training["actor"]).resolve()
     temporary = output.with_name(output.name + f".incomplete-{os.getpid()}")
     temporary.mkdir(parents=True)
+    if full:
+        for f in checkpoint.iterdir():
+            if f.is_file() and f.name not in ("optimizer.pt", "progress.json"):
+                os.link(f, temporary / f.name)
+        weight_files = sorted(temporary.glob("*.safetensors"))
+        manifest = {"created_utc": datetime.now(timezone.utc).isoformat(), "base": str(base), "checkpoint": str(checkpoint),
+                    "adapter_sha256": sha256(identity), "dataset_sha256": progress["dataset_sha256"], "progress": progress,
+                    "full_finetune": True, "dtype": "bfloat16", "weight_files": {p.name: p.stat().st_size for p in weight_files}}
+        write_json(temporary / "merge-manifest.json", manifest)
+        temporary.rename(output)
+        print(json.dumps(manifest, indent=2))
+        return
     model = AutoModelForImageTextToText.from_pretrained(
         base,
         local_files_only=True,

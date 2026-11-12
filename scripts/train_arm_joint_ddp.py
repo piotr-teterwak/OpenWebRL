@@ -108,20 +108,39 @@ def main():
         raise ValueError('Training exposure differs from frozen SFT manifest')
     panels=sum([read_rows(Path(config['data'])/f'validation-panel-{s}.jsonl') for s in ['c2','piotr']],[])
     processor=AutoProcessor.from_pretrained(config['actor'],local_files_only=True)
-    actor=AutoModelForImageTextToText.from_pretrained(config['actor'],local_files_only=True,
-          torch_dtype=torch.bfloat16,device_map={'':f'cuda:{local_rank}'},attn_implementation='sdpa')
+    # full_finetune: train every language-model layer weight (the modules the LoRA targets, plus their norms)
+    # instead of a LoRA. Weights are held in FP32 (bf16 weights would round away updates at lr ~1e-6) and the
+    # forward runs under bf16 autocast; checkpoints are saved in bf16 (inference dtype).
+    full=bool(config.get('full_finetune'))
     checkpoint=None
     if args.resume:
         checkpoint=Path(json.loads((student/'latest-checkpoint.json').read_text())['path'])
         if checkpoint.parent!=student: raise ValueError('Checkpoint escapes run directory')
+    actor=AutoModelForImageTextToText.from_pretrained(str(checkpoint) if (full and checkpoint) else config['actor'],local_files_only=True,
+          torch_dtype=torch.float32 if full else torch.bfloat16,device_map={'':f'cuda:{local_rank}'},attn_implementation='sdpa')
+    if full:
+        for n,p in actor.named_parameters(): p.requires_grad_(n.startswith('model.language_model.layers.'))
+        forward=actor.forward
+        def autocast_forward(*a,**k):
+            with torch.autocast('cuda',dtype=torch.bfloat16): return forward(*a,**k)
+        actor.forward=autocast_forward
+    elif checkpoint:
         actor=PeftModel.from_pretrained(actor,checkpoint,is_trainable=True)
     else:
         actor=get_peft_model(actor,LoraConfig(r=16,lora_alpha=32,lora_dropout=.05,
                      target_modules=language_targets(actor),bias='none',task_type='CAUSAL_LM'))
     named=[(n,p) for n,p in actor.named_parameters() if p.requires_grad]
-    if not named or any('lora_' not in n or 'language_model.layers.' not in n for n,_ in named):
+    if not named or any(('lora_' in n)==full or 'language_model.layers.' not in n for n,_ in named):
         raise ValueError('Unexpected trainable weights')
     parameters=[p for _,p in named]
+    # Trainable-state snapshot/restore for the engineering rehearsal: the LoRA adapter, or (full fine-tuning)
+    # the trainable language-layer weights themselves.
+    def trainable_state():
+        return {n:p for n,p in named} if full else get_peft_model_state_dict(actor)
+    def load_trainable(snapshot):
+        if not full: return set_peft_model_state_dict(actor,snapshot)
+        with torch.no_grad():
+            for n,p in named: p.copy_(snapshot[n].to(p.device))
     actor.gradient_checkpointing_enable(gradient_checkpointing_kwargs={'use_reentrant':False})
     actor.enable_input_require_grads();actor.config.use_cache=False
     class Forward(torch.nn.Module):
@@ -157,14 +176,23 @@ def main():
         states=[None]*world;dist.all_gather_object(states,rng_state())
         if rank==0 and not dest.exists():
             tmp=dest.with_name(dest.name+f'.incomplete-{os.getpid()}');tmp.mkdir()
-            actor.save_pretrained(tmp,safe_serialization=True);processor.save_pretrained(tmp)
+            if full:
+                actor.save_pretrained(tmp,safe_serialization=True,max_shard_size='5GB',
+                                      state_dict={k:v.detach().to(torch.bfloat16) for k,v in actor.state_dict().items()})
+            else:
+                actor.save_pretrained(tmp,safe_serialization=True)
+            processor.save_pretrained(tmp)
             torch.save(dict(optimizer=optimizer.state_dict(),state=dict(state),rng_by_rank=states),tmp/'optimizer.pt')
             write_json(tmp/'progress.json',state)
-            from safetensors.torch import load_file
-            weights=load_file(str(tmp/'adapter_model.safetensors'));live=get_peft_model_state_dict(actor)
-            if set(weights)!=set(live) or any(not torch.equal(weights[k],live[k].detach().cpu()) for k in weights):
-                raise ValueError('Adapter serialization mismatch')
+            if not full:
+                from safetensors.torch import load_file
+                weights=load_file(str(tmp/'adapter_model.safetensors'));live=get_peft_model_state_dict(actor)
+                if set(weights)!=set(live) or any(not torch.equal(weights[k],live[k].detach().cpu()) for k in weights):
+                    raise ValueError('Adapter serialization mismatch')
             tmp.rename(dest)
+            if full:  # FP32 Adam state is ~30 GB: keep it only in the newest checkpoint (enough to resume)
+                for older in student.glob('update-*/optimizer.pt'):
+                    if older.parent!=dest: older.unlink()
         dist.barrier()
         if rank==0:write_json(student/'latest-checkpoint.json',dict(path=str(dest),**state))
         return dest
@@ -186,6 +214,9 @@ def main():
     # reference_actor is then loaded separately for the cache pass only.
     reference_actor=config.get('reference_actor') or config['actor']
     separate_reference=os.path.realpath(reference_actor)!=os.path.realpath(config['actor'])
+    # Full fine-tuning has no adapter to disable: before the first update the actor is the reference itself; a
+    # resumed run (actor already trained) loads the reference separately for any rows still missing.
+    if full and checkpoint: separate_reference=True
     if separate_reference and is_dpo:
         longest_row=rows[max(range(len(rows)),key=lambda i:rows[i]['prompt_tokens']+max(rows[i][b]['tokens'] for b in ['chosen','rejected']))]
         if longest_row['id'] not in {r['id'] for r in reference_rows}: reference_rows=reference_rows+[longest_row]
@@ -201,7 +232,7 @@ def main():
         if separate_reference and any(r['id'] not in reference for r in reference_rows):
             scorer=AutoModelForImageTextToText.from_pretrained(reference_actor,local_files_only=True,
                 torch_dtype=torch.bfloat16,device_map={'':f'cuda:{local_rank}'},attn_implementation='sdpa').eval()
-        with (cache_path).open('a',buffering=1) as stream,torch.no_grad(),(nullcontext() if separate_reference else actor.disable_adapter()):
+        with (cache_path).open('a',buffering=1) as stream,torch.no_grad(),(nullcontext() if (separate_reference or full) else actor.disable_adapter()):
             for offset,row in enumerate(reference_rows):
                 if offset%16==0:check_stop()
                 if row['id'] in reference:continue
@@ -286,23 +317,23 @@ def main():
                     ex=make_example(row,processor)
                     if not torch.allclose(token_logps(actor,ex),token_logps(actor,ex,True),atol=.02,rtol=.002):
                         raise ValueError('Response-only logits disagree with full logits')
-            snapshot={k:v.detach().cpu().clone() for k,v in get_peft_model_state_dict(actor).items()}
+            snapshot={k:v.detach().cpu().clone() for k,v in trainable_state().items()}
             initial_rng=rng_state()
             # Verify longest-sequence backward with no lasting weight/RNG changes.
             longest=max(range(len(rows)),key=lambda i:rows[i]['prompt_tokens']+max(rows[i][b]['tokens'] for b in ['chosen','rejected']))
             row=rows[longest]
             if is_dpo and row['id'] not in reference:
                 if separate_reference: raise ValueError('Longest row missing from the separate-reference cache')
-                with torch.no_grad(),actor.disable_adapter():
+                with torch.no_grad(),(nullcontext() if full else actor.disable_adapter()):
                     reference[row['id']]={b:score_values(token_logps(actor,make_example(row,processor,b)),row,b) for b in ['chosen','rejected']}
             batch_backward([longest],0,dropout=False)
-            set_peft_model_state_dict(actor,snapshot);optimizer.state.clear();set_rng(initial_rng)
+            load_trainable(snapshot);optimizer.state.clear();set_rng(initial_rng)
             # Four disjoint training-only batches (128 states); record scale by batch.
             calibration=[]
             for begin in range(0,128,32):
                 check_stop();metrics,norm=batch_backward(rank_batch(order,begin,rank,world),1e-5,dropout=False)
                 calibration.append(dict(batch=begin//32,loss=metrics[0].item(),grad_norm=norm,mean_abs_z=metrics[4].item()))
-                set_peft_model_state_dict(actor,snapshot);optimizer.state.clear();set_rng(initial_rng)
+                load_trainable(snapshot);optimizer.state.clear();set_rng(initial_rng)
             if objective=='dpo_action':
                 import statistics
                 observed=statistics.median(item['grad_norm'] for item in calibration)
@@ -314,35 +345,39 @@ def main():
             for _ in range(3):batch_backward(repeated,1e-5,dropout=False)
             after=probe_loss(repeated)
             if not after<before:raise ValueError(f'Repeated-batch learning gate failed: {before} -> {after}')
-            # Serialize optimizer/RNG/adapter state, take one step, restore and replay.
+            # Serialize optimizer/RNG/adapter state, take one step, restore and replay. Skipped for full fine-tuning,
+            # where the state is ~45 GB per rank; its resume path is the plain checkpoint load.
+            error=worst=None
+            if full: worst=(None,None)
             rehearsed=root/f'rehearsal-rank-{rank}.pt'
-            torch.save(dict(adapter={k:v.detach().cpu().clone() for k,v in get_peft_model_state_dict(actor).items()},
-                            optimizer=optimizer.state_dict(),rng=rng_state()),rehearsed)
-            batch_backward(repeated,1e-5,dropout=True)
-            expected={k:v.detach().cpu().clone() for k,v in get_peft_model_state_dict(actor).items()}
-            expected_opt=copy.deepcopy(optimizer.state_dict())
-            restored=torch.load(rehearsed,map_location='cpu',weights_only=False)
-            set_peft_model_state_dict(actor,restored['adapter']);optimizer.load_state_dict(restored['optimizer']);set_rng(restored['rng'])
-            batch_backward(repeated,1e-5,dropout=True)
-            actual=get_peft_model_state_dict(actor)
-            error=max((actual[k].detach().cpu()-expected[k]).abs().max().item() for k in expected)
-            if error>2e-5:raise ValueError(f'Resume replay adapter mismatch: {error}')
-            # GPU backward is not bit-reproducible, so a replayed step leaves Adam moments a little
-            # off: rtol 1e-4 failed 5 of 6 DPO-family runs on tillicum H200s, and with rtol 1e-3 a
-            # near-zero exp_avg still missed atol 2e-5 by 2.2e-5 (376998). Moments get atol 1e-4;
-            # the adapter-weight check above stays at 2e-5. Report the worst tensor so a real resume
-            # bug (large, not marginal) stays distinguishable.
-            worst=(0.,None)
-            for key,value in optimizer.state_dict()['state'].items():
-                for name,tensor in value.items():
-                    other=expected_opt['state'][key][name]
-                    if not torch.is_tensor(tensor):continue
-                    excess=((tensor-other).abs()-1e-4-1e-3*other.abs()).max().item()
-                    if excess>worst[0]:worst=(excess,f'{key}/{name}')
-                    if not torch.allclose(tensor,other,atol=1e-4,rtol=1e-3):
-                        raise ValueError(f'Resume replay optimizer mismatch at {key}/{name}: '
-                                         f'max abs diff {(tensor-other).abs().max().item():.3g}')
-            set_peft_model_state_dict(actor,snapshot);optimizer.state.clear();optimizer.zero_grad(set_to_none=True);set_rng(initial_rng)
+            if not full:
+                torch.save(dict(adapter={k:v.detach().cpu().clone() for k,v in get_peft_model_state_dict(actor).items()},
+                                optimizer=optimizer.state_dict(),rng=rng_state()),rehearsed)
+                batch_backward(repeated,1e-5,dropout=True)
+                expected={k:v.detach().cpu().clone() for k,v in get_peft_model_state_dict(actor).items()}
+                expected_opt=copy.deepcopy(optimizer.state_dict())
+                restored=torch.load(rehearsed,map_location='cpu',weights_only=False)
+                set_peft_model_state_dict(actor,restored['adapter']);optimizer.load_state_dict(restored['optimizer']);set_rng(restored['rng'])
+                batch_backward(repeated,1e-5,dropout=True)
+                actual=get_peft_model_state_dict(actor)
+                error=max((actual[k].detach().cpu()-expected[k]).abs().max().item() for k in expected)
+                if error>2e-5:raise ValueError(f'Resume replay adapter mismatch: {error}')
+                # GPU backward is not bit-reproducible, so a replayed step leaves Adam moments a little
+                # off: rtol 1e-4 failed 5 of 6 DPO-family runs on tillicum H200s, and with rtol 1e-3 a
+                # near-zero exp_avg still missed atol 2e-5 by 2.2e-5 (376998). Moments get atol 1e-4;
+                # the adapter-weight check above stays at 2e-5. Report the worst tensor so a real resume
+                # bug (large, not marginal) stays distinguishable.
+                worst=(0.,None)
+                for key,value in optimizer.state_dict()['state'].items():
+                    for name,tensor in value.items():
+                        other=expected_opt['state'][key][name]
+                        if not torch.is_tensor(tensor):continue
+                        excess=((tensor-other).abs()-1e-4-1e-3*other.abs()).max().item()
+                        if excess>worst[0]:worst=(excess,f'{key}/{name}')
+                        if not torch.allclose(tensor,other,atol=1e-4,rtol=1e-3):
+                            raise ValueError(f'Resume replay optimizer mismatch at {key}/{name}: '
+                                             f'max abs diff {(tensor-other).abs().max().item():.3g}')
+            load_trainable(snapshot);optimizer.state.clear();optimizer.zero_grad(set_to_none=True);set_rng(initial_rng)
             if rank==0:write_json(root/'smoke-passed.json',dict(calibration=calibration,beta=effective_beta,
                  beta_calibration=config.get('beta_calibration'),score_field=score_field,
                  repeated_loss_before=before,repeated_loss_after=after,resume_max_error=error,

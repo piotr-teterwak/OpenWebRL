@@ -122,9 +122,15 @@ async def request_selection_result(endpoint, payload, timeout, connect_timeout=N
 class ActionSelector:
     """Sample five iid proposals at one live state, score, execute one unchanged."""
     def __init__(self, mode, endpoint, output, seed=42, candidates=5, timeout=180, exporter=None, connect_timeout=None,
-                 candidate_representation="full", shadow_modulus=0, record_telemetry=False):
+                 candidate_representation="full", shadow_modulus=0, record_telemetry=False, execute="selected"):
         if mode not in ("baseline", "selection", "scalar"):
             raise ValueError(mode)
+        # execute="first" (DAgger-style collection): the selector still labels every state (recorded as
+        # teacher_index), but the executed action is candidate 0, an iid sample from the actor itself, so the
+        # visited states are the actor's own rather than the selector-steered ones.
+        if execute not in ("selected", "first"):
+            raise ValueError(execute)
+        self.execute = execute
         self.mode, self.endpoint = mode, endpoint.rstrip("/")
         if candidate_representation not in ("full", "actions_only") or shadow_modulus < 0:
             raise ValueError("Invalid compact-selection configuration")
@@ -177,6 +183,9 @@ class ActionSelector:
                         raise  # Ablation failures must not silently execute candidate 1.
                     fallback = str(exc)
                     index = 0
+        teacher_index = index
+        if self.execute == "first":
+            index = 0
         record = {"mode": self.mode, "task_id": task_id, "turn": turn,
                   "selected_index": index, "scores": scores, "selector_raw": raw,
                   "fallback": fallback, "candidates": candidates,
@@ -186,6 +195,8 @@ class ActionSelector:
                   "url": observation.get("active_tab_url", ""),
                   "prompt_sha256": hashlib.sha256(input_text.encode()).hexdigest(),
                   "screenshot_sha256": hashlib.sha256(observation["screenshot"]).hexdigest()}
+        if self.execute == "first":
+            record.update(execute="first", teacher_index=None if fallback else teacher_index)
         if self.candidate_representation != "full":
             record["candidate_representation"] = self.candidate_representation
         if self.mode != "baseline" and (self.candidate_representation != "full" or self.record_telemetry):
