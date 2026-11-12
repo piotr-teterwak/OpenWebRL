@@ -13,7 +13,7 @@ C=/gpfs/scrubbed/piotrt/owrl/c2-collect; G=$C/dagger; L=$C/luna-iter; D=/gpfs/sc
 RUNS=/gpfs/scrubbed/piotrt/owrl/joint-retrain/runs; M=/gpfs/scrubbed/piotrt/owrl/eval/merged
 SFT=/gpfs/scrubbed/piotrt/owrl/zixian-mirror/checkpoints/web/OpenWebRL-4B-SFT
 PY=/gpfs/scrubbed/piotrt/owrl/zixian-mirror/openwebrl-runtime/arm-reproduction/venv/bin/python
-X="--exclude=g001,g008,g011,g013,g015,g021"; CAP=850
+X="--exclude=g001,g008,g011,g013,g015,g021"; CAP=${CAP:-950}
 log() { echo "$(date '+%F %T') $*"; }
 
 budget_ok() {
