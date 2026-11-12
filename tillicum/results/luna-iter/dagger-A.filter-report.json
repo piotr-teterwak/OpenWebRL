@@ -1,0 +1,11 @@
+{
+  "sources": [
+    "/gpfs/scrubbed/piotrt/owrl/joint-data/dagger-A-s42",
+    "/gpfs/scrubbed/piotrt/owrl/joint-data/dagger-A-s43"
+  ],
+  "counts": {
+    "joint_pairs.train.jsonl": 6044,
+    "joint_sft.train.jsonl": 6044
+  },
+  "validation_from": "/gpfs/scrubbed/piotrt/owrl/joint-data/dagger-A-s42"
+}

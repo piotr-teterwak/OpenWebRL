@@ -1,0 +1,10 @@
+{
+  "source": "/gpfs/scrubbed/piotrt/owrl/joint-data/dagger-A-s43-full",
+  "collection": "/gpfs/scrubbed/piotrt/owrl/c2-collect/dagger-A-s43-all",
+  "id_prefix": "DA43",
+  "c2_train_pairs": 3973,
+  "kept_train_pairs": 3010,
+  "dropped_matched_validation_groups": 0,
+  "filter": "source C2 (round-2 collection) and equal action counts; validation copied from joint-data/matched",
+  "dropped_for_even_final_batch": "C2:webvoyager/99966:2"
+}

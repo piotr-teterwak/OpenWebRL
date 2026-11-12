@@ -1,0 +1,55 @@
+{
+  "actor": "/gpfs/scrubbed/zixianma/checkpoints/web/OpenWebRL-4B-SFT",
+  "data": "/gpfs/scrubbed/piotrt/owrl/joint-data/dagger-A",
+  "seed": 42,
+  "objective": "full-response winner SFT",
+  "train_examples": 6044,
+  "validation_examples": 658,
+  "source_counts": {
+    "C2": 6044
+  },
+  "batch_size": 32,
+  "epochs": 1,
+  "total_updates": 189,
+  "final_batch_size": 28,
+  "learning_rate": 1e-05,
+  "warmup_examples": 512,
+  "endpoint_lr_factor": 0.5,
+  "lora_rank": 16,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05,
+  "max_tokens": 32768,
+  "checkpoint_updates": [
+    47,
+    94,
+    142,
+    189
+  ],
+  "validation_updates": [
+    0,
+    47,
+    94,
+    142,
+    189
+  ],
+  "wandb_project": "openwebrl-arm",
+  "wandb_group": "arm-joint-v2",
+  "data_hashes": {
+    "joint_sft.train.jsonl": "dd19d71caa97d8f5f1849ea091908b8a1f4c7929539ec4456fac2195becfe672",
+    "joint_sft.validation.jsonl": "20478aa0bb5e5326954630a9640711e7a58635500fd50109fe00c4c32de4c8d7",
+    "joint_pairs.train.jsonl": "86c5b89ce7e95445a3c25cd06c8eb15a9a1bcc15dc2aa1d52ff6c5bed1241518",
+    "joint_pairs.validation.jsonl": "c8d608c203c2a5a979f69ba9bac147a19245f7bfb8986ff7f6c7bc328e99f6ca",
+    "validation-panel-c2.jsonl": "fb8f01ddd855d28a292f06915d2973a65fc6cbe4ab03875bafd4a70e643ae330",
+    "validation-panel-piotr.jsonl": "a9c6d7e65851e59b46ce45e84b8ec5d007a3b25695f48ad16b47a91064a4d594",
+    "verification.json": "292a6193844af0e6e473f7d67312d68ae207c60087beed87e8a805fc84af2a8d"
+  },
+  "model_metadata_hashes": {
+    "config.json": "edac7703329133edfc53e46ac0081835144c99d7eebf28b71c732694d435224d",
+    "tokenizer.json": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+    "tokenizer_config.json": "7b501e639b4d107a23effbe30390ee33d553f722467f7ac8e2744d7ff5d3a7d5",
+    "preprocessor_config.json": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+    "chat_template.jinja": "36e042fe45641f067b1f2381fcc8955d10d956a3ed333ecdf7f7eb0916f68956"
+  },
+  "trainer_sha256": "251f7ab29f344248c185fe230c535401915d7bb850fdc5798f59f2e9639afc89",
+  "order_sha256": "8e91f34b5e9747327010d344e333677338c55f300c06ec8c51ed06eceba6bce0"
+}
