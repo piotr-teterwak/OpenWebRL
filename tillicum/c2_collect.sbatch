@@ -44,7 +44,7 @@ PARALLEL="${PARALLEL:-32}"
 TEACHER="${TEACHER:-selection}"
 # o4-mini (used for Zixian's C2 outcomes) was retired in 2026-10; outcome filtering now uses JUDGE.
 SEED="${SEED:-42}"
-case "$TEACHER" in selection|baseline|luna) ;; *) echo "bad TEACHER=$TEACHER"; exit 1;; esac
+case "$TEACHER" in selection|baseline|luna|sol) ;; *) echo "bad TEACHER=$TEACHER"; exit 1;; esac
 # TEACHER=luna: gpt-6-luna picks among the 5 candidates before execution (pre-execution label), through
 # scripts/serve_sol_selector.py with the pinned ARM prompt; LUNA_EFFORT (high), LUNA_MAX_USD per replica (60).
 
@@ -91,8 +91,9 @@ for i in $(seq 0 $((N-1))); do
     > $C2_ROOT/actor-replica-$i.log 2>&1 &
   PIDS+=($!)
   [ "$TEACHER" = baseline ] && { PIDS+=(${PIDS[-1]}); continue; }  # keep 2 slots per GPU for wait_ok
-  if [ "$TEACHER" = luna ]; then
-    setsid $ARM_PY scripts/serve_sol_selector.py --model gpt-6-luna --reasoning-effort ${LUNA_EFFORT:-high} --max-output-tokens 8192 \
+  if [ "$TEACHER" = luna ] || [ "$TEACHER" = sol ]; then
+    # TEACHER=sol: gpt-6-sol through the same selector server and pinned ARM prompt (LUNA_* knobs apply)
+    setsid $ARM_PY scripts/serve_sol_selector.py --model $([ "$TEACHER" = sol ] && echo gpt-6-sol || echo gpt-6-luna) --reasoning-effort ${LUNA_EFFORT:-high} --max-output-tokens 8192 \
       --max-cost-usd ${LUNA_MAX_USD:-60} --max-requests 30000 --concurrency 16 --port $((PORT0 + 1 + 10*i)) --output $C2_ROOT/luna-api-$i \
       > $C2_ROOT/teacher-replica-$i.log 2>&1 &
   else
