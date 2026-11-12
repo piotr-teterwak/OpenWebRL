@@ -1,0 +1,2 @@
+SUMMARY {"label": "r2-dagger-r1", "states": 200, "share_multi_distinct": 0.815, "length_cap_rate": 0.001, "mean_tool_calls": 1.295, "mean_distinct": 3.05, "pick_position": [0.515, 0.24, 0.11, 0.075, 0.06], "fallbacks": 0, "same_action_as_stored_base_pick": 0.27}
+[probe] DONE -> /gpfs/scrubbed/piotrt/owrl/probe/458439
