@@ -48,3 +48,10 @@
   The driver read the crash as a gate fail and stopped round 2.
 - Probe states now come from `luna-iter/probe-c2` (our SFT + Luna half-B collection, seed 42, held out from round-1
   training; `PROBE_C2` overrides). Verified 200 states load. Driver restarted 19:08; gate resubmitted (447549).
+
+## 2026-11-11 22:10 — Sol pilot: no Sol recollection
+- 100 half-A tasks that SFT+Luna failed in both seeds, rerun with SFT as actor, seed 44: Sol steering 14/92 valid
+  (15.2%), Luna steering 22/97 (22.7%). Paired on 89 tasks valid in both: Sol 14, Luna 20 (Sol-only 5, Luna-only 11).
+  Pre-set rule was Sol >= Luna + 15 tasks; it is -6. Sol recollection (~$275 OpenAI) skipped.
+- Sol run lost 8 tasks to a browser-port race with its Luna twin (same node, same start); fixed for later
+  collections (per-job browser port block, 80b144a). Luna API $1.17, Sol API $20.28.
