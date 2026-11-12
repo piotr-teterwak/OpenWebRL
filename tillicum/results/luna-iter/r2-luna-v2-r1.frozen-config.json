@@ -1,0 +1,71 @@
+{
+ "actor": "/gpfs/scrubbed/piotrt/owrl/zixian-mirror/checkpoints/web/OpenWebRL-4B-SFT",
+ "data": "/gpfs/scrubbed/piotrt/owrl/joint-data/luna-Aall",
+ "seed": 42,
+ "objective": "dpo",
+ "train_examples": 6564,
+ "validation_examples": 658,
+ "source_counts": {
+  "C2": 6564
+ },
+ "batch_size": 32,
+ "epochs": 2,
+ "total_updates": 411,
+ "final_batch_size": 8,
+ "learning_rate": 5e-05,
+ "warmup_examples": 512,
+ "endpoint_lr_factor": 0.5,
+ "lora_rank": 16,
+ "lora_alpha": 32,
+ "lora_dropout": 0.05,
+ "max_tokens": 32768,
+ "checkpoint_updates": [
+  103,
+  206,
+  308,
+  411
+ ],
+ "validation_updates": [
+  0,
+  103,
+  206,
+  308,
+  411
+ ],
+ "wandb_project": "openwebrl-arm",
+ "wandb_group": "arm-joint-v2",
+ "data_hashes": {
+  "joint_sft.train.jsonl": "3e308e54f3b2608cb0d7400050ba65e0c9b8edbc81c66c71d3430c28b9294e94",
+  "joint_sft.validation.jsonl": "20478aa0bb5e5326954630a9640711e7a58635500fd50109fe00c4c32de4c8d7",
+  "joint_pairs.train.jsonl": "bd743d10cf8ee1a99c1465b91d99de8e5cb03110af8c7f204e11ceaeee6eb96f",
+  "joint_pairs.validation.jsonl": "c8d608c203c2a5a979f69ba9bac147a19245f7bfb8986ff7f6c7bc328e99f6ca",
+  "validation-panel-c2.jsonl": "fb8f01ddd855d28a292f06915d2973a65fc6cbe4ab03875bafd4a70e643ae330",
+  "validation-panel-piotr.jsonl": "a9c6d7e65851e59b46ce45e84b8ec5d007a3b25695f48ad16b47a91064a4d594",
+  "verification.json": "b9de8cb4fa9e5d28f32ae209c71d5f5d0274d6eda3580f05f8774bac08cd318a"
+ },
+ "model_metadata_hashes": {
+  "config.json": "edac7703329133edfc53e46ac0081835144c99d7eebf28b71c732694d435224d",
+  "tokenizer.json": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+  "tokenizer_config.json": "7b501e639b4d107a23effbe30390ee33d553f722467f7ac8e2744d7ff5d3a7d5",
+  "preprocessor_config.json": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+  "chat_template.jinja": "36e042fe45641f067b1f2381fcc8955d10d956a3ed333ecdf7f7eb0916f68956"
+ },
+ "trainer_sha256": "251f7ab29f344248c185fe230c535401915d7bb850fdc5798f59f2e9639afc89",
+ "order_sha256": "bed53cbb9eadda693000882b6701ce412c2a2224596a01b4e28719627446d6e2",
+ "world_size": 2,
+ "beta": 0.1,
+ "gradient_accumulation_per_rank": 16,
+ "output": "/gpfs/scrubbed/piotrt/owrl/joint-retrain/runs/r2-luna-v2-r1",
+ "code_hashes": {
+  "train_arm_joint_ddp.py": "0dfd4a4913bcfd0a1764598f26f6830a92dd273cfb8cfe2de312b00dc9cdc4f6",
+  "train_arm_joint_sft.py": "251f7ab29f344248c185fe230c535401915d7bb850fdc5798f59f2e9639afc89",
+  "run_arm_joint_pipeline.py": "0830482f7f5ffdb3050554f83679cd095280622e867e224428a58f0525ecf9f6"
+ },
+ "preference_score": "full_response_sum",
+ "auxiliary_sft_weight": 1.0,
+ "reference": "original SFT actor with adapters disabled",
+ "dropout_policy": "train: 0.05; validation/reference/rehearsal: disabled",
+ "beta_calibration": null,
+ "sft_successful_only": true,
+ "reference_actor": "/gpfs/scrubbed/piotrt/owrl/zixian-mirror/checkpoints/web/OpenWebRL-4B-SFT"
+}
