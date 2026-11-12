@@ -289,7 +289,10 @@ async def collect(config_path):
     os.environ.setdefault('JUDGE_API_BASE', 'https://api.openai.com/v1')
     os.environ.update(SLIME_BROWSER_ENV_MODE='local_process',
                      SLIME_BROWSER_LOCAL_PROCESS_LOG_DIR=str(root / 'browser_logs'),
-                     SLIME_BROWSER_LOCAL_PROCESS_PORT_START='19200', SLIME_BROWSER_LOCAL_PROCESS_PORT_END='19399',
+                     # c2_collect.sbatch picks a per-job browser port block (two jobs starting together on one node raced for the
+                     # shared 19200-19399 range: 'Env already exists' on /reset, pilot 455550 vs 455551)
+                     SLIME_BROWSER_LOCAL_PROCESS_PORT_START=os.environ.get('C2_BROWSER_PORT_START', '19200'),
+                     SLIME_BROWSER_LOCAL_PROCESS_PORT_END=os.environ.get('C2_BROWSER_PORT_END', '19399'),
                      SLIME_BROWSER_LOCAL_PROCESS_MAX_PROCESSES=str(q['parallel']))
     generation._BROWSER_HOST_BLACKLIST_PATH = str(root / 'navigation_failures.txt')
     manifest = q['teacher_manifest']

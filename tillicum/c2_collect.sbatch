@@ -85,6 +85,11 @@ busy() { ss -ltnH 2>/dev/null | awk '{print $4}' | grep -qE ":($(seq -s '|' $POR
 for _ in $(seq 40); do busy || break; PORT0=$(( (PORT0 - 18100 + 20) % 800 + 18100 )); done
 busy && { echo "FATAL no free port range"; exit 1; }
 echo "[c2] ports from $PORT0"
+# Browser env servers: a 200-port block per job in 20000-27999, chosen by job id and skipped while in use.
+BP=$((20000 + 200 * (${SLURM_JOB_ID:-0} % 40)))
+bbusy() { ss -ltnH 2>/dev/null | awk '{print $4}' | awk -F: -v a=$BP -v b=$((BP+199)) '$NF>=a && $NF<=b {f=1} END {exit !f}'; }
+for _ in $(seq 40); do bbusy || break; BP=$(( (BP - 20000 + 200) % 8000 + 20000 )); done
+export C2_BROWSER_PORT_START=$BP C2_BROWSER_PORT_END=$((BP + 199)); echo "[c2] browser ports $BP-$((BP + 199))"
 for i in $(seq 0 $((N-1))); do
   CUDA_VISIBLE_DEVICES=${GPUS[$i]} setsid $SERVER_PY -m sglang.launch_server --model-path $ACTOR \
     --host 127.0.0.1 --port $((PORT0 + 10*i)) --dtype bfloat16 --tp 1 --mem-fraction-static 0.4 \
