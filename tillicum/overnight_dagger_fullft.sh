@@ -37,12 +37,14 @@ wait_job() {
 }
 complete_shard() { python3 -c "import json,sys;sys.exit(0 if json.load(open('$C/$1/dataset-audit.json'))['complete_collection'] else 1)" 2>/dev/null; }
 
-gate() {  # gate <run>
+gate() {  # gate <run>; a pass is recorded in the run dir so a restarted driver does not re-gate
+  [ -f $RUNS/$1/gate-passed.json ] && { log "gate $1: passed earlier ($(cat $RUNS/$1/gate-passed.json))"; return 0; }
   local u=$(python3 -c "import json;print('%06d'%json.load(open('$RUNS/$1/frozen-config.json'))['total_updates'])")
   local g=$(LABEL=$1 CKPT=student/update-$u submit -A vlm $X --job-name=gt-$1 tillicum/gate.sbatch) || return 1
   log "gate $1 job $g"; wait_job $g
   log "gate $1: $(grep '\[gate\]' /gpfs/scrubbed/piotrt/owrl/logs/gate-$g.out | tail -1)"
   [ "$(sacct -j $g -X -n -o State | tr -d ' ')" = COMPLETED ] || { log "GATE FAIL $1"; return 2; }
+  echo "{\"job\": $g, \"line\": \"$(grep '\[gate\]' /gpfs/scrubbed/piotrt/owrl/logs/gate-$g.out | tail -1)\"}" > $RUNS/$1/gate-passed.json
 }
 
 train() {  # train <run> <data> <extra env...>: resume up to 2x (adopts a running job of the same name), then gate
@@ -72,9 +74,10 @@ evalpass() {  # evalpass <pass> <models,...>
 
 fullft() {
   local ok=""
-  ( train r2-luna-r1-fullft-lr1e-6 luna-A FULL_FT=1 LR=1e-6 ) &
-  ( train r2-luna-r1-fullft-lr5e-6 luna-A FULL_FT=1 LR=5e-6 ) &
-  wait
+  # wait on explicit pids: a bare `wait` also waits for this branch's own `> >(sed ...)` log prefixer and never returns
+  ( train r2-luna-r1-fullft-lr1e-6 luna-A FULL_FT=1 LR=1e-6 ) & local a=$!
+  ( train r2-luna-r1-fullft-lr5e-6 luna-A FULL_FT=1 LR=5e-6 ) & local b=$!
+  wait $a; wait $b
   for lr in 1e-6 5e-6; do [ -f $M/r2-luna-r1-fullft-lr$lr/merge-manifest.json ] && ok="$ok,r2-luna-r1-fullft-lr$lr"; done
   [ -n "$ok" ] || { log "FATAL fullft: no model passed"; return 1; }
   evalpass night-fullft base,r2-luna-r1$ok
@@ -102,15 +105,18 @@ dagger() {
     python3 scripts/teacher_labels_from_selections.py --collection $C/dagger-A-s$s-shard1 $C/dagger-A-s$s-shard2 --out $G/labels-A-s$s.jsonl
   done
 
+  local pids=""
   for s in 42 43; do
     ( [ -f $D/dagger-A-s$s/train-config.json ] && exit 0
+      live=$(squeue -h -u $USER -n bld-DA$s -o %i | head -1)
+      if [ -n "$live" ]; then log "build dagger-A-s$s: adopting job $live"; wait_job $live; [ -f $D/dagger-A-s$s/train-config.json ] && exit 0; fi
       j=$(NAME=dagger-A-s$s-all OUTNAME=dagger-A-s$s IDPREFIX=DA$s NSHARDS=2 RELABEL=$G/labels-A-s$s.jsonl RELABEL_NAME=gpt-6-luna ALLOW_FAILED=1 \
           submit -A vlm $X --job-name=bld-DA$s tillicum/build_round2_data.sbatch) || exit 1
       log "build dagger-A-s$s job $j"; wait_job $j
       [ -f $D/dagger-A-s$s/train-config.json ] || { log "FATAL build dagger-A-s$s (logs/round2-data-$j.out)"; exit 1; }
-      log "built dagger-A-s$s: $(tr -d '\n ' < $D/dagger-A-s$s/filter-report.json | head -c 250)" ) &
+      log "built dagger-A-s$s: $(tr -d '\n ' < $D/dagger-A-s$s/filter-report.json | head -c 250)" ) & pids="$pids $!"
   done
-  wait
+  for p in $pids; do wait $p; done
   [ -f $D/dagger-A-s42/train-config.json ] && [ -f $D/dagger-A-s43/train-config.json ] || { log "FATAL dagger data"; return 1; }
   if [ ! -f $D/dagger-A/train-config.json ]; then
     j=$(A=dagger-A-s42 B=dagger-A-s43 OUT=dagger-A submit -A vlm $X --job-name=cmb-dagger-A tillicum/build_combined_data.sbatch) || return 1

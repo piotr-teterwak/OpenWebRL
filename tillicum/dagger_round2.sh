@@ -60,14 +60,17 @@ data() {  # data <prefix> <id tag>: export all valid episodes, teacher labels, b
         --include-successful --collection $C/$pre-s$s-shard$k --out $C/$pre-s$s-all-shard$k 2>&1 | grep -v Warn | tail -1 | cut -c1-200; done
     python3 scripts/teacher_labels_from_selections.py --collection $C/$pre-s$s-shard1 $C/$pre-s$s-shard2 --out $G/labels-$pre-s$s.jsonl
   done
+  local pids=""
   for s in 42 43; do
     ( [ -f $D/$pre-s$s/train-config.json ] && exit 0
+      live=$(squeue -h -u $USER -n bld-$tag$s -o %i | head -1)
+      if [ -n "$live" ]; then log "build $pre-s$s: adopting job $live"; wait_job $live; [ -f $D/$pre-s$s/train-config.json ] && exit 0; fi
       j=$(NAME=$pre-s$s-all OUTNAME=$pre-s$s IDPREFIX=$tag$s NSHARDS=2 RELABEL=$G/labels-$pre-s$s.jsonl RELABEL_NAME=gpt-6-luna ALLOW_FAILED=1 \
           submit -A vlm $X --job-name=bld-$tag$s tillicum/build_round2_data.sbatch) || exit 1
       log "build $pre-s$s job $j"; wait_job $j
-      [ -f $D/$pre-s$s/train-config.json ] || { log "FATAL build $pre-s$s (logs/round2-data-$j.out)"; exit 1; } ) &
+      [ -f $D/$pre-s$s/train-config.json ] || { log "FATAL build $pre-s$s (logs/round2-data-$j.out)"; exit 1; } ) & pids="$pids $!"
   done
-  wait
+  for p in $pids; do wait $p; done   # explicit pids: a bare wait also waits for the branch's own sed log prefixer
   [ -f $D/$pre-s42/train-config.json ] && [ -f $D/$pre-s43/train-config.json ] || { log "FATAL $pre data"; return 1; }
   combine $pre-s42 $pre-s43 $pre
 }
@@ -92,10 +95,12 @@ train() {  # train <run> <data> <actor> <reference>: same RPO recipe, resume up 
     log "train $run (data $data, actor $(basename $actor), ref $(basename $ref)) attempt $attempt job $j"; wait_job $j
   done
   [ -f $RUNS/$run/student/complete.json ] || { log "FATAL train $run incomplete"; return 1; }
+  [ -f $RUNS/$run/gate-passed.json ] && { log "gate $run: passed earlier"; return 0; }
   local u=$(python3 -c "import json;print('%06d'%json.load(open('$RUNS/$run/frozen-config.json'))['total_updates'])")
   local g=$(LABEL=$run CKPT=student/update-$u submit -A vlm $X --job-name=gt-$run tillicum/gate.sbatch) || return 1
   log "gate $run job $g"; wait_job $g; log "gate $run: $(grep '\[gate\]' /gpfs/scrubbed/piotrt/owrl/logs/gate-$g.out | tail -1)"
   [ "$(sacct -j $g -X -n -o State | tr -d ' ')" = COMPLETED ] || { log "GATE FAIL $run"; return 2; }
+  echo "{\"job\": $g}" > $RUNS/$run/gate-passed.json
 }
 
 control() {
