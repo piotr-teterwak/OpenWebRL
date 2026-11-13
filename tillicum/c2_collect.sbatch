@@ -45,6 +45,7 @@ TEACHER="${TEACHER:-selection}"
 # o4-mini (used for Zixian's C2 outcomes) was retired in 2026-10; outcome filtering now uses JUDGE.
 SEED="${SEED:-42}"
 case "$TEACHER" in selection|baseline|luna|sol) ;; *) echo "bad TEACHER=$TEACHER"; exit 1;; esac
+# TEACHER_PROBS=1: the API selector also returns a probability per candidate (scores). SKIP_IDENTICAL=1: see arm_inference.
 # EXECUTE=first (DAgger-style): the teacher labels every state but the actor's own sample (candidate 0) is executed.
 # TEACHER=luna: gpt-6-luna picks among the 5 candidates before execution (pre-execution label), through
 # scripts/serve_sol_selector.py with the pinned ARM prompt; LUNA_EFFORT (high), LUNA_MAX_USD per replica (60).
@@ -99,7 +100,7 @@ for i in $(seq 0 $((N-1))); do
   [ "$TEACHER" = baseline ] && { PIDS+=(${PIDS[-1]}); continue; }  # keep 2 slots per GPU for wait_ok
   if [ "$TEACHER" = luna ] || [ "$TEACHER" = sol ]; then
     # TEACHER=sol: gpt-6-sol through the same selector server and pinned ARM prompt (LUNA_* knobs apply)
-    setsid $ARM_PY scripts/serve_sol_selector.py --model $([ "$TEACHER" = sol ] && echo gpt-6-sol || echo gpt-6-luna) --reasoning-effort ${LUNA_EFFORT:-high} --max-output-tokens 8192 \
+    setsid $ARM_PY scripts/serve_sol_selector.py --model $([ "$TEACHER" = sol ] && echo gpt-6-sol || echo gpt-6-luna) ${TEACHER_PROBS:+--probabilities} --reasoning-effort ${LUNA_EFFORT:-high} --max-output-tokens 8192 \
       --max-cost-usd ${LUNA_MAX_USD:-60} --max-requests 30000 --concurrency 16 --port $((PORT0 + 1 + 10*i)) --output $C2_ROOT/luna-api-$i \
       > $C2_ROOT/teacher-replica-$i.log 2>&1 &
   else
@@ -138,6 +139,7 @@ fresh = dict(output=str(root), task_file=str(tasks), task_file_sha256=hashlib.sh
              teacher_manifest=dict(actor=str(Path('$ACTOR').resolve()), selector_health=json.loads('''$SELECTOR_HEALTH''')),
              training=dict(max_tokens=32768), round_source='$NAME')
 if '${EXECUTE:-}': fresh['execute'] = '${EXECUTE:-}'   # EXECUTE=first: actor executes its own sample, teacher only labels
+if '${SKIP_IDENTICAL:-}' == '1': fresh['skip_identical'] = True   # no selector call when all candidates share one action
 if path.exists():
     prior = json.loads(path.read_text())
     for key in fresh:

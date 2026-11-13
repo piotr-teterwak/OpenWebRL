@@ -316,7 +316,7 @@ async def collect(config_path):
     args.rollout_num_gpus = len(replicas)
     per_replica = [replica_args(args, replica, ActionSelector('selection' if q['teacher'] in ('luna', 'sol') else q['teacher'],  # luna: API selector, same /select protocol
         f"http://127.0.0.1:{replica['selector_port']}", root / 'selections', seed=q['seed'], exporter=exporter, connect_timeout=10.0,
-        execute=q.get('execute', 'selected')))  # execute=first: DAgger-style, see ActionSelector
+        execute=q.get('execute', 'selected'), skip_identical=bool(q.get('skip_identical'))))  # see ActionSelector
         for replica in replicas]
     init_http_client(args)
     reward_func = evaluation._load_reward_func('online_mind2web')
