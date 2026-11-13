@@ -53,3 +53,21 @@ Single passes swing by 5-8 points; repeat passes (repeat1: SFT, r2-luna-r1, C2, 
 
 In repeat1, C2, full FT and LoRA r1 are within ~1 point of each other on both benchmarks; the earlier
 single-pass gaps over LoRA were mostly its weak night-fullft pass. Only C2 vs SFT on OM2W is significant pooled.
+
+## Iterative v2 step 0 (2026-11-12 17:56, passes v2-r1a + v2-r1b, paired within pass, pooled)
+r2-luna-v2-r1: Luna-steered half-A rollouts, all valid states (successful + failed), Luna's executed pick as chosen,
+no margin, SFT term only on successful-episode pairs; 6,564 pairs (2,587 successful, 3,977 failed); C2's recipe.
+| valid-only | SFT | C2 | v2-r1 | v2-r1 - SFT | C2 - SFT | v2-r1 - C2 |
+|---|---|---|---|---|---|---|
+| OM2W | 33.8 | 41.6 | 38.3 | +4.4 [+0.2, +8.6] | +5.9 [+1.7, +10.3] | -1.9 [-6.5, +2.3] |
+| DeepShop | 35.5 | 42.0 | 36.3 | +1.1 [-5.5, +7.4] | +5.8 [-0.7, +12.0] | -5.1 [-12.1, +1.8] |
+Pre-set rule (v2-r1 - SFT pooled over both passes and benchmarks, lower bound > 0): +3.25 [-0.39, +6.76] -> step 1 not run.
+
+## C2 vs SFT pooled over all 4 passes (sol-relabel-c2, repeat1, v2-r1a, v2-r1b)
+| | C2 - SFT |
+|---|---|
+| OM2W | **+6.5 [+3.6, +9.5]** n=971 |
+| DeepShop | +4.2 [-0.2, +8.6] n=568 |
+| both | **+5.7 [+3.2, +8.2]** n=1539 |
+Failed-episode states help with Luna labels too (OM2W), but Sol-labelled C2 is ahead, mostly on DeepShop.
+A C2 rerun with Sol's plain prompt and no margin (r2-solp-r1-all) is running to separate prompt format / filter.
