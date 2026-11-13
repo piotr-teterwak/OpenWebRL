@@ -1,0 +1,10 @@
+{
+  "source": "/gpfs/scrubbed/piotrt/owrl/joint-data/solp-A-s42-full",
+  "collection": "/gpfs/scrubbed/piotrt/owrl/c2-collect/luna-A-s42",
+  "id_prefix": "SPA42",
+  "c2_train_pairs": 1783,
+  "kept_train_pairs": 1324,
+  "dropped_matched_validation_groups": 0,
+  "filter": "source C2 (round-2 collection) and equal action counts; validation copied from joint-data/matched",
+  "dropped_for_even_final_batch": "C2:webvoyager/99830:8"
+}

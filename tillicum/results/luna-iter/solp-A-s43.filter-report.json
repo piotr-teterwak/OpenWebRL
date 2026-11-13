@@ -1,0 +1,10 @@
+{
+  "source": "/gpfs/scrubbed/piotrt/owrl/joint-data/solp-A-s43-full",
+  "collection": "/gpfs/scrubbed/piotrt/owrl/c2-collect/luna-A-s43",
+  "id_prefix": "SPA43",
+  "c2_train_pairs": 1661,
+  "kept_train_pairs": 1264,
+  "dropped_matched_validation_groups": 0,
+  "filter": "source C2 (round-2 collection) and equal action counts; validation copied from joint-data/matched",
+  "dropped_for_even_final_batch": null
+}
