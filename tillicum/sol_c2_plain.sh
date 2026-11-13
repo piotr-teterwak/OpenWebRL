@@ -44,7 +44,7 @@ build() {  # build <out> <collection> <prefix> <labels> [allow_failed]
   [ -f $D/$1/train-config.json ] && return 0
   local live=$(squeue -h -u $USER -n bld-$3 -o %i | head -1) j
   if [ -n "$live" ]; then wait_job $live; else
-    j=$(NAME=$2 OUTNAME=$1 IDPREFIX=$3 NSHARDS=2 RELABEL=$4 RELABEL_NAME=gpt-6-sol-plain ${5:+ALLOW_FAILED=1} \
+    j=$(NAME=$2 OUTNAME=$1 IDPREFIX=$3 NSHARDS=2 RELABEL=$4 RELABEL_NAME=gpt-6-sol-plain ALLOW_FAILED=${5:-} \
         submit -A vlm $X --job-name=bld-$3 tillicum/build_round2_data.sbatch) || return 1
     log "build $1 ($2) job $j"; wait_job $j; fi
   [ -f $D/$1/train-config.json ] || { log "FATAL build $1"; return 1; }
