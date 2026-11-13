@@ -132,8 +132,9 @@ train() {  # train <run> <data> <actor> <reference>, then gate
 
 log "sol round 2 start; budget $(budget | tr ' ' '/')"
 # ---- recipe decision (waits for the plain-prompt C2 evals)
+fail0=$(grep -cE "FATAL|GATE FAIL" $S/c2-plain.log 2>/dev/null)   # failures logged before this driver started were fixed and restarted
 until grep -q SOL_C2_PLAIN_DONE $S/c2-plain.log 2>/dev/null; do
-  grep -qE "FATAL|GATE FAIL" $S/c2-plain.log && { log "FATAL sol_c2_plain failed; no round 2"; exit 1; }
+  [ $(grep -cE "FATAL|GATE FAIL" $S/c2-plain.log) -gt $fail0 ] && { log "FATAL sol_c2_plain failed; no round 2"; exit 1; }
   sleep 300; done
 read cm clo chi cn <<<"$(pooled r2-sol-r1-all-m0.3 r2-solp-r1-all c2p-a c2p-b)"
 read pm plo phi pn <<<"$(pooled r2-solp-r1-all base c2p-a c2p-b)"
