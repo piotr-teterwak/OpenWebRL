@@ -71,3 +71,16 @@ Pre-set rule (v2-r1 - SFT pooled over both passes and benchmarks, lower bound > 
 | both | **+5.7 [+3.2, +8.2]** n=1539 |
 Failed-episode states help with Luna labels too (OM2W), but Sol-labelled C2 is ahead, mostly on DeepShop.
 A C2 rerun with Sol's plain prompt and no margin (r2-solp-r1-all) is running to separate prompt format / filter.
+
+## C2 with Sol plain prompt, no margin (2026-11-13 04:36, passes c2p-a + c2p-b, paired within pass, pooled)
+r2-solp-r1-all: Sol relabelled with the plain prompt (no probability request), no margin, 6,670 pairs (2,588 successful,
+4,082 failed, DPO-only on failed), C2's recipe. Plain vs probability-prompt Sol picks agree on 77-79% of states; both agree
+with Luna ~63-65%.
+| valid-only | SFT | C2 (prob + margin) | C2-plain | C2-plain - SFT | C2 - SFT | C2-plain - C2 |
+|---|---|---|---|---|---|---|
+| OM2W | 33.7 | 38.7 | 36.7 | +2.2 [-1.8, +6.3] | +4.0 [-0.4, +8.6] | -1.7 [-6.0, +2.5] |
+| DeepShop | 31.6 | 37.1 | 30.7 | -0.7 [-6.6, +5.6] | +5.2 [-1.4, +11.8] | -5.3 [-12.0, +1.4] |
+| both | | | | +1.1 [-2.1, +4.7] | **+4.4 [+0.6, +8.1]** | -3.0 [-6.7, +0.5] |
+The probability prompt and/or the 0.3 margin help once failed-episode states are included (opposite of C0/C1 on
+successful-only states). Round 2 (sol_round2.sh) therefore uses C2's recipe (FORCE_RECIPE=prob; the pre-set default
+would have chosen plain because C2 - plain is not significant at 95%).

@@ -139,7 +139,9 @@ until grep -q SOL_C2_PLAIN_DONE $S/c2-plain.log 2>/dev/null; do
 read cm clo chi cn <<<"$(pooled r2-sol-r1-all-m0.3 r2-solp-r1-all c2p-a c2p-b)"
 read pm plo phi pn <<<"$(pooled r2-solp-r1-all base c2p-a c2p-b)"
 log "C2 - plain pooled: $cm [$clo, $chi] n=$cn | plain - SFT: $pm [$plo, $phi] n=$pn"
-if python3 -c "import sys; sys.exit(0 if float('$clo') > 0 else 1)"; then
+# FORCE_RECIPE=prob|plain overrides the rule (2026-11-13: plain came out ~3 points below C2 and n.s. vs SFT, so
+# Piotr's "use the recipe that works better" -> C2 / prob, overriding the significance-based default).
+if [ "${FORCE_RECIPE:-}" = prob ] || { [ "${FORCE_RECIPE:-}" != plain ] && python3 -c "import sys; sys.exit(0 if float('$clo') > 0 else 1)"; }; then
   R1RUN=r2-sol-r1-all-m0.3; PROBS=1; MARGIN=0.3; ADATA=sol-Aall-m0.3; log "RULE: C2 significantly better -> probability prompt + margin 0.3"
 else
   R1RUN=r2-solp-r1-all; PROBS=; MARGIN=; ADATA=solp-Aall; log "RULE: plain recipe (C2 not significantly better)"
