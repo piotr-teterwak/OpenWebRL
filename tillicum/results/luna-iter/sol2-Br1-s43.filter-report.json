@@ -1,0 +1,10 @@
+{
+  "source": "/gpfs/scrubbed/piotrt/owrl/joint-data/sol2-Br1-s43-full",
+  "collection": "/gpfs/scrubbed/piotrt/owrl/c2-collect/sol2-Br1-s43-all",
+  "id_prefix": "S2B43",
+  "c2_train_pairs": 4159,
+  "kept_train_pairs": 3130,
+  "dropped_matched_validation_groups": 0,
+  "filter": "source C2 (round-2 collection) and equal action counts; validation copied from joint-data/matched",
+  "dropped_for_even_final_batch": "C2:webvoyager/99433:9"
+}
