@@ -1,0 +1,2 @@
+SUMMARY {"label": "r2-solp-r1-all", "states": 200, "share_multi_distinct": 0.755, "length_cap_rate": 0.001, "mean_tool_calls": 1.276, "mean_distinct": 2.75, "pick_position": [0.61, 0.17, 0.06, 0.12, 0.04], "fallbacks": 0, "same_action_as_stored_base_pick": 0.25}
+[probe] DONE -> /gpfs/scrubbed/piotrt/owrl/probe/462984
