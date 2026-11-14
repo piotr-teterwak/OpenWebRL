@@ -1,0 +1,10 @@
+{
+  "phase": "complete",
+  "allocation": "463356",
+  "updates": 669,
+  "examples_seen": 21380,
+  "epoch": 0,
+  "next_position": 21380,
+  "dataset_sha256": "a292a9fcf2bee07e09b98e67ff9cc07804b3fa69bda6f9cc90be5b79ce8e0cd7",
+  "config_sha256": "982b203204b18d58ee5be5500c7b9d69c5342bd6ab60b594e148d3576feef5c5"
+}
