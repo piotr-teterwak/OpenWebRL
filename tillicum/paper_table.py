@@ -17,10 +17,12 @@ BENCH = {'webvoyager': 'openwebrl/data/eval/webvoyager_fara.jsonl', 'online-mind
          'deepshop': 'openwebrl/data/eval/deepshop.jsonl'}
 REDO = '--no-redo' not in sys.argv
 NOW = '--no-wolfram' in sys.argv  # drop Wolfram Alpha tasks from WebVoyager for every system
+NOAMZ = '--no-amazon' in sys.argv  # drop DeepShop (all Amazon) and WebVoyager's Amazon tasks (Amazon throttles the cluster unevenly)
 W3 = '--wolfram3' in sys.argv  # Wolfram tasks from the fresh same-window 3-run rerun (tillicum/wolfram_rerun.sh) for every system
 def tid(r): return str(r.get('task_id') or (r.get('metadata') or {}).get('task_id') or r.get('id'))
-TASKS = {b: [t for t in (tid(json.loads(l)) for l in (REPO / f).read_text().splitlines()) if not (NOW and t.startswith('Wolfram'))]
-         for b, f in BENCH.items()}
+TASKS = {b: [t for t in (tid(json.loads(l)) for l in (REPO / f).read_text().splitlines()) if not (NOW and t.startswith('Wolfram'))
+             and not (NOAMZ and t.startswith('Amazon'))] for b, f in BENCH.items()}
+if NOAMZ: BENCH.pop('deepshop'); TASKS.pop('deepshop')
 def ours(d):  # -> {task: (valid, success)}
     out = {}
     for p in glob.glob(f'{d}/results/*.json'):
@@ -79,7 +81,7 @@ print(f"redo merged: {REDO}   Wolfram from fresh 3-run rerun: {W3}   Wolfram exc
 for i, lab in enumerate(['overall', 'overall-W (Wolfram over valid runs)', 'valid-only', '% episodes valid']):
     print(f'\n{lab}')
     for n in SYS:
-        x = [res[n][b][i] for b in BENCH]; print(f'  {n:8s}' + ''.join(f'{v:7.1f}' for v in x) + f'{sum(x)/3:7.1f}')
+        x = [res[n][b][i] for b in BENCH]; print(f'  {n:8s}' + ''.join(f'{v:7.1f}' for v in x) + f'{sum(x)/len(x):7.1f}')
 print(f"\ncommon tasks (valid for every system in >= 1 run; tasks per benchmark {[COMMON[b][0] for b in BENCH]})")
 for n in SYS:
-    x = [COMMON[b][1][n] for b in BENCH]; print(f'  {n:8s}' + ''.join(f'{v:7.1f}' for v in x) + f'{sum(x)/3:7.1f}')
+    x = [COMMON[b][1][n] for b in BENCH]; print(f'  {n:8s}' + ''.join(f'{v:7.1f}' for v in x) + f'{sum(x)/len(x):7.1f}')
