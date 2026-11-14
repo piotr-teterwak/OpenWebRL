@@ -1,0 +1,53 @@
+Bot-wall scan for the paper-table systems: valid episodes in which the agent ran into a CAPTCHA / bot wall / access
+(Wolfram Alpha excluded: rerun 2026-11-13, 0/230 valid, counted as failed for every system)
+
+webvoyager
+  SFT      valid  1639  flagged  341 (20.8%)  per run [102, 118, 121]  flagged successes  60
+           sites [('dictionary.cambridge.org', 128), ('www.google.com', 123), ('huggingface.co', 31), ('www.amazon.com', 22), ('www.allrecipes.com', 22), ('Amazon', 5)]
+           terms [('anti-bot', 277), ('captcha', 267), ('automated access', 242), ('cloudflare', 134), ('not a robot', 131)]
+  BoQ      valid  1638  flagged  371 (22.6%)  per run [123, 122, 126]  flagged successes 104
+           sites [('dictionary.cambridge.org', 129), ('www.google.com', 120), ('huggingface.co', 44), ('www.allrecipes.com', 32), ('www.amazon.com', 25), ('arxiv.org', 6)]
+           terms [('automated access', 241), ('captcha', 239), ('anti-bot', 220), ('not a robot', 146), ('cloudflare', 133)]
+  PRO-CUA  valid  1628  flagged  371 (22.8%)  per run [118, 127, 126]  flagged successes  55
+           sites [('dictionary.cambridge.org', 129), ('www.google.com', 123), ('huggingface.co', 45), ('www.amazon.com', 37), ('www.allrecipes.com', 14), ('Amazon', 13)]
+           terms [('anti-bot', 217), ('automated access', 202), ('captcha', 193), ('cloudflare', 130), ('not a robot', 118)]
+  Dreamer  valid  1638  flagged  367 (22.4%)  per run [114, 125, 128]  flagged successes 108
+           sites [('www.google.com', 130), ('dictionary.cambridge.org', 129), ('www.allrecipes.com', 29), ('huggingface.co', 27), ('www.amazon.com', 26), ('Amazon', 13)]
+           terms [('captcha', 247), ('anti-bot', 225), ('automated access', 221), ('not a robot', 158), ('cloudflare', 133)]
+  ADM      valid  1639  flagged  387 (23.6%)  per run [132, 130, 125]  flagged successes 128
+           sites [('www.google.com', 149), ('dictionary.cambridge.org', 129), ('www.allrecipes.com', 37), ('huggingface.co', 25), ('www.amazon.com', 21), ('Amazon', 8)]
+           terms [('captcha', 280), ('anti-bot', 271), ('automated access', 257), ('not a robot', 189), ('cloudflare', 143)]
+
+online-mind2web
+  SFT      valid   817  flagged  363 (44.4%)  per run [122, 120, 121]  flagged successes  53
+           sites [('www.apartments.com', 24), ('www.drugs.com', 24), ('www.adoptapet.com', 23), ('www.cars.com', 21), ('www.accuweather.com', 18), ('www.mayoclinic.org', 15)]
+           terms [('captcha', 246), ('anti-bot', 214), ('automated access', 210), ('access denied', 187), ('not a robot', 155)]
+  BoQ      valid   812  flagged  348 (42.9%)  per run [121, 115, 112]  flagged successes  87
+           sites [('www.apartments.com', 24), ('www.drugs.com', 24), ('www.adoptapet.com', 22), ('www.cars.com', 20), ('www.accuweather.com', 18), ('www.mayoclinic.org', 14)]
+           terms [('captcha', 221), ('anti-bot', 200), ('access denied', 195), ('automated access', 190), ('not a robot', 128)]
+  PRO-CUA  valid   806  flagged  343 (42.6%)  per run [112, 115, 116]  flagged successes  67
+           sites [('www.apartments.com', 24), ('www.drugs.com', 24), ('www.adoptapet.com', 22), ('www.cars.com', 21), ('www.accuweather.com', 18), ('www.mayoclinic.org', 15)]
+           terms [('captcha', 185), ('access denied', 176), ('automated access', 166), ('anti-bot', 163), ('not a robot', 98)]
+  Dreamer  valid   810  flagged  341 (42.1%)  per run [103, 120, 118]  flagged successes  72
+           sites [('www.apartments.com', 24), ('www.drugs.com', 24), ('www.adoptapet.com', 21), ('www.cars.com', 20), ('www.accuweather.com', 17), ('www.mayoclinic.org', 15)]
+           terms [('captcha', 214), ('anti-bot', 203), ('access denied', 190), ('automated access', 188), ('not a robot', 130)]
+  ADM      valid   811  flagged  345 (42.5%)  per run [117, 117, 111]  flagged successes  91
+           sites [('www.adoptapet.com', 26), ('www.apartments.com', 24), ('www.drugs.com', 24), ('www.cars.com', 19), ('www.accuweather.com', 18), ('www.mayoclinic.org', 15)]
+           terms [('captcha', 237), ('anti-bot', 213), ('automated access', 205), ('access denied', 188), ('not a robot', 143)]
+
+deepshop
+  SFT      valid   449  flagged  120 (26.7%)  per run [30, 48, 42]  flagged successes  52
+           sites [('Amazon', 120)]
+           terms [('anti-bot', 112), ('captcha', 24), ('automated access', 17), ('automated behavio', 5), ('security check', 3)]
+  BoQ      valid   449  flagged  141 (31.4%)  per run [42, 56, 43]  flagged successes  50
+           sites [('Amazon', 141)]
+           terms [('anti-bot', 133), ('captcha', 29), ('automated access', 11), ('automated behavio', 8), ('security check', 6)]
+  PRO-CUA  valid   443  flagged  204 (46.0%)  per run [47, 83, 74]  flagged successes  77
+           sites [('Amazon', 204)]
+           terms [('anti-bot', 195), ('captcha', 32), ('automated access', 16), ('not a robot', 5), ('security check', 5)]
+  Dreamer  valid   449  flagged  157 (35.0%)  per run [44, 57, 56]  flagged successes  64
+           sites [('Amazon', 157)]
+           terms [('anti-bot', 148), ('captcha', 28), ('automated access', 12), ('automated behavio', 9), ('security check', 5)]
+  ADM      valid   448  flagged  161 (35.9%)  per run [56, 50, 55]  flagged successes  73
+           sites [('Amazon', 161)]
+           terms [('anti-bot', 155), ('captcha', 32), ('automated access', 14), ('automated behavio', 8), ('security check', 4)]
