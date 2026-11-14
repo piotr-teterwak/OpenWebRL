@@ -142,7 +142,7 @@ async def run(args):
         context_num_screenshots=1, judge_api_model=args.judge_model,
         judge_api_mode="served", judge_timeout_secs=180,
         browser_response_format_mode="browser_env", turn_history_reasoning_mode="full",
-        browser_include_tool_response=1, inference_step_timeout_secs=180,
+        browser_include_tool_response=1, inference_step_timeout_secs=args.step_timeout,
         task_timeout_secs=args.task_timeout, path_to_save_generated_samples=str(output / "samples"),
     )
     if args.protocol != "online_mind2web":
@@ -201,6 +201,7 @@ def main():
     ap.add_argument("--max-new-tokens", type=int, default=1024)
     ap.add_argument("--max-steps", type=int, default=30)
     ap.add_argument("--task-timeout", type=int, default=1800)
+    ap.add_argument("--step-timeout", type=int, default=180, help="per-step actor generation timeout (s); reruns of step-timeout casualties raise it")
     ap.add_argument("--browser-port-start", type=int, default=19200)
     ap.add_argument("--browser-port-end", type=int, default=19399)
     ap.add_argument("--protocol", choices=sorted(PROTOCOLS), default="online_mind2web",
