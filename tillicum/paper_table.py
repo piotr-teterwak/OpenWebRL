@@ -6,7 +6,7 @@ is valid or the original is missing). Metrics:
   overall-W  as overall, but each Wolfram Alpha task is scored over that system's valid runs only (the site blocked the
              cluster after 2026-11-03, so baselines' runs 2-3 have no valid Wolfram episodes)
   valid      pooled successes / valid episodes over the runs
-    python3 tillicum/paper_table.py [--no-redo] [--no-wolfram]
+    python3 tillicum/paper_table.py [--no-redo] [--no-wolfram] [--wolfram3]
 """
 import glob, json, sys
 from pathlib import Path
@@ -17,6 +17,7 @@ BENCH = {'webvoyager': 'openwebrl/data/eval/webvoyager_fara.jsonl', 'online-mind
          'deepshop': 'openwebrl/data/eval/deepshop.jsonl'}
 REDO = '--no-redo' not in sys.argv
 NOW = '--no-wolfram' in sys.argv  # drop Wolfram Alpha tasks from WebVoyager for every system
+W3 = '--wolfram3' in sys.argv  # Wolfram tasks from the fresh same-window 3-run rerun (tillicum/wolfram_rerun.sh) for every system
 def tid(r): return str(r.get('task_id') or (r.get('metadata') or {}).get('task_id') or r.get('id'))
 TASKS = {b: [t for t in (tid(json.loads(l)) for l in (REPO / f).read_text().splitlines()) if not (NOW and t.startswith('Wolfram'))]
          for b, f in BENCH.items()}
@@ -38,7 +39,15 @@ def merge(*states):
         for t, x in s.items():
             if x[0] or t not in m: m[t] = x
     return m
+W3LABEL = {'SFT': 'sft1', 'ADM': 'piotr5', 'BoQ': 'base+boq', 'PRO-CUA': 'base+procuasel', 'Dreamer': 'base+webdreamer'}
 def system_runs(name, b):
+    runs = _system_runs(name, b)
+    if W3 and b == 'webvoyager':
+        for k, r in enumerate(runs, 1):
+            for t in [t for t in r if t.startswith('Wolfram')]: del r[t]
+            r.update(ours(f'{E}/passwolfram3-r{k}/{W3LABEL[name]}/webvoyager'))
+    return runs
+def _system_runs(name, b):
     if name in ('SFT', 'ADM'):
         root, cond, runs = {'SFT': ('head-k5-20261101', 'sft1', ['run1', 'rerun2', 'rerun3']),
                             'ADM': ('controls-sameday-20261103', 'piotr5', ['run1', 'run2', 'run3'])}[name]
@@ -66,7 +75,7 @@ def common(b):  # tasks with >= 1 valid run for every system; each system scored
         out[n] = 100 * sum(sc) / len(T)
     return len(T), out
 COMMON = {b: common(b) for b in BENCH}
-print(f"redo merged: {REDO}   Wolfram excluded: {NOW}   WebVoyager tasks: {len(TASKS['webvoyager'])}   columns: WebVoyager / OM2W / DeepShop / mean (paper order)")
+print(f"redo merged: {REDO}   Wolfram from fresh 3-run rerun: {W3}   Wolfram excluded: {NOW}   WebVoyager tasks: {len(TASKS['webvoyager'])}   columns: WebVoyager / OM2W / DeepShop / mean (paper order)")
 for i, lab in enumerate(['overall', 'overall-W (Wolfram over valid runs)', 'valid-only', '% episodes valid']):
     print(f'\n{lab}')
     for n in SYS:
