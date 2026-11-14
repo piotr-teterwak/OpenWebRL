@@ -1,0 +1,36 @@
+redo merged: True   Wolfram excluded: True   WebVoyager tasks: 549   columns: WebVoyager / OM2W / DeepShop / mean (paper order)
+
+overall
+  SFT        45.8   29.3   44.2   39.8
+  BoQ        47.1   31.3   44.7   41.0
+  PRO-CUA    45.3   31.4   44.2   40.3
+  Dreamer    49.1   32.9   48.0   43.3
+  ADM        53.5   38.2   49.1   46.9
+
+overall-W (Wolfram over valid runs)
+  SFT        45.8   29.3   44.2   39.8
+  BoQ        47.1   31.3   44.7   41.0
+  PRO-CUA    45.3   31.4   44.2   40.3
+  Dreamer    49.1   32.9   48.0   43.3
+  ADM        53.5   38.2   49.1   46.9
+
+valid-only
+  SFT        46.0   32.3   44.3   40.9
+  BoQ        47.3   34.7   44.8   42.3
+  PRO-CUA    45.8   35.1   44.9   42.0
+  Dreamer    49.3   36.5   48.1   44.7
+  ADM        53.8   42.4   49.3   48.5
+
+% episodes valid
+  SFT        99.5   90.8   99.8   96.7
+  BoQ        99.5   90.2   99.8   96.5
+  PRO-CUA    98.8   89.6   98.4   95.6
+  Dreamer    99.5   90.0   99.8   96.4
+  ADM        99.5   90.1   99.6   96.4
+
+common tasks (valid for every system in >= 1 run; tasks per benchmark [549, 273, 150])
+  SFT        46.0   32.2   44.2   40.8
+  BoQ        47.2   34.4   44.7   42.1
+  PRO-CUA    45.5   34.8   44.8   41.7
+  Dreamer    49.3   36.4   48.2   44.6
+  ADM        53.8   42.1   49.1   48.3

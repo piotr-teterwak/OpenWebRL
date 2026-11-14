@@ -9,6 +9,7 @@ earlier Dreamer timeout reruns did); a task is planned if it is invalid there. R
 same harness, seeds and sampling; only the step (180 -> 600 s) and task (1800 -> 3600 s) timeouts are raised.
 """
 import glob
+import sys
 import json
 from pathlib import Path
 
@@ -25,6 +26,7 @@ RUNS = {  # baseline -> per run: (pass to write the redo under, [dirs in overrid
                    ('webdreamer-n1-run2', ['passwebdreamer-n1-run2/base+webdreamer']),
                    ('webdreamer-n1-run3', ['passwebdreamer-n1-run3/base+webdreamer', 'passwebdreamer-n1-run3-redo/base+webdreamer'])],
 }
+WOLFRAM = '--wolfram' in sys.argv  # plan only the Wolfram Alpha tasks (once the site answers the cluster again)
 LABEL = {'boq': 'base+boq', 'procua': 'base+procuasel', 'webdreamer': 'base+webdreamer'}
 
 
@@ -41,8 +43,9 @@ def main():
                 for d in dirs + [f'pass{ps}-redo2/{LABEL[base]}']:  # an earlier redo2 attempt counts too
                     for f in glob.glob(str(E / d / b / 'results' / '*.json')):
                         r = json.loads(Path(f).read_text()); state[str(r['task_id'])] = r
-                bad = sorted(index[b][t] for t, r in state.items() if not r.get('valid') and not t.startswith('Wolfram'))
-                missing = sorted(i for t, i in index[b].items() if t not in state and not t.startswith('Wolfram'))
+                keep = (lambda t: t.startswith('Wolfram')) if WOLFRAM else (lambda t: not t.startswith('Wolfram'))
+                bad = sorted(index[b][t] for t, r in state.items() if not r.get('valid') and keep(t))
+                missing = sorted(i for t, i in index[b].items() if t not in state and keep(t))
                 todo = sorted(set(bad) | set(missing))
                 if todo:
                     print(f"{base}\t{ps}\t{b}\tpass{ps}-redo2\t{len(todo)}\t{','.join(map(str, todo))}")

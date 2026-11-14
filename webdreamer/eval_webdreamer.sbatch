@@ -91,7 +91,7 @@ TASKS=(); [ "$SMOKE" != 0 ] && TASKS=(--task-indices $(seq -s, 0 $((SMOKE - 1)))
 END=$(date -d "$(squeue -h -j $SLURM_JOB_ID -o %e)" +%s); REMAIN=$(( END - $(date +%s) - 300 ))
 timeout --signal=TERM --kill-after=120 $REMAIN $ARM_PY -m openwebrl.arm_eval --mode scalar --actor $BASE \
   --actor-port $((PORT0 + 10)) --selector-endpoint http://127.0.0.1:$((PORT0 + 11)) --output $OUT/$BENCH \
-  --parallel 12 --protocol ${BENCH//-/_} --task-file $TASK_FILE --seed 42 --temperature ${TEMP:-1.0} --top-p 0.9 \
+  --parallel ${PARALLEL:-12} --protocol ${BENCH//-/_} --task-file $TASK_FILE --seed 42 --temperature ${TEMP:-1.0} --top-p 0.9 \
   --max-new-tokens 1024 --max-steps 30 --task-timeout ${TASK_TIMEOUT:-1800} --step-timeout ${STEP_TIMEOUT:-180} --env-file .env \
   --browser-port-start $((PORT0 + 100)) --browser-port-end $((PORT0 + 299)) "${TASKS[@]}" > $OUT/eval-$BENCH.log 2>&1 &
 EVAL=$!
