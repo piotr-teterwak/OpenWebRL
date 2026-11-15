@@ -1,0 +1,46 @@
+passes per model: {'base': ['s2-a', 's2-b'], 'C2': ['s2-a', 's2-b', 'rs-a', 'rs-b'], 'r2': ['s2-a', 's2-b', 'rs-a', 'rs-b'], 'ctrl': ['s2-a', 's2-b'], 'refsft': ['rs-a', 'rs-b'], 'refsft@196': ['rs-a', 'rs-b'], 'r2@196': ['rs-a', 'rs-b']}
+
+success (valid-only), mean over passes
+  base        (2 passes)  online-mind2web  33.5   deepshop  30.7
+  C2          (4 passes)  online-mind2web  39.4   deepshop  37.6
+  r2          (4 passes)  online-mind2web  36.9   deepshop  34.7
+  ctrl        (2 passes)  online-mind2web  42.1   deepshop  37.4
+  refsft      (2 passes)  online-mind2web  36.0   deepshop  29.4
+  refsft@196  (2 passes)  online-mind2web  39.0   deepshop  30.8
+  r2@196      (2 passes)  online-mind2web  38.9   deepshop  30.7
+
+online-mind2web: paired difference, task-clustered 95% CI   [per-pass differences]
+  C2         - base    +4.7 [ +0.2,  +9.2]* tasks=267 passes=2  {'s2-a': 7.2, 's2-b': 2.9}
+  ctrl       - base    +8.2 [ +3.9, +12.5]* tasks=268 passes=2  {'s2-a': 5.9, 's2-b': 9.5}
+  ctrl       - C2      +3.3 [ -1.0,  +7.7]  tasks=261 passes=2  {'s2-a': -2.0, 's2-b': 8.4}
+  r2         - C2      -3.1 [ -6.5,  +0.2]  tasks=273 passes=4  {'s2-a': -6.6, 's2-b': -3.8, 'rs-a': 5.8, 'rs-b': -5.8}
+  refsft     - C2      -3.7 [ -7.7,  +0.6]  tasks=260 passes=2  {'rs-a': -2.6, 'rs-b': -5.5}
+  refsft@196 - C2      -1.9 [ -6.3,  +2.7]  tasks=260 passes=2  {'rs-a': 0.0, 'rs-b': -3.4}
+  r2@196     - C2      -1.9 [ -6.4,  +2.5]  tasks=259 passes=2  {'rs-a': -1.3, 'rs-b': -1.7}
+  refsft     - r2      -4.1 [ -8.0,  -0.2]* tasks=256 passes=2  {'rs-a': -8.5, 'rs-b': -0.4}
+  refsft@196 - refsft  +1.8 [ -2.9,  +6.4]  tasks=256 passes=2  {'rs-a': 5.3, 'rs-b': 1.3}
+  refsft@196 - r2@196  +0.4 [ -4.5,  +5.4]  tasks=257 passes=2  {'rs-a': 2.6, 'rs-b': -1.8}
+
+deepshop: paired difference, task-clustered 95% CI   [per-pass differences]
+  C2         - base    +5.3 [ -0.3, +11.0]  tasks=150 passes=2  {'s2-a': 2.1, 's2-b': 9.1}
+  ctrl       - base    +6.7 [ +0.0, +13.3]  tasks=150 passes=2  {'s2-a': 9.8, 's2-b': 3.6}
+  ctrl       - C2      +0.0 [ -6.0,  +5.7]  tasks=150 passes=2  {'s2-a': 6.4, 's2-b': -5.1}
+  r2         - C2      -2.9 [ -6.9,  +1.1]  tasks=150 passes=4  {'s2-a': 5.2, 's2-b': -4.4, 'rs-a': -5.8, 'rs-b': -9.2}
+  refsft     - C2      -8.4 [-14.8,  -2.3]* tasks=149 passes=2  {'rs-a': -9.9, 'rs-b': -8.3}
+  refsft@196 - C2      -8.8 [-15.5,  -2.0]* tasks=148 passes=2  {'rs-a': -8.0, 'rs-b': -10.4}
+  r2@196     - C2      -9.1 [-15.5,  -2.4]* tasks=148 passes=2  {'rs-a': -10.5, 'rs-b': -9.5}
+  refsft     - r2      -0.7 [ -6.8,  +5.4]  tasks=147 passes=2  {'rs-a': -4.3, 'rs-b': 0.7}
+  refsft@196 - refsft  +1.3 [ -4.0,  +6.7]  tasks=149 passes=2  {'rs-a': 3.6, 'rs-b': -0.7}
+  refsft@196 - r2@196  +0.0 [ -5.8,  +5.8]  tasks=147 passes=2  {'rs-a': 1.4, 'rs-b': -2.2}
+
+pooled: paired difference, task-clustered 95% CI   [per-pass differences]
+  C2         - base    +4.9 [ +1.4,  +8.4]* tasks=417 passes=2  {'s2-a': 5.3, 's2-b': 5.2}
+  ctrl       - base    +7.7 [ +4.1, +11.4]* tasks=418 passes=2  {'s2-a': 7.3, 's2-b': 7.4}
+  ctrl       - C2      +2.1 [ -1.5,  +5.6]  tasks=411 passes=2  {'s2-a': 1.0, 's2-b': 3.5}
+  r2         - C2      -3.1 [ -5.6,  -0.5]* tasks=423 passes=4  {'s2-a': -2.4, 's2-b': -4.0, 'rs-a': 1.6, 'rs-b': -7.1}
+  refsft     - C2      -5.4 [ -9.0,  -1.8]* tasks=409 passes=2  {'rs-a': -5.4, 'rs-b': -6.6}
+  refsft@196 - C2      -4.4 [ -8.2,  -0.7]* tasks=408 passes=2  {'rs-a': -3.0, 'rs-b': -6.1}
+  r2@196     - C2      -4.5 [ -8.4,  -0.9]* tasks=407 passes=2  {'rs-a': -4.8, 'rs-b': -4.6}
+  refsft     - r2      -2.9 [ -6.2,  +0.5]  tasks=403 passes=2  {'rs-a': -7.0, 'rs-b': 0.0}
+  refsft@196 - refsft  +1.6 [ -1.9,  +5.2]  tasks=405 passes=2  {'rs-a': 4.7, 'rs-b': 0.5}
+  refsft@196 - r2@196  +0.2 [ -3.6,  +4.0]  tasks=404 passes=2  {'rs-a': 2.2, 'rs-b': -1.9}
