@@ -123,7 +123,7 @@ class ActionSelector:
     """Sample five iid proposals at one live state, score, execute one unchanged."""
     def __init__(self, mode, endpoint, output, seed=42, candidates=5, timeout=180, exporter=None, connect_timeout=None,
                  candidate_representation="full", shadow_modulus=0, record_telemetry=False, execute="selected",
-                 skip_identical=False):
+                 skip_identical=False, page_tree=False):
         if mode not in ("baseline", "selection", "scalar"):
             raise ValueError(mode)
         # execute="first" (DAgger-style collection): the selector still labels every state (recorded as
@@ -135,6 +135,12 @@ class ActionSelector:
         # skip_identical: when all candidates carry the same action, no selector call is made (candidate 0 is
         # executed, as any pick would be); recorded as skipped_identical. Saves API selector cost on ~30% of steps.
         self.skip_identical = skip_identical
+        # page_tree (opt-in, default off): also send the env's WebArena accessibility tree of the current viewport
+        # (observation["webarena_axtree"], present only when OPENWEBRL_WEBARENA_AXTREE=1) plus task_id and turn, for
+        # selectors that judge from the tree (webarbiter_sel/). Off: the payload and trace record are unchanged.
+        if page_tree and mode == "baseline":
+            raise ValueError("page_tree needs an external selector")
+        self.page_tree = page_tree
         self.mode, self.endpoint = mode, endpoint.rstrip("/")
         if candidate_representation not in ("full", "actions_only") or shadow_modulus < 0:
             raise ValueError("Invalid compact-selection configuration")
@@ -170,7 +176,11 @@ class ActionSelector:
             }
             if self.candidate_representation != "full":
                 payload["candidate_representation"] = self.candidate_representation
+            if self.page_tree:
+                payload.update(page_tree=observation.get("webarena_axtree"), task_id=str(task_id), turn=turn)
             result = await request_selection_result(self.endpoint, payload, self.timeout, self.connect_timeout)
+            if self.page_tree:
+                selector_meta = result.get("selector_meta")
             if self.candidate_representation != "full" and result.get("candidate_representation") != self.candidate_representation:
                 raise ValueError("Selector did not acknowledge candidate ablation")
             scores, raw = result.get("scores"), result.get("raw")
@@ -202,6 +212,12 @@ class ActionSelector:
                   "screenshot_sha256": hashlib.sha256(observation["screenshot"]).hexdigest()}
         if identical:
             record["skipped_identical"] = True
+        if self.page_tree:
+            tree = observation.get("webarena_axtree") or {}
+            record["page_tree"] = {"chars": len(tree.get("text") or ""), "nodes": len(tree.get("nodes") or {}),
+                                   "error": tree.get("error") if tree else "missing"}
+            if not identical:
+                record["selector_meta"] = selector_meta
         if self.execute == "first":
             record.update(execute="first", teacher_index=None if fallback else teacher_index)
         if self.candidate_representation != "full":

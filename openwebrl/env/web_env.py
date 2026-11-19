@@ -238,6 +238,7 @@ class WebEnv(BaseEnv):
             "all_tab_url": await self.get_all_tab_urls(),
             "active_tab_url": await self.get_active_tab_url(),
         }
+        await self._add_webarena_axtree(observation)
         info = {
             "tool_list": self.tool_list,
             "policy": self.policy,
@@ -400,6 +401,14 @@ class WebEnv(BaseEnv):
         except Exception as e:
             print(str(e))
             return []
+
+    async def _add_webarena_axtree(self, observation: dict) -> None:
+        """Opt-in (OPENWEBRL_WEBARENA_AXTREE=1, set by arm_eval --selector-page-tree): add WebArena's accessibility tree
+        of the current viewport as observation["webarena_axtree"] for tree-reading selectors. Off: no-op."""
+        if os.environ.get("OPENWEBRL_WEBARENA_AXTREE") != "1":
+            return
+        from openwebrl.env.webarena_axtree import webarena_axtree
+        observation["webarena_axtree"] = await webarena_axtree(self.page)
 
     async def get_a11ytree(self) -> List[Dict[str, Any]]:
         """
@@ -1490,6 +1499,7 @@ class WebEnv(BaseEnv):
                 "all_tab_url": await self.get_all_tab_urls(),
                 "active_tab_url": await self.get_active_tab_url(),
             }
+            await self._add_webarena_axtree(observation)
                         
         except Exception as e:
             info["env_message"] = f"Error during env.step(): {str(e)}"

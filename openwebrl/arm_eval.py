@@ -55,6 +55,8 @@ async def run(args):
     os.environ["SLIME_BROWSER_LOCAL_PROCESS_PORT_START"] = str(args.browser_port_start)
     os.environ["SLIME_BROWSER_LOCAL_PROCESS_PORT_END"] = str(args.browser_port_end)
     os.environ["SLIME_BROWSER_LOCAL_PROCESS_MAX_PROCESSES"] = str(args.parallel)
+    if args.selector_page_tree:  # browser env servers inherit this and add observation["webarena_axtree"]
+        os.environ["OPENWEBRL_WEBARENA_AXTREE"] = "1"
     output = Path(args.output)
     output.mkdir(parents=True, exist_ok=True)
     from datetime import datetime, timezone
@@ -128,6 +130,8 @@ async def run(args):
             raise ValueError("Actor server does not match pinned frozen actor path")
 
     manifest_path = output / "manifest.json"
+    if args.selector_page_tree:  # only when set, so existing manifests stay resumable
+        manifest["selector_page_tree"] = "webarena_axtree_current_viewport"
     if args.candidate_representation != "full" or args.shadow_modulus:
         manifest.update(candidate_representation=args.candidate_representation, shadow_modulus=args.shadow_modulus)
     if manifest_path.exists():
@@ -154,7 +158,8 @@ async def run(args):
         eval_args.inference_step_timeout_secs = 300
     eval_args.browser_action_selector = ActionSelector(
         args.mode, args.selector_endpoint, output / "selections", seed=args.seed,
-        candidate_representation=args.candidate_representation, shadow_modulus=args.shadow_modulus)
+        candidate_representation=args.candidate_representation, shadow_modulus=args.shadow_modulus,
+        page_tree=args.selector_page_tree)
     init_http_client(eval_args)
     sem = asyncio.Semaphore(args.parallel)
 
@@ -211,6 +216,8 @@ def main():
     ap.add_argument("--candidate-representation", choices=["full", "actions_only"], default="full")
     ap.add_argument("--shadow-modulus", type=int, default=0,
                     help="Score full candidates too on a deterministic 1/N subset; never execute shadow choice")
+    ap.add_argument("--selector-page-tree", action="store_true",
+                    help="Send the selector WebArena's accessibility tree of the current viewport (webarbiter_sel/)")
     ap.add_argument("--serial-variant", choices=["all5", "diverse3"])
     ap.add_argument("--serial-gate", help="Passed model/runtime-specific generation or browser gate JSON")
     ap.add_argument("--serial-gate-pilot", action="store_true", help="Run only the frozen <=5-task pilot after a generation gate")
