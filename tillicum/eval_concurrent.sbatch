@@ -209,7 +209,7 @@ for spec in "${SPECS[@]}"; do
   b=$((PORT0 + 300*i))
   timeout --signal=TERM --kill-after=120 $REMAIN $ARM_PY -m openwebrl.arm_eval --mode baseline \
     --actor "$(model_path "$label" "$root" "$ckpt")" --actor-port $((b + 10)) --output $OUT/$label/$BENCH \
-    --parallel 12 --protocol ${BENCH//-/_} --task-file $TASK_FILE --seed 42 --temperature ${TEMP:-0.7} --top-p 0.9 \
+    --parallel ${PARALLEL:-12} --protocol ${BENCH//-/_} --task-file $TASK_FILE --seed 42 --temperature ${TEMP:-0.7} --top-p 0.9 \
     --max-new-tokens 1024 --max-steps 30 --task-timeout 1800 --env-file .env \
     --browser-port-start $((b + 100)) --browser-port-end $((b + 299)) "${TASKS[@]}" > $OUT/$label/eval-$BENCH.log 2>&1 &
   EVAL_PIDS+=($!); i=$((i+1))
