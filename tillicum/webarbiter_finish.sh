@@ -20,7 +20,7 @@ redo() {  # redo <bench> <parallel>: submit invalid-episode reruns for every run
     [ -n "$idx" ] || continue
     j=$(BENCH=$bench PASS=${pass#pass} INDICES=$idx PARALLEL=$2 STEP_TIMEOUT=600 TASK_TIMEOUT=3600 \
         sub -A vlm $X --time=03:00:00 --job-name=wasel-redo-${ps##*-}-${bench:0:4} webarbiter_sel/eval_webarbiter_sel.sbatch)
-    log "redo $ps $bench: $n tasks, job $j"; ids="$ids $j"
+    log "redo $ps $bench: $n tasks, job $j" >&2; ids="$ids $j"
   done < <(plan $1)
   echo $ids
 }
