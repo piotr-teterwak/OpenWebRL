@@ -72,6 +72,10 @@ if '${BETA:-}': config['beta'] = float('${BETA:-}')
 if '${FULL_FT:-}' == '1': config['full_finetune'] = True   # all language-layer weights (FP32 master, bf16 autocast) instead of LoRA
 if '${SFT_SUCCESS_ONLY:-}' == '1': config['sft_successful_only'] = True   # RPO's SFT term only on pairs from successful episodes
 if '${EXCLUDE_EOT:-}' == '1': config['dpo_exclude_end_of_turn'] = True
+# INIT_FROM=<finished LoRA checkpoint dir>: continue that run's adapter AND Adam state instead of a fresh LoRA
+# (OWRL_ACTOR must be the base it was trained on). CONSTANT_LR=1: flat LR (no warmup/decay), e.g. LR=2.5e-5 = where Round 1 ended.
+if '${INIT_FROM:-}': config['init_from'] = '${INIT_FROM:-}'
+if '${CONSTANT_LR:-}' == '1': config['constant_lr'] = True
 config['world_size'] = int('${NGPU:-2}')   # NGPU=1: same 32-example batch on one GPU, ~2x slower
 if '${OWRL_REFERENCE:-}': config['reference_actor'] = '${OWRL_REFERENCE:-}'   # DPO reference other than the start model
 # train-config.json records the actor's metadata hashes from data-build time (the base model);

@@ -126,6 +126,14 @@ def main():
         actor.forward=autocast_forward
     elif checkpoint:
         actor=PeftModel.from_pretrained(actor,checkpoint,is_trainable=True)
+    elif config.get('init_from'):
+        # Continue another run's LoRA (e.g. Round 1's final checkpoint) instead of a fresh adapter: same base, same
+        # targets, its trained weights; its Adam state is loaded after the optimizer is built (below).
+        init_dir=Path(config['init_from'])
+        init_actor=json.loads((init_dir.parent.parent/'frozen-config.json').read_text())['actor']
+        if os.path.realpath(init_actor)!=os.path.realpath(config['actor']):
+            raise ValueError(f'init_from adapter was trained on {init_actor}, not {config["actor"]}')
+        actor=PeftModel.from_pretrained(actor,init_dir,is_trainable=True)
     else:
         actor=get_peft_model(actor,LoraConfig(r=16,lora_alpha=32,lora_dropout=.05,
                      target_modules=language_targets(actor),bias='none',task_type='CAUSAL_LM'))
@@ -155,6 +163,12 @@ def main():
         return dict(python=random.getstate(),torch=torch.get_rng_state(),cuda=torch.cuda.get_rng_state())
     def set_rng(value):
         random.setstate(value['python']);torch.set_rng_state(value['torch']);torch.cuda.set_rng_state(value['cuda'])
+    init_optimizer=None
+    if config.get('init_from') and not checkpoint:
+        # The source run's Adam moments (no counters/RNG: this is a new run). Kept on CPU and restored after the
+        # engineering rehearsal, which clears optimizer state.
+        init_optimizer=torch.load(Path(config['init_from'])/'optimizer.pt',map_location='cpu',weights_only=False)['optimizer']
+        optimizer.load_state_dict(init_optimizer)
     if checkpoint:
         saved=torch.load(checkpoint/'optimizer.pt',map_location='cpu',weights_only=False)
         state=saved['state']
@@ -378,6 +392,8 @@ def main():
                             raise ValueError(f'Resume replay optimizer mismatch at {key}/{name}: '
                                              f'max abs diff {(tensor-other).abs().max().item():.3g}')
             load_trainable(snapshot);optimizer.state.clear();optimizer.zero_grad(set_to_none=True);set_rng(initial_rng)
+            if init_optimizer is not None: optimizer.load_state_dict(init_optimizer)  # the rehearsal cleared it
+            if init_optimizer is not None and rank==0: print(f"[joint] init_from {config['init_from']}: adapter + Adam state restored after rehearsal ({len(optimizer.state)} parameter states)",flush=True)
             if rank==0:write_json(root/'smoke-passed.json',dict(calibration=calibration,beta=effective_beta,
                  beta_calibration=config.get('beta_calibration'),score_field=score_field,
                  repeated_loss_before=before,repeated_loss_after=after,resume_max_error=error,
@@ -439,7 +455,7 @@ def main():
         if state['updates'] in config['validation_updates']:evaluate()
         for begin in range(state['examples_seen'],len(order),32):
             check_stop();started=time.monotonic();seen=min(begin+32,len(order))
-            lr=config.get('learning_rate',1e-5)*lr_factor(seen,len(order));metrics,norm=batch_backward(rank_batch(order,begin,rank,world),lr)
+            lr=config.get('learning_rate',1e-5)*(1. if config.get('constant_lr') else lr_factor(seen,len(order)));metrics,norm=batch_backward(rank_batch(order,begin,rank,world),lr)
             state.update(updates=state['updates']+1,examples_seen=seen,next_position=seen)
             emit({'train/loss':metrics[0].item(),'train/winner_ce':metrics[1].item(),
                   'train/raw_margin':metrics[2].item(),'train/relative_margin':metrics[3].item(),
