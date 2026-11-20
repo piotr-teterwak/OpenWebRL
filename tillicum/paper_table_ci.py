@@ -22,5 +22,5 @@ def ci(a, c):
     boots.sort(); out['mean'] = (sum(out[b][0] for b in B) / 3, 100 * boots[250], 100 * boots[9749])
     return out
 print('\npaired differences, overall, Wolfram excluded: point [95% CI]   columns: WebVoyager / OM2W / DeepShop / mean')
-for a, c in [('ADM', x) for x in ['SFT', 'BoQ', 'PRO-CUA', 'Dreamer']] + [(x, 'SFT') for x in ['BoQ', 'PRO-CUA', 'Dreamer']]:
+for a, c in [('ADM', x) for x in ['SFT', 'BoQ', 'PRO-CUA', 'Dreamer', 'WebArbiter']] + [(x, 'SFT') for x in ['BoQ', 'PRO-CUA', 'Dreamer', 'WebArbiter']]:
     o = ci(a, c); print(f'  {a:7s} - {c:7s}' + ''.join(f'  {o[k][0]:+5.1f} [{o[k][1]:+5.1f},{o[k][2]:+5.1f}]' for k in B + ['mean']))

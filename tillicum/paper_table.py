@@ -41,7 +41,7 @@ def merge(*states):
         for t, x in s.items():
             if x[0] or t not in m: m[t] = x
     return m
-W3LABEL = {'SFT': 'sft1', 'ADM': 'piotr5', 'BoQ': 'base+boq', 'PRO-CUA': 'base+procuasel', 'Dreamer': 'base+webdreamer'}
+W3LABEL = {'SFT': 'sft1', 'ADM': 'piotr5', 'BoQ': 'base+boq', 'PRO-CUA': 'base+procuasel', 'Dreamer': 'base+webdreamer', 'WebArbiter': 'base+webarbitersel'}
 def system_runs(name, b):
     runs = _system_runs(name, b)
     if W3 and b == 'webvoyager':
@@ -54,7 +54,7 @@ def _system_runs(name, b):
         root, cond, runs = {'SFT': ('head-k5-20261101', 'sft1', ['run1', 'rerun2', 'rerun3']),
                             'ADM': ('controls-sameday-20261103', 'piotr5', ['run1', 'run2', 'run3'])}[name]
         return [merge(zx(root, r, cond, b), ours(f'{E}/passzx-{cond}-{r}-redo2/{cond}/{b}') if REDO else {}) for r in runs]
-    key = {'BoQ': 'boq', 'PRO-CUA': 'procua', 'Dreamer': 'webdreamer'}[name]
+    key = {'BoQ': 'boq', 'PRO-CUA': 'procua', 'Dreamer': 'webdreamer', 'WebArbiter': 'webarbiter'}[name]
     return [merge(*[ours(f'{E}/{d}/{b}') for d in dirs], ours(f'{E}/pass{ps}-redo2/{LABEL[key]}/{b}') if REDO else {})
             for ps, dirs in BRUNS[key]]
 def metrics(runs, b):
@@ -66,7 +66,7 @@ def metrics(runs, b):
         tot += sum(x[1] for x in rs) / len(rs) if rs else 0
     v = sum(r.get(t, (0, 0))[0] for r in runs for t in T); s = sum(r.get(t, (0, 0))[1] for r in runs for t in T)
     return overall, 100 * tot / N, 100 * s / max(v, 1), 100 * v / (N * len(runs))
-SYS = ['SFT', 'BoQ', 'PRO-CUA', 'Dreamer', 'ADM']
+SYS = ['SFT', 'BoQ', 'PRO-CUA', 'Dreamer', 'WebArbiter', 'ADM']
 RUNS_ = {n: {b: system_runs(n, b) for b in BENCH} for n in SYS}
 res = {n: {b: metrics(RUNS_[n][b], b) for b in BENCH} for n in SYS}
 def common(b):  # tasks with >= 1 valid run for every system; each system scored per task over its valid runs

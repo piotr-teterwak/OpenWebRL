@@ -56,7 +56,7 @@ def episodes(name, b):  # -> per run {task: (valid, success, matched terms)}
                 if v or t not in m: m[t] = (v, ok, h)
             runs.append(m)
     else:
-        key = {'BoQ': 'boq', 'PRO-CUA': 'procua', 'Dreamer': 'webdreamer'}[name]
+        key = {'BoQ': 'boq', 'PRO-CUA': 'procua', 'Dreamer': 'webdreamer', 'WebArbiter': 'webarbiter'}[name]
         for ps, dirs in P.BRUNS[key]:
             m = {}
             for d in dirs + [f'pass{ps}-redo2/{P.LABEL[key]}']:

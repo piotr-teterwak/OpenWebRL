@@ -26,8 +26,14 @@ RUNS = {  # baseline -> per run: (pass to write the redo under, [dirs in overrid
                    ('webdreamer-n1-run2', ['passwebdreamer-n1-run2/base+webdreamer']),
                    ('webdreamer-n1-run3', ['passwebdreamer-n1-run3/base+webdreamer', 'passwebdreamer-n1-run3-redo/base+webdreamer'])],
 }
+# WebArbiter-7B as a selector over our SFT actor (webarbiter_sel/, 2026-11-19). Its first DeepShop runs were throttled
+# by Amazon (check page in 80-86% of episodes, all 3 runs concurrent); the sequential low-concurrency reruns
+# (passwebarbiter-sel-ds-r*) replace them and the throttled results were moved to deepshop-throttled/.
+RUNS['webarbiter'] = [(f'webarbiter-sel-r{k}', [f'passwebarbiter-sel-r{k}/base+webarbitersel', f'passwebarbiter-sel-ds-r{k}/base+webarbitersel'])
+                      for k in (1, 2, 3)]
+ONLY = [a.split('=', 1)[1] for a in sys.argv if a.startswith('--only=')]  # e.g. --only=webarbiter
 WOLFRAM = '--wolfram' in sys.argv  # plan only the Wolfram Alpha tasks (once the site answers the cluster again)
-LABEL = {'boq': 'base+boq', 'procua': 'base+procuasel', 'webdreamer': 'base+webdreamer'}
+LABEL = {'boq': 'base+boq', 'procua': 'base+procuasel', 'webdreamer': 'base+webdreamer', 'webarbiter': 'base+webarbitersel'}
 
 
 def task_id(row):
@@ -37,6 +43,7 @@ def task_id(row):
 def main():
     index = {b: {task_id(json.loads(l)): i for i, l in enumerate((REPO / f).read_text().splitlines())} for b, f in FILES.items()}
     for base, runs in RUNS.items():
+        if ONLY and base not in ONLY: continue
         for ps, dirs in runs:
             for b in FILES:
                 state = {}
