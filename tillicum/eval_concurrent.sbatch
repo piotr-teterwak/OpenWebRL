@@ -114,7 +114,8 @@ for o in dpo rpo; do for b in 0.1 0.3 0.5 0.7 1.0; do for sd in 42 1 2; do
 for sd in 42 1 2; do r=onpol-sft-lr5e-5-s$sd; SPECS+=("$r|$OWRL/joint-retrain/runs/$r|student/update-000163"); done
 # Iterative round-2 runs (r2-*, trained from a merged round-1 actor): final checkpoint from each
 # run's frozen config, since the update count depends on the round-2 pair count.
-for d in $OWRL/joint-retrain/runs/r2-*/ $OWRL/joint-retrain/runs/r2c-*/ $OWRL/joint-retrain/runs/comb-*/; do  # r2c-*: Round-2 continuations of Round 1 (INIT_FROM) [ -f $d/frozen-config.json ] || continue
+# r2c-*: Round-2 continuations of Round 1 (trained with INIT_FROM).
+for d in $OWRL/joint-retrain/runs/r2-*/ $OWRL/joint-retrain/runs/r2c-*/ $OWRL/joint-retrain/runs/comb-*/; do [ -f $d/frozen-config.json ] || continue
   u=$(python3 -c "import json;print('%06d'%json.load(open('$d/frozen-config.json'))['total_updates'])")
   SPECS+=("$(basename $d)|${d%/}|student/update-$u"); done
 # Intermediate checkpoints of r2-* runs as <run>@<update>, e.g. r2-luna-r1@81 (merged to eval/merged/<run>-u<update>).
