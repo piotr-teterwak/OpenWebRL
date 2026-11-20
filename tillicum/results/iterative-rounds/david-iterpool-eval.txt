@@ -1,0 +1,61 @@
+episodes done per model/pass/benchmark: {'SFT': {'dv-a/online-mind2web': 300, 'dv-a/deepshop': 150, 'dv-b/online-mind2web': 300, 'dv-b/deepshop': 150}, 'R1': {'dv-a/online-mind2web': 300, 'dv-a/deepshop': 150, 'dv-b/online-mind2web': 300, 'dv-b/deepshop': 150}, 'DM': {'dv-a/online-mind2web': 300, 'dv-a/deepshop': 150, 'dv-b/online-mind2web': 300, 'dv-b/deepshop': 150}, 'pooled': {'dv-a/online-mind2web': 300, 'dv-a/deepshop': 150, 'dv-b/online-mind2web': 300, 'dv-b/deepshop': 150}, 'seq': {'dv-a/online-mind2web': 300, 'dv-a/deepshop': 150, 'dv-b/online-mind2web': 300, 'dv-b/deepshop': 150}, 'seq542': {'dv-a/online-mind2web': 300, 'dv-a/deepshop': 150, 'dv-b/online-mind2web': 300, 'dv-b/deepshop': 150}}
+
+online-mind2web
+  SFT   episodes  600  valid-only  34.6  overall  30.7
+  R1    episodes  600  valid-only  41.4  overall  35.3
+  DM    episodes  600  valid-only  41.8  overall  35.8
+  pooled episodes  600  valid-only  30.2  overall  26.2
+  seq   episodes  600  valid-only  30.4  overall  24.5
+  seq542 episodes  600  valid-only  31.6  overall  26.8
+  R1   - SFT    +6.2 [ +2.0, +10.5]  n=497
+  DM   - SFT    +6.2 [ +2.0, +10.6]  n=498
+  pooled - SFT    -3.7 [ -8.1,  +0.4]  n=507
+  seq  - SFT    -6.4 [-10.9,  -2.1]  n=470
+  seq542 - SFT    -4.6 [ -8.9,  -0.4]  n=497
+  pooled - R1    -10.2 [-14.5,  -5.9]  n=490
+  seq  - R1    -12.9 [-17.2,  -8.6]  n=464
+  seq542 - R1    -10.1 [-14.3,  -6.0]  n=483
+  pooled - DM    -11.0 [-15.1,  -6.9]  n=491
+  seq  - DM    -12.6 [-16.9,  -8.5]  n=461
+  seq542 - DM    -11.2 [-15.5,  -6.8]  n=483
+  seq542 - seq    +3.1 [ -1.3,  +7.2]  n=459
+
+deepshop
+  SFT   episodes  300  valid-only  33.9  overall  33.3
+  R1    episodes  300  valid-only  37.9  overall  37.0
+  DM    episodes  300  valid-only  44.9  overall  43.0
+  pooled episodes  300  valid-only  35.4  overall  34.7
+  seq   episodes  300  valid-only  17.4  overall  16.7
+  seq542 episodes  300  valid-only  22.5  overall  22.0
+  R1   - SFT    +3.5 [ -2.4,  +9.7]  n=289
+  DM   - SFT   +10.2 [ +3.9, +16.6]  n=283
+  pooled - SFT    +1.7 [ -4.8,  +7.9]  n=290
+  seq  - SFT   -17.0 [-23.0, -11.0]  n=283
+  seq542 - SFT   -10.8 [-16.7,  -4.9]  n=288
+  pooled - R1     -2.1 [ -8.3,  +4.2]  n=288
+  seq  - R1    -19.5 [-25.2, -13.5]  n=282
+  seq542 - R1    -15.4 [-21.0,  -9.8]  n=286
+  pooled - DM     -9.9 [-16.3,  -3.5]  n=283
+  seq  - DM    -28.2 [-34.3, -22.0]  n=277
+  seq542 - DM    -22.1 [-28.2, -16.1]  n=280
+  seq542 - seq    +4.3 [ -0.7,  +9.3]  n=280
+
+pooled
+  SFT   episodes  900  valid-only  34.3  overall  31.6
+  R1    episodes  900  valid-only  40.1  overall  35.9
+  DM    episodes  900  valid-only  42.9  overall  38.2
+  pooled episodes  900  valid-only  32.1  overall  29.0
+  seq   episodes  900  valid-only  25.6  overall  21.9
+  seq542 episodes  900  valid-only  28.3  overall  25.2
+  R1   - SFT    +5.2 [ +1.7,  +8.7]  n=786
+  DM   - SFT    +7.7 [ +4.1, +11.3]  n=781
+  pooled - SFT    -1.8 [ -5.4,  +1.8]  n=797
+  seq  - SFT   -10.4 [-13.8,  -6.8]  n=753
+  seq542 - SFT    -6.9 [-10.3,  -3.4]  n=785
+  pooled - R1     -7.2 [-10.8,  -3.7]  n=778
+  seq  - R1    -15.4 [-18.9, -11.9]  n=746
+  seq542 - R1    -12.1 [-15.5,  -8.7]  n=769
+  pooled - DM    -10.6 [-14.2,  -7.1]  n=774
+  seq  - DM    -18.4 [-22.0, -14.8]  n=738
+  seq542 - DM    -15.2 [-18.7, -11.7]  n=763
+  seq542 - seq    +3.5 [ +0.3,  +6.8]  n=739
