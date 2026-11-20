@@ -32,8 +32,9 @@ class Request(BaseModel):
     candidate_representation: str='full'
 
 
-def response_input(request,builder):
-    if request.mode!='selection' or request.candidate_representation!='full' or not 1<=len(request.candidates)<=5:
+def response_input(request,builder,max_candidates=5):
+    # The pinned prompt builder numbers any count of candidates; --max-candidates 6 serves mixed-pool panels.
+    if request.mode!='selection' or request.candidate_representation!='full' or not 1<=len(request.candidates)<=max_candidates:
         raise ValueError('Only full-representation ARM selection is supported')
     image=base64.b64decode(request.screenshot,validate=True)
     messages=selection_messages(builder,request.task,request.url,request.history,request.candidates,image)
@@ -68,7 +69,7 @@ class Selector:
             selection_decoding='strict_json_schema',candidate_representation='full')
 
     async def select(self,request: Request):
-        inputs=response_input(request,self.builder)
+        inputs=response_input(request,self.builder,getattr(self.args,'max_candidates',5))
         # Conservative reservation includes image tokens and upper bound of one
         # input token per UTF-8 byte. Reserve output including hidden reasoning.
         k=len(request.candidates)
@@ -152,6 +153,7 @@ def parser():
     p.add_argument('--max-output-tokens',type=int,default=2048)
     p.add_argument('--max-requests',type=int,default=10000)
     p.add_argument('--max-cost-usd',type=float,default=200)
+    p.add_argument('--max-candidates',type=int,default=5,help='largest candidate panel accepted (5 = the ARM protocol)')
     return p
 
 

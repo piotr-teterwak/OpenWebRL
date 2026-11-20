@@ -90,6 +90,14 @@ class Builder:
         self.relabel = {r['id']: r['selected_index'] for r in rows} if relabel else None
         self.relabel_scores = {r['id']: r.get('scores') for r in rows}
         self.relabel_executed_only = getattr(args, 'relabel_executed_only', False)
+        # --panels (mixed-pool Round 2): a state's candidates are its scripts/build_mix_panels.py panel, not the stored
+        # five; --relabel indices are panel positions. Lines are read on demand (byte offsets), within RLIMIT_AS.
+        self.panels = None
+        if getattr(args, 'panels', None):
+            self.panels = {}; offset = 0
+            with args.panels.open('rb') as f:
+                for line in f:
+                    self.panels[json.loads(line)['id']] = offset; offset += len(line)
         resume=getattr(args,'resume',False)
         args.output.mkdir(parents=True, exist_ok=resume)
         self.db = sqlite3.connect(args.output / 'working.sqlite')
@@ -374,7 +382,14 @@ class Builder:
                         if self.relabel_executed_only and selected!=r['selected_index']:raise ValueError('relabel_not_executed')
                         state['label_source']=f'{self.a.relabel_name} selection over the collection panel (executed pick by SelectionARM in a valid successful trajectory)'
                         if failed: state.update(label_source=f'{self.a.relabel_name} selection over the collection panel (state from a valid failed trajectory)',terminal_success=False)
-                    candidates=[{'text':x['response'],'finish':x['finish_type'],'ids':x['response_token_ids']} for x in c['raw_candidates']]
+                    raw_candidates=c['raw_candidates']
+                    if self.panels is not None:
+                        if stub['id'] not in self.panels:raise ValueError('not_in_panels')
+                        with self.a.panels.open('rb') as f:
+                            f.seek(self.panels[stub['id']]);panel=json.loads(f.readline())
+                        if panel['id']!=stub['id'] or panel['source']!=r['source']:raise ValueError('panel_join')
+                        raw_candidates=panel['raw_candidates']
+                    candidates=[{'text':x['response'],'finish':x['finish_type'],'ids':x['response_token_ids']} for x in raw_candidates]
                     probs=self.relabel_scores.get(stub['id']) if self.relabel is not None else c.get('scores')
                     self.accept_draw(state,candidates,selected,schemas(c['prompt']),probs)
                 except (ValueError,TypeError,KeyError,OSError) as error:self.event(stub,'state_integrity_failure',detail=str(error))
@@ -600,6 +615,7 @@ def main():
     p.add_argument('--allow-unsuccessful',action='store_true',help='with --relabel: also keep states from valid failed episodes (terminal_success False)')
     p.add_argument('--relabel-executed-only',action='store_true',help='with --relabel: keep only states where the relabel pick is the executed action')
     p.add_argument('--relabel-name',default='relabel selector',help='label_source name for --relabel picks')
+    p.add_argument('--panels',type=Path,help='with --relabel: C2 candidates from scripts/build_mix_panels.py panels (relabel indices are panel positions)')
     p.add_argument('--cpu-seconds',type=int,default=240,help='RLIMIT_CPU for the build; D>1 validates every draw and needs more.')
     a=p.parse_args()
     os.environ['TOKENIZERS_PARALLELISM']='false'

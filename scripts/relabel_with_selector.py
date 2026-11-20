@@ -7,10 +7,14 @@ screenshot and the five stored candidates -- posts it to a running selector serv
 scripts/serve_sol_selector.py --model gpt-6-luna), and writes one JSON line per state:
 {"id": "C2:<task_id>:<turn>", "selected_index": <0-based>, "collection_index": <ARM pick>}.
 Feed the result to prepare_arm_joint_data.py --relabel. Resumable: finished ids are skipped.
+--panels <scripts/build_mix_panels.py output> instead of --dataset/--tasks: the request's candidates are each panel's
+(any count; the selector must accept it, e.g. serve_sol_selector.py --max-candidates 6), task/url/history/screenshot
+as stored in the panel line; selected_index is then a panel position.
 """
 import argparse
 import asyncio
 import base64
+import hashlib
 import json
 from pathlib import Path
 
@@ -35,19 +39,31 @@ def load_states(dataset, tasks_file):
                    png=Path(turn['images'][0]['path']).read_bytes())
 
 
+def load_panel_states(panels):
+    for line in Path(panels).open():
+        p = json.loads(line)
+        png = Path(p['screenshot']).read_bytes()
+        if hashlib.sha256(png).hexdigest() != p['screenshot_sha256']: raise ValueError(f"{p['id']}: screenshot hash")
+        yield dict(id=p['id'], task=p['task'], url=p['url'], history=p['history'], candidates=p['candidates'],
+                   collection_index=p['collection_index'], png=png)
+
+
 async def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('--dataset', required=True, help='collection training.jsonl')
-    ap.add_argument('--tasks', required=True, help='task file the collection used')
+    ap.add_argument('--dataset', help='collection training.jsonl')
+    ap.add_argument('--tasks', help='task file the collection used')
+    ap.add_argument('--panels', help='candidate panels (scripts/build_mix_panels.py) instead of --dataset/--tasks')
     ap.add_argument('--port', type=int, required=True)
     ap.add_argument('--out', type=Path, required=True)
     ap.add_argument('--parallel', type=int, default=16)
     args = ap.parse_args()
+    if not args.panels and not (args.dataset and args.tasks): ap.error('--dataset and --tasks (or --panels) are required')
     import httpx
     done = set()
     if args.out.exists():
         done = {json.loads(l)['id'] for l in args.out.read_text().splitlines()}
-    states = [s for s in load_states(args.dataset, args.tasks) if s['id'] not in done]
+    source = load_panel_states(args.panels) if args.panels else load_states(args.dataset, args.tasks)
+    states = [s for s in source if s['id'] not in done]
     print(f'{len(done)} already labelled, {len(states)} to go', flush=True)
     gate = asyncio.Semaphore(args.parallel)
     failures = 0

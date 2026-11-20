@@ -22,6 +22,7 @@
 # when combined: e.g. IDPREFIX=LA42 for half A seed 42.
 # Another selector's labels (scripts/relabel_with_selector.py) as the chosen side, in a separate output:
 #   NAME=round2-b0.3s1 OUTNAME=round2-b0.3s1-luna RELABEL=<labels.jsonl> sbatch tillicum/build_round2_data.sbatch
+# Mixed-pool panels (scripts/build_mix_panels.py; RELABEL indices are panel positions): add PANELS=<panels.jsonl>.
 set -euo pipefail
 NAME=${NAME:?set NAME, the collection prefix under c2-collect (shards are \$NAME-shard1..N)}
 NSHARDS=${NSHARDS:-4}; SH=$(seq -s " " 1 $NSHARDS)
@@ -65,7 +66,7 @@ cp $ZRUN/joint-data-v2-20260910/working.sqlite $OPENWEBRL_JOB_TMP/context-cache.
 [ -e $FULL ] || $PY scripts/prepare_arm_joint_data.py --hf $ZRUN/joint-data-inputs-0d83b48 --c2 $MERGED --output $FULL \
   --context-cache $OPENWEBRL_JOB_TMP/context-cache.sqlite --cpu-seconds 10000 \
   --model /gpfs/scrubbed/piotrt/owrl/zixian-mirror/checkpoints/web/OpenWebRL-4B-SFT --eval openwebrl/data/eval/online-mind2web.jsonl \
-  ${RELABEL:+--relabel $RELABEL --relabel-name ${RELABEL_NAME:-gpt-6-luna}} ${MARGIN:+--rejected-margin $MARGIN} ${EXECUTED_ONLY:+--relabel-executed-only} ${ALLOW_FAILED:+--allow-unsuccessful}
+  ${RELABEL:+--relabel $RELABEL --relabel-name ${RELABEL_NAME:-gpt-6-luna}} ${MARGIN:+--rejected-margin $MARGIN} ${EXECUTED_ONLY:+--relabel-executed-only} ${ALLOW_FAILED:+--allow-unsuccessful} ${PANELS:+--panels $PANELS}
 
 # 3. Round-2 C2 train pairs with equal action counts; validation and its panels from joint-data/matched.
 python3 - <<PYEOF
