@@ -1,0 +1,25 @@
+episodes done per model/pass/benchmark: {'R1': {'rp-a/online-mind2web': 300, 'rp-a/deepshop': 150, 'rp-b/online-mind2web': 300, 'rp-b/deepshop': 150}, 'R2c_e1': {'rp-a/online-mind2web': 300, 'rp-a/deepshop': 150, 'rp-b/online-mind2web': 300, 'rp-b/deepshop': 150}, 'R2c': {'rp-a/online-mind2web': 300, 'rp-a/deepshop': 150, 'rp-b/online-mind2web': 300, 'rp-b/deepshop': 150}}
+
+online-mind2web
+  R1    episodes  600  valid-only  40.1  overall  34.0
+  R2c_e1 episodes  600  valid-only  32.9  overall  27.8
+  R2c   episodes  600  valid-only  35.8  overall  30.0
+  R2c_e1 - R1     -7.1 [-11.3,  -2.9]  n=478
+  R2c  - R1     -4.4 [ -9.1,  +0.2]  n=472
+  R2c_e1 - R2c    -2.1 [ -6.0,  +1.7]  n=468
+
+deepshop
+  R1    episodes  300  valid-only  40.5  overall  39.0
+  R2c_e1 episodes  300  valid-only  29.6  overall  28.0
+  R2c   episodes  300  valid-only  26.8  overall  24.7
+  R2c_e1 - R1    -11.2 [-17.8,  -4.7]  n=276
+  R2c  - R1    -15.0 [-21.4,  -8.6]  n=266
+  R2c_e1 - R2c    +3.0 [ -2.7,  +8.7]  n=263
+
+pooled
+  R1    episodes  900  valid-only  40.2  overall  35.7
+  R2c_e1 episodes  900  valid-only  31.7  overall  27.9
+  R2c   episodes  900  valid-only  32.6  overall  28.2
+  R2c_e1 - R1     -8.6 [-12.1,  -5.0]  n=754
+  R2c  - R1     -8.3 [-12.1,  -4.5]  n=738
+  R2c_e1 - R2c    -0.3 [ -3.6,  +2.9]  n=731
