@@ -1,0 +1,37 @@
+episodes done per model/pass/benchmark: {'R1': {'df-a/online-mind2web': 300, 'df-a/deepshop': 150, 'df-b/online-mind2web': 300, 'df-b/deepshop': 150}, 'single_round': {'df-a/online-mind2web': 300, 'df-a/deepshop': 150, 'df-b/online-mind2web': 300, 'df-b/deepshop': 150}, 'sft_only': {'df-a/online-mind2web': 300, 'df-a/deepshop': 150, 'df-b/online-mind2web': 300, 'df-b/deepshop': 150}, 'replay': {'df-a/online-mind2web': 300, 'df-a/deepshop': 150, 'df-b/online-mind2web': 300, 'df-b/deepshop': 150}}
+
+online-mind2web
+  R1    episodes  600  valid-only  39.8  overall  34.3
+  single_round episodes  600  valid-only  40.7  overall  35.3
+  sft_only episodes  600  valid-only  38.7  overall  34.0
+  replay episodes  600  valid-only  39.3  overall  33.5
+  single_round - R1     +1.6 [ -2.6,  +5.8]  n=496
+  sft_only - R1     -0.6 [ -4.8,  +3.6]  n=505
+  replay - R1     -1.4 [ -5.7,  +2.7]  n=490
+  sft_only - single_round   -2.0 [ -6.1,  +2.2]  n=505
+  replay - single_round   -2.0 [ -6.3,  +2.2]  n=491
+  replay - sft_only   -0.2 [ -4.4,  +4.2]  n=498
+
+deepshop
+  R1    episodes  300  valid-only  33.2  overall  31.7
+  single_round episodes  300  valid-only  45.1  overall  43.0
+  sft_only episodes  300  valid-only  36.2  overall  35.0
+  replay episodes  300  valid-only  36.0  overall  35.0
+  single_round - R1    +11.6 [ +5.5, +17.8]  n=275
+  sft_only - R1     +2.9 [ -3.6,  +9.3]  n=279
+  replay - R1     +3.9 [ -1.8,  +9.6]  n=281
+  sft_only - single_round   -8.6 [-15.1,  -2.2]  n=278
+  replay - single_round   -9.3 [-15.3,  -3.2]  n=281
+  replay - sft_only   +0.4 [ -6.0,  +6.7]  n=284
+
+pooled
+  R1    episodes  900  valid-only  37.4  overall  33.4
+  single_round episodes  900  valid-only  42.3  overall  37.9
+  sft_only episodes  900  valid-only  37.8  overall  34.3
+  replay episodes  900  valid-only  38.1  overall  34.0
+  single_round - R1     +5.2 [ +1.8,  +8.7]  n=771
+  sft_only - R1     +0.6 [ -2.9,  +4.2]  n=784
+  replay - R1     +0.5 [ -2.9,  +3.9]  n=771
+  sft_only - single_round   -4.3 [ -7.9,  -0.8]  n=783
+  replay - single_round   -4.7 [ -8.2,  -1.2]  n=772
+  replay - sft_only   +0.0 [ -3.6,  +3.6]  n=782
