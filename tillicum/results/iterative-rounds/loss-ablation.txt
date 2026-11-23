@@ -1,0 +1,46 @@
+episodes done per model/pass/benchmark: {'R1': {'la-a/online-mind2web': 300, 'la-a/deepshop': 150, 'la-b/online-mind2web': 300, 'la-b/deepshop': 150}, 'R2c': {'la-a/online-mind2web': 300, 'la-a/deepshop': 150, 'la-b/online-mind2web': 300, 'la-b/deepshop': 150}, 'dpo_only': {'la-a/online-mind2web': 300, 'la-a/deepshop': 150, 'la-b/online-mind2web': 300, 'la-b/deepshop': 150}, 'sft_only': {'la-a/online-mind2web': 300, 'la-a/deepshop': 150, 'la-b/online-mind2web': 300, 'la-b/deepshop': 150}, 'replay': {'la-a/online-mind2web': 300, 'la-a/deepshop': 150, 'la-b/online-mind2web': 300, 'la-b/deepshop': 150}}
+
+online-mind2web
+  R1    episodes  600  valid-only  37.8  overall  32.7
+  R2c   episodes  600  valid-only  37.4  overall  31.7
+  dpo_only episodes  600  valid-only  34.6  overall  29.5
+  sft_only episodes  600  valid-only  43.3  overall  37.0
+  replay episodes  600  valid-only  41.2  overall  35.2
+  R2c  - R1     +0.0 [ -4.3,  +4.1]  n=484
+  dpo_only - R1     -4.1 [ -8.2,  +0.0]  n=489
+  sft_only - R1     +5.3 [ +1.4,  +9.2]  n=490
+  replay - R1     +3.1 [ -1.0,  +7.4]  n=488
+  dpo_only - R2c    -3.4 [ -7.4,  +0.6]  n=475
+  sft_only - R2c    +4.3 [ +0.0,  +8.7]  n=483
+  replay - R2c    +3.4 [ -0.8,  +7.6]  n=476
+  dpo_only - sft_only   -7.7 [-12.0,  -3.3]  n=482
+
+deepshop
+  R1    episodes  300  valid-only  35.8  overall  34.3
+  R2c   episodes  300  valid-only  29.3  overall  27.3
+  dpo_only episodes  300  valid-only  28.9  overall  26.7
+  sft_only episodes  300  valid-only  33.3  overall  32.3
+  replay episodes  300  valid-only  37.6  overall  35.3
+  R2c  - R1     -6.3 [-12.6,  -0.4]  n=269
+  dpo_only - R1     -6.0 [-12.4,  +0.4]  n=267
+  sft_only - R1     -1.4 [ -7.9,  +4.6]  n=280
+  replay - R1     +0.7 [ -5.5,  +7.0]  n=272
+  dpo_only - R2c    -0.8 [ -6.4,  +4.9]  n=264
+  sft_only - R2c    +4.4 [ -1.1,  +9.9]  n=272
+  replay - R2c    +7.4 [ +1.5, +13.4]  n=269
+  dpo_only - sft_only   -4.8 [-10.3,  +0.7]  n=272
+
+pooled
+  R1    episodes  900  valid-only  37.1  overall  33.2
+  R2c   episodes  900  valid-only  34.5  overall  30.2
+  dpo_only episodes  900  valid-only  32.6  overall  28.6
+  sft_only episodes  900  valid-only  39.7  overall  35.4
+  replay episodes  900  valid-only  39.9  overall  35.2
+  R2c  - R1     -2.3 [ -5.8,  +1.2]  n=753
+  dpo_only - R1     -4.8 [ -8.2,  -1.2]  n=756
+  sft_only - R1     +2.9 [ -0.5,  +6.4]  n=770
+  replay - R1     +2.2 [ -1.4,  +5.8]  n=760
+  dpo_only - R2c    -2.4 [ -5.7,  +0.8]  n=739
+  sft_only - R2c    +4.4 [ +1.1,  +7.8]  n=755
+  replay - R2c    +4.8 [ +1.3,  +8.3]  n=745
+  dpo_only - sft_only   -6.6 [ -9.9,  -3.3]  n=754
